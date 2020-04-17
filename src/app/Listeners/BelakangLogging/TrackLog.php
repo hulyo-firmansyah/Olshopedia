@@ -68,6 +68,16 @@ class TrackLog
                     ]);
                 break;
 
+            case 'import_produk':
+                $log_updateProduk = DB::table('t_log')
+                    ->insert([
+                        'keterangan' => 'Mengimport data produk',
+                        'tanggal_waktu' => date('Y-m-d H:i:s'),
+                        'user_id' => $event->data['user_id'],
+                        'data_of' => $event->dataof,
+                    ]);
+                break;
+
             case 'beli_produk_tambah_stok':
                 $log_updateProduk = DB::table('t_log')
                     ->insert([

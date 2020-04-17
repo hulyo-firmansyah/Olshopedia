@@ -9,6 +9,7 @@ use App\Exports\OrderExport;
 use App\Exports\ProdukExport;
 use App\Events\ProdukDataBerubah;
 use App\Imports\ProdukImport;
+use App\Events\BelakangLogging;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cache;
@@ -193,6 +194,9 @@ class ExcelController extends Controller {
             event(new ProdukDataBerubah(Fungsi::dataOfCek()));
             Cache::forget('data_import_produk_'.Fungsi::dataOfCek());
             if($hasilDb){
+                event(new BelakangLogging(Fungsi::dataOfCek(), 'import_produk', [
+                    'user_id' => Auth::user()->id
+                ]));
                 return redirect()->route('b.produk-index')->with(['msg_success' => "Berhasil mengimport data!"]);
             } else {
                 return redirect()->route('b.produk-index')->with(['msg_error' => "Gagal mengimport data!"]);
