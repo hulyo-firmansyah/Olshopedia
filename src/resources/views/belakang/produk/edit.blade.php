@@ -578,14 +578,8 @@ var iAkhir_varian = iJumlah_varian = {{$jumlah_varian}};
     } else if($tipe_diskon2 != ""){
         echo "var tTipeDiskon = false;";
     }
-    // if($stok[1] == "sendiri"){
-    //     echo "var tStok = false;";
-    // } else if($stok[1] == "lain"){
-    //     echo "var tStok = true;";
-    // }
 @endphp
-var tTipeDiskon = true,
-    tStok = false;
+var tTipeDiskon = true;
 var cekJumlahVaria;
 var foto_edit = [];
 var errorValidasi = 0;
@@ -938,47 +932,6 @@ $(document).ready(function() {
     });
 
     $("#sSupplier").change(function() {
-        // let cekPicker = '{{ $cekPicker }}';
-        // var lamaVal = '{{$produk->supplier_id}}';
-        // if(cekPicker == 'dari_sendiri_bisa_ubah' || cekPicker == 'dari_supplier'){
-        //     $(this).find("option:selected").each(function() {
-        //         var optionValue = $(this).attr("value");
-        //         if (optionValue == 0) {
-        //             var list_stokDiv = Array.prototype.slice.call($('.stokDiv'));
-        //             var temp_stok = {!! json_encode($temp_stok) !!};
-        //             list_stokDiv.forEach(function(html) {
-        //                 tStok = false;
-        //                 var id = $(html).attr('id').split('-');
-        //                 $('.label-harga_beli-'+id[1]).text('Harga Beli');
-        //                 $(html).html("<input type='number' name='produk[" + id[1] +
-        //                     "][stok]' id='stok-" + id[1] +
-        //                     "' class='form-control form-100' style='min-width:230px;max-width:100%;width:100%;position:relative' value='"+(temp_stok[id[1]-1] || '')+"' placeholder='0'"+
-        //                     "onKeyDown='$(this).bersihError();errorValidasi = 0' onMouseDown='$(this).bersihError();errorValidasi = 0' data-rex='number'/>"+
-        //                     "<small id='error_stok-" + id[1] +"' class='hidden'></small>"
-        //                     );
-        //             });
-        //         } else {
-        //             var list_stokDiv = Array.prototype.slice.call($('.stokDiv'));
-        //             list_stokDiv.forEach(function(html) {
-        //                 tStok = true;
-        //                 var id = $(html).attr('id').split('-');
-        //                 $('.label-harga_beli-'+id[1]).text('Harga bayar ke Supplier');
-        //                 $(html).html("<select name='produk[" + id[1] +
-        //                     "][stok]' id='stok-" + id[1] +
-        //                     "' class='form-control stokPicker' style='min-width:230px;max-width:100%;width:100%;position:relative'"+
-        //                     " onMouseDown='$(this).bersihError();errorValidasi = 0'><option value='1'>Tersedia</option><option value='0'>Habis</option></select>"+
-        //                     "<small id='error_stok-" + id[1] +"' class='hidden'></small>"
-        //                     );
-        //                 $('#stok-' + id[1]).selectpicker({
-        //                     style: 'btn-outline btn-default'
-        //                 });
-        //             });
-        //         }
-        //     });
-        // } else {
-        //     alertify.warning('Stok barang harus sudah habis, jika ingin merubah stok ke supplier!').dismissOthers();
-        //     $("#sSupplier").selectpicker('val', lamaVal);
-        // }
         errorValidasi = 0;
     });
     $("#table_grosir").on("input", "input", function(){
@@ -1284,8 +1237,6 @@ DOM
         tD = (tDiskon === false) ? "display:none" : "";
         tR = (tReseller === false) ? "display:none" : "";
         tTD = (tTipeDiskon === false) ? "display:none" : "";
-        // tS = (tStok === false) ? "input" : "select";
-        tS = "input";
         $.ajax({
             url: "{{ route('b.produk-tambahForm') }}",
             data: {
@@ -1295,7 +1246,6 @@ DOM
                 ic_diskon: tD,
                 ic_reseller: tR,
                 ic_tipe_diskon: tTD,
-                ic_stok: tS,
                 offset_prod: offset_prod
             },
             type: 'get',

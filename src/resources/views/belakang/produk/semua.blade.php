@@ -705,11 +705,7 @@ $(document).ready(function() {
                 $.each(data, function(i, v){
                     var ukuran = (v.ukuran == null) ? "" : v.ukuran;
                     var warna = (v.warna == null) ? "" : v.warna;
-                    if(v.supplier == "sendiri"){
-                        var stok = "<a style='text-decoration:none;font-weight:bold' class='stokTooltip' id='stokRiwayat-"+v.id+"' href='{{ route('b.produk-riwayatStok') }}/"+v.id+"'>"+v.stok+"</a>";
-                    } else {
-                        var stok = "<a style='text-decoration:none;font-weight:bold' id='stokRiwayat-"+v.id+"' href='' onClick='return false;'>"+((v.stok > 0) ? "Tersedia" : "Habis")+"</a>";
-                    }
+                    var stok = "<a style='text-decoration:none;font-weight:bold' class='stokTooltip' id='stokRiwayat-"+v.id+"' href='{{ route('b.produk-riwayatStok') }}/"+v.id+"'>"+v.stok+"</a>";
                     $("#isiTabel-stokVarian").append(
                         "<tr>"+
                             "<td><img src='"+v.foto+"' width='50' height='50'></td>"+

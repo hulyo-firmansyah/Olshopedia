@@ -105,26 +105,9 @@ class ProdukController extends Controller
 			} else {
 				$tReseller = "display:none";
 			}
-			if($request->old("supplier") == 0 && old('supplier', null) != null){
-				$tStok = "input";
-			} else {
-				$tStok = "select";
-			}
 			foreach(Fungsi::genArray($request->old()["produk"]) as $index => $value){
 				$value_varian = $request->old()["produk"][$index];
-				if($tStok == "input"){
-					$stok = "<input type='text' data-rex='number' name='produk[{$index}][stok]' id='stok-{$index}' class='form-control jumlah_stok form-100' style='min-width:230px;max-width:100%;width:100%;position:relative' value='{$value_varian["stok"]}' placeholder='0' /><small id='error_stok-{$index}' class='hidden'></small>";
-				} else if($tStok == "select"){
-					$stok = "<select name='produk[{$index}][stok]' id='stok-{$index}' class='form-control stokPicker' style='min-width:230px;max-width:100%;width:100%;position:relative'><option value='1' ";
-					if($value_varian['stok'] == 1){
-						$stok .= "selected";
-					}
-					$stok .= ">Tersedia</option><option value='0'";
-					if($value_varian['stok'] == 0){
-						$stok .= "selected";
-					}
-					$stok .= ">Habis</option></select><small id='error_stok-{$index}' class='hidden'></small>";
-				}
+				$stok = "<input type='text' data-rex='number' name='produk[{$index}][stok]' id='stok-{$index}' class='form-control jumlah_stok form-100' style='min-width:230px;max-width:100%;width:100%;position:relative' value='{$value_varian["stok"]}' placeholder='0' /><small id='error_stok-{$index}' class='hidden'></small>";
 				if($index == 1){
 					$varian_form .= <<<EOT
 <tr id='idVarian-1' class='varianDiv_tetap'>
@@ -356,18 +339,10 @@ EOT
 				}
 				// dd($harga_jual, $harga_jual_diskon, count(array_unique($harga_jual, SORT_NUMERIC)) === 1);
 				// dd($temp_idProd);
-				if($k->supplier_id == 0){
-					if($jumlah_stok > 0){
-						$stok = "<span style='color:#11C26D'><b>".$jumlah_stok." Stok</b></span>";
-					} else {
-						$stok = "<span style='color:#F2353C'><b>Stok Habis</b></span>";
-					}
+				if($jumlah_stok > 0){
+					$stok = "<span style='color:#11C26D'><b>".$jumlah_stok." Stok</b></span>";
 				} else {
-					if($jumlah_stok > 0){
-						$stok = "<span style='color:#11C26D'><b>Stok Tersedia</b></span>";
-					} else {
-						$stok = "<span style='color:#F2353C'><b>Stok Habis</b></span>";
-					}
+					$stok = "<span style='color:#F2353C'><b>Stok Habis</b></span>";
 				}
 				$jumlah_varian = count($varian_data);
 				sort($harga_jual, SORT_NUMERIC);
@@ -530,17 +505,10 @@ EOT
 			$tDiskon = $request->ic_diskon;
 			$tReseller = $request->ic_reseller;
 			$tTipeDiskon = $request->ic_tipe_diskon;
-			$tStok = $request->ic_stok;
 			$offsetProd = explode('P', $request->offset_prod)[1];
-			// if($tStok == "input"){
-				$stok = "<input type='text' data-rex='number' name='produk[{$i}][stok]' id='stok-{$i}' class='form-control jumlah_stok form-100' style='min-width:230px;max-width:100%;width:100%;position:relative' placeholder='0' onKeyDown='$(this).bersihError();errorValidasi = 0' onMouseDown='$(this).bersihError();errorValidasi = 0'/>".
-					"<small id='error_stok-{$i}' class='hidden'></small>";
-				$label_beli = "Harga Beli";
-			// } else if($tStok == "select"){
-			// 	$stok = "<select name='produk[{$i}][stok]' id='stok-{$i}' class='form-control stokPicker' style='min-width:230px;max-width:100%;width:100%;position:relative' onMouseDown='$(this).bersihError();errorValidasi = 0'><option value='1'>Tersedia</option><option value='0'>Habis</option></select>".
-			// 		"<small id='error_stok-{$i}' class='hidden'></small>";
-			// 	$label_beli = "Harga Bayar ke Supplier";
-			// }
+			$stok = "<input type='text' data-rex='number' name='produk[{$i}][stok]' id='stok-{$i}' class='form-control jumlah_stok form-100' style='min-width:230px;max-width:100%;width:100%;position:relative' placeholder='0' onKeyDown='$(this).bersihError();errorValidasi = 0' onMouseDown='$(this).bersihError();errorValidasi = 0'/>".
+				"<small id='error_stok-{$i}' class='hidden'></small>";
+			$label_beli = "Harga Beli";
 			return Fungsi::respon(<<<EOT
 <tr id='idVarian-{$i}' class='varianDiv_hilang'>
 	<td>
@@ -905,19 +873,6 @@ EOT
 				return redirect()->route("b.produk-edit", ["id_produk" => $id_produk_edit])->with(['msg_error' => "SKU '".$SKU_tmp."' sudah ada!"]);
 			}
 
-			$dataCekSupp = DB::table('t_produk')->where('data_of', Fungsi::dataOfCek())->where('id_produk', $id_produk_edit)->get()->first();
-
-			if($dataCekSupp->supplier_id === 0 && isset($data['supplier']) && ((int)$data['supplier']) !== 0){
-				$varian_list_supp = DB::table('t_varian_produk')
-					->where('data_of', Fungsi::dataOfCek())
-					->where('produk_id', $id_produk_edit)
-					->select('id_varian')
-					->get();
-				foreach(Fungsi::genArray($varian_list_supp) as $vtp){
-					DB::table('t_riwayat_stok')->where('data_of', Fungsi::dataOfCek())->where('varian_id', $vtp->id_varian)->delete();
-				}
-			}
-
 			// produk
 			$cekNamaProd = DB::table('t_produk')
 				->select("nama_produk")
@@ -988,12 +943,6 @@ EOT
 					$hapus_varian_edit = DB::table('t_varian_produk')->where('id_varian', $h)->where('data_of', Fungsi::dataOfCek())->delete(); 
 				}
 			}
-
-			// for($i=1; $i<=$iJ; $i++){
-			// 	if(!isset($data['produk'][$i])){
-			// 		$iJ++;
-			// 		continue;
-			// 	}
 			
 			foreach(Fungsi::genArray($data['produk']) as $vV){
 				//varian
@@ -1133,51 +1082,38 @@ EOT
 					]);
 				}
 				if($produk["tipeVarianEdit"] == "edit"){
-					if($dataCekSupp->supplier_id === 0 && isset($data['supplier']) && ((int)$data['supplier']) === 0){
-						$cekStokLawas = DB::table('t_varian_produk')
-							->where('data_of', Fungsi::dataOfCek())
-							->where('id_varian', $vV['id_varian'])
-							->select('stok')
-							->get()->first();
-						if(isset($cekStokLawas)){
-							$t_stokLawas = (int)explode('|', $cekStokLawas->stok)[0];
-							$t_stokBaru = (int)$vV['stok'];
-							if($t_stokLawas > $t_stokBaru){
-								$stok_t = $t_stokLawas - $t_stokBaru;
-								$riwayatStok_varian = DB::table('t_riwayat_stok')->insert([
-									"varian_id" => $vV['id_varian'],
-									"tgl" => date("Y-m-d H:i:s"),
-									"ket" => "Edit Produk",
-									"jumlah" => $stok_t,
-									"tipe" => "keluar",
-									"data_of" => Fungsi::dataOfCek()
-								]);
-							} else if($t_stokLawas < $t_stokBaru){
-								$stok_t = $t_stokBaru - $t_stokLawas;
-								$riwayatStok_varian = DB::table('t_riwayat_stok')->insert([
-									"varian_id" => $vV['id_varian'],
-									"tgl" => date("Y-m-d H:i:s"),
-									"ket" => "Edit Produk",
-									"jumlah" => $stok_t,
-									"tipe" => "masuk",
-									"data_of" => Fungsi::dataOfCek()
-								]);
-							}
+					$cekStokLawas = DB::table('t_varian_produk')
+						->where('data_of', Fungsi::dataOfCek())
+						->where('id_varian', $vV['id_varian'])
+						->select('stok')
+						->get()->first();
+					if(isset($cekStokLawas)){
+						$t_stokLawas = (int)explode('|', $cekStokLawas->stok)[0];
+						$t_stokBaru = (int)$vV['stok'];
+						if($t_stokLawas > $t_stokBaru){
+							$stok_t = $t_stokLawas - $t_stokBaru;
+							$riwayatStok_varian = DB::table('t_riwayat_stok')->insert([
+								"varian_id" => $vV['id_varian'],
+								"tgl" => date("Y-m-d H:i:s"),
+								"ket" => "Edit Produk",
+								"jumlah" => $stok_t,
+								"tipe" => "keluar",
+								"data_of" => Fungsi::dataOfCek()
+							]);
+						} else if($t_stokLawas < $t_stokBaru){
+							$stok_t = $t_stokBaru - $t_stokLawas;
+							$riwayatStok_varian = DB::table('t_riwayat_stok')->insert([
+								"varian_id" => $vV['id_varian'],
+								"tgl" => date("Y-m-d H:i:s"),
+								"ket" => "Edit Produk",
+								"jumlah" => $stok_t,
+								"tipe" => "masuk",
+								"data_of" => Fungsi::dataOfCek()
+							]);
 						}
 					}
 
 					$proses_varian = DB::table('t_varian_produk')->where("id_varian", $produk["id_varian"])->where("data_of", Fungsi::dataOfCek())->update($svVarian);
-					
-					if($dataCekSupp->supplier_id != 0 && isset($data['supplier']) && ((int)$data['supplier']) === 0){
-						$riwayatStok_varian = DB::table('t_riwayat_stok')->insert([
-							"varian_id" => $vV['id_varian'],
-							"tgl" => date("Y-m-d H:i:s"),
-							"ket" => "Stok Awal",
-							"jumlah" => $vV['stok'],
-							"tipe" => "masuk",
-							"data_of" => Fungsi::dataOfCek()
-						]);
-					}
 
 				} else if($produk["tipeVarianEdit"] == "tambah"){
 					$offsetSku_akhir = DB::table('t_varian_produk')
@@ -1193,16 +1129,14 @@ EOT
 					}
 					$proses_varian_id = DB::table('t_varian_produk')->insertGetId($svVarian);
 
-					if($dataCekSupp->supplier_id === 0 && isset($data['supplier']) && ((int)$data['supplier']) === 0){
-						$riwayatStok_varian = DB::table('t_riwayat_stok')->insert([
-							"varian_id" => $proses_varian_id,
-							"tgl" => date("Y-m-d H:i:s"),
-							"ket" => "Stok Awal",
-							"jumlah" => $vV['stok'],
-							"tipe" => "masuk",
-							"data_of" => Fungsi::dataOfCek()
-						]);
-					}
+					$riwayatStok_varian = DB::table('t_riwayat_stok')->insert([
+						"varian_id" => $proses_varian_id,
+						"tgl" => date("Y-m-d H:i:s"),
+						"ket" => "Stok Awal",
+						"jumlah" => $vV['stok'],
+						"tipe" => "masuk",
+						"data_of" => Fungsi::dataOfCek()
+					]);
 				}
 
 			}
