@@ -532,15 +532,15 @@ EOT
 			$tTipeDiskon = $request->ic_tipe_diskon;
 			$tStok = $request->ic_stok;
 			$offsetProd = explode('P', $request->offset_prod)[1];
-			if($tStok == "input"){
+			// if($tStok == "input"){
 				$stok = "<input type='text' data-rex='number' name='produk[{$i}][stok]' id='stok-{$i}' class='form-control jumlah_stok form-100' style='min-width:230px;max-width:100%;width:100%;position:relative' placeholder='0' onKeyDown='$(this).bersihError();errorValidasi = 0' onMouseDown='$(this).bersihError();errorValidasi = 0'/>".
 					"<small id='error_stok-{$i}' class='hidden'></small>";
 				$label_beli = "Harga Beli";
-			} else if($tStok == "select"){
-				$stok = "<select name='produk[{$i}][stok]' id='stok-{$i}' class='form-control stokPicker' style='min-width:230px;max-width:100%;width:100%;position:relative' onMouseDown='$(this).bersihError();errorValidasi = 0'><option value='1'>Tersedia</option><option value='0'>Habis</option></select>".
-					"<small id='error_stok-{$i}' class='hidden'></small>";
-				$label_beli = "Harga Bayar ke Supplier";
-			}
+			// } else if($tStok == "select"){
+			// 	$stok = "<select name='produk[{$i}][stok]' id='stok-{$i}' class='form-control stokPicker' style='min-width:230px;max-width:100%;width:100%;position:relative' onMouseDown='$(this).bersihError();errorValidasi = 0'><option value='1'>Tersedia</option><option value='0'>Habis</option></select>".
+			// 		"<small id='error_stok-{$i}' class='hidden'></small>";
+			// 	$label_beli = "Harga Bayar ke Supplier";
+			// }
 			return Fungsi::respon(<<<EOT
 <tr id='idVarian-{$i}' class='varianDiv_hilang'>
 	<td>

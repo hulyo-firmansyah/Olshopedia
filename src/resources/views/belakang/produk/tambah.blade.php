@@ -990,39 +990,39 @@ $(document).ready(function() {
     });
 
     $("#sSupplier").change(function() {
-        $(this).find("option:selected").each(function() {
-            var optionValue = $(this).attr("value");
-            if (optionValue == 0) {
-                var list_stokDiv = Array.prototype.slice.call($('.stokDiv'));
-                list_stokDiv.forEach(function(html) {
-                    tStok = false;
-                    var id = $(html).attr('id').split('-');
-                    $('.label-harga_beli-'+id[1]).text('Harga Beli');
-                    $(html).html("<input type='text' name='produk[" + id[1] +
-                        "][stok]' id='stok-" + id[1] +
-                        "' class='form-control jumlah_stok form-100' style='min-width:230px;max-width:100%;width:100%;position:relative' placeholder='0' "+
-                        "onKeyDown='$(this).bersihError();errorValidasi = 0' onMouseDown='$(this).bersihError();errorValidasi = 0' data-rex='number'/>"+
-                        "<small id='error_stok-" + id[1] +"' class='hidden'></small>"
-                        );
-                });
-            } else {
-                var list_stokDiv = Array.prototype.slice.call($('.stokDiv'));
-                list_stokDiv.forEach(function(html) {
-                    tStok = true;
-                    var id = $(html).attr('id').split('-');
-                    $('.label-harga_beli-'+id[1]).text('Harga bayar ke Supplier');
-                    $(html).html("<select name='produk[" + id[1] +
-                        "][stok]' id='stok-" + id[1] +
-                        "' class='form-control stokPicker' style='min-width:230px;max-width:100%;width:100%;position:relative'"+
-                        " onMouseDown='$(this).bersihError();errorValidasi = 0'><option value='1'>Tersedia</option><option value='0'>Habis</option></select>"+
-                        "<small id='error_stok-" + id[1] +"' class='hidden'></small>"
-                        );
-                    $('#stok-' + id[1]).selectpicker({
-                        style: 'btn-outline btn-default'
-                    });
-                });
-            }
-        });
+        // $(this).find("option:selected").each(function() {
+        //     var optionValue = $(this).attr("value");
+        //     if (optionValue == 0) {
+        //         var list_stokDiv = Array.prototype.slice.call($('.stokDiv'));
+        //         list_stokDiv.forEach(function(html) {
+        //             tStok = false;
+        //             var id = $(html).attr('id').split('-');
+        //             $('.label-harga_beli-'+id[1]).text('Harga Beli');
+        //             $(html).html("<input type='text' name='produk[" + id[1] +
+        //                 "][stok]' id='stok-" + id[1] +
+        //                 "' class='form-control jumlah_stok form-100' style='min-width:230px;max-width:100%;width:100%;position:relative' placeholder='0' "+
+        //                 "onKeyDown='$(this).bersihError();errorValidasi = 0' onMouseDown='$(this).bersihError();errorValidasi = 0' data-rex='number'/>"+
+        //                 "<small id='error_stok-" + id[1] +"' class='hidden'></small>"
+        //                 );
+        //         });
+        //     } else {
+        //         var list_stokDiv = Array.prototype.slice.call($('.stokDiv'));
+        //         list_stokDiv.forEach(function(html) {
+        //             tStok = true;
+        //             var id = $(html).attr('id').split('-');
+        //             $('.label-harga_beli-'+id[1]).text('Harga Beli');
+        //             $(html).html("<select name='produk[" + id[1] +
+        //                 "][stok]' id='stok-" + id[1] +
+        //                 "' class='form-control stokPicker' style='min-width:230px;max-width:100%;width:100%;position:relative'"+
+        //                 " onMouseDown='$(this).bersihError();errorValidasi = 0'><option value='1'>Tersedia</option><option value='0'>Habis</option></select>"+
+        //                 "<small id='error_stok-" + id[1] +"' class='hidden'></small>"
+        //                 );
+        //             $('#stok-' + id[1]).selectpicker({
+        //                 style: 'btn-outline btn-default'
+        //             });
+        //         });
+        //     }
+        // });
         errorValidasi = 0;
     });
 
@@ -1313,7 +1313,8 @@ $(document).ready(function() {
         tD = (tDiskon === false) ? "display:none" : "";
         tR = (tReseller === false) ? "display:none" : "";
         tTD = (tTipeDiskon === false) ? "display:none" : "";
-        tS = (tStok === false) ? "input" : "select";
+        // tS = (tStok === false) ? "input" : "select";
+        tS = "input";
         $.ajax({
             url: "{{ route('b.produk-tambahForm') }}",
             data: {
