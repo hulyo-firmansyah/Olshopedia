@@ -12,9 +12,9 @@
                 <div class='mb-40'>
                     <h4>v0.9 &nbsp;&nbsp;(17 Apr 2020)</h4>
                     <div class='ml-30'>
-                        <b style='font-size:15px'>Fixed</b>
+                        <b style='font-size:15px'>Changed</b>
                         <ul>
-                            <li>Fix Bug error saat menambahkan customer dan mengedit customer jika kode pos diisi acak</li>
+                            <li>Stok sekarang tetap harus menginputkan jumlah di tambah dan edit produk</li>
                         </ul>
                     </div>
                 </div>
