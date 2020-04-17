@@ -1245,35 +1245,21 @@ function parseProdukData(source, item){
             var foto = '{{ asset("photo.png") }}';
         }
         var stok = v.stok.split("|");
-        if (stok[1] == "sendiri" && stok[0] == 0) {
+        if (stok[0] == 0) {
             var tampilStok = '';
             var tampilButton =
                 '<button type="button" class="btn btn-sm btn-danger disabled" style="margin-top:10px"><i class="fa fa-close"></i> Stok tidak tersedia</button>';
-        } else if (stok[1] == "sendiri" && stok[0] > 0) {
+        } else if (stok[0] > 0) {
             var tampilStok =
                 '<input name="jumlah_produk" type="text" style="border-color:#28c0de" class="form-control uangFormat spin_' +
                 v.id_varian + '-' + v.produk_id + '">';
             var tampilButton =
                 '<button type="button" class="btn btn-sm btn-success btnTam" style="margin-top:10px"><i class="fa fa-plus"></i> Tambahkan</button>';
-        } else if (stok[1] == "lain" && stok[0] == 1) {
-            var tampilStok =
-                '<input name="jumlah_produk" type="text" style="border-color:#28c0de" class="form-control uangFormat spin_' +
-                v.id_varian + '-' + v.produk_id + '">';
-            var tampilButton =
-                '<button type="button" class="btn btn-sm btn-success btnTam" style="margin-top:10px"><i class="fa fa-plus"></i> Tambahkan</button>';
-        } else if (stok[1] == "lain" && stok[0] == 0) {
-            var tampilStok = "";
-            var tampilButton =
-                '<button type="button" class="btn btn-sm btn-danger disabled" style="margin-top:10px"><i class="fa fa-close"></i> Stok tidak tersedia</button>';
         }
-        if (stok[1] == "sendiri") {
-            var maxStok = stok[0];
-        } else if (stok[1] == "lain") {
-            var maxStok = 100;
-        }
+        var maxStok = stok[0];
         var cekCustomerRole = null;
         if ($("#pemesanKat").val() != "") {
-            cekCustomerRole = $("#pemesanKat").val();
+            cekCustomerRole = $("#pemesanKat").val();   
         }
         if (v.diskon_jual == null || (v.diskon_jual.split("|")[1] ==
                 "%" && v.diskon_jual.split("|")[0] == 0)) {
@@ -2589,9 +2575,9 @@ $(document).ready(() => {
                         return false;
                     }
                 });
-                if(!bolehSupp){
-                    alertify.warning('Supplier Lain dan Produk Sendiri tidak dapat dijadikan dalam satu orderan!').dismissOthers();
-                } else {
+                // if(!bolehSupp){
+                //     alertify.warning('Supplier Lain dan Produk Sendiri tidak dapat dijadikan dalam satu orderan!').dismissOthers();
+                // } else {
                     var totalBerat = parseInt($("#totalBerat").text().replace(",", ".")) * 1000;
                     var hasilBerat = totalBerat + (parseInt(dataProd.berat) * parseInt(inputJumlah.val()));
                     var grosir = [];
@@ -2796,7 +2782,7 @@ $(document).ready(() => {
                     })
                     cekProdTam();
                     hitungSubTotal();
-                }
+                // }
             });
         } else {
             alertify.warning('Produk telah ditambahkan sebelumnya!').dismissOthers();
