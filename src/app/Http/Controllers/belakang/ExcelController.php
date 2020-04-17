@@ -262,21 +262,7 @@ class ExcelController extends Controller {
                     $stok = is_numeric($jumlah_stok) ? $jumlah_stok : 0;
                     $svVarian['stok'] = $stok."|sendiri";
                 } else {
-                    if(is_numeric($jumlah_stok)){
-                        if(((int)$jumlah_stok) > 0){
-                            $stok = '1';
-                        } else {
-                            $stok = '0';
-                        }
-                    } else {
-                        if($jumlah_stok == 'y' || $jumlah_stok == 'Y'){
-                            $stok = '1';    
-                        } else if($jumlah_stok == 'n' || $jumlah_stok == 'N'){
-                            $stok = '0';    
-                        } else {
-                            $stok = '0';
-                        }
-                    }
+                    $stok = is_numeric($jumlah_stok) ? $jumlah_stok : 0;
                     $svVarian['stok'] = $stok."|lain";
                 }
 
@@ -348,21 +334,7 @@ class ExcelController extends Controller {
                         $stok = is_numeric($jumlah_stok) ? $jumlah_stok : 0;
                         $svVarian['stok'] = $stok."|sendiri";
                     } else {
-                        if(is_numeric($jumlah_stok)){
-                            if(((int)$jumlah_stok) > 0){
-                                $stok = '1';
-                            } else {
-                                $stok = '0';
-                            }
-                        } else {
-                            if($jumlah_stok == 'y' || $jumlah_stok == 'Y'){
-                                $stok = '1';    
-                            } else if($jumlah_stok == 'n' || $jumlah_stok == 'N'){
-                                $stok = '0';    
-                            } else {
-                                $stok = '0';
-                            }
-                        }
+                        $stok = is_numeric($jumlah_stok) ? $jumlah_stok : 0;
                         $svVarian['stok'] = $stok."|lain";
                     }
     
@@ -492,21 +464,7 @@ class ExcelController extends Controller {
                         $stok = is_numeric($jumlah_stok) ? $jumlah_stok : 0;
                         $svVarian['stok'] = $stok."|sendiri";
                     } else {
-                        if(is_numeric($jumlah_stok)){
-                            if(((int)$jumlah_stok) > 0){
-                                $stok = '1';
-                            } else {
-                                $stok = '0';
-                            }
-                        } else {
-                            if($jumlah_stok == 'y' || $jumlah_stok == 'Y'){
-                                $stok = '1';    
-                            } else if($jumlah_stok == 'n' || $jumlah_stok == 'N'){
-                                $stok = '0';    
-                            } else {
-                                $stok = '0';
-                            }
-                        }
+                        $stok = is_numeric($jumlah_stok) ? $jumlah_stok : 0;
                         $svVarian['stok'] = $stok."|lain";
                     }
     
@@ -637,7 +595,6 @@ class ExcelController extends Controller {
         foreach(Fungsi::genArray($t_data) as $i => $d){
             $sudahCek = 0;
             $listError = [];
-            $pakaiSupplier = 0;
             $dataLamaCek = 0;
 
             $t_data2[] = $d;
@@ -778,11 +735,9 @@ class ExcelController extends Controller {
                     ->where('nama_supplier', $d['supplier'])
                     ->get()->first();
                 if(isset($cekSupplier)){
-                    $pakaiSupplier = 1;
                     $sudahCek++;
                     $kolomSupplier = '<td>'.ucwords(strtolower($d['supplier'])).'</td>';
                 } else {
-                    $pakaiSupplier = -1;
                     $adaError++;
                     $t_data2[$i]['ada_error']++;
                     $listError[] = 'Supplier dengan nama tersebut tidak ditemukan';
@@ -908,52 +863,14 @@ class ExcelController extends Controller {
                 $listError[] = 'Jumlah Stok kosong';
                 $kolomStok = '<td><div class="alert alert-danger"></div></td>';
             } else {
-                if($pakaiSupplier === 1){
-                    if(is_numeric($d['jumlah_stok'])){
-                        $adaError++;
-                        $t_data2[$i]['ada_error']++;
-                        $listError[] = "Jumlah Stok harus 'Y' atau 'N' jika produk dari supplier";
-                        $kolomStok = '<td><div class="alert alert-danger">'.Fungsi::uangFormat((float)$d['jumlah_stok']).'</div></td>';
-                    } else {
-                        if($d['jumlah_stok'] == 'y' || $d['jumlah_stok'] == 'Y'){
-                            $kolomStok = '<td>Tersedia</td>';
-                            $sudahCek++;
-                        } else if($d['jumlah_stok'] == 'n' || $d['jumlah_stok'] == 'N'){
-                            $kolomStok = '<td>Habis</td>';
-                            $sudahCek++;
-                        } else {
-                            $adaError++;
-                            $t_data2[$i]['ada_error']++;
-                            $listError[] = "Jumlah Stok harus 'Y' atau 'N' jika produk dari supplier";
-                            $kolomStok = '<td><div class="alert alert-danger">'.((string)$d['jumlah_stok']).'</div></td>';
-                        }
-                    }
-                } else if($pakaiSupplier === -1){
-                    if(is_numeric($d['jumlah_stok'])){
-                        $adaError++;
-                        $t_data2[$i]['ada_error']++;
-                        $listError[] = "Jumlah Stok harus 'Y' atau 'N' jika produk dari supplier";
-                        $kolomStok = '<td><div class="alert alert-danger">'.Fungsi::uangFormat((float)$d['jumlah_stok']).'</div></td>';
-                    } else {
-                        $adaError++;
-                        $t_data2[$i]['ada_error']++;
-                        if($d['jumlah_stok'] == 'y' || $d['jumlah_stok'] == 'Y'){
-                            $setok = 'Tersedia';
-                        } else if($d['jumlah_stok'] == 'n' || $d['jumlah_stok'] == 'N'){
-                            $setok = 'Habis';
-                        }
-                        $kolomStok = '<td><div class="alert alert-danger">'.$setok.'</div></td>';
-                    }
+                if(is_numeric($d['jumlah_stok'])){
+                    $kolomStok = '<td>'.Fungsi::uangFormat((float)$d['jumlah_stok']).'</td>';
+                    $sudahCek++;
                 } else {
-                    if(is_numeric($d['jumlah_stok'])){
-                        $kolomStok = '<td>'.Fungsi::uangFormat((float)$d['jumlah_stok']).'</td>';
-                        $sudahCek++;
-                    } else {
-                        $adaError++;
-                        $t_data2[$i]['ada_error']++;
-                        $listError[] = "Jumlah Stok harus angka";
-                        $kolomStok = '<td><div class="alert alert-danger">'.((string)$d['jumlah_stok']).'</div></td>';
-                    }
+                    $adaError++;
+                    $t_data2[$i]['ada_error']++;
+                    $listError[] = "Jumlah Stok harus angka";
+                    $kolomStok = '<td><div class="alert alert-danger">'.((string)$d['jumlah_stok']).'</div></td>';
                 }
             }
             $hasil .= $kolomStok;
