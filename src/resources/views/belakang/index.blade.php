@@ -252,12 +252,6 @@
                     </a>
                     <ul class="site-menu-sub">
                         <li class="site-menu-item">
-                            <a class="animsition-link menuLoad" href="{{ route('b.produk-beli') }}">
-                                <!-- onClick="pageLoad('{{ route('b.produk-index') }}', $(this))"> -->
-                                <span class="site-menu-title">@lang("index.beli_produk")</span>
-                            </a>
-                        </li>
-                        <li class="site-menu-item">
                             <a class="animsition-link menuLoad" href="{{ route('b.produk-index') }}">
                                 <!-- onClick="pageLoad('{{ route('b.produk-index') }}', $(this))"> -->
                                 <span class="site-menu-title">@lang("index.daftar_produk")</span>
@@ -267,6 +261,12 @@
                             <a class="animsition-link menuLoad" href="{{ route('b.produkKategori-index') }}">
                                 <!-- onClick="pageLoad('{{ route('b.produkKategori-index') }}', $(this))"> -->
                                 <span class="site-menu-title">@lang("index.daftar_kategori_produk")</span>
+                            </a>
+                        </li>
+                        <li class="site-menu-item">
+                            <a class="animsition-link menuLoad" href="{{ route('b.produk-beli') }}">
+                                <!-- onClick="pageLoad('{{ route('b.produk-index') }}', $(this))"> -->
+                                <span class="site-menu-title">@lang("index.beli_produk")</span>
                             </a>
                         </li>
                     </ul>
