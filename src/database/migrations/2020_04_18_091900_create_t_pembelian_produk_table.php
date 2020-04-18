@@ -17,11 +17,7 @@ class CreateTPembelianProdukTable extends Migration
             $table->bigIncrements('id_pembelian_produk');
             $table->unsignedBigInteger('produk_id');
             $table->unsignedBigInteger('varian_produk_id');
-            $table->enum('tipe_beli', [
-                'tambah_stok',
-                'tambah_varian'
-            ])->default('tambah_stok');
-            $table->text('data')->nullable();
+            $table->unsignedInteger('jumlah')->default(1);
             $table->unsignedBigInteger('data_of');
         });
     }
