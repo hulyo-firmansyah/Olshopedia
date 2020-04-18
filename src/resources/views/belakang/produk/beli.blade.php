@@ -136,16 +136,28 @@ function parseNamaProduk(v){
     return nama_produk_tampil;
 }
 
-function parseSupplierProduk(v){
+function parseSupplierProduk(v, format = true){
     var cekStok = v.stok.split('|');
     var nama_produk_tampil = '';
-    if(cekStok[1] == 'sendiri'){
-        nama_produk_tampil += " <span class='orange-700'>[Stok Sendiri]</span> ";
-    } else if(cekStok[1] == 'lain'){
-        if(v.supplier.id !== null){
-            nama_produk_tampil += " <span class='orange-700'>["+v.supplier.nama+"]</span> ";
-        } else {
-            nama_produk_tampil += " <span class='orange-700'>[</span><span style='color:black;'>?Terhapus?</span><span class='orange-700'>]</span> ";
+    if(format){
+        if(cekStok[1] == 'sendiri'){
+            nama_produk_tampil += " <span class='orange-700'>[Stok Sendiri]</span> ";
+        } else if(cekStok[1] == 'lain'){
+            if(v.supplier.id !== null){
+                nama_produk_tampil += " <span class='orange-700'>["+v.supplier.nama+"]</span> ";
+            } else {
+                nama_produk_tampil += " <span class='orange-700'>[</span><span style='color:black;'>?Terhapus?</span><span class='orange-700'>]</span> ";
+            }
+        }
+    } else {
+        if(cekStok[1] == 'sendiri'){
+            nama_produk_tampil += "Stok Sendiri";
+        } else if(cekStok[1] == 'lain'){
+            if(v.supplier.id !== null){
+                nama_produk_tampil += v.supplier.nama;
+            } else {
+                nama_produk_tampil += "[?Terhapus?]";
+            }
         }
     }
     return nama_produk_tampil;
@@ -189,21 +201,56 @@ function parseProdukData(source, item, indexCache){
     });
 }
 
+function hitungTotal(){
+    let varianCek = typeof $('#tableBeli').data('varian_id') === "undefined" ? [] : $('#tableBeli').data('varian_id');
+    if(varianCek.length > 0){
+        let list = Array.prototype.slice.call($("#tableBeli-isi tr"));
+        var total = 0;
+        list.forEach(function(html) {
+            let subTotal = $(html).children('td:nth-child(8)').data('total');
+            total += subTotal;
+        });
+        $('#totalHarga').text('Rp '+uangFormat(total));
+    }
+}
+
+function bersihError(){
+    errorValidasi = 0;
+    let list = Array.prototype.slice.call($("#tableBeli-isi tr"));
+    list.forEach(function(html) {
+        if($(html).find('input').hasClass('is-invalid')){
+            $(html).find('small').hide();
+            $(html).find('input').removeClass('animation-shake is-invalid');
+        }
+    });
+}
+
 
 (function(world) {
 
-    world.fn.bersihError = function(elm = this) {
-        $(this).attr('class', 'form-control');
-        if (elm == 'berat') {
-            $(this).parent().parent().children('small').attr('class', '');
-            $(this).parent().parent().children('small').empty();
-        } else {
-            $(this).parent().children('small').attr('class', '');
-            $(this).parent().children('small').empty();
-        }
-    }
-
     world.fn.submitForm = function(tipeD) {
+        let list = Array.prototype.slice.call($("#tableBeli-isi tr"));
+        var data = [];
+        list.forEach(function(html) {
+            let jumlah = $(html).find('input').val();
+            let id = $(html).attr('id').split('-')[1];
+            if(jumlah == ''){
+                $(html).find('small').text('Tidak boleh kosong!');
+                $(html).find('small').show();
+                $(html).find('input').addClass('animation-shake is-invalid');
+                errorValidasi++;
+            } else if(jumlah < 1){
+                $(html).find('small').text('Tidak boleh kurang dari 1!');
+                $(html).find('small').show();
+                $(html).find('input').addClass('animation-shake is-invalid');
+                errorValidasi++;
+            }
+            data.push({
+                id_varian: id,
+                jumlah: jumlah
+            });
+        });
+        console.log(data);
     }
 })(jQuery);
 
@@ -286,10 +333,24 @@ $(document).ready(function(){
         if($('#btn-'+id).length){
             $('#btn-'+id).html('<button type="button" class="btn btn-primary btn-sm btnPilihVarian"><i class="fa fa-plus"></i> Pilih Produk</button>');
         }
+        hitungTotal();
     });
 
     $('#tableBeli').on('input', '.angkaSaja', function(){
         this.value = this.value.replace(/[^0-9]/gi, '');
+        let val = this.value;
+        let harga = parseInt($(this).parent().parent().children('td:nth-child(7)').data('harga'));
+        let divTotal = $(this).parent().parent().children('td:nth-child(8)');
+        if(val != ''){
+            let total = parseInt(val) * harga;
+            divTotal.data('total', total);
+            divTotal.text('Rp '+uangFormat(total));
+        } else {
+            divTotal.data('total', harga);
+            divTotal.text('Rp '+uangFormat(harga));
+        }
+        hitungTotal();
+        bersihError();
     });
 
     $('.uiop-ac-option').on('click', '.btnPilihVarian', function(){
@@ -318,13 +379,19 @@ $(document).ready(function(){
                                 "<td width='7%'><b>Stok Sisa</b></td>"+
                                 "<td width='10%'><b>Jumlah</b></td>"+
                                 "<td><b>Harga Beli</b></td>"+
-                                "<td><b>Total</b></td>"+
+                                "<td><b>Subtotal</b></td>"+
                                 "<td width='5%'><i class='fa fa-gear'></i></td>"+
                             "</tr>"+
                         "</thead>"+
                         "<tbody id='tableBeli-isi'>"+
                             "%!isi_tabel!%"+
                         "</tbody>"+
+                        "<tfoot>"+
+                            "<tr>"+
+                                "<td colspan='7'><b class='float-right'>Total</b></td>"+
+                                "<td id='totalHarga' colspan='2'>%!harga_awal!%</td>"+
+                            "</tr>"+
+                        "</tfoot>"+
                     "</table>"+
                 "</div>";
             let data_produk = 
@@ -332,27 +399,27 @@ $(document).ready(function(){
                     '<td>1</td>'+
                     '<td>'+data.sku+'</td>'+
                     '<td>'+parseNamaProduk(data)+'</td>'+
-                    '<td>'+parseSupplierProduk(data)+'</td>'+
+                    '<td>'+parseSupplierProduk(data, false)+'</td>'+
                     '<td>'+stok+'</td>'+
-                    '<td><input type="text" class="form-control angkaSaja" value="1" placeholder="Jumlah"></td>'+
+                    '<td><input type="text" class="form-control angkaSaja" value="1" placeholder="Jumlah"><small style="color:red" class="hidden"><br>Tidak boleh kosong!</small></td>'+
                     '<td data-harga="'+data.harga_beli+'">Rp '+uangFormat(data.harga_beli)+'</td>'+
-                    '<td>Rp '+uangFormat(data.harga_beli)+'</td>'+
+                    '<td data-total="'+data.harga_beli+'">Rp '+uangFormat(data.harga_beli)+'</td>'+
                     '<td><button type="button" class="btnBatalPilih btn btn-danger btn-sm" data-id="'+data.id_varian+'">Batal</button></td>'+
                 '</tr>';
-            let renderTabel = tabel.replace('%!isi_tabel!%', data_produk);
+            let renderTabel = tabel.replace('%!isi_tabel!%', data_produk).replace('%!harga_awal!%', 'Rp '+uangFormat(data.harga_beli));
             $('#tableBeli').data('varian_id', [data.id_varian]);
             $('#tableBeli').html(renderTabel);
         } else {
             let data_produk = 
                 '<tr id="lp-'+data.id_varian+'">'+
-                    '<td>1</td>'+
+                    '<td>'+(varianCek.length+1)+'</td>'+
                     '<td>'+data.sku+'</td>'+
                     '<td>'+parseNamaProduk(data)+'</td>'+
-                    '<td>'+parseSupplierProduk(data)+'</td>'+
+                    '<td>'+parseSupplierProduk(data, false)+'</td>'+
                     '<td>'+stok+'</td>'+
-                    '<td><input type="text" class="form-control angkaSaja" value="1" placeholder="Jumlah"></td>'+
+                    '<td><input type="text" class="form-control angkaSaja" value="1" placeholder="Jumlah"><small style="color:red" class="hidden"><br>Tidak boleh kosong!</small></td>'+
                     '<td data-harga="'+data.harga_beli+'">Rp '+uangFormat(data.harga_beli)+'</td>'+
-                    '<td>Rp '+uangFormat(data.harga_beli)+'</td>'+
+                    '<td data-total="'+data.harga_beli+'">Rp '+uangFormat(data.harga_beli)+'</td>'+
                     '<td><button type="button" class="btnBatalPilih btn btn-danger btn-sm" data-id="'+data.id_varian+'">Batal</button></td>'+
                 '</tr>';
             $('#tableBeli-isi').append(data_produk);
@@ -361,6 +428,7 @@ $(document).ready(function(){
             $('#tableBeli').data('varian_id', varian_now);
         }
         $(this).parent().html('<i class="fa fa-check green-700"></i> <span class="green-700">Terpilih</span>');
+        hitungTotal();
         $('#beliDiv-btnSimpan').show();
     });
 
