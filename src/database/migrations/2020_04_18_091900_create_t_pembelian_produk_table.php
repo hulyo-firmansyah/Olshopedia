@@ -15,7 +15,6 @@ class CreateTPembelianProdukTable extends Migration
     {
         Schema::create('t_pembelian_produk', function (Blueprint $table) {
             $table->bigIncrements('id_pembelian_produk');
-            $table->unsignedBigInteger('produk_id');
             $table->unsignedBigInteger('varian_produk_id');
             $table->unsignedInteger('jumlah')->default(1);
             $table->unsignedBigInteger('data_of');
