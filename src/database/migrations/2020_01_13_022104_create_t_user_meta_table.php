@@ -21,7 +21,6 @@ class CreateTUserMetaTable extends Migration
                 'SuperAdmin',
                 'Owner',
                 'Admin',
-                'Supplier',
                 'Shipper'
             ]);
             $table->unsignedBigInteger('data_of')->nullable();

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 20 Apr 2020 pada 09.27
+-- Waktu pembuatan: 20 Apr 2020 pada 09.36
 -- Versi server: 10.4.6-MariaDB
 -- Versi PHP: 7.3.8
 
@@ -70,30 +70,30 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2014_10_12_100000_create_password_resets_table', 1),
-(2, '2020_01_13_020553_create_users_table', 1),
-(3, '2020_01_13_021225_create_t_varian_produk_table', 1),
-(4, '2020_01_13_022104_create_t_user_meta_table', 1),
-(5, '2020_01_13_022525_create_t_supplier_table', 1),
-(6, '2020_01_13_022908_create_t_riwayat_stok_table', 1),
-(7, '2020_01_13_023339_create_t_produk_table', 1),
-(8, '2020_01_13_023647_create_t_pembayaran_table', 1),
-(9, '2020_01_13_023832_create_t_order_table', 1),
-(10, '2020_01_13_024804_create_t_kategori_produk_table', 1),
-(11, '2020_01_13_024914_create_t_grosir_table', 1),
-(12, '2020_01_13_025141_create_t_foto_table', 1),
-(13, '2020_01_13_025247_create_t_filter_order_table', 1),
-(14, '2020_01_13_025951_create_t_expense_table', 1),
-(15, '2020_01_13_030142_create_t_customer_table', 1),
-(16, '2020_01_16_071455_create_t_store_table', 1),
-(17, '2020_01_17_064844_create_t_order_source_table', 1),
-(18, '2020_01_20_031408_create_t_bank_table', 1),
-(19, '2020_03_09_100105_create_t_log_table', 1),
-(20, '2020_03_23_141800_create_jobs_table', 1),
-(21, '2020_03_24_091246_create_failed_jobs_table', 1),
-(22, '2020_03_27_095945_create_t_addons_table', 1),
-(23, '2020_03_27_115019_create_t_addons_data_table', 1),
-(24, '2020_04_07_104257_create_t_print', 1);
+(25, '2014_10_12_100000_create_password_resets_table', 1),
+(26, '2020_01_13_020553_create_users_table', 1),
+(27, '2020_01_13_021225_create_t_varian_produk_table', 1),
+(28, '2020_01_13_022104_create_t_user_meta_table', 1),
+(29, '2020_01_13_022525_create_t_supplier_table', 1),
+(30, '2020_01_13_022908_create_t_riwayat_stok_table', 1),
+(31, '2020_01_13_023339_create_t_produk_table', 1),
+(32, '2020_01_13_023647_create_t_pembayaran_table', 1),
+(33, '2020_01_13_023832_create_t_order_table', 1),
+(34, '2020_01_13_024804_create_t_kategori_produk_table', 1),
+(35, '2020_01_13_024914_create_t_grosir_table', 1),
+(36, '2020_01_13_025141_create_t_foto_table', 1),
+(37, '2020_01_13_025247_create_t_filter_order_table', 1),
+(38, '2020_01_13_025951_create_t_expense_table', 1),
+(39, '2020_01_13_030142_create_t_customer_table', 1),
+(40, '2020_01_16_071455_create_t_store_table', 1),
+(41, '2020_01_17_064844_create_t_order_source_table', 1),
+(42, '2020_01_20_031408_create_t_bank_table', 1),
+(43, '2020_03_09_100105_create_t_log_table', 1),
+(44, '2020_03_23_141800_create_jobs_table', 1),
+(45, '2020_03_24_091246_create_failed_jobs_table', 1),
+(46, '2020_03_27_095945_create_t_addons_table', 1),
+(47, '2020_03_27_115019_create_t_addons_data_table', 1),
+(48, '2020_04_07_104257_create_t_print', 1);
 
 -- --------------------------------------------------------
 
@@ -401,13 +401,14 @@ CREATE TABLE `t_store` (
 
 CREATE TABLE `t_supplier` (
   `id_supplier` bigint(20) UNSIGNED NOT NULL,
-  `nama_supplier` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nama_supplier` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `provinsi` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
   `kabupaten` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
   `kecamatan` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
   `kode_pos` int(10) UNSIGNED NOT NULL,
+  `no_telp` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `jalan` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ket` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ket` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `data_of` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -421,7 +422,7 @@ CREATE TABLE `t_user_meta` (
   `id_user_meta` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `ijin` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `role` enum('SuperAdmin','Owner','Admin','Supplier','Shipper') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` enum('SuperAdmin','Owner','Admin','Shipper') COLLATE utf8mb4_unicode_ci NOT NULL,
   `data_of` bigint(20) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -646,7 +647,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT untuk tabel `t_addons`
