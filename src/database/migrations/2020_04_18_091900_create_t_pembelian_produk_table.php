@@ -19,6 +19,7 @@ class CreateTPembelianProdukTable extends Migration
             $table->text('data');
             $table->date('tgl_beli');
             $table->dateTime('tgl_dibuat');
+            $table->unsignedBigInteger('admin_id');
             $table->unsignedBigInteger('data_of');
         });
     }
