@@ -17,7 +17,8 @@ class CreateTPembelianProdukTable extends Migration
             $table->bigIncrements('id_pembelian_produk');
             $table->text('no_nota');
             $table->text('data');
-            $table->dateTime('tgl');
+            $table->date('tgl_beli');
+            $table->dateTime('tgl_dibuat');
             $table->unsignedBigInteger('data_of');
         });
     }

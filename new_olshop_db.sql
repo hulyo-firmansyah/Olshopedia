@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 18 Apr 2020 pada 10.48
+-- Waktu pembuatan: 20 Apr 2020 pada 04.45
 -- Versi server: 10.4.6-MariaDB
 -- Versi PHP: 7.3.8
 
@@ -70,31 +70,31 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1722, '2014_10_12_100000_create_password_resets_table', 1),
-(1723, '2020_01_13_020553_create_users_table', 1),
-(1724, '2020_01_13_021225_create_t_varian_produk_table', 1),
-(1725, '2020_01_13_022104_create_t_user_meta_table', 1),
-(1726, '2020_01_13_022525_create_t_supplier_table', 1),
-(1727, '2020_01_13_022908_create_t_riwayat_stok_table', 1),
-(1728, '2020_01_13_023339_create_t_produk_table', 1),
-(1729, '2020_01_13_023647_create_t_pembayaran_table', 1),
-(1730, '2020_01_13_023832_create_t_order_table', 1),
-(1731, '2020_01_13_024804_create_t_kategori_produk_table', 1),
-(1732, '2020_01_13_024914_create_t_grosir_table', 1),
-(1733, '2020_01_13_025141_create_t_foto_table', 1),
-(1734, '2020_01_13_025247_create_t_filter_order_table', 1),
-(1735, '2020_01_13_025951_create_t_expense_table', 1),
-(1736, '2020_01_13_030142_create_t_customer_table', 1),
-(1737, '2020_01_16_071455_create_t_store_table', 1),
-(1738, '2020_01_17_064844_create_t_order_source_table', 1),
-(1739, '2020_01_20_031408_create_t_bank_table', 1),
-(1740, '2020_03_09_100105_create_t_log_table', 1),
-(1741, '2020_03_23_141800_create_jobs_table', 1),
-(1742, '2020_03_24_091246_create_failed_jobs_table', 1),
-(1743, '2020_03_27_095945_create_t_addons_table', 1),
-(1744, '2020_03_27_115019_create_t_addons_data_table', 1),
-(1745, '2020_04_07_104257_create_t_print', 1),
-(1746, '2020_04_18_091900_create_t_pembelian_produk_table', 1);
+(1747, '2014_10_12_100000_create_password_resets_table', 1),
+(1748, '2020_01_13_020553_create_users_table', 1),
+(1749, '2020_01_13_021225_create_t_varian_produk_table', 1),
+(1750, '2020_01_13_022104_create_t_user_meta_table', 1),
+(1751, '2020_01_13_022525_create_t_supplier_table', 1),
+(1752, '2020_01_13_022908_create_t_riwayat_stok_table', 1),
+(1753, '2020_01_13_023339_create_t_produk_table', 1),
+(1754, '2020_01_13_023647_create_t_pembayaran_table', 1),
+(1755, '2020_01_13_023832_create_t_order_table', 1),
+(1756, '2020_01_13_024804_create_t_kategori_produk_table', 1),
+(1757, '2020_01_13_024914_create_t_grosir_table', 1),
+(1758, '2020_01_13_025141_create_t_foto_table', 1),
+(1759, '2020_01_13_025247_create_t_filter_order_table', 1),
+(1760, '2020_01_13_025951_create_t_expense_table', 1),
+(1761, '2020_01_13_030142_create_t_customer_table', 1),
+(1762, '2020_01_16_071455_create_t_store_table', 1),
+(1763, '2020_01_17_064844_create_t_order_source_table', 1),
+(1764, '2020_01_20_031408_create_t_bank_table', 1),
+(1765, '2020_03_09_100105_create_t_log_table', 1),
+(1766, '2020_03_23_141800_create_jobs_table', 1),
+(1767, '2020_03_24_091246_create_failed_jobs_table', 1),
+(1768, '2020_03_27_095945_create_t_addons_table', 1),
+(1769, '2020_03_27_115019_create_t_addons_data_table', 1),
+(1770, '2020_04_07_104257_create_t_print', 1),
+(1771, '2020_04_18_091900_create_t_pembelian_produk_table', 1);
 
 -- --------------------------------------------------------
 
@@ -330,7 +330,8 @@ CREATE TABLE `t_pembelian_produk` (
   `id_pembelian_produk` bigint(20) UNSIGNED NOT NULL,
   `no_nota` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `data` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tgl` datetime NOT NULL,
+  `tgl_beli` date NOT NULL,
+  `tgl_dibuat` datetime NOT NULL,
   `data_of` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -668,7 +669,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1747;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1772;
 
 --
 -- AUTO_INCREMENT untuk tabel `t_addons`
