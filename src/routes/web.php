@@ -78,7 +78,6 @@
         Route::get('/', 'belakang\SettingController@index')->name("b.setting-index");
         Route::post('/proses', 'belakang\SettingController@proses')->name("b.setting-proses");
         Route::get('/getUserData', 'belakang\SettingController@getDataUsers')->name('b.setting-getUserData');
-        Route::get('/getSupplierData', 'belakang\SettingController@getSupplierData')->name('b.setting-getSupplierData');
         Route::get('/getPaymentData', 'belakang\SettingController@getPaymentData')->name("b.setting-getPaymentData");
         Route::get('/getOrderSourceData', 'belakang\SettingController@getOrderSourceData')->name('b.setting-getOrderSourceData');
         Route::get('/getFilterOrderData', 'belakang\SettingController@getFilterOrderData')->name('b.setting-getFilterOrderData');
@@ -135,6 +134,14 @@
         Route::post('/store', 'belakang\CustomerController@store')->name("b.customer-store");    
         Route::post('/update', 'belakang\CustomerController@update')->name("b.customer-update");
         Route::post('/destroy', 'belakang\CustomerController@destroy')->name("b.customer-destroy");
+    });
+
+    //Supplier
+    Route::prefix('supplier')->group(function(){
+        Route::get('/semua', 'belakang\SupplierController@index')->name("b.supplier-index");
+        Route::get('/', 'belakang\SupplierController@redirectIndex');
+        Route::get('/getData', 'belakang\SupplierController@getData')->name('b.supplier-getData');
+        Route::post('/proses', 'belakang\SupplierController@proses')->name("b.supplier-proses");
     });
     
     //order

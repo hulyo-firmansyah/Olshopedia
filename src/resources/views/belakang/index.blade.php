@@ -278,6 +278,13 @@
                         <span class="site-menu-title">@lang("index.customer")</span>
                     </a>
                 </li>
+                <li class="site-menu-item">
+                    <a class="animsition-link menuLoad" href="{{ route('b.supplier-index') }}">
+                        <!-- onClick="pageLoad('{{ route('b.customer-index') }}', $(this))"> -->
+                        <i class="site-menu-icon fa-user" aria-hidden="true"></i>
+                        <span class="site-menu-title">@lang("index.supplier")</span>
+                    </a>
+                </li>
                 @if(($data_user->role == 'Admin' && $ijin->menuExpense === 1) || $data_user->role == 'Owner')
                 <li class="site-menu-item">
                     <a class="animsition-link menuLoad" href="{{ route('b.expense-index') }}">

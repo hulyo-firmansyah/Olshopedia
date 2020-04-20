@@ -12,6 +12,7 @@ return [
     'canceled_order' => "Order yang dibatalkan",
     'pengaturan' => "Pengaturan",
     'customer' => "Pelanggan",
+    'supplier' => "Supplier",
     'riwayat_versi' => 'Riwayat Versi',
     'laporan' => 'Laporan',
     'addons' => 'Addons',
