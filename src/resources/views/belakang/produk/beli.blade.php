@@ -93,11 +93,36 @@
                             Pembelian Produk
                         </h3>
                     </div>
-                    <div class='panel-body' id='tableBeli'>
-                        Tidak ada produk yang dipilih!
+                    <div class='panel-body'>
+                        <div class='row mb-15'>
+                            <div class='col-xxl-5'>
+                                <div class='row mb-10'>
+                                    <div class='col-xxl-3'>
+                                        <label for='nota_beli' style='width:110px;margin-top:7px'><b>No Nota : </b></label>
+                                    </div>
+                                    <div class='col-xxl-9'>
+                                        <input type='text' name='nota_beli' id='nota_beli' class='form-control' placeholder='Nomer Nota'>
+                                        <small id='error-nota_beli' style='color:red' class='hidden'>Tidak boleh kosong!</small>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-xxl-3'>
+                                        <label for='tgl_beli' style='width:110px;margin-top:7px'><b>Tanggal Beli : </b></label>
+                                    </div>
+                                    <div class='col-xxl-9'>
+                                        <input type='text' name='tgl_beli' id='tgl_beli' class='form-control' placeholder='Tanggal Beli'>
+                                        <small id='error-tgl_beli' style='color:red' class='hidden'>Tidak boleh kosong!</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div  id='tableBeli'>
+                            Tidak ada produk yang dipilih!
+                        </div>
                     </div>
                     <div class='panel-footer hidden' id='beliDiv-btnSimpan'>
-                        <button type='button' class='btn btn-success' id='btnSimpanBeli' onClick='$(this).submitForm()'>Simpan Data Pembelian</button>
+                        <button type='button' class='btn btn-success' data-color="green" data-style="expand-right" id='btnSimpanBeli' onClick='$(this).submitForm()'>Simpan Data Pembelian</button>
                     </div>
                 </div>
             </div>
@@ -107,6 +132,7 @@
 <script>
 var cacheProduk = {};
 var errorValidasi = 0;
+var laddaBtn;
 
 function uangFormat(number) {
     var sp = number.toString().split("").reverse();
@@ -250,11 +276,51 @@ function bersihError(){
                 jumlah: jumlah
             });
         });
-        console.log(data);
+        var tgl = $('#tgl_beli').val();
+        var nota = $('#nota_beli').val();
+        if(tgl == ''){
+            $('#error-tgl_beli').show();
+            $('#tgl_beli').addClass('animation-shake is-invalid');
+            errorValidasi++;
+        }
+        if(nota == ''){
+            $('#error-nota_beli').show();
+            $('#nota_beli').addClass('animation-shake is-invalid');
+            errorValidasi++;
+        }
+        if(errorValidasi === 0){
+            laddaBtn.start();
+            var hasil;
+            $.ajax({
+                url: "{{ route('b.produk-beliProses') }}",
+                type: 'post',
+                dataType: "json",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    data: data,
+                    tgl: tgl,
+                    nota: nota
+                },
+                success: function(data) {
+                    hasil = data;
+                },
+                error: function(xhr, b, c) {
+                    swal("Error", '' + c, "error");
+                }
+            }).done(function() {
+                laddaBtn.stop();
+                if(hasil.status){
+                    swal("Berhasil", ''+hasil.msg, "success");
+                } else {
+                    swal("Error", '' + hasil.msg, "error");
+                }
+            });
+        }
     }
 })(jQuery);
 
 $(document).ready(function(){
+    laddaBtn = Ladda.create( document.querySelector('#btnSimpanBeli') );
 
     @if($msg_sukses = Session::get('msg_success') || $msg_warning = Session::get('msg_warning') || $msg_error = Session::get('msg_error'))
     window.setTimeout(function() {
@@ -263,8 +329,27 @@ $(document).ready(function(){
         }, 'slow');
     }, 8000);
     @endif
+
+    $('#tgl_beli').datepicker({
+        format: "dd MM yyyy",
+        orientation: 'bottom'
+    }).datepicker('setDate', new Date());
     
     alertify.set('notifier','position', 'top-right');
+
+    $('#tgl_beli').on('change', function(){
+        if($(this).hasClass('is-invalid')){
+            $(this).removeClass('animation-shake is-invalid');
+            $('#error-tgl_beli').hide();
+        }
+    });
+
+    $('#nota_beli').on('input', function(){
+        if($(this).hasClass('is-invalid')){
+            $(this).removeClass('animation-shake is-invalid');
+            $('#error-nota_beli').hide();
+        }
+    });
     
     var item_prod = $('.uiop-ac-option'),
         cariProduk = $('#cariProduk');

@@ -1676,299 +1676,98 @@ EOT
 	}
 
 	public function beliProsesProduk(Request $request){
-		switch($request->tipe){
-
-			case 'tambah_stok':
-				if($request->ajax()){
-					$id = strip_tags($request->id);
-					$jumlah = strip_tags($request->jumlah);
-					$stok_lama = strip_tags($request->stok_lama);
-					if($jumlah > 100000 || $jumlah < 1){
-						return Fungsi::respon(['status' => false, 'msg' => 'Stok yang ditambah tidak boleh lebih dari 100,000 atau kurang dari 1!'], [], "json", $request);
-					} else {
-						$nowStok = (int)$stok_lama + (int)$jumlah;
-						$update = DB::table('t_varian_produk')
-							->where('data_of', Fungsi::dataOfCek())
-							->where('id_varian', $id)
-							->update([
-								'stok' => $nowStok.'|sendiri'
-							]);
-						if($update){
-							event(new ProdukDataBerubah(Fungsi::dataOfCek()));
-							$data_prod = DB::table('t_varian_produk')
-									->join('t_produk', 't_produk.id_produk', '=', 't_varian_produk.produk_id')
-									->where('t_varian_produk.data_of', Fungsi::dataOfCek())
-									->where('id_varian', $id)
-									->select('t_produk.nama_produk', 't_varian_produk.warna', 't_varian_produk.ukuran')
-									->get()->first();
-							$nama_produk = $data_prod->nama_produk;
-							if(($data_prod->ukuran !== null && $data_prod->ukuran !== '') && ($data_prod->warna !== null && $data_prod->warna !== '')){
-								$produk_varian = " (".$data_prod->ukuran." ".$data_prod->warna.") ";
-							} else if(($data_prod->ukuran !== null && $data_prod->ukuran !== '') && ($data_prod->warna == null || $data_prod->warna == '')){
-								$produk_varian = " (".$data_prod->ukuran.") ";
-							} else if(($data_prod->ukuran == null && $data_prod->ukuran == '') && ($data_prod->warna !== null && $data_prod->warna !== '')){
-								$produk_varian = " (".$data_prod->warna.") ";
-							} else {
-								$produk_varian = '';
-							}
-							event(new BelakangLogging(Fungsi::dataOfCek(), 'beli_produk_tambah_stok', [
-								'user_id' => Auth::user()->id,
-								'nama_produk' => ucwords(strtolower($nama_produk)),
-								'varian' => $produk_varian
-							]));
-							$riwayatStok_varian = DB::table('t_riwayat_stok')->insert([
-								"varian_id" => $id,
-								"tgl" => date("Y-m-d H:i:s"),
-								"ket" => "Pembelian Produk (Tambah Stok)",
-								"jumlah" => $jumlah,
-								"tipe" => "masuk",
-								"data_of" => Fungsi::dataOfCek()
-							]);
-							return Fungsi::respon(['status' => true, 'msg' => 'Berhasil menambah Stok!'], [], "json", $request);
-						} else {
-							return Fungsi::respon(['status' => false, 'msg' => 'Gagal menambah Stok!'], [], "json", $request);
-						}
-					}
-				} else {
-					abort(404);
+		if($request->ajax()){
+			// return "<pre>".print_r($request->all(), true)."</pre>";
+			$data = $request->data;
+			$nota = strip_tags($request->nota);
+			$tgl = strip_tags($request->tgl);
+			$error = 0;
+			$genData = Fungsi::genArray($data);
+			$dataVarian = [];
+			foreach($genData as $d){
+				if(!isset($d['id_varian'])){
+					$error++;
+					$errorMsg = 'Sepertinya ada yang salah?';
+					$genData->stop();
 				}
-				break;
-
-			case 'ubah_stok':
-				if($request->ajax()){
-					$id = strip_tags($request->id);
-					$stok = strip_tags($request->stok);
-					if($stok === null || $stok != 1){
-						return Fungsi::respon(['status' => false, 'msg' => 'Stok hanya bisa dirubah ke Tersedia!'], [], "json", $request);
-					} else {
-						$update = DB::table('t_varian_produk')
-							->where('data_of', Fungsi::dataOfCek())
-							->where('id_varian', $id)
-							->update([
-								'stok' => '1|lain'
-							]);
-						if($update){
-							$data_prod = DB::table('t_varian_produk')
-									->join('t_produk', 't_produk.id_produk', '=', 't_varian_produk.produk_id')
-									->where('t_varian_produk.data_of', Fungsi::dataOfCek())
-									->where('id_varian', $id)
-									->select('t_produk.nama_produk', 't_varian_produk.warna', 't_varian_produk.ukuran')
-									->get()->first();
-							$nama_produk = $data_prod->nama_produk;
-							if(($data_prod->ukuran !== null && $data_prod->ukuran !== '') && ($data_prod->warna !== null && $data_prod->warna !== '')){
-								$produk_varian = " (".$data_prod->ukuran." ".$data_prod->warna.") ";
-							} else if(($data_prod->ukuran !== null && $data_prod->ukuran !== '') && ($data_prod->warna == null || $data_prod->warna == '')){
-								$produk_varian = " (".$data_prod->ukuran.") ";
-							} else if(($data_prod->ukuran == null && $data_prod->ukuran == '') && ($data_prod->warna !== null && $data_prod->warna !== '')){
-								$produk_varian = " (".$data_prod->warna.") ";
-							} else {
-								$produk_varian = '';
-							}
-							event(new ProdukDataBerubah(Fungsi::dataOfCek()));
-							event(new BelakangLogging(Fungsi::dataOfCek(), 'beli_produk_ubah_stok', [
-								'user_id' => Auth::user()->id,
-								'nama_produk' => ucwords(strtolower($nama_produk)),
-								'varian' => $produk_varian
-							]));
-							return Fungsi::respon(['status' => true, 'msg' => 'Berhasil mengubah Stok!'], [], "json", $request);
-						} else {
-							return Fungsi::respon(['status' => false, 'msg' => 'Gagal mengubah Stok!'], [], "json", $request);
-						}
-					}
-				} else {
-					abort(404);
+				if(!isset($d['jumlah'])){
+					$error++;
+					$errorMsg = 'Sepertinya ada yang salah?';
+					$genData->stop();
 				}
-				break;
-
-			case 'tambah_varian':
-				$support_gambar = ['jpeg', 'jpg', 'png', 'gif'];
-				// return "<pre>".print_r($request->all(), true)."</pre>";
-				$id_produk = strip_tags($request->produk_id);
-				$tipe_supplier = strip_tags($request->tipe_supplier);
-				$tipe_diskon = strip_tags($request->tipe_diskon);
-				$data['produk'] = $request->produk;
-
-				$data_prod = DB::table('t_produk')
+				$data_varian = DB::table('t_varian_produk')
 					->where('data_of', Fungsi::dataOfCek())
-					->where('id_produk', $id_produk)
-					->select('nama_produk')
+					->where('id_varian', $d['id_varian'])
+					->select('stok')
 					->get()->first();
-					
-				if(isset($data_prod)){
-
-					foreach(Fungsi::genArray($data['produk']) as $vP){
-						if(isset($vP['foto'])){
-							foreach(Fungsi::genArray($vP['foto']) as $vF){
-								$ext = $vF->getClientOriginalExtension();
-								if(!in_array(strtolower($ext), $support_gambar)){
-									return redirect()->back()->with(['msg_error' => "Gambar hanya support extensi 'jpeg', 'jpg', 'png', dan 'gif' saja!"])->withInput($request->input());
-								}
-							}
-						}
-					}
-						
-					$cekSKU_allow = true;
-					$SKU_tmp = "";
-					$stokVarian = [];
-					$varianTersimpan = [];
-					
-					$genProdVarian = Fungsi::genArray($data['produk']);
-					foreach($genProdVarian as $vV){
-						$nama_produk = $data_prod->nama_produk;
-		
-						//varian
-						$produk = $vV;
-						if((isset($produk['ukuran']) && $produk['ukuran'] !== '') && (isset($produk['warna']) && $produk['warna'] !== '')){
-							$produk_varian = " (".$produk['ukuran']." ".$produk['warna'].") ";
-						} else if((isset($produk['ukuran']) && $produk['ukuran'] !== '') && (is_null($produk['warna']) || $produk['warna'] == '')){
-							$produk_varian = " (".$produk['ukuran'].") ";
-						} else if((is_null($produk['ukuran']) || $produk['ukuran'] == '') && (isset($produk['warna']) && $produk['warna'] !== '')){
-							$produk_varian = " (".$produk['warna'].") ";
-						} else {
-							$produk_varian = '';
-						}
-						// dd($nama_produk, (isset($produk['ukuran']) && $produk['ukuran'] !== '') || (is_null($produk['warna']) && $produk['warna'] == ''));
-						$svVarian['produk_id'] = $id_produk;
-						$cekNamaSKU = DB::table('t_varian_produk')->select("sku")->where("sku", $produk['sku'])->where("data_of", Fungsi::dataOfCek())->get();
-						if(count($cekNamaSKU) > 0){
-							$cekSKU_allow = false;
-							$SKU_tmp = $produk['sku'];
-							$genProdVarian->send('stop');
-							// break;
-						} else {
-							$svVarian['sku'] = $produk['sku'];
-						}
-						$stok = (!isset($produk['stok']) || $produk['stok'] == "") ? 0 : $produk['stok'];
-						if($tipe_supplier == 'sendiri'){
-							$svVarian['stok'] = $stok."|sendiri";
-						} else {
-							$svVarian['stok'] = $stok."|lain";
-						}
-						$svVarian['harga_beli'] = $produk['harga_beli'];
-						if($produk['diskon'] == "" || $produk['diskon'] == 0){
-							$svVarian['diskon_jual'] = null;
-						} else {
-							$diskon = $produk['diskon'];
-							if($tipe_diskon == "persen"){
-								if($diskon > 100){
-									$diskon = 100;
-								}
-								$svVarian['diskon_jual'] = $diskon."|%";
-							} else {
-								$svVarian['diskon_jual'] = $diskon."|*";
-							}
-						}
-						$svVarian['harga_jual_normal'] = $produk['harga_jual'];
-						$svVarian['harga_jual_reseller'] = ($produk['harga_reseller'] == "") ? $produk['harga_jual'] : $produk['harga_reseller'];
-						if(isset($produk['ukuran']) && $produk['ukuran'] !== ''){
-							$svVarian['ukuran'] = $produk['ukuran'];
-						}
-						if(isset($produk['warna']) && $produk['warna'] !== ''){
-							$svVarian['warna'] = $produk['warna'];
-						}
-
-						//foto_produk
-						if(isset($produk['foto'])){
-							$id_lain_foto = [];
-							$id_utama_foto = null;
-							$path = "../data/".base64_encode(base64_encode(Fungsi::dataOfCek())."+".base64_encode(Fungsi::dataOfCekUsername()))."/";
-							//pakai base_path untuk move, pakai asset untuk nampilkan.
-							if(is_dir(base_path($path))){
-								$path_isset = true;
-							} else {
-								if(mkdir(base_path($path), 0777, true)){
-									$path_isset = true;
-								} else {
-									$path_isset = false;
-									// DB::table('t_produk')->where('id_produk', $lastID_produk)->where('data_of', Fungsi::dataOfCek())->delete();
-									// return redirect()->back()->with(['msg_error' => "Tidak dapat membuat folder data!"])->withInput($request->input());
-								}
-							}
-							foreach(Fungsi::genArray($produk['foto']) as $i2 => $v2){
-								$foto = $v2;
-								$filename = base64_encode(mt_rand(1, 99)).base64_encode($foto->getClientOriginalName().mt_rand(1, 999)).".".$foto->getClientOriginalExtension();
-								if($path_isset){
-									if($foto->move(base_path($path), $filename)){
-										$lastID_foto = DB::table('t_foto')->insertGetId([
-											'path' => $path.$filename,
-											'data_of' => Fungsi::dataOfCek()
-										]);
-										if($i2 == 1){
-											$id_utama_foto = $lastID_foto;
-										} else {
-											$id_lain_foto[] = $lastID_foto;
-										}
-										unset($lastID_foto);
-									} 
-								}
-							}
-							$svVarian['foto_id'] = json_encode([
-								"utama" => $id_utama_foto,
-								"lain" => implode(";", $id_lain_foto)
-							]);
-						} else {
-							$svVarian['foto_id'] = null;
-						}
-						$svVarian['data_of'] = Fungsi::dataOfCek();
-						$offsetSku_akhir = DB::table('t_varian_produk')
-							->where('data_of', Fungsi::dataOfCek())
-							->where('produk_id', $id_produk)
-							->select('sku_offset')
-							->orderBy('sku_offset', 'desc')
-							->get()->first();
-						if(isset($offsetSku_akhir)){
-							$svVarian['sku_offset'] = $offsetSku_akhir->sku_offset+1;
-						} else {
-							$svVarian['sku_offset'] = 1;
-						}
-						$proses_id_varian = DB::table('t_varian_produk')->insertGetId($svVarian);
-						$stokVarian[$proses_id_varian] = $stok;
-						$varianTersimpan[] = [
-							'id_varian' => $proses_id_varian,
-							'nama_produk' => $nama_produk
-						];
-					}
-
-					if(!$cekSKU_allow){
-						DB::table('t_produk')->where('id_produk', $produk)->where('data_of', Fungsi::dataOfCek())->delete();
-						foreach(Fungsi::genArray($varianTersimpan) as $tre){
-							DB::table('t_varian_produk')->where('id_varian', $tre['id_varian'])->where('data_of', Fungsi::dataOfCek())->delete();
-						}
-						return redirect()->back()->with(['msg_error' => "SKU '".$SKU_tmp."' sudah ada!"])->withInput($request->input());
-					}
-		
-					if(count($stokVarian) > 0){
-						foreach(Fungsi::genArray($stokVarian) as $iRv => $vRv){
-							$riwayatStok_varian = DB::table('t_riwayat_stok')->insert([
-								"varian_id" => $iRv,
-								"tgl" => date("Y-m-d H:i:s"),
-								"ket" => "Stok Awal",
-								"jumlah" => $vRv,
-								"tipe" => "masuk",
-								"data_of" => Fungsi::dataOfCek()
-							]);
-						}
-					}
-		
-					event(new ProdukDataBerubah(Fungsi::dataOfCek()));
-					if($cekSKU_allow){
-						foreach(Fungsi::genArray($varianTersimpan) as $tre){
-							event(new BelakangLogging(Fungsi::dataOfCek(), 'beli_produk_tambah_varian', [
-								'user_id' => Auth::user()->id,
-								'nama_produk' => ucwords(strtolower($tre['nama_produk'])),
-								'varian' => $produk_varian
-							]));
-						}
-					}
-					return redirect()->route("b.produk-beli")->with(['msg_success' => 'Berhasil menambahkan varian produk!']);
+				if(!isset($data_varian)){
+					$error++;
+					$errorMsg = 'Data Produk Varian tersebut tidak ditemukan!';
+					$genData->stop();
 				} else {
-					return redirect()->route("b.produk-beli")->with(['msg_error' => 'Produk sudah dihapus, tidak bisa menambahkan varian!']);
+					$dataVarian[$d['id_varian']] = $data_varian;
 				}
-				break;
-			
-			default:
-				abort(404);
-				break;
+			}
+			unset($genData);
+			if($error > 0){
+				return Fungsi::respon([
+					'status' => false,
+					'msg' => $errorMsg,
+				], [], "json", $request);
+			} else {
+				$genData = Fungsi::genArray($data);
+				$berhasil = 0;
+				$simpanBeli = DB::table('t_pembelian_produk')->insert([
+					'data_of' => Fungsi::dataOfCek(),
+					'no_nota' => $nota,
+					'tgl_beli' => date("Y-m-d", strtotime($tgl)),
+					'tgl_dibuat' => date("Y-m-d H:i:s"),
+					'data' => json_encode($data)
+				]);
+				if($simpanBeli){
+					foreach($genData as $d){
+						$stok = explode('|', $dataVarian[$d['id_varian']]->stok);
+						$stok_baru = (int)$stok[0] + (int)$d['jumlah'];
+						$stok[0] = $stok_baru;
+						$simpanDataVarian_baru = DB::table('t_varian_produk')
+							->where('data_of', Fungsi::dataOfCek())
+							->where('id_varian', $d['id_varian'])
+							->update([
+								'stok' => implode('|', $stok)
+							]);
+						$riwayatStok_varian = DB::table('t_riwayat_stok')->insert([
+							"varian_id" => $d['id_varian'],
+							"tgl" => date("Y-m-d H:i:s"),
+							"ket" => "Pembelian Produk",
+							"jumlah" => $d['jumlah'],
+							"tipe" => "masuk",
+							"data_of" => Fungsi::dataOfCek()
+						]);
+						if($riwayatStok_varian && $simpanDataVarian_baru && $simpanBeli){
+							$berhasil++;
+						}
+					}
+					if($berhasil === count($data) && $error === 0){
+						event(new ProdukDataBerubah(Fungsi::dataOfCek()));
+						return Fungsi::respon([
+							'status' => true,
+							'msg' => 'Berhasil menyimpan data pembelian!'
+						], [], "json", $request);
+					} else {
+						return Fungsi::respon([
+							'status' => false,
+							'msg' => 'Gagal menyimpan data pembelian!',
+						], [], "json", $request);
+					}
+				} else {
+					return Fungsi::respon([
+						'status' => false,
+						'msg' => 'Sepertinya anda melakakuan hal yang tidak semestinya?',
+					], [], "json", $request);
+				}
+			}
+		} else {
+			abort(404);
 		}
 	}
 	

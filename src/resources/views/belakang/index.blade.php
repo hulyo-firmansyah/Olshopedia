@@ -56,6 +56,7 @@
     <link rel="stylesheet" href="{{ asset('template/assets/examples/css/tables/datatable.css') }}">
     <link rel="stylesheet" href="{{ asset('template/global/vendor/dropify/dropify.css') }}">
     <link rel="stylesheet" href="{{ asset('template/global/vendor/summernote/summernote.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/global/vendor/ladda/ladda.min.css') }}">
     <style>
     .datepicker table tr td.active:not(:disabled):not(.disabled):active,
     .datepicker table tr td.active:not(:disabled):not(.disabled).active,
@@ -389,6 +390,8 @@
     <script src="{{ asset('template/global/vendor/chart-js/Chart.min.js') }}"></script>
     <script src="{{ asset('js/password/password.min.js') }}"></script>
     <script src="{{ asset('template/global/vendor/summernote/summernote.min.js') }}"></script>
+    <script src="{{ asset('template/global/vendor/ladda/spin.min.js') }}"></script>
+    <script src="{{ asset('template/global/vendor/ladda/ladda.min.js') }}"></script>
 
 
     <!-- Scripts -->
