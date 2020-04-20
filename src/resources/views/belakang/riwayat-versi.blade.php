@@ -15,6 +15,7 @@
                         <b style='font-size:15px'>Changed</b>
                         <ul>
                             <li>Stok sekarang tetap harus menginputkan jumlah di tambah dan edit produk</li>
+                            <li>Menu Supplier dipindah dari submenu setting ke menu utama</li>
                         </ul>
                     </div>
                 </div>
