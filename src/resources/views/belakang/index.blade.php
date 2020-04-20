@@ -270,6 +270,12 @@
                                 <span class="site-menu-title">@lang("index.beli_produk")</span>
                             </a>
                         </li>
+                        <li class="site-menu-item">
+                            <a class="animsition-link menuLoad" href="{{ route('b.produk-dataBeli') }}">
+                                <!-- onClick="pageLoad('{{ route('b.produk-index') }}', $(this))"> -->
+                                <span class="site-menu-title">@lang("index.data_beli_produk")</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="site-menu-item">

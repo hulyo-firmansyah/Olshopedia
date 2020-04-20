@@ -16,5 +16,6 @@ return [
     'laporan' => 'Report',
     'addons' => 'Addons',
     'analisa' => 'Analyzer',
-    'beli_produk' => 'Product Purchase'
+    'beli_produk' => 'Product Purchase',
+    'data_beli_produk' => 'Data Product Purchase'
 ];

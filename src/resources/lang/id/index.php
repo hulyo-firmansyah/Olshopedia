@@ -16,5 +16,6 @@ return [
     'laporan' => 'Laporan',
     'addons' => 'Addons',
     'analisa' => 'Analisa',
-    'beli_produk' => 'Pembelian Produk'
+    'beli_produk' => 'Pembelian Produk',
+    'data_beli_produk' => 'Data Pembelian Produk'
 ];
