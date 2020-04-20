@@ -99,6 +99,7 @@
     Route::prefix('produk')->group(function(){  
         Route::get('/semua', 'belakang\ProdukController@produkIndex')->name("b.produk-index");
         Route::get('/beli', 'belakang\ProdukController@beliProdukIndex')->name("b.produk-beli");
+        Route::get('/data-beli', 'belakang\ProdukController@dataBeliProdukIndex')->name("b.produk-dataBeli");
         Route::get('/', 'belakang\ProdukController@redirectIndex');
         Route::get('/{id_produk?}/edit', 'belakang\ProdukController@editProduk')->name("b.produk-edit");
         Route::post('/proses', 'belakang\ProdukController@prosesProduk')->name("b.produk-proses");
