@@ -15,11 +15,10 @@ class CreateTSupplierTable extends Migration
     {
         Schema::create('t_supplier', function (Blueprint $table) {
             $table->bigIncrements('id_supplier');
-            $table->unsignedBigInteger('user_id');
-            $table->string('nama_supplier', 60)->nullable();
-            $table->string('provinsi', 50);
-            $table->string('kabupaten', 50);
-            $table->string('kecamatan', 50);
+            $table->string('nama_supplier', 100)->nullable();
+            $table->string('provinsi', 80);
+            $table->string('kabupaten', 80);
+            $table->string('kecamatan', 80);
             $table->unsignedInteger('kode_pos');
             $table->text('jalan');
             $table->text('ket');
