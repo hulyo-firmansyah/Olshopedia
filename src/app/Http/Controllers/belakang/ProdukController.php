@@ -1634,6 +1634,8 @@ EOT
 						} else {
 							$ket = $vRs->ket;
 						}
+					} else if(preg_match('/Pembelian Produk \[/', $vRs->ket)){
+						$ket = $vRs->ket;
 					} else {
 						$ket = $vRs->ket;
 					}
@@ -1738,7 +1740,7 @@ EOT
 						$riwayatStok_varian = DB::table('t_riwayat_stok')->insert([
 							"varian_id" => $d['id_varian'],
 							"tgl" => date("Y-m-d H:i:s"),
-							"ket" => "Pembelian Produk",
+							"ket" => "Pembelian Produk [".$nota."]",
 							"jumlah" => $d['jumlah'],
 							"tipe" => "masuk",
 							"data_of" => Fungsi::dataOfCek()
@@ -1769,6 +1771,20 @@ EOT
 		} else {
 			abort(404);
 		}
+	}
+
+    public function dataBeliProdukIndex(Request $request){
+		if($request->ajax()){
+			return Fungsi::respon('belakang.produk.data-beli', [], "ajax", $request);
+		}
+		return Fungsi::respon('belakang.produk.data-beli', [], "html", $request);
+	}
+
+    public function dataBeliProdukPrint(Request $request){
+		if($request->ajax()){
+			return Fungsi::respon('belakang.produk.data-beli-print', [], "ajax", $request);
+		}
+		return Fungsi::respon('belakang.produk.data-beli-print', [], "html", $request);
 	}
 	
 }

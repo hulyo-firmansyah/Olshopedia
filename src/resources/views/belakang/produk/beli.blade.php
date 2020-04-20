@@ -310,7 +310,35 @@ function bersihError(){
             }).done(function() {
                 laddaBtn.stop();
                 if(hasil.status){
-                    swal("Berhasil", ''+hasil.msg, "success");
+                    swal("Berhasil", ''+hasil.msg, "success").then(() => {
+                        swal({
+                            title: "Informasi",
+                            text: "Apakah anda ingin mencetak data tersebut?",
+                            icon: "warning",
+                            buttons: {
+                                confirm: {
+                                    text: "Iya",
+                                    value: true,
+                                    closeModal: true
+                                },
+                                cancel: {
+                                    text: "Tidak",
+                                    value: false,
+                                    visible: true,
+                                    closeModal: true,
+                                }
+                            },
+                            dangerMode: false
+                        }).then((will) => {
+                            if (will) {
+                                alert('asd');
+                            } else {
+                                // alert(location.href);
+                                // pageLoad('{{ route("b.produk-beli") }}');
+                                $(location).attr('href', location.href);
+                            }
+                        });
+                    });
                 } else {
                     swal("Error", '' + hasil.msg, "error");
                 }
@@ -341,6 +369,7 @@ $(document).ready(function(){
         if($(this).hasClass('is-invalid')){
             $(this).removeClass('animation-shake is-invalid');
             $('#error-tgl_beli').hide();
+            errorValidasi = 0;
         }
     });
 
@@ -348,6 +377,7 @@ $(document).ready(function(){
         if($(this).hasClass('is-invalid')){
             $(this).removeClass('animation-shake is-invalid');
             $('#error-nota_beli').hide();
+            errorValidasi = 0;
         }
     });
     
