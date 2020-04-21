@@ -1816,7 +1816,7 @@ EOT
 				}
 				$data[$i++] = [
 					$bp->no_nota,
-					date('j M Y', strtotime($bp->tgl_beli)),
+					date('j F Y', strtotime($bp->tgl_beli)),
 					Fungsi::formatUang($total, true),
 					date('j M Y (H:i:s)', strtotime($bp->tgl_dibuat)),
 					date('j M Y (H:i:s)', strtotime($bp->tgl_diedit ?? $bp->tgl_dibuat)),

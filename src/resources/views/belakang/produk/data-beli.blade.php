@@ -165,7 +165,7 @@ $(document).ready(function(){
                 });
                 $("#isiTabel-detailBeli").append(
                     "<tr>"+
-                        "<td colspan='5'><b class='float-right'>Total</b></td>"+
+                        "<th colspan='6'><span class='float-right' style='color:#526069'>Total</span></th>"+
                         "<td>Rp "+uangFormat(total)+"</td>"+
                     "</tr>"
                 );
