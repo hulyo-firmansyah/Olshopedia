@@ -8,7 +8,7 @@
     <meta name="description" content="bootstrap admin template">
     <meta name="author" content="">
 
-    <title>Register V3 | Remark Admin Template</title>
+    <title>Olshopedia</title>
 
     <link rel="apple-touch-icon" href="{{ asset('template/assets/images/apple-touch-icon.png') }}">
     <link rel="shortcut icon" href="{{ asset('template/assets/images/favicon.ico') }}">
@@ -65,6 +65,15 @@
                         <img class="brand-img" src="{{ asset('template/assets//images/logo-colored.png') }}" alt="...">
                         <h2 class="brand-text font-size-18">Olshopedia</h2>
                     </div>
+                    @if ($danger = session('error'))
+                    <div role="alert" class="alert alert-danger alert-dismissible">
+                        <button aria-label="Close" data-dismiss="alert" class="close" type="button">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4>Error</h4>
+                        <p>{{ $danger }}</p>
+                    </div>
+                    @endif
                     <form method="post" action="{{ route('b.register') }}">
                         {{ csrf_field() }}
                         <div class="form-group form-material floating{{ $errors->has('name') ? ' has-error' : '' }}"

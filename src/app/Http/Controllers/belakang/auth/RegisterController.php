@@ -81,13 +81,6 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
             'email_token' => Str::random(40),
         ]);
-        // Log::info('mau mengirim email queue');
-        Mail::to($user->email)->send(new EmailVerification($user, route('b.email-verified', ['token' => $user->email_token])));
-        // dispatch(new SendEmail([
-        //     'tujuan' => $user->email,
-        //     'email' => new EmailVerification($user, route('b.email-verified', ['token' => $user->email_token]))
-        // ]));
-        // Log::info('selesai mengirim email queue');
         return $user;
     }
 	
@@ -124,6 +117,23 @@ class RegisterController extends Controller
         // event(new Registered($user = $this->create($request->all())));
 
         // $this->guard()->login($user);
+        try {
+
+            // Log::info('mau mengirim email queue');
+            Mail::to($user->email)->send(new EmailVerification($user, route('b.email-verified', ['token' => $user->email_token])));
+            // dispatch(new SendEmail([
+            //     'tujuan' => $user->email,
+            //     'email' => new EmailVerification($user, route('b.email-verified', ['token' => $user->email_token]))
+            // ]));
+            // Log::info('selesai mengirim email queue');
+            // dd('c');
+
+        } catch(\Exception $e){
+            DB::table('users')
+                ->where('id', $user->id)
+                ->delete();
+            return redirect(route('b.register'))->with('error', $e->getMessage());
+        }
 
         return $this->registered($request, $user)
                     ?: redirect($this->redirectPath())

@@ -88,6 +88,10 @@ dari_ajax_butuh_login
         <div class="page-content vertical-align-middle animation-slide-top animation-duration-1">
             <div class="panel">
                 <div class="panel-body">
+                    <div class="brand">
+                        <img class="brand-img" src="{{ asset('template/assets//images/logo-colored.png') }}" alt="...">
+                        <h2 class="brand-text font-size-18">Olshopedia</h2>
+                    </div>
                     @if ($success = session('success'))
                     <div role="alert" class="alert alert-success alert-dismissible"><button aria-label="Close"
                             data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>
@@ -116,10 +120,6 @@ dari_ajax_butuh_login
                     @if ($token = session('user_token'))
                     <input type="hidden" id="h_tokenEmail" value="{{$token}}">
                     @endif
-                    <div class="brand">
-                        <img class="brand-img" src="{{ asset('template/assets//images/logo-colored.png') }}" alt="...">
-                        <h2 class="brand-text font-size-18">Olshopedia</h2>
-                    </div>
                     <form method="post" action="{{ route('b.login') }}">
                         {{ csrf_field() }}
                         <div class="form-group form-material floating{{ $errors->has('email') ? ' has-error' : '' }}"
