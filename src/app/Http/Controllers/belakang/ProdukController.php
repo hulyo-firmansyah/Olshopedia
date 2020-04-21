@@ -1868,9 +1868,6 @@ EOT
 	}
 
     public function dataBeliProdukPrint(Request $request){
-		if($request->ajax()){
-			return Fungsi::respon('belakang.produk.data-beli-print', [], "ajax", $request);
-		}
 		return Fungsi::respon('belakang.produk.data-beli-print', [], "html", $request);
 	}
 
