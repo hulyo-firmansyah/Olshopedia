@@ -260,6 +260,7 @@ function bersihError(){
         list.forEach(function(html) {
             let jumlah = $(html).find('input').val();
             let id = $(html).attr('id').split('-')[1];
+            let harga = parseInt($(html).children('td:nth-child(7)').data('harga'));
             if(jumlah == ''){
                 $(html).find('small').text('Tidak boleh kosong!');
                 $(html).find('small').show();
@@ -273,7 +274,8 @@ function bersihError(){
             }
             data.push({
                 id_varian: id,
-                jumlah: jumlah
+                jumlah: jumlah,
+                harga_satuan: harga
             });
         });
         var tgl = $('#tgl_beli').val();
