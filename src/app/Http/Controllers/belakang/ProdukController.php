@@ -1680,95 +1680,170 @@ EOT
 	public function beliProsesProduk(Request $request){
 		if($request->ajax()){
 			// return "<pre>".print_r($request->all(), true)."</pre>";
-			$data = $request->data;
-			$nota = strip_tags($request->nota);
-			$tgl = strip_tags($request->tgl);
-			$error = 0;
-			$genData = Fungsi::genArray($data);
-			$dataVarian = [];
-			foreach($genData as $d){
-				if(!isset($d['id_varian'])){
-					$error++;
-					$errorMsg = 'Sepertinya ada yang salah?';
-					$genData->stop();
-				}
-				if(!isset($d['jumlah'])){
-					$error++;
-					$errorMsg = 'Sepertinya ada yang salah?';
-					$genData->stop();
-				}
-				$data_varian = DB::table('t_varian_produk')
-					->where('data_of', Fungsi::dataOfCek())
-					->where('id_varian', $d['id_varian'])
-					->select('stok')
-					->get()->first();
-				if(!isset($data_varian)){
-					$error++;
-					$errorMsg = 'Data Produk Varian tersebut tidak ditemukan!';
-					$genData->stop();
-				} else {
-					$dataVarian[$d['id_varian']] = $data_varian;
-				}
-			}
-			unset($genData);
-			if($error > 0){
-				return Fungsi::respon([
-					'status' => false,
-					'msg' => $errorMsg,
-				], [], "json", $request);
-			} else {
-				$genData = Fungsi::genArray($data);
-				$berhasil = 0;
-				$simpanBeli = DB::table('t_pembelian_produk')->insert([
-					'data_of' => Fungsi::dataOfCek(),
-					'no_nota' => $nota,
-					'tgl_beli' => date("Y-m-d", strtotime($tgl)),
-					'tgl_dibuat' => date("Y-m-d H:i:s"),
-					'data' => json_encode($data),
-					'admin_id' => Auth::user()->id
-				]);
-				if($simpanBeli){
+			switch($request->tipe){
+				case 'tambah':
+					$data = $request->data;
+					$nota = strip_tags($request->nota);
+					$tgl = strip_tags($request->tgl);
+					$error = 0;
+					$genData = Fungsi::genArray($data);
+					$dataVarian = [];
 					foreach($genData as $d){
-						$stok = explode('|', $dataVarian[$d['id_varian']]->stok);
-						$stok_baru = (int)$stok[0] + (int)$d['jumlah'];
-						$stok[0] = $stok_baru;
-						$simpanDataVarian_baru = DB::table('t_varian_produk')
+						if(!isset($d['id_varian'])){
+							$error++;
+							$errorMsg = 'Sepertinya ada yang salah?';
+							$genData->stop();
+						}
+						if(!isset($d['jumlah'])){
+							$error++;
+							$errorMsg = 'Sepertinya ada yang salah?';
+							$genData->stop();
+						}
+						$data_varian = DB::table('t_varian_produk')
 							->where('data_of', Fungsi::dataOfCek())
 							->where('id_varian', $d['id_varian'])
-							->update([
-								'stok' => implode('|', $stok)
-							]);
-						$riwayatStok_varian = DB::table('t_riwayat_stok')->insert([
-							"varian_id" => $d['id_varian'],
-							"tgl" => date("Y-m-d H:i:s"),
-							"ket" => "Pembelian Produk [".$nota."]",
-							"jumlah" => $d['jumlah'],
-							"tipe" => "masuk",
-							"data_of" => Fungsi::dataOfCek()
-						]);
-						if($riwayatStok_varian && $simpanDataVarian_baru && $simpanBeli){
-							$berhasil++;
+							->select('stok')
+							->get()->first();
+						if(!isset($data_varian)){
+							$error++;
+							$errorMsg = 'Data Produk Varian tersebut tidak ditemukan!';
+							$genData->stop();
+						} else {
+							$dataVarian[$d['id_varian']] = $data_varian;
 						}
 					}
-					if($berhasil === count($data) && $error === 0){
-						event(new ProdukDataBerubah(Fungsi::dataOfCek()));
-						Cache::forget('data_beli_produk_lengkap_'.Fungsi::dataOfCek());
+					unset($genData);
+					if($error > 0){
 						return Fungsi::respon([
-							'status' => true,
-							'msg' => 'Berhasil menyimpan data pembelian!'
+							'status' => false,
+							'msg' => $errorMsg,
 						], [], "json", $request);
+					} else {
+						$genData = Fungsi::genArray($data);
+						$berhasil = 0;
+						$simpanBeli = DB::table('t_pembelian_produk')->insert([
+							'data_of' => Fungsi::dataOfCek(),
+							'no_nota' => $nota,
+							'tgl_beli' => date("Y-m-d", strtotime($tgl)),
+							'tgl_dibuat' => date("Y-m-d H:i:s"),
+							'data' => json_encode($data),
+							'admin_id' => Auth::user()->id
+						]);
+						if($simpanBeli){
+							foreach($genData as $d){
+								$stok = explode('|', $dataVarian[$d['id_varian']]->stok);
+								$stok_baru = (int)$stok[0] + (int)$d['jumlah'];
+								$stok[0] = $stok_baru;
+								$simpanDataVarian_baru = DB::table('t_varian_produk')
+									->where('data_of', Fungsi::dataOfCek())
+									->where('id_varian', $d['id_varian'])
+									->update([
+										'stok' => implode('|', $stok)
+									]);
+								$riwayatStok_varian = DB::table('t_riwayat_stok')->insert([
+									"varian_id" => $d['id_varian'],
+									"tgl" => date("Y-m-d H:i:s"),
+									"ket" => "Pembelian Produk [".$nota."]",
+									"jumlah" => $d['jumlah'],
+									"tipe" => "masuk",
+									"data_of" => Fungsi::dataOfCek()
+								]);
+								if($riwayatStok_varian && $simpanDataVarian_baru && $simpanBeli){
+									$berhasil++;
+								}
+							}
+							if($berhasil === count($data) && $error === 0){
+								event(new ProdukDataBerubah(Fungsi::dataOfCek()));
+								Cache::forget('data_beli_produk_lengkap_'.Fungsi::dataOfCek());
+								return Fungsi::respon([
+									'status' => true,
+									'msg' => 'Berhasil menyimpan data pembelian!'
+								], [], "json", $request);
+							} else {
+								return Fungsi::respon([
+									'status' => false,
+									'msg' => 'Gagal menyimpan data pembelian!',
+								], [], "json", $request);
+							}
+						} else {
+							return Fungsi::respon([
+								'status' => false,
+								'msg' => 'Sepertinya anda melakakuan hal yang tidak semestinya?',
+							], [], "json", $request);
+						}
+					}
+					break;
+
+				case 'hapus':
+					if(isset($request->id)){
+						$data_lama = DB::table('t_pembelian_produk')
+							->where('data_of', Fungsi::dataOfCek())
+							->where('id_pembelian_produk', $request->id)
+							->get()->first();
+						if(isset($data_lama)){
+							$data = json_decode($data_lama->data);
+							foreach(Fungsi::genArray($data) as $d){
+								$data_produk = DB::table('t_varian_produk')
+									->where('data_of', Fungsi::dataOfCek())
+									->where('id_varian', $d->id_varian)
+									->select('stok')
+									->get()->first();
+								if(isset($data_produk)){
+									$stok = explode('|', $data_produk->stok);
+									if((int)$stok[0] > 0){
+										$stok_baru = (int)$stok[0] - (int)$d->jumlah;
+										$stok[0] = $stok_baru;
+										$simpanDataVarian_baru = DB::table('t_varian_produk')
+											->where('data_of', Fungsi::dataOfCek())
+											->where('id_varian', $d->id_varian)
+											->update([
+												'stok' => implode('|', $stok)
+											]);
+									}
+								}
+								$data_riwayat = DB::table('t_riwayat_stok')
+									->where('data_of', Fungsi::dataOfCek())
+									->where('varian_id', $d->id_varian)
+									->where('ket', 'Pembelian Produk ['.$data_lama->no_nota.']')
+									->delete();
+							}
+							$hapused = DB::table('t_pembelian_produk')
+								->where('data_of', Fungsi::dataOfCek())
+								->where('id_pembelian_produk', $request->id)
+								->delete();
+							if($hapused){
+								Cache::forget('data_beli_produk_lengkap_'.Fungsi::dataOfCek());
+								Cache::forget('data_beli_produk_setiap_'.$event->dataof);
+								return Fungsi::respon([
+									'status' => true,
+									'msg' => 'Berhasil menghapus data pembelian produk!',
+								], [], "json", $request);
+							} else {
+								return Fungsi::respon([
+									'status' => false,
+									'msg' => 'Gagal menghapus data pembelian produk!',
+								], [], "json", $request);
+							}
+						} else {
+							return Fungsi::respon([
+								'status' => false,
+								'msg' => 'Data pembelian tersebut sudah terhapus!',
+							], [], "json", $request);
+						}
 					} else {
 						return Fungsi::respon([
 							'status' => false,
-							'msg' => 'Gagal menyimpan data pembelian!',
+							'msg' => 'ID tidak ditemukan!',
 						], [], "json", $request);
 					}
-				} else {
+					break;
+
+				default:
 					return Fungsi::respon([
 						'status' => false,
-						'msg' => 'Sepertinya anda melakakuan hal yang tidak semestinya?',
+						'msg' => 'Salah route!',
 					], [], "json", $request);
-				}
+					break;
 			}
 		} else {
 			abort(404);
@@ -1821,7 +1896,8 @@ EOT
 					date('j M Y (H:i:s)', strtotime($bp->tgl_dibuat)),
 					date('j M Y (H:i:s)', strtotime($bp->tgl_diedit ?? $bp->tgl_dibuat)),
 					$nama_admin,
-					'<button type="button" class="btnDetail btn btn-info btn-xs" data-id="'.$bp->id_pembelian_produk.'">Detail</button>'
+					'<button type="button" class="btnDetail btn btn-info btn-xs" data-id="'.$bp->id_pembelian_produk.'">Detail</button> '.
+					'<button type="button" class="btnHapus btn btn-danger btn-xs" data-id="'.$bp->id_pembelian_produk.'">Hapus</button>'
 				];
 			}
 			$hasil['data'] = $data; 

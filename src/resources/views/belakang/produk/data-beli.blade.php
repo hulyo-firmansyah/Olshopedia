@@ -88,7 +88,59 @@ $(document).ready(function(){
         ]
     });
 
-    
+    $("#table_beli_produk").on("click", ".btnHapus", function(){
+        let id = $(this).data('id');
+        swal({
+            title: "Peringatan",
+            text: "Apakah anda yakin ingin menghapusnya?",
+            icon: "warning",
+            buttons: {
+                confirm: {
+                    text: "Iya",
+                    value: true,
+                    closeModal: true
+                },
+                cancel: {
+                    text: "Tidak",
+                    value: false,
+                    visible: true,
+                    closeModal: true,
+                }
+            },
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                var hasil = '';
+                $.ajax({
+                    type: 'post',
+                    url: "{{ route('b.produk-beliProses') }}",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        id: id,
+                        tipe: 'hapus'
+                    },
+                    success: function(data) {
+                        hasil = data;
+                    },
+                    error: function(xhr, b, c) {
+                        console.log({
+                            id: id,
+                            tipe: 'hapus'
+                        });
+                        swal("Error", '' + c, "error");
+                    }
+                }).done(function() {
+                    if (hasil.status) {
+                        swal("Berhasil!", ''+hasil.msg, "success");
+                        tabelData.ajax.reload(null, false);
+                    } else {
+                        swal("Gagal", ''+hasil.msg, "error");
+                    }
+                });
+            }
+        });
+    });
+
     $("#table_beli_produk").on("click", ".btnDetail", function(){
         $("#modDetail").modal("show");
         $("#notaDetail").text($(this).parent().parent().children("td:first").text());

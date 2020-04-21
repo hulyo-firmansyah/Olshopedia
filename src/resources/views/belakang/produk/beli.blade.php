@@ -301,7 +301,8 @@ function bersihError(){
                     _token: "{{ csrf_token() }}",
                     data: data,
                     tgl: tgl,
-                    nota: nota
+                    nota: nota,
+                    tipe: 'tambah'
                 },
                 success: function(data) {
                     hasil = data;
