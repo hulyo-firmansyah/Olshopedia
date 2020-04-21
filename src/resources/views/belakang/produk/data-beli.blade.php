@@ -111,6 +111,7 @@ $(document).ready(function(){
                                     '<th>Foto</th>'+
                                     '<th>SKU</th>'+
                                     '<th>Nama Produk</th>'+
+                                    '<th>Supplier</th>'+
                                     '<th>Harga Beli</th>'+
                                     '<th>Jumlah</th>'+
                                     '<th>Subtotal</th>'+
@@ -129,6 +130,7 @@ $(document).ready(function(){
                         $("#isiTabel-detailBeli").append(
                             "<tr>"+
                                 "<td><img src='"+v.foto+"' width='50' height='50'></td>"+
+                                "<td>[?Terhapus?]</td>"+
                                 "<td>[?Terhapus?]</td>"+
                                 "<td>[?Terhapus?]</td>"+
                                 "<td>Rp "+uangFormat(v.harga_beli)+"</td>"+
@@ -153,6 +155,7 @@ $(document).ready(function(){
                                 "<td><img src='"+v.foto+"' width='50' height='50'></td>"+
                                 "<td>"+v.sku+"</td>"+
                                 "<td>"+nama_prod_tampil+"</td>"+
+                                "<td>"+v.supplier+"</td>"+
                                 "<td>Rp "+uangFormat(v.harga_beli)+"</td>"+
                                 "<td>"+v.jumlah+"</td>"+
                                 "<td>Rp "+uangFormat(subtotal)+"</td>"+
