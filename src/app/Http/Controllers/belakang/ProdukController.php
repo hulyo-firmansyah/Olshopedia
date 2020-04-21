@@ -1724,7 +1724,8 @@ EOT
 					'no_nota' => $nota,
 					'tgl_beli' => date("Y-m-d", strtotime($tgl)),
 					'tgl_dibuat' => date("Y-m-d H:i:s"),
-					'data' => json_encode($data)
+					'data' => json_encode($data),
+					'admin_id' => Auth::user()->id
 				]);
 				if($simpanBeli){
 					foreach($genData as $d){
@@ -1751,6 +1752,7 @@ EOT
 					}
 					if($berhasil === count($data) && $error === 0){
 						event(new ProdukDataBerubah(Fungsi::dataOfCek()));
+						Cache::forget('data_beli_produk_lengkap_'.Fungsi::dataOfCek());
 						return Fungsi::respon([
 							'status' => true,
 							'msg' => 'Berhasil menyimpan data pembelian!'
@@ -1785,6 +1787,47 @@ EOT
 			return Fungsi::respon('belakang.produk.data-beli-print', [], "ajax", $request);
 		}
 		return Fungsi::respon('belakang.produk.data-beli-print', [], "html", $request);
+	}
+
+	public function getProdukBeli(Request $request){
+		if($request->ajax()){
+			$beli_produk = Cache::remember('data_beli_produk_lengkap_'.Fungsi::dataOfCek(), 15000, function(){
+				return DB::table('t_pembelian_produk')
+					->where('data_of', Fungsi::dataOfCek())
+					->get();
+			});
+			$i = 0;
+			// dd($beli_produk);
+			foreach(Fungsi::genArray($beli_produk) as $bp){
+				$data_s = json_decode($bp->data);
+				$total = 0;
+				foreach(Fungsi::genArray($data_s) as $d){
+					$total += (int)$d->harga_satuan;
+				}
+				$admin = DB::table('users')
+					->where('id', $bp->admin_id)
+					->select('name')
+					->get()->first();
+				if(isset($admin)){
+					$nama_admin = $admin->name;
+				} else {
+					$nama_admin = '[?Terhapus?]';
+				}
+				$data[$i++] = [
+					$bp->no_nota,
+					date('j M Y', strtotime($bp->tgl_beli)),
+					Fungsi::formatUang($total),
+					date('j M Y (H:i:s)', strtotime($bp->tgl_dibuat)),
+					date('j M Y (H:i:s)', strtotime($bp->tgl_diedit ?? $bp->tgl_dibuat)),
+					$nama_admin,
+					''
+				];
+			}
+			$hasil['data'] = $data; 
+			return Fungsi::respon($hasil, [], "json", $request);
+		} else {
+			abort(404);
+		}
 	}
 	
 }

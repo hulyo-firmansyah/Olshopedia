@@ -25,29 +25,30 @@
     </div>
 </div>
 <div class="page-content">
-    <div class='container'>
-        <div class='row'>
-            <div class='col-xxl-6'>
-            </div>
-            <div class='col-xxl-6'>
-                <div class='panel p-15 animation-slide-top selectBug' style='animation-delay:300ms'>
-                    <div class='d-flex'>
-                        <select id='f_tipe' class='mr-10'>
-                            <option value='nama_supplier'>Nama Supplier</option>
-                            <option value='no_nota' >Nomer Nota</option>
-                            <option value='tgl_beli' >Tanggal Pembelian</option>
-                        </select>
-                        <input type="text" class="form-control mr-10" style='border-color:#3e8ef7' value='' id='f_cari' placeholder='Cari berdasarkan Nama Supplier' autocomplete='off'>
-                        <button type="button" class="btn btn-icon btn-primary" id='btnFilter'><i class="icon fa-filter" aria-hidden="true"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class='row'>
-            <div class='col-xxl-12'>
-                <div class='panel'>
-                    <div class='panel-body'>
-                        
+    <div class='row'>
+        <div class='col-lg-12'>
+            <div class="panel animation-slide-bottom">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table" id="table_beli_produk">
+                                    <thead>
+                                        <tr>
+                                            <th>No Nota</th>
+                                            <th>Tanggal Beli</th>
+                                            <th>Total Beli</th>
+                                            <th>Tanggal Dibuat</th>
+                                            <th>Tanggal Diedit</th>
+                                            <th>Admin</th>
+                                            <th width='10%'><span class="site-menu-icon md-settings"></span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id='isiTabel'>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -55,12 +56,23 @@
     </div>
 </div>
 <script>
-    $(document).ready(function(){
-        
-        $('#f_tipe').selectpicker({
-            style: 'btn-primary'
-        });
+var tabelData;
+
+$(document).ready(function(){
+    tabelData = $('#table_beli_produk').DataTable({
+        ajax: {
+            type: 'get',
+            url: "{{ route('b.produk-getDataBeli') }}",
+        },
+        order: [[2, "asc"]],
+        dom: '<"row"<".col-md-4 .col-xs-12"l><"#tombol.col-md-4 .col-xs-12"><".col-md-4 .col-xs-12"f>>t<"row"<".col-md-6 .col-xs-12"i><".col-md-6 .col-xs-12"p>>',
+        lengthMenu: [
+            [5, 10, 25, 50, -1],
+            [5, 10, 25, 50, "All"]
+        ]
     });
+
+});
 </script>
 <!--uiop-->
 @endsection

@@ -112,6 +112,7 @@
         Route::get('/tambahModalFoto', 'belakang\ProdukController@tambahModalFoto')->name("b.produk-tambahModalFoto");
         Route::get('/{id_produk?}/detail', 'belakang\ProdukController@detailIndex')->name("b.produk-detail");
         Route::get('/getData', 'belakang\ProdukController@getProduk')->name("b.produk-getData");
+        Route::get('/getDataBeli', 'belakang\ProdukController@getProdukBeli')->name("b.produk-getDataBeli");
         Route::get('/getProdukData', 'belakang\ProdukController@getProdukData')->name("b.produk-getProdukData");
         Route::get('/getRiwayatStokData', 'belakang\ProdukController@getRiwayatStok')->name("b.produk-getRiwayatStok");
         Route::get('/riwayat-stok/{id_varian?}', 'belakang\ProdukController@riwayatStokIndex')->name("b.produk-riwayatStok");
