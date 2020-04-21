@@ -1684,6 +1684,16 @@ EOT
 				case 'tambah':
 					$data = $request->data;
 					$nota = strip_tags($request->nota);
+					$data_lama = DB::table('t_pembelian_produk')
+						->where('data_of', Fungsi::dataOfCek())
+						->where('no_nota', $nota)
+						->get()->first();
+					if(isset($data_lama)){
+						return Fungsi::respon([
+							'status' => false,
+							'msg' => 'Nomer Nota sudah ada!',
+						], [], "json", $request);
+					}
 					$tgl = strip_tags($request->tgl);
 					$error = 0;
 					$genData = Fungsi::genArray($data);
