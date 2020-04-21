@@ -1870,14 +1870,71 @@ EOT
 			->where('data_of', Fungsi::dataOfCek())
 			->where('id_pembelian_produk', $id)
 			->get()->first();
+		// dd($data_beli);
 		if(isset($data_beli)){
-			$data = $data_beli;
+			$data = [];
+			foreach(Fungsi::genArray(json_decode($data_beli->data)) as $db){
+				// dd($db);
+				$getData = DB::table('t_varian_produk')
+					->join('t_produk', 't_produk.id_produk', '=', 't_varian_produk.produk_id')
+					->select('t_varian_produk.ukuran', 't_varian_produk.warna', 't_varian_produk.sku', 't_varian_produk.harga_beli',
+						 't_produk.nama_produk', 't_varian_produk.id_varian', 't_produk.supplier_id')
+					->where('t_varian_produk.data_of', Fungsi::dataOfCek())
+					->get()->first();
+				$hasil = new stdClass();
+				$hasil->id_varian = $db->id_varian;
+				$hasil->jumlah = (int)$db->jumlah;
+				$hasil->harga_beli = (int)$db->harga_satuan;
+				if(isset($getData)){
+					$hasil->nama_produk = $getData->nama_produk;
+					if(($getData->ukuran != null && $getData->ukuran != "") && ($getData->warna != null && $getData->warna != "")){
+						$hasil->nama_produk .= " (".$getData->ukuran." "+$getData->warna.") ";
+					} else if(($getData->ukuran != null && $getData->ukuran != "") && ($getData->warna == null || $getData->warna == "")){
+						$hasil->nama_produk .= " (".$getData->ukuran.") ";
+					} else if(($getData->ukuran == null || $getData->ukuran == "") && ($getData->warna != null && $getData->warna != "")){
+						$hasil->nama_produk .= " (".$getData->warna.") ";
+					}
+					if($getData->supplier_id === 0){
+						$hasil->supplier = 'Stok Sendiri';
+					} else {
+						$supplier = DB::table('t_supplier')
+							->where('data_of', Fungsi::dataOfCek())
+							->where('id_supplier', $getData->supplier_id)
+							->select('nama_supplier')
+							->get()->first();
+						if(isset($supplier)){
+							$hasil->supplier = ucwords(strtolower($supplier->nama_supplier));
+						} else {
+							$hasil->supplier = '[?Terhapus?]';
+						}
+					}
+					
+				} else {
+					$hasil->nama_produk = '[?Terhapus?]';
+					$hasil->supplier = '[?Terhapus?]';
+				}
+				$data[] = $hasil;
+			}
 		} else {
 			return redirect(route('b.produk-dataBeli'))->with([
 				'msg_error' => 'ID Pembelian Produk '.$id.' tidak ditemukan!'
 			]);
 		}
-		return Fungsi::respon('belakang.produk.data-beli-print', compact('data'), "html", $request);
+		$toko = DB::table('t_store')
+			->where('data_of', Fungsi::dataOfCek())
+			->select('nama_toko', 'deskripsi_toko', 'no_telp_toko', 'alamat_toko')
+			->get()->first();
+		$admin = DB::table('users')
+			->where('id', $data_beli->admin_id)
+			->select('name')
+			->get()->first();
+		if(isset($admin)){
+			$nama_admin = $admin->name;
+		} else {
+			$nama_admin = '[?Terhapus?]';
+		}
+		// dd($data_beli, $toko, $nama_admin, $data);
+		return Fungsi::respon('belakang.produk.data-beli-print', compact('data_beli', 'toko', 'nama_admin', 'data'), "html", $request);
 	}
 
 	public function getProdukBeli(Request $request){
@@ -1995,7 +2052,7 @@ EOT
 					$hasil[$i_d]->supplier = 'Stok Sendiri';
 				} else {
 					$supplier = DB::table('t_supplier')
-						->where('data_of', FUngsi::dataOfCek())
+						->where('data_of', Fungsi::dataOfCek())
 						->where('id_supplier', $data[$index]->supplier_id)
 						->select('nama_supplier')
 						->get()->first();
