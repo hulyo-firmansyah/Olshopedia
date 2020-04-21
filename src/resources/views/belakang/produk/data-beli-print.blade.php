@@ -52,11 +52,11 @@
 <body>
     <div id='non-printable'>
         <a href='{{ route("b.produk-dataBeli") }}' class='btn btn-dark'><i class='fa fa-arrow-left'></i> Kembali ke Data Pembelian Produk</a> 
+        <button class='btn btn-dark' onClick='window.print()'><i class='fa fa-print'></i> Print</button> 
     </div>
     <div id='printable'>
         asasd
     </div>
-    
     <script src="{{ asset('template/global/vendor/bootstrap/bootstrap.js') }}"></script>
 </body>
 </html>

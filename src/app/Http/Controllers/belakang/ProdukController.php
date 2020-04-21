@@ -1731,7 +1731,7 @@ EOT
 					} else {
 						$genData = Fungsi::genArray($data);
 						$berhasil = 0;
-						$simpanBeli = DB::table('t_pembelian_produk')->insert([
+						$simpanBeli = DB::table('t_pembelian_produk')->insertGetId([
 							'data_of' => Fungsi::dataOfCek(),
 							'no_nota' => $nota,
 							'tgl_beli' => date("Y-m-d", strtotime($tgl)),
@@ -1739,46 +1739,40 @@ EOT
 							'data' => json_encode($data),
 							'admin_id' => Auth::user()->id
 						]);
-						if($simpanBeli){
-							foreach($genData as $d){
-								$stok = explode('|', $dataVarian[$d['id_varian']]->stok);
-								$stok_baru = (int)$stok[0] + (int)$d['jumlah'];
-								$stok[0] = $stok_baru;
-								$simpanDataVarian_baru = DB::table('t_varian_produk')
-									->where('data_of', Fungsi::dataOfCek())
-									->where('id_varian', $d['id_varian'])
-									->update([
-										'stok' => implode('|', $stok)
-									]);
-								$riwayatStok_varian = DB::table('t_riwayat_stok')->insert([
-									"varian_id" => $d['id_varian'],
-									"tgl" => date("Y-m-d H:i:s"),
-									"ket" => "Pembelian Produk [".$nota."]",
-									"jumlah" => $d['jumlah'],
-									"tipe" => "masuk",
-									"data_of" => Fungsi::dataOfCek()
+						foreach($genData as $d){
+							$stok = explode('|', $dataVarian[$d['id_varian']]->stok);
+							$stok_baru = (int)$stok[0] + (int)$d['jumlah'];
+							$stok[0] = $stok_baru;
+							$simpanDataVarian_baru = DB::table('t_varian_produk')
+								->where('data_of', Fungsi::dataOfCek())
+								->where('id_varian', $d['id_varian'])
+								->update([
+									'stok' => implode('|', $stok)
 								]);
-								if($riwayatStok_varian && $simpanDataVarian_baru && $simpanBeli){
-									$berhasil++;
-								}
+							$riwayatStok_varian = DB::table('t_riwayat_stok')->insert([
+								"varian_id" => $d['id_varian'],
+								"tgl" => date("Y-m-d H:i:s"),
+								"ket" => "Pembelian Produk [".$nota."]",
+								"jumlah" => $d['jumlah'],
+								"tipe" => "masuk",
+								"data_of" => Fungsi::dataOfCek()
+							]);
+							if($riwayatStok_varian && $simpanDataVarian_baru && $simpanBeli){
+								$berhasil++;
 							}
-							if($berhasil === count($data) && $error === 0){
-								event(new ProdukDataBerubah(Fungsi::dataOfCek()));
-								Cache::forget('data_beli_produk_lengkap_'.Fungsi::dataOfCek());
-								return Fungsi::respon([
-									'status' => true,
-									'msg' => 'Berhasil menyimpan data pembelian!'
-								], [], "json", $request);
-							} else {
-								return Fungsi::respon([
-									'status' => false,
-									'msg' => 'Gagal menyimpan data pembelian!',
-								], [], "json", $request);
-							}
+						}
+						if($berhasil === count($data) && $error === 0){
+							event(new ProdukDataBerubah(Fungsi::dataOfCek()));
+							Cache::forget('data_beli_produk_lengkap_'.Fungsi::dataOfCek());
+							return Fungsi::respon([
+								'status' => true,
+								'msg' => 'Berhasil menyimpan data pembelian!',
+								'id' => $simpanBeli
+							], [], "json", $request);
 						} else {
 							return Fungsi::respon([
 								'status' => false,
-								'msg' => 'Sepertinya anda melakakuan hal yang tidak semestinya?',
+								'msg' => 'Gagal menyimpan data pembelian!',
 							], [], "json", $request);
 						}
 					}
@@ -1867,8 +1861,23 @@ EOT
 		return Fungsi::respon('belakang.produk.data-beli', [], "html", $request);
 	}
 
-    public function dataBeliProdukPrint(Request $request){
-		return Fungsi::respon('belakang.produk.data-beli-print', [], "html", $request);
+    public function dataBeliProdukPrint(Request $request, $target = null){
+		if(is_null($target) || preg_match("/[^0-9\-]/", $target)){
+            return redirect()->route('b.produk-dataBeli');
+		}
+		$id = strip_tags($target);
+		$data_beli = DB::table('t_pembelian_produk')
+			->where('data_of', Fungsi::dataOfCek())
+			->where('id_pembelian_produk', $id)
+			->get()->first();
+		if(isset($data_beli)){
+			$data = $data_beli;
+		} else {
+			return redirect(route('b.produk-dataBeli'))->with([
+				'msg_error' => 'ID Pembelian Produk '.$id.' tidak ditemukan!'
+			]);
+		}
+		return Fungsi::respon('belakang.produk.data-beli-print', compact('data'), "html", $request);
 	}
 
 	public function getProdukBeli(Request $request){

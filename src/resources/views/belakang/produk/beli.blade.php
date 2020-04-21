@@ -334,7 +334,7 @@ function bersihError(){
                             dangerMode: false
                         }).then((will) => {
                             if (will) {
-                                alert('asd');
+                                $(location).attr('href', '{{ route("b.produk-dataBeli_print") }}/'+hasil.id);
                             } else {
                                 // alert(location.href);
                                 // pageLoad('{{ route("b.produk-beli") }}');
