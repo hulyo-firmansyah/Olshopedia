@@ -1838,62 +1838,67 @@ EOT
 					->where('id_pembelian_produk', $request->id)
 					->get()->first();
 				if(isset($beliData)){
-					$objGet = DB::table('t_varian_produk')
-						->join('t_produk', 't_produk.id_produk', '=', 't_varian_produk.produk_id')
-						->select('t_varian_produk.ukuran', 't_varian_produk.warna', 't_varian_produk.sku', 't_varian_produk.harga_beli',
-							 't_varian_produk.foto_id', 't_produk.nama_produk', 't_varian_produk.id_varian', 't_produk.supplier_id')
-						->where('t_varian_produk.data_of', Fungsi::dataOfCek());
-					$data_b = json_decode($beliData->data);
-					foreach(Fungsi::genArray($data_b) as $i_b => $b){
-						if($i_b == 0){
-							$objGet->where('t_varian_produk.id_varian', $b->id_varian);
-						} else {
-							$objGet->orWhere('t_varian_produk.id_varian', $b->id_varian);
-						}
-					}
-					$objGet->orWhere('t_varian_produk.id_varian', 8);
-					$data = $objGet->get()->toArray();
-					// dd($data, $data_b);
-					$hasil = [];
-					foreach(Fungsi::genArray($data_b) as $i_d => $d){
-						$index = array_search($d->id_varian, array_column($data, 'id_varian'));
-						$hasil[$i_d] = new stdClass();
-						$hasil[$i_d]->id_varian = $d->id_varian;
-						$hasil[$i_d]->jumlah = (int)$d->jumlah;
-						$hasil[$i_d]->harga_beli = (int)$d->harga_satuan;
-						if($index === false){
-							$hasil[$i_d]->terhapus = true;
-						} else {
-							$hasil[$i_d]->terhapus = false;
-							$hasil[$i_d]->sku = $data[$index]->sku;
-							$hasil[$i_d]->ukuran = $data[$index]->ukuran;
-							$hasil[$i_d]->warna = $data[$index]->warna;
-							if($data[$index]->supplier_id === 0){
-								$hasil[$i_d]->supplier = 'Stok Sendiri';
+					$hasil = Cache::remember('data_beli_produk_'.$request->id.'_'.Fungsi::dataOfCek(), 30000, function() use($beliData){
+						$objGet = DB::table('t_varian_produk')
+							->join('t_produk', 't_produk.id_produk', '=', 't_varian_produk.produk_id')
+							->select('t_varian_produk.ukuran', 't_varian_produk.warna', 't_varian_produk.sku', 't_varian_produk.harga_beli',
+								 't_varian_produk.foto_id', 't_produk.nama_produk', 't_varian_produk.id_varian', 't_produk.supplier_id')
+							->where('t_varian_produk.data_of', Fungsi::dataOfCek());
+						$data_b = json_decode($beliData->data);
+						foreach(Fungsi::genArray($data_b) as $i_b => $b){
+							if($i_b == 0){
+								$objGet->where('t_varian_produk.id_varian', $b->id_varian);
 							} else {
-								$hasil[$i_d]->supplier = 'dasd';
+								$objGet->orWhere('t_varian_produk.id_varian', $b->id_varian);
 							}
-							if(!is_null($data[$index]->foto_id)){
-								$fotoSrc = json_decode($data[$index]->foto_id);
-								if(!is_null($fotoSrc->utama)){
-									if(is_numeric($fotoSrc->utama)){
-										$fotoUtama = DB::table('t_foto')->where('id_foto', $fotoSrc->utama)->where('data_of', Fungsi::dataOfCek())->get()->first();
-										$hasil[$i_d]->foto = asset($fotoUtama->path);
-										unset($fotoUtama);
-									} else if(filter_var($fotoSrc->utama, FILTER_VALIDATE_URL)){
-										$hasil[$i_d]->foto = $fotoSrc->utama;
+						}
+						$objGet->orWhere('t_varian_produk.id_varian', 8);
+						$data = $objGet->get()->toArray();
+						// dd($data, $data_b);
+						$hasil = [];
+						foreach(Fungsi::genArray($data_b) as $i_d => $d){
+							$index = array_search($d->id_varian, array_column($data, 'id_varian'));
+							$hasil[$i_d] = new stdClass();
+							$hasil[$i_d]->id_varian = $d->id_varian;
+							$hasil[$i_d]->jumlah = (int)$d->jumlah;
+							$hasil[$i_d]->harga_beli = (int)$d->harga_satuan;
+							$hasil[$i_d]->foto = asset("photo.png");
+							if($index === false){
+								$hasil[$i_d]->terhapus = true;
+							} else {
+								$hasil[$i_d]->terhapus = false;
+								$hasil[$i_d]->sku = $data[$index]->sku;
+								$hasil[$i_d]->ukuran = $data[$index]->ukuran;
+								$hasil[$i_d]->warna = $data[$index]->warna;
+								$hasil[$i_d]->nama_produk = ucwords(strtolower($data[$index]->nama_produk));
+								if($data[$index]->supplier_id === 0){
+									$hasil[$i_d]->supplier = 'Stok Sendiri';
+								} else {
+									$hasil[$i_d]->supplier = 'dasd';
+								}
+								if(!is_null($data[$index]->foto_id)){
+									$fotoSrc = json_decode($data[$index]->foto_id);
+									if(!is_null($fotoSrc->utama)){
+										if(is_numeric($fotoSrc->utama)){
+											$fotoUtama = DB::table('t_foto')->where('id_foto', $fotoSrc->utama)->where('data_of', Fungsi::dataOfCek())->get()->first();
+											$hasil[$i_d]->foto = asset($fotoUtama->path);
+											unset($fotoUtama);
+										} else if(filter_var($fotoSrc->utama, FILTER_VALIDATE_URL)){
+											$hasil[$i_d]->foto = $fotoSrc->utama;
+										} else {
+											$hasil[$i_d]->foto = asset("photo.png");
+										}
 									} else {
 										$hasil[$i_d]->foto = asset("photo.png");
 									}
 								} else {
 									$hasil[$i_d]->foto = asset("photo.png");
 								}
-							} else {
-								$hasil[$i_d]->foto = asset("photo.png");
+	
 							}
-
 						}
-					}
+						return $hasil;
+					});
 					return Fungsi::respon($hasil, [], "json", $request);
 				} else {
 					return response()->json('kosong');

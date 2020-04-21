@@ -58,6 +58,22 @@
 <script>
 var tabelData;
 
+function uangFormat(number) {
+    var sp = number.toString().split("").reverse();
+    var yt = 0;
+    var te = "";
+    $.each(sp, function(i, v) {
+        if (yt === 3) {
+            te += ".";
+            yt = 0;
+        }
+        te += v;
+        yt++;
+    });
+    var hasil = te.split("").reverse().join("");
+    return hasil;
+}
+
 $(document).ready(function(){
     tabelData = $('#table_beli_produk').DataTable({
         ajax: {
@@ -72,7 +88,107 @@ $(document).ready(function(){
         ]
     });
 
+    
+    $("#table_beli_produk").on("click", ".btnDetail", function(){
+        $("#modDetail").modal("show");
+        $("#notaDetail").text($(this).parent().parent().children("td:first").text());
+        $.ajax({
+            url: "{{ route('b.produk-getProdukBeliData') }}",
+            method: "get",
+            data: {
+                id: $(this).attr("data-id")
+            },
+            beforeSend:function(){
+                $("#modDetail").find(".modal-body").html('<center><div class="loader vertical-align-middle loader-cube-grid"></div></center>');
+            },
+            success: function(data){
+                // console.log(data);
+                $("#modDetail").find(".modal-body").html(
+                    '<div class="table-responsive">'+
+                        '<table class="table" id="table_detailBeli">'+
+                            '<thead>'+
+                                '<tr>'+
+                                    '<th>Foto</th>'+
+                                    '<th>SKU</th>'+
+                                    '<th>Nama Produk</th>'+
+                                    '<th>Harga Beli</th>'+
+                                    '<th>Jumlah</th>'+
+                                    '<th>Subtotal</th>'+
+                                '</tr>'+
+                            '</thead>'+
+                            '<tbody id="isiTabel-detailBeli">'+
+                            '</tbody>'+
+                        '</table>'+
+                    '</div>'
+                );
+                var total = 0;
+                $.each(data, function(i, v){
+                    if(v.terhapus){
+                        $("#isiTabel-detailBeli").append(
+                            "<tr>"+
+                                "<td><img src='"+v.foto+"' width='50' height='50'></td>"+
+                                "<td>[?Terhapus?]</td>"+
+                                "<td>[?Terhapus?]</td>"+
+                                "<td>Rp "+uangFormat(v.harga_beli)+"</td>"+
+                                "<td>"+v.jumlah+"</td>"+
+                                "<td>Rp "+uangFormat(subtotal)+"</td>"+
+                            "</tr>"
+                        );
+                    } else {
+                        let dataProd = v;
+                        var nama_prod_tampil = dataProd.nama_produk;
+                        if((dataProd.ukuran != null && dataProd.ukuran != "") && (dataProd.warna != null && dataProd.warna != "")){
+                            nama_prod_tampil += " ("+dataProd.ukuran+" "+dataProd.warna+") ";
+                        } else if((dataProd.ukuran != null && dataProd.ukuran != "") && (dataProd.warna == null || dataProd.warna == "")){
+                            nama_prod_tampil += " ("+dataProd.ukuran+") ";
+                        } else if((dataProd.ukuran == null || dataProd.ukuran == "") && (dataProd.warna != null && dataProd.warna != "")){
+                            nama_prod_tampil += " ("+dataProd.warna+") ";
+                        }
+                        let subtotal = v.jumlah * v.harga_beli;
+                        total += subtotal;
+                        $("#isiTabel-detailBeli").append(
+                            "<tr>"+
+                                "<td><img src='"+v.foto+"' width='50' height='50'></td>"+
+                                "<td>"+v.sku+"</td>"+
+                                "<td>"+nama_prod_tampil+"</td>"+
+                                "<td>Rp "+uangFormat(v.harga_beli)+"</td>"+
+                                "<td>"+v.jumlah+"</td>"+
+                                "<td>Rp "+uangFormat(subtotal)+"</td>"+
+                            "</tr>"
+                        );
+                    }
+                });
+                $("#isiTabel-detailBeli").append(
+                    "<tr>"+
+                        "<td colspan='5'><b class='float-right'>Total</b></td>"+
+                        "<td>Rp "+uangFormat(total)+"</td>"+
+                    "</tr>"
+                );
+            },
+            error: function(data){
+                console.log(data);
+                // alert("asdasdasd");
+            }
+        });
+    });
+
 });
 </script>
+<!-- modal stok -->
+<div class="modal fade" id="modDetail" aria-hidden="true" aria-labelledby="exampleModalTitle"
+    role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-simple modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="exampleModalTabs">Detail Pembelian Produk (<span id='notaDetail'></span>)</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
 <!--uiop-->
 @endsection
