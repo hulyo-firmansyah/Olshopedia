@@ -1907,6 +1907,7 @@ EOT
 					date('j M Y (H:i:s)', strtotime($bp->tgl_diedit ?? $bp->tgl_dibuat)),
 					$nama_admin,
 					'<button type="button" class="btnDetail btn btn-info btn-xs" data-id="'.$bp->id_pembelian_produk.'">Detail</button> '.
+					'<button type="button" class="btnEdit btn btn-warning btn-xs" data-id="'.$bp->id_pembelian_produk.'">Edit</button> '.
 					'<button type="button" class="btnHapus btn btn-danger btn-xs" data-id="'.$bp->id_pembelian_produk.'">Hapus</button>'
 				];
 			}
