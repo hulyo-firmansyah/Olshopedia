@@ -1798,6 +1798,7 @@ EOT
 			});
 			$i = 0;
 			// dd($beli_produk);
+			$data = [];
 			foreach(Fungsi::genArray($beli_produk) as $bp){
 				$data_s = json_decode($bp->data);
 				$total = 0;
@@ -1900,7 +1901,16 @@ EOT
 				if($data[$index]->supplier_id === 0){
 					$hasil[$i_d]->supplier = 'Stok Sendiri';
 				} else {
-					$hasil[$i_d]->supplier = 'dasd';
+					$supplier = DB::table('t_supplier')
+						->where('data_of', FUngsi::dataOfCek())
+						->where('id_supplier', $data[$index]->supplier_id)
+						->select('nama_supplier')
+						->get()->first();
+					if(isset($supplier)){
+						$hasil[$i_d]->supplier = ucwords(strtolower($supplier->nama_supplier));
+					} else {
+						$hasil[$i_d]->supplier = '[?Terhapus?]';
+					}
 				}
 				if(!is_null($data[$index]->foto_id)){
 					$fotoSrc = json_decode($data[$index]->foto_id);
