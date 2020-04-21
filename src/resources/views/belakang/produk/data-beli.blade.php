@@ -124,6 +124,8 @@ $(document).ready(function(){
                 var total = 0;
                 $.each(data, function(i, v){
                     if(v.terhapus){
+                        let subtotal = v.jumlah * v.harga_beli;
+                        total += subtotal;
                         $("#isiTabel-detailBeli").append(
                             "<tr>"+
                                 "<td><img src='"+v.foto+"' width='50' height='50'></td>"+
