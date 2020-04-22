@@ -2274,7 +2274,7 @@ CUT;
 		$data["kirim"] = strip_tags($request->f_kirim);
 		$data["via"] = strip_tags($request->f_via);
 		$data["kurir"] = strip_tags($request->f_kurir); 
-		// $data["print"] = strip_tags($request->f_print); nunggu fitur print
+		$data["print"] = strip_tags($request->f_print); 
 		$data["tglTipe"] = strip_tags($request->f_tglTipe);
 		$data["tglDari"] = strip_tags($request->f_tglDari);
 		$data["tglSampai"] = strip_tags($request->f_tglSampai);
@@ -2284,7 +2284,7 @@ CUT;
 		$excel_tgl['csv'] = route('b.excel-export-order', ['format' => 'csv'])."?dari=".$data["tglDari"]."&sampai=".$data["tglSampai"];
 		$order_temp = $array_id = [];
 		$order_temp["raw"] = DB::table('t_order')->where("data_of", Fungsi::dataOfCek())->where("canceled", 0)->get();
-		$order_temp["1_admin"] = $order_temp["2_bayar"] = $order_temp["3_kirim"] = $order_temp["4_via"] = $order_temp["5_kurir"] = $order_temp["6_tgl"] = $order_temp["0_order_source"] = [];
+		$order_temp["1_admin"] = $order_temp["2_bayar"] = $order_temp["3_kirim"] = $order_temp["4_via"] = $order_temp["5_kurir"] = $order_temp["6_tgl"] = $order_temp["0_order_source"] = $order_temp["7_print"] = [];
 
 		//cek order source
 		$cekOrderSource = DB::table('t_store')
@@ -2295,10 +2295,10 @@ CUT;
 			foreach($this->genArray($order_temp["raw"]) as $iO => $vO){
 				if($data["orderSource"] != "0"){
 					if($vO->order_source_id == $data["orderSource"]) {
-						array_push($order_temp["0_order_source"], $vO);
+						$order_temp["0_order_source"][] = $vO;
 					} 
 				} else {
-					array_push($order_temp["0_order_source"], $vO);
+					$order_temp["0_order_source"][] = $vO;
 				}
 			}
 			unset($order_temp["raw"]);
@@ -2308,12 +2308,12 @@ CUT;
 		foreach($this->genArray($order_temp["0_order_source"]) as $iO => $vO){
 			if($data["admin"] != "0"){
 				if(is_numeric($data["admin"])){
-					if($vO->admin_id == $data["admin"]) array_push($order_temp["1_admin"], $vO);
+					if($vO->admin_id == $data["admin"]) $order_temp["1_admin"][] = $vO;
 				} else {
-					if($vO->admin_id == 0) array_push($order_temp["1_admin"], $vO);
+					if($vO->admin_id == 0) $order_temp["1_admin"][] = $vO;
 				}
 			} else {
-				array_push($order_temp["1_admin"], $vO);
+				$order_temp["1_admin"][] = $vO;
 			}
 		}
 		unset($order_temp["0_order_source"]);
@@ -2325,26 +2325,26 @@ CUT;
 					case "belum":
 						$bayar_tmp = json_decode($vC->pembayaran)->status;
 						if($bayar_tmp == "belum"){
-							array_push($order_temp["2_bayar"], $vC);
+							$order_temp["2_bayar"][] = $vC;
 						}
 						break;
 
 					case "cicil":
 						$bayar_tmp = json_decode($vC->pembayaran)->status;
 						if($bayar_tmp == "cicil"){
-							array_push($order_temp["2_bayar"], $vC);
+							$order_temp["2_bayar"][] = $vC;
 						}
 						break;
 
 					case "lunas":
 						$bayar_tmp = json_decode($vC->pembayaran)->status;
 						if($bayar_tmp == "lunas"){
-							array_push($order_temp["2_bayar"], $vC);
+							$order_temp["2_bayar"][] = $vC;
 						}
 						break;
 				}
 			} else {
-				array_push($order_temp["2_bayar"], $vC);
+				$order_temp["2_bayar"][] = $vC;
 			}
 		}
 		unset($order_temp["1_admin"]);
@@ -2355,30 +2355,30 @@ CUT;
 				switch($data["kirim"]){
 					case "belum_proses":
 						if($vB->state == "bayar"){
-							array_push($order_temp["3_kirim"], $vB);
+							$order_temp["3_kirim"][] = $vB;
 						}
 						break;
 
 					case "belum_resi":
 						if($vB->state == "proses"){
-							array_push($order_temp["3_kirim"], $vB);
+							$order_temp["3_kirim"][] = $vB;
 						}
 						break;
 
 					case "dalam_kirim":
 						if($vB->state == "kirim"){
-							array_push($order_temp["3_kirim"], $vB);
+							$order_temp["3_kirim"][] = $vB;
 						}
 						break;
 
 					case "sudah_tujuan":
 						if($vB->state == "terima"){
-							array_push($order_temp["3_kirim"], $vB);
+							$order_temp["3_kirim"][] = $vB;
 						}
 						break;
 				}
 			} else {
-				array_push($order_temp["3_kirim"], $vB);
+				$order_temp["3_kirim"][] = $vB;
 			}
 		}
 		unset($order_temp["2_bayar"]);
@@ -2393,14 +2393,14 @@ CUT;
 					if(count($tmp_data) > 0){
 						foreach($this->genArray($tmp_data) as $iTmp => $vTmp){
 							if($vTmp->via == "CASH"){
-								array_push($order_temp["4_via"], $vK);
+								$order_temp["4_via"][] = $vK;
 								break;
 							}
 						}
 					}
 				}
 			} else {
-				array_push($order_temp["4_via"], $vK);
+				$order_temp["4_via"][] = $vK;
 			}
 		}
 		unset($order_temp["3_kirim"]);
@@ -2411,23 +2411,23 @@ CUT;
 				if($data["kurir"] == "input"){
 					$tmp_kurir = json_decode($vV->kurir)->tipe;
 					if($tmp_kurir == "kurir"){
-						array_push($order_temp["5_kurir"], $vV);
+						$order_temp["5_kurir"][] = $vV;
 					}
 				} else if($data["kurir"] == "toko"){
 					$tmp_kurir = json_decode($vV->kurir)->tipe;
 					if($tmp_kurir == "toko"){
-						array_push($order_temp["5_kurir"], $vV);
+						$order_temp["5_kurir"][] = $vV;
 					}
 				} else {
 					$tmp_kurir = json_decode($vV->kurir);
 					if($tmp_kurir->tipe == "expedisi"){
 						if($data["kurir"] == explode("|", $tmp_kurir->data)[0]){
-							array_push($order_temp["5_kurir"], $vV);
+							$order_temp["5_kurir"][] = $vV;
 						}
 					}
 				}
 			} else {
-				array_push($order_temp["5_kurir"], $vV);
+				$order_temp["5_kurir"][] = $vV;
 			}
 		}
 		unset($order_temp["4_via"]);
@@ -2436,7 +2436,7 @@ CUT;
 		foreach($this->genArray($order_temp["5_kurir"]) as $iU => $vU){
 			if($data["tglDari"] != "" || $data["tglSampai"] != ""){
 				if($data["tglTipe"] == "bayar"){
-					$tmp_data = DB::table("t_pembayaran")->select("tgl_bayar")->where("order_id", $vK->id_order)->get();
+					$tmp_data = DB::table("t_pembayaran")->select("tgl_bayar")->where("order_id", $vU->id_order)->get();
 					if(count($tmp_data) > 0){
 						if($data["tglDari"] != "" && $data["tglSampai"] != ""){
 							foreach($this->genArray($tmp_data) as $iTmp => $vTmp){
@@ -2444,7 +2444,7 @@ CUT;
 								$t_tglSampai = strtotime($data["tglSampai"]);
 								$t_tglBuat = strtotime($vTmp->tgl_bayar);
 								if($t_tglBuat >= $t_tglDari && $t_tglBuat <= $t_tglSampai){
-									array_push($order_temp["6_tgl"], $vU);
+									$order_temp["6_tgl"][] = $vU;
 									break;
 								}
 							}
@@ -2453,7 +2453,7 @@ CUT;
 								$t_tglDari = strtotime($data["tglDari"]);
 								$t_tglBuat = strtotime($vTmp->tgl_bayar);
 								if($t_tglBuat >= $t_tglDari){
-									array_push($order_temp["6_tgl"], $vU);
+									$order_temp["6_tgl"][] = $vU;
 									break;
 								}
 							}
@@ -2462,7 +2462,7 @@ CUT;
 								$t_tglSampai = strtotime($data["tglSampai"]);
 								$t_tglBuat = strtotime($vTmp->tgl_bayar);
 								if($t_tglBuat <= $t_tglSampai){
-									array_push($order_temp["6_tgl"], $vU);
+									$order_temp["6_tgl"][] = $vU;
 									break;
 								}
 							}
@@ -2474,26 +2474,47 @@ CUT;
 						$t_tglSampai = strtotime($data["tglSampai"]);
 						$t_tglOrder = strtotime($vU->tanggal_order);
 						if($t_tglOrder >= $t_tglDari && $t_tglOrder <= $t_tglSampai){
-							array_push($order_temp["6_tgl"], $vU);
+							$order_temp["6_tgl"][] = $vU;
 						}
 					} else if($data["tglDari"] != "" && $data["tglSampai"] == ""){
 						$t_tglDari = strtotime($data["tglDari"]);
 						$t_tglOrder = strtotime($vU->tanggal_order);
 						if($t_tglOrder >= $t_tglDari){
-							array_push($order_temp["6_tgl"], $vU);
+							$order_temp["6_tgl"][] = $vU;
 						}
 					} else if($data["tglDari"] == "" && $data["tglSampai"] != ""){
 						$t_tglSampai = strtotime($data["tglSampai"]);
 						$t_tglOrder = strtotime($vU->tanggal_order);
 						if($t_tglOrder <= $t_tglSampai){
-							array_push($order_temp["6_tgl"], $vU);
+							$order_temp["6_tgl"][] = $vU;
 						}
 					}
 				}
 			} else {
-				array_push($order_temp["6_tgl"], $vU);
+				$order_temp["6_tgl"][] = $vU;
 			}
 		}
+		unset($order_temp["5_kurir"]);
+
+		// cek print
+		foreach($this->genArray($order_temp["6_tgl"]) as $iPR => $vPR){
+			if($data["tglDari"] != "0"){
+				if($data['print'] == 'print'){
+					if($vPR->print_label){
+						$order_temp["7_print"][] = $vPR;
+					}
+				} else if($data['print'] == 'belum_print'){
+					if(!$vPR->print_label){
+						$order_temp["7_print"][] = $vPR;
+					}
+				} else {
+					$order_temp["7_print"][] = $vPR;
+				}
+			}
+		}
+		unset($order_temp["6_tgl"]);
+
+
 		$tml = <<<CUT
 		<div class='row-list-order mb-40 animation-slide-left selectBug' style='animation-delay:{!delay_anim!}ms' data-id='{!id_order!}' data-urut='{!urut_order!}'>
 			<div class="row row-list-order-head">
@@ -2603,8 +2624,8 @@ CUT;
 CUT;
 		
 		$array_id = [];
-		foreach($order_temp["6_tgl"] as $tt){
-			array_push($array_id, $tt->id_order);
+		foreach($order_temp["7_print"] as $tt){
+			$array_id[] = $tt->id_order;
 		}
 		unset($order_temp);
 		if(count($array_id) > 0){
