@@ -1479,7 +1479,28 @@
 
         function afterPrint(){
             let data = '{{ $id_target }}';
-            // alert(data);
+            $.ajax({
+                type: 'post',
+                url: "{{ route('b.print-simpan') }}",
+                data: {
+                    data: data,
+                    tipe: 'print',
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function (data) {
+                    console.log(data);
+                    if(data.status){
+                        console.log('Berhasil');
+                    } else {
+                        console.log('Gagal');
+                    }
+                },
+                error: function (error, b, c) {
+                    console.log('Error line 1494:');
+                    console.log(error, b, c);
+                    swal("Error", '' + c, "error");
+                }
+            });
         }
 
         $(document).ready(function(){
@@ -1617,6 +1638,7 @@
                     url: "{{ route('b.print-simpan') }}",
                     data: {
                         data: JSON.stringify(hasil),
+                        tipe: 'simpan',
                         _token: "{{ csrf_token() }}"
                     },
                     success: function (data) {

@@ -203,40 +203,68 @@ class PrintController extends Controller
 
     public function simpan(Request $request){
         if($request->ajax()){
-            $data = json_decode(strip_tags($request->data));
-            $cekData = DB::table('t_print')
-                ->where('data_of', Fungsi::dataOfCek())
-                ->get()->first();
-            // dd($data);
-            if(isset($cekData)){
-                $status = DB::table('t_print')->update([
-                    'ship' => isset($data->print_ship) ? json_encode($data->print_ship) : null,
-                    'ship_v2' => isset($data->print_ship_v2) ? json_encode($data->print_ship_v2) : null,
-                    'ship_a6' => isset($data->print_ship_a6) ? json_encode($data->print_ship_a6) : null,
-                    'invoice' => isset($data->print_invoice) ? json_encode($data->print_invoice) : null,
-                    'invoice_thermal_88mm' => isset($data->print_invoice_thermal_88mm) ? json_encode($data->print_invoice_thermal_88mm) : null
-                ]);
-            } else {
-                $status = DB::table('t_print')->insert([
-                    'ship' => isset($data->print_ship) ? json_encode($data->print_ship) : null,
-                    'ship_v2' => isset($data->print_ship_v2) ? json_encode($data->print_ship_v2) : null,
-                    'ship_a6' => isset($data->print_ship_a6) ? json_encode($data->print_ship_a6) : null,
-                    'invoice' => isset($data->print_invoice) ? json_encode($data->print_invoice) : null,
-                    'invoice_thermal_88mm' => isset($data->print_invoice_thermal_88mm) ? json_encode($data->print_invoice_thermal_88mm) : null,
-                    'data_of' => Fungsi::dataOfCek()
-                ]);
-            }
-            Cache::forget('data_print_pengaturan_'.Fungsi::dataOfCek());
-            if($status){
-                return Fungsi::respon([
-                    'status' => true,
-                    'msg' => 'Berhasil menyimpan pengaturan print!'
-                ], [], 'json', $request);
-            } else {
-                return Fungsi::respon([
-                    'status' => false,
-                    'msg' => 'Gagal menyimpan pengaturan print!'
-                ], [], 'json', $request);
+            if(isset($request->tipe) && $request->tipe == 'simpan'){
+                $data = json_decode(strip_tags($request->data));
+                $cekData = DB::table('t_print')
+                    ->where('data_of', Fungsi::dataOfCek())
+                    ->get()->first();
+                // dd($data);
+                if(isset($cekData)){
+                    $status = DB::table('t_print')->update([
+                        'ship' => isset($data->print_ship) ? json_encode($data->print_ship) : null,
+                        'ship_v2' => isset($data->print_ship_v2) ? json_encode($data->print_ship_v2) : null,
+                        'ship_a6' => isset($data->print_ship_a6) ? json_encode($data->print_ship_a6) : null,
+                        'invoice' => isset($data->print_invoice) ? json_encode($data->print_invoice) : null,
+                        'invoice_thermal_88mm' => isset($data->print_invoice_thermal_88mm) ? json_encode($data->print_invoice_thermal_88mm) : null
+                    ]);
+                } else {
+                    $status = DB::table('t_print')->insert([
+                        'ship' => isset($data->print_ship) ? json_encode($data->print_ship) : null,
+                        'ship_v2' => isset($data->print_ship_v2) ? json_encode($data->print_ship_v2) : null,
+                        'ship_a6' => isset($data->print_ship_a6) ? json_encode($data->print_ship_a6) : null,
+                        'invoice' => isset($data->print_invoice) ? json_encode($data->print_invoice) : null,
+                        'invoice_thermal_88mm' => isset($data->print_invoice_thermal_88mm) ? json_encode($data->print_invoice_thermal_88mm) : null,
+                        'data_of' => Fungsi::dataOfCek()
+                    ]);
+                }
+                Cache::forget('data_print_pengaturan_'.Fungsi::dataOfCek());
+                if($status){
+                    return Fungsi::respon([
+                        'status' => true,
+                        'msg' => 'Berhasil menyimpan pengaturan print!'
+                    ], [], 'json', $request);
+                } else {
+                    return Fungsi::respon([
+                        'status' => false,
+                        'msg' => 'Gagal menyimpan pengaturan print!'
+                    ], [], 'json', $request);
+                }
+            } else if(isset($request->tipe) && $request->tipe == 'print'){
+                $target = strip_tags($request->data);
+                $count = count(explode('|', $target));
+                $c = 0;
+                foreach(Fungsi::genArray(explode('|', $target)) as $t){
+                    $update = DB::table('t_order')
+                        ->where('data_of', Fungsi::dataOfCek())
+                        ->where('id_order', $t)
+                        ->update([
+                            'print_label' => 1
+                        ]);
+                    if($update){
+                        $c++;
+                    }
+                }
+                if($c === $count){
+                    return Fungsi::respon([
+                        'status' => true,
+                        'msg' => 'Berhasil menyimpan data print!'
+                    ], [], 'json', $request);
+                } else {
+                    return Fungsi::respon([
+                        'status' => false,
+                        'msg' => 'Gagal menyimpan data print!'
+                    ], [], 'json', $request);
+                }
             }
         } else {
             abort(404);
