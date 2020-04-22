@@ -1842,6 +1842,10 @@ EOT
 					}
 					break;
 
+				case 'edit':
+					dd($request->all());
+					break;
+
 				default:
 					return Fungsi::respon([
 						'status' => false,
@@ -1941,23 +1945,27 @@ EOT
 		if(is_null($target) || preg_match("/[^0-9\-]/", $target)){
             return redirect()->route('b.produk-dataBeli');
 		}
-		$id = strip_tags($target);
+		$target = strip_tags($target);
 		$data_beli = DB::table('t_pembelian_produk')
 			->where('data_of', Fungsi::dataOfCek())
-			->where('id_pembelian_produk', $id)
+			->where('id_pembelian_produk', $target)
 			->get()->first();
 		if(isset($data_beli)){
-
+			$list_data = json_decode($data_beli->data);
+			$list_id = [];
+			foreach(Fungsi::genArray($list_data) as $l){
+				$list_id[] = (int)$l->id_varian;
+			}
+			$data_produk = $this->getProdukTanpaAjax($list_id);
 		} else {
 			return redirect(route('b.produk-dataBeli'))->with([
-				'msg_error' => 'ID Pembelian Produk '.$id.' tidak ditemukan!'
+				'msg_error' => 'ID Pembelian Produk '.$target.' tidak ditemukan!'
 			]);
 		}
 		if($request->ajax()){
-			return Fungsi::respon('belakang.produk.data-beli.edit', compact('data_beli'), "ajax", $request);
-		} else {
-			return Fungsi::respon('belakang.produk.data-beli.edit', compact('data_beli'), "html", $request);
+			return Fungsi::respon('belakang.produk.data-beli.edit', compact('data_beli', 'list_id', 'data_produk', 'list_data', 'target'), "ajax", $request);
 		}
+		return Fungsi::respon('belakang.produk.data-beli.edit', compact('data_beli', 'list_id', 'data_produk', 'list_data', 'target'), "html", $request);
 	}
 
 	public function getProdukBeli(Request $request){
@@ -1974,7 +1982,7 @@ EOT
 				$data_s = json_decode($bp->data);
 				$total = 0;
 				foreach(Fungsi::genArray($data_s) as $d){
-					$total += (int)$d->harga_satuan;
+					$total += (int)$d->harga_satuan * (int)$d->jumlah;
 				}
 				$admin = DB::table('users')
 					->where('id', $bp->admin_id)
@@ -2107,6 +2115,71 @@ EOT
 			}
 		}
 		return $hasil;
+	}
+
+	private function getProdukTanpaAjax(array $id){
+		$produk = Cache::remember('data_produk_ajax_'.Fungsi::dataOfCek(), 30000, function(){
+			return DB::table('t_varian_produk')
+				->join('t_produk', 't_produk.id_produk', '=', 't_varian_produk.produk_id')
+				->select('t_varian_produk.id_varian', 't_varian_produk.produk_id', 't_varian_produk.diskon_jual', 't_varian_produk.harga_beli',
+				't_varian_produk.harga_jual_normal', 't_varian_produk.harga_jual_reseller', 't_produk.ket', 't_produk.berat', 
+				't_varian_produk.foto_id', 't_produk.nama_produk', 't_produk.kategori_produk_id', 't_produk.supplier_id', 't_varian_produk.sku',
+				't_varian_produk.stok', 't_varian_produk.ukuran',  't_varian_produk.warna')
+				->where('t_varian_produk.data_of', Fungsi::dataOfCek())
+				->where('t_produk.arsip', 0)
+				->get();
+		})->toArray();
+		// dd($produk);
+		$data = [];
+		foreach(Fungsi::genArray($id) as $i => $v){
+			$index = array_search($v, array_column($produk, 'id_varian'));
+			$data[] = (array)$produk[$index];
+			if($data[$i]['supplier_id'] == 0 || is_null($data[$i]['supplier_id'])){
+				$data[$i]['supplier']['id'] = null;
+				$data[$i]['supplier']['nama'] = null;
+			} else {
+				$supplier = DB::table('t_supplier')->select('nama_supplier')->where('id_supplier', $data[$i]['supplier_id'])->where('data_of', Fungsi::dataOfCek())->get()->first();
+				if(isset($supplier)){
+					$data[$i]['supplier']['id'] = $data[$i]['supplier_id'];
+					$data[$i]['supplier']['nama'] = $supplier->nama_supplier;
+				} else {
+					$data[$i]['supplier']['id'] = $data[$i]['supplier_id'];
+					$data[$i]['supplier']['nama'] = null;
+				}
+			}
+			$data[$i]['nama_produk_tampil'] = $this->parseNamaProduk($data[$i]);
+			$data[$i]['supplier_tampil'] = $this->parseSupplierProduk($data[$i]);
+			$data[$i] = (object)$data[$i];
+		}
+		// dd($data);
+		return $data;
+	}
+
+	private function parseNamaProduk(&$v){
+		$nama_produk_tampil = $v['nama_produk'];
+		if(($v['ukuran'] != null && $v['ukuran'] != "") && ($v['warna'] != null && $v['warna'] != "")){
+			$nama_produk_tampil .= " (".$v['ukuran']." ".$v['warna'].") ";
+		} else if(($v['ukuran'] != null && $v['ukuran'] != "") && ($v['warna'] == null || $v['warna'] == "")){
+			$nama_produk_tampil .= " (".$v['ukuran'].") ";
+		} else if(($v['ukuran'] == null || $v['ukuran'] == "") && ($v['warna'] != null && $v['warna'] != "")){
+			$nama_produk_tampil .= " (".$v['warna'].") ";
+		}
+		return $nama_produk_tampil;
+	}
+
+	private function parseSupplierProduk(&$v){
+		$cekStok = explode('|', $v['stok']);
+		$nama_produk_tampil = '';
+		if($cekStok[1] == 'sendiri'){
+			$nama_produk_tampil .= "Stok Sendiri";
+		} else if($cekStok[1] == 'lain'){
+			if($v['supplier']['id'] !== null){
+				$nama_produk_tampil .= ucwords(strtolower($v['supplier']['nama']));
+			} else {
+				$nama_produk_tampil .= "[?Terhapus?]";
+			}
+		}
+		return $nama_produk_tampil;
 	}
 	
 }
