@@ -3,11 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
-<<<<<<< HEAD
--- Waktu pembuatan: 20 Apr 2020 pada 09.36
-=======
 -- Waktu pembuatan: 21 Apr 2020 pada 04.57
->>>>>>> fitur_pembelian_produk_dan_data_pembelian_produk
 -- Versi server: 10.4.6-MariaDB
 -- Versi PHP: 7.3.8
 
