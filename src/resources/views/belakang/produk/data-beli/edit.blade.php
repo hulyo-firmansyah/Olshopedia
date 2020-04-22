@@ -144,7 +144,7 @@
                                                 $subtotal = (int)$list_data[$index]->jumlah * (int)$list_data[$index]->harga_satuan;
                                                 $total += $subtotal;
                                             @endphp
-                                            <tr id="lp-'+data.id_varian+'">
+                                            <tr id="lp-{{ $p->id_varian }}">
                                                 <td>{{ ($i_p+1) }}</td>
                                                 <td>{{ $p->sku }}</td>
                                                 <td>{{ $p->nama_produk_tampil }}</td>
