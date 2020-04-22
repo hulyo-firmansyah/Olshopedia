@@ -27,6 +27,7 @@ class HapusCacheProduk
      */
     public function handle(ProdukDataBerubah $event)
     {
+        Cache::forget('data_beli_produk_setiap_'.$event->dataof);
         Cache::forget('data_produk_ajax_'.$event->dataof);
         Cache::forget('data_produk_lengkap_0_'.$event->dataof);
         Cache::forget('data_produk_lengkap_1_'.$event->dataof);

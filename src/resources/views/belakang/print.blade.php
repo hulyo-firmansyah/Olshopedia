@@ -10,7 +10,6 @@
 
     <title>Olshopedia</title>
     <script src="{{ asset('template/global/vendor/jquery/jquery.js') }}"></script>
-    <link rel="stylesheet" href="{{ asset('alertifyjs/css/themes/bootstrap.min.css') }}">
     <link rel="apple-touch-icon" href="{{ asset('template/assets/images/apple-touch-icon.png') }}">
     <link rel="shortcut icon" href="{{ asset('template/assets/images/favicon.ico') }}">
     <link rel="stylesheet" href="{{ asset('template/global/css/bootstrap.min.css') }}">

@@ -98,6 +98,9 @@
     Route::prefix('produk')->group(function(){  
         Route::get('/semua', 'belakang\ProdukController@produkIndex')->name("b.produk-index");
         Route::get('/beli', 'belakang\ProdukController@beliProdukIndex')->name("b.produk-beli");
+        Route::get('/data-beli', 'belakang\ProdukController@dataBeliProdukIndex')->name("b.produk-dataBeli");
+        Route::get('/data-beli/edit/{target?}', 'belakang\ProdukController@dataBeliProdukEdit')->name("b.produk-dataBeli_edit");
+        Route::get('/data-beli/print/{target?}', 'belakang\ProdukController@dataBeliProdukPrint')->name("b.produk-dataBeli_print");
         Route::get('/', 'belakang\ProdukController@redirectIndex');
         Route::get('/{id_produk?}/edit', 'belakang\ProdukController@editProduk')->name("b.produk-edit");
         Route::post('/proses', 'belakang\ProdukController@prosesProduk')->name("b.produk-proses");
@@ -109,6 +112,8 @@
         Route::get('/tambahModalFoto', 'belakang\ProdukController@tambahModalFoto')->name("b.produk-tambahModalFoto");
         Route::get('/{id_produk?}/detail', 'belakang\ProdukController@detailIndex')->name("b.produk-detail");
         Route::get('/getData', 'belakang\ProdukController@getProduk')->name("b.produk-getData");
+        Route::get('/getProdukBeliData', 'belakang\ProdukController@getProdukBeliData')->name("b.produk-getProdukBeliData");
+        Route::get('/getDataBeli', 'belakang\ProdukController@getProdukBeli')->name("b.produk-getDataBeli");
         Route::get('/getProdukData', 'belakang\ProdukController@getProdukData')->name("b.produk-getProdukData");
         Route::get('/getRiwayatStokData', 'belakang\ProdukController@getRiwayatStok')->name("b.produk-getRiwayatStok");
         Route::get('/riwayat-stok/{id_varian?}', 'belakang\ProdukController@riwayatStokIndex')->name("b.produk-riwayatStok");

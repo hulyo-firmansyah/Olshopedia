@@ -48,7 +48,7 @@
 <div class="page-header page-header-bordered">
     <div class='row'>
         <div class='col-md-6'>
-            <h1 class="page-title font-size-26 font-weight-100">Pembelian Produk</h1>
+            <h1 class="page-title font-size-26 font-weight-100">Edit Pembelian Produk ({{ $data_beli->no_nota }})</h1>
         </div>
         <div class='col-md-6'>
             <div class="page-header-actions">
@@ -56,7 +56,7 @@
                     <li class="breadcrumb-item"><a href="javascript:void(0);"
                         onClick="pageLoad('{{ route('b.dashboard') }}')">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="javascript:void(0);" onClick="pageLoad('{{ route('b.produk-index') }}')">Produk</a></li>
-                    <li class="breadcrumb-item active">Pembelian Produk</li>
+                    <li class="breadcrumb-item active">Edit Pembelian Produk ({{ $data_beli->no_nota }})</li>
                 </ol>
             </div>
         </div>
@@ -101,7 +101,7 @@
                                         <label for='nota_beli' style='width:110px;margin-top:7px'><b>No Nota : </b></label>
                                     </div>
                                     <div class='col-xxl-9'>
-                                        <input type='text' name='nota_beli' id='nota_beli' class='form-control' placeholder='Nomer Nota'>
+                                        <input type='text' name='nota_beli' id='nota_beli' class='form-control' placeholder='Nomer Nota' value='{{ $data_beli->no_nota }}'>
                                         <small id='error-nota_beli' style='color:red' class='hidden'>Tidak boleh kosong!</small>
                                     </div>
                                 </div>
@@ -110,7 +110,7 @@
                                         <label for='tgl_beli' style='width:110px;margin-top:7px'><b>Tanggal Beli : </b></label>
                                     </div>
                                     <div class='col-xxl-9'>
-                                        <input type='text' name='tgl_beli' id='tgl_beli' class='form-control' placeholder='Tanggal Beli'>
+                                        <input type='text' name='tgl_beli' id='tgl_beli' class='form-control' placeholder='Tanggal Beli' value='{{ date("j F Y", strtotime($data_beli->tgl_beli)) }}'>
                                         <small id='error-tgl_beli' style='color:red' class='hidden'>Tidak boleh kosong!</small>
                                     </div>
                                 </div>
@@ -118,11 +118,61 @@
                         </div>
                         <hr>
                         <div  id='tableBeli'>
-                            Tidak ada produk yang dipilih!
+                            <div class='table-responsive'>
+                                <table class='table table-bordered'>
+                                    <thead>
+                                        <tr>
+                                            <td width='3%'><b>No</b></td>
+                                            <td><b>SKU</b></td>
+                                            <td><b>Nama Produk</b></td>
+                                            <td><b>Supplier</b></td>
+                                            <td width='7%'><b>Stok Sisa</b></td>
+                                            <td width='10%'><b>Jumlah</b></td>
+                                            <td><b>Harga Beli</b></td>
+                                            <td><b>Subtotal</b></td>
+                                            <td width='5%'><i class='fa fa-gear'></i></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id='tableBeli-isi'>
+                                        @php
+                                            $total = 0;
+                                        @endphp
+                                        @foreach(\App\Http\Controllers\PusatController::genArray($data_produk) as $i_p => $p)
+                                            @php
+                                                $index = array_search($p->id_varian, array_column($list_data, 'id_varian'));
+                                                $stok = explode('|', $p->stok);
+                                                $subtotal = (int)$list_data[$index]->jumlah * (int)$list_data[$index]->harga_satuan;
+                                                $total += $subtotal;
+                                            @endphp
+                                            <tr id="lp-{{ $p->id_varian }}">
+                                                <td>{{ ($i_p+1) }}</td>
+                                                <td>{{ $p->sku }}</td>
+                                                <td>{{ $p->nama_produk_tampil }}</td>
+                                                <td>{{ $p->supplier_tampil }}</td>
+                                                @if($stok[0] > 0)
+                                                    <td><span class="green-700">{{ \App\Http\Controllers\PusatController::formatUang($stok[0]) }}</span></td>
+                                                @else
+                                                    <td><span class="red-700">{{ \App\Http\Controllers\PusatController::formatUang($stok[0]) }}</span></td>
+                                                @endif
+                                                <td><input type="text" class="form-control angkaSaja" value="{{ $list_data[$index]->jumlah }}" placeholder="Jumlah"><small style="color:red" class="hidden"><br>Tidak boleh kosong!</small></td>
+                                                <td data-harga="{{ $list_data[$index]->jumlah }}">{{ \App\Http\Controllers\PusatController::formatUang($list_data[$index]->harga_satuan, true) }}</td>
+                                                <td data-total="{{ $subtotal }}">{{ \App\Http\Controllers\PusatController::formatUang($subtotal, true) }}</td>
+                                                <td><button type="button" class="btnBatalPilih btn btn-danger btn-sm" data-id="{{ $p->id_varian }}">Batal</button></td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan='7'><b class='float-right'>Total</b></td>
+                                            <td id='totalHarga' colspan='2'>{{ \App\Http\Controllers\PusatController::formatUang($total, true) }}</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <div class='panel-footer hidden' id='beliDiv-btnSimpan'>
-                        <button type='button' class='btn btn-success' data-color="green" data-style="expand-right" id='btnSimpanBeli' onClick='$(this).submitForm()'>Simpan Data Pembelian</button>
+                    <div class='panel-footer' id='beliDiv-btnEdit'>
+                        <button type='button' class='btn btn-warning' data-color="yellow" data-style="expand-right" id='btnEditBeli' onClick='$(this).submitForm()'>Edit Data Pembelian</button>
                     </div>
                 </div>
             </div>
@@ -202,11 +252,14 @@ function parseProdukData(source, item, indexCache){
             var foto = '{{ asset("photo.png") }}';
         }
         let varianCek = typeof $('#tableBeli').data('varian_id') === "undefined" ? [] : $('#tableBeli').data('varian_id');
+        // console.log(varianCek, varianCek.indexOf(v.id_varian));
         if(varianCek.indexOf(v.id_varian) !== -1){
+            // console.log(999);
             var btnTambahVarianTampil = '<div class="col-xxl-2 col-xl-3 col-lg-2 col-md-3 text-center" style="padding-top:18px" id="btn-'+v.id_varian+'">'+
                     '<i class="fa fa-check green-700"></i> <span class="green-700">Terpilih</span>'+
                 '</div>';
         } else {
+            // console.log(888);
             var btnTambahVarianTampil = '<div class="col-xxl-2 col-xl-3 col-lg-2 col-md-3 text-center" style="padding-top:18px" id="btn-'+v.id_varian+'">'+
                     '<button type="button" class="btn btn-primary btn-sm btnPilihVarian"><i class="fa fa-plus"></i> Pilih Produk</button>'+
                 '</div>';
@@ -255,6 +308,7 @@ function bersihError(){
 (function(world) {
 
     world.fn.submitForm = function(tipeD) {
+        // return;
         if($("#tableBeli-isi tr").length < 1){
            return alertify.warning('Belum ada produk yang terpilih!').dismissOthers();
         }
@@ -305,7 +359,8 @@ function bersihError(){
                     data: data,
                     tgl: tgl,
                     nota: nota,
-                    tipe: 'tambah'
+                    tipe: 'edit',
+                    id: {{ $target }}
                 },
                 success: function(data) {
                     hasil = data;
@@ -353,8 +408,11 @@ function bersihError(){
     }
 })(jQuery);
 
+
 $(document).ready(function(){
-    laddaBtn = Ladda.create( document.querySelector('#btnSimpanBeli') );
+    laddaBtn = Ladda.create( document.querySelector('#btnEditBeli') );
+    
+    $('#tableBeli').data('varian_id', {!! json_encode($list_id) !!});
 
     @if($msg_sukses = Session::get('msg_success') || $msg_warning = Session::get('msg_warning') || $msg_error = Session::get('msg_error'))
     window.setTimeout(function() {
@@ -367,10 +425,10 @@ $(document).ready(function(){
     $('#tgl_beli').datepicker({
         format: "dd MM yyyy",
         orientation: 'bottom'
-    }).datepicker('setDate', new Date());
+    });
     
     alertify.set('notifier','position', 'top-right');
-
+    
     $('#tgl_beli').on('change', function(){
         if($(this).hasClass('is-invalid')){
             $(this).removeClass('animation-shake is-invalid');
@@ -552,9 +610,7 @@ $(document).ready(function(){
         hitungTotal();
         $('#beliDiv-btnSimpan').show();
     });
-
 });
-
 </script>
 <!--uiop-->
 @endsection

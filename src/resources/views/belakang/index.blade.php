@@ -56,6 +56,7 @@
     <link rel="stylesheet" href="{{ asset('template/assets/examples/css/tables/datatable.css') }}">
     <link rel="stylesheet" href="{{ asset('template/global/vendor/dropify/dropify.css') }}">
     <link rel="stylesheet" href="{{ asset('template/global/vendor/summernote/summernote.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/global/vendor/ladda/ladda.min.css') }}">
     <style>
     .datepicker table tr td.active:not(:disabled):not(.disabled):active,
     .datepicker table tr td.active:not(:disabled):not(.disabled).active,
@@ -252,12 +253,6 @@
                     </a>
                     <ul class="site-menu-sub">
                         <li class="site-menu-item">
-                            <a class="animsition-link menuLoad" href="{{ route('b.produk-beli') }}">
-                                <!-- onClick="pageLoad('{{ route('b.produk-index') }}', $(this))"> -->
-                                <span class="site-menu-title">@lang("index.beli_produk")</span>
-                            </a>
-                        </li>
-                        <li class="site-menu-item">
                             <a class="animsition-link menuLoad" href="{{ route('b.produk-index') }}">
                                 <!-- onClick="pageLoad('{{ route('b.produk-index') }}', $(this))"> -->
                                 <span class="site-menu-title">@lang("index.daftar_produk")</span>
@@ -267,6 +262,18 @@
                             <a class="animsition-link menuLoad" href="{{ route('b.produkKategori-index') }}">
                                 <!-- onClick="pageLoad('{{ route('b.produkKategori-index') }}', $(this))"> -->
                                 <span class="site-menu-title">@lang("index.daftar_kategori_produk")</span>
+                            </a>
+                        </li>
+                        <li class="site-menu-item">
+                            <a class="animsition-link menuLoad" href="{{ route('b.produk-beli') }}">
+                                <!-- onClick="pageLoad('{{ route('b.produk-index') }}', $(this))"> -->
+                                <span class="site-menu-title">@lang("index.beli_produk")</span>
+                            </a>
+                        </li>
+                        <li class="site-menu-item">
+                            <a class="animsition-link menuLoad" href="{{ route('b.produk-dataBeli') }}">
+                                <!-- onClick="pageLoad('{{ route('b.produk-index') }}', $(this))"> -->
+                                <span class="site-menu-title">@lang("index.data_beli_produk")</span>
                             </a>
                         </li>
                     </ul>
@@ -396,6 +403,8 @@
     <script src="{{ asset('template/global/vendor/chart-js/Chart.min.js') }}"></script>
     <script src="{{ asset('js/password/password.min.js') }}"></script>
     <script src="{{ asset('template/global/vendor/summernote/summernote.min.js') }}"></script>
+    <script src="{{ asset('template/global/vendor/ladda/spin.min.js') }}"></script>
+    <script src="{{ asset('template/global/vendor/ladda/ladda.min.js') }}"></script>
 
 
     <!-- Scripts -->
