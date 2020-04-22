@@ -1817,7 +1817,7 @@ EOT
 								->delete();
 							if($hapused){
 								Cache::forget('data_beli_produk_lengkap_'.Fungsi::dataOfCek());
-								Cache::forget('data_beli_produk_setiap_'.$event->dataof);
+								Cache::forget('data_beli_produk_setiap_'.Fungsi::dataOfCek());
 								return Fungsi::respon([
 									'status' => true,
 									'msg' => 'Berhasil menghapus data pembelian produk!',
