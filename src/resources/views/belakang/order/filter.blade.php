@@ -209,7 +209,7 @@
                 </div>
             </div>
         </div>
-        <div class="filter-box mb-20 animation-fade" style='animation-delay:200ms'>
+        <div class="filter-box mb-20 animation-fade selectBug" style='animation-delay:200ms'>
             <span style='font-size:25px' class='mt-10'>Filter Box</span>
             <div class='row mt-10'>
                 <div class='col-md-8'>
