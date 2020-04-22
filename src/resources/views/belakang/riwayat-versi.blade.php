@@ -10,12 +10,26 @@
         <div class='panel'>
             <div class='panel-body'>
                 <div class='mb-40'>
-                    <h4>v0.9 &nbsp;&nbsp;(17 Apr 2020)</h4>
+                    <h4>v0.9 &nbsp;&nbsp;(22 Apr 2020)</h4>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Added</b>
+                        <ul>
+                            <li>Penambahan menu pembelian produk</li>
+                            <li>Penambahan menu data pembelian produk</li>
+                        </ul>
+                    </div>
                     <div class='ml-30'>
                         <b style='font-size:15px'>Changed</b>
                         <ul>
                             <li>Stok sekarang tetap harus menginputkan jumlah di tambah dan edit produk</li>
                             <li>Menu Supplier dipindah dari submenu setting ke menu utama</li>
+                        </ul>
+                    </div>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Fixed</b>
+                        <ul>
+                            <li>Fix Bug gross profit tetap terlihat setelah admin tidak diberi akses lihat omzet</li>
+                            <li>Fix Bug error sending mail registration atau login</li>
                         </ul>
                     </div>
                 </div>
