@@ -10,11 +10,21 @@
         <div class='panel'>
             <div class='panel-body'>
                 <div class='mb-40'>
+                    <h4>v0.9.1 &nbsp;&nbsp;(23 Apr 2020)</h4>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Fixed</b>
+                        <ul>
+                            <li>Fix Bug tidak bisa memfilter via pembayaran bank di order</li>
+                            <li>Fix Bug filter order tidak memfilter print label</li>
+                            <li>Fix bug digit terlalu banyak di add dan edit supplier</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class='mb-40'>
                     <h4>v0.9 &nbsp;&nbsp;(22 Apr 2020)</h4>
                     <div class='ml-30'>
                         <b style='font-size:15px'>Added</b>
                         <ul>
-                            <li>Penambahan menu pembelian produk</li>
                             <li>Penambahan menu data pembelian produk</li>
                         </ul>
                     </div>
@@ -23,6 +33,7 @@
                         <ul>
                             <li>Stok sekarang tetap harus menginputkan jumlah di tambah dan edit produk</li>
                             <li>Menu Supplier dipindah dari submenu setting ke menu utama</li>
+                            <li>Perubahan menu pembelian produk</li>
                         </ul>
                     </div>
                     <div class='ml-30'>
