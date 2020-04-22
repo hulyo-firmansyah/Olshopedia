@@ -1774,7 +1774,7 @@ CUT;
 			<div class="row row-list-order-footer">
 				<div class='col-md-6'>
 					<label for="list-tanda">
-						<input type="checkbox" class="icek" name="list-tanda">
+						<input type="checkbox" class="icek" name="list-tanda" id="pilihCheck-{!urut_order!}">
 					</label>
 					<a href='{!url_print!}' class='btn btn-default btn-outline ml-10'><i class='fa fa-print'></i>&nbsp;&nbsp;Print</a>
 					{!btn_riwayat_bayar!}
@@ -2325,7 +2325,7 @@ CUT;
 			<div class="row row-list-order-footer">
 				<div class='col-md-6'>
 					<label for="list-tanda">
-						<input type="checkbox" class="icek" name="list-tanda">
+						<input type="checkbox" class="icek" name="list-tanda" id="pilihCheck-{!urut_order!}">
 					</label>
 					<a href='{!url_print!}' class='btn btn-default btn-outline ml-10'><i class='fa fa-print'></i>&nbsp;&nbsp;Print</a>
 					{!btn_riwayat_bayar!}

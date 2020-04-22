@@ -157,12 +157,28 @@
         </div>
         @php
             if(!(count($data_order) == 0)){
+                @endphp
+                <div class='row'>
+                    <div class='col-xxl-3 col-xl-6'>
+                        <div class='panel p-15 animation-slide-left' style='animation-delay:300ms'>
+                            <div class='d-flex'>
+                                <div style='margin-top:8px'>
+                                    <input type="checkbox" id='pilihSemua'/>
+                                    <label for='pilihSemua' class='ml-3'>Pilih Semua</label>
+                                </div>
+                                <button type="button" class="btn btn-icon btn-primary btn-outline ml-15" id='btnPrintAll'><i class='fa fa-print'></i> Print Semua</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @php
                 echo $data_order->appends(['queryCari' => $query, 'tipe' => $tipeCari])->links('vendor.pagination.bootstrap-4');
             } 
         @endphp
     </div>
 </div>
 <script>
+var pilih_order = [];
 // function detModBayar(orderId){
 //     $("#modBayar-orderId").text(orderId);
 //     if($("#dataBayar-"+orderId).text() != ""){
@@ -206,6 +222,65 @@ function uangToAngka(data, tipe = false) {
 }
 
 $(document).ready(function() {
+    $('.icek').iCheck({
+        checkboxClass: 'icheckbox_flat-blue'
+    });
+
+    $('#pilihSemua').iCheck({
+        checkboxClass: 'icheckbox_flat-blue'
+    });
+    
+    $('.icek').on('ifChecked', function(){
+        let id = parseInt($(this).parent().parent().parent().parent().parent().data('urut'));
+        // console.log(id);
+        if(pilih_order.indexOf(id) === -1){
+            pilih_order.push(id);
+        }
+        if(pilih_order.length === parseInt('{{ $data_order->total() }}')){
+            $('#pilihSemua')[0].checked = true;
+            $('#pilihSemua').iCheck('update');
+        }
+        // console.log(pilih_order);
+    });
+
+    $('.icek').on('ifUnchecked', function(){
+        let id = parseInt($(this).parent().parent().parent().parent().parent().data('urut'));
+        pilih_order = $.grep(pilih_order, function(value) {
+            return value !== parseInt(id);
+        });
+        if(pilih_order.length !== parseInt('{{ $data_order->total() }}')){
+            $('#pilihSemua')[0].checked = false;
+            $('#pilihSemua').iCheck('update');
+        }
+        // console.log(pilih_order);
+    });
+
+    $('#pilihSemua').on('ifChecked', function(){
+        $.each(jQuery.parseJSON('{{ $list_order_json }}'), (i, v) => {
+            if(pilih_order.indexOf(v) === -1){
+                pilih_order.push(v);
+            }
+            $('#pilihCheck-'+v)[0].checked = true;
+            $('#pilihCheck-'+v).iCheck('update');
+        });
+        // console.log(pilih_order);
+    });
+
+    $('#pilihSemua').on('ifUnchecked', function(){
+        pilih_order = [];
+        $.each(jQuery.parseJSON('{{ $list_order_json }}'), (i, v) => {
+            $('#pilihCheck-'+v)[0].checked = false;
+            $('#pilihCheck-'+v).iCheck('update');
+        });
+        // console.log(pilih_order);
+    });
+
+    $('#btnPrintAll').on('click', function(){
+        if(pilih_order.length > 0){
+            let url = "{{ route('b.print-index') }}";
+            $(location).attr('href', url+'/'+pilih_order.join('-'));
+        }
+    });
 
     @foreach($popover as $iP => $vP)
         @if(is_null($vP['pemesan']))
