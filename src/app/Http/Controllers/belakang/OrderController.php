@@ -31,134 +31,11 @@ class OrderController extends Controller
 		return redirect()->route("b.order-index");
 	}
 
-    public function semuaIndex(Request $request){
-        list($data_user, $ijin) = $this->getIjinUser();
-		$bank = DB::table('t_bank')
-			->select('bank', 'no_rek', 'cabang', 'atas_nama', 'id_bank')
-			->where('data_of', Fungsi::dataOfCek())
-			->get();
-		$bank_list = "";
-		$bank_filter = [];
-		foreach($this->genArray($bank) as $b){
-			$bank_filter[] = [
-				'id' => $b->id_bank,
-				'bank' => $b->bank,
-			];
-			$bank_list .= "<a class='dropdown-item pilihViaBayar' data-idb='".$b->id_bank."' href='javascript:void(0)' role='menuitem'><span>".$b->bank."</span></a>";
-		}
-		$tml = <<<CUT
-		<div class='row-list-order mb-40 animation-slide-left selectBug' style='animation-delay:{!delay_anim!}ms' data-id='{!id_order!}' data-urut='{!urut_order!}'>
-			<div class="row row-list-order-head">
-				<div class="col-sm-4 col-md-3 col-lg-3">
-					<h3 class="d-inline">
-						<strong>Order #{!urut_order!}</strong>
-					</h3>
-					<div>
-						<span class="text-muted">dari</span>
-						<span>{!src_order!}</span>
-						<span class="text-muted">({!tanggal_order!})</span>
-					</div>
-				</div>
-				<div class="col-sm-8 col-md-6 col-lg-6">
-					{!catatan!}
-				</div>
-				<div class="col-xs-12 col-md-3">
-					<div class="pearls pearls-sm row mt-3 {!state_order_tooltip!}">
-						<div class="pearl {!state_order1!} col-3">
-							<div class="pearl-icon"><i class="icon fa fa-money" aria-hidden="true"></i></div>
-						</div>
-						<div class="pearl {!state_order2!} col-3">
-							<div class="pearl-icon"><i class="icon fa fa-cube" aria-hidden="true"></i></div>
-						</div>
-						<div class="pearl {!state_order3!} col-3">
-							<div class="pearl-icon"><i class="icon fa fa-road" aria-hidden="true"></i></div>
-						</div>
-						<div class="pearl {!state_order4!} col-3">
-							<div class="pearl-icon"><i class="icon fa fa-thumbs-up" aria-hidden="true"></i></div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row row-list-order-body">
-				<textarea id='dataBayar-{!id_order!}' class='hidden'>{!data_bayar!}</textarea>
-				<div class='col-md-4'>
-					<div class='mb-20'>
-						<div class='text-muted text-uppercase'>Pemesan</div>
-						<span class='ml-10 font-size-20' id='myPop-{!index_mypop!}' style='cursor:pointer;'>{!nama_pemesan!}</span>
-					</div>
-					<div class='mb-20'>
-						<div class='text-muted text-uppercase'>Dikirim Kepada</div>
-						<span class='ml-10 font-size-20' id='myPop-{!index_mypop_2!}' style='cursor:pointer;'>{!nama_tujuan!}</span>
-					</div>
-					<div class='d-flex mb-20'>
-						{!nama_admin!}
-					</div>
-				</div>
-				<div class='col-md-4'>
-					<div>
-						<div class='text-muted text-uppercase'>Produk ({!jumlah_produk!} Item)</div>
-						<ul>
-							{!list_produk!}
-						</ul>
-					</div>
-				</div>
-				<div class='col-md-4'>
-					<div class='mb-20'>
-						<div class='text-muted text-uppercase'>Kurir</div>
-						<span class='ml-10 font-size-20'>{!kurir!}</span>
-					</div>
-					<div>
-						<div class='text-muted text-uppercase'>Total Bayar</div>
-						<div class="total-bayar-info {!css_status_bayar!}" style="padding: 10px"
-							data-original-title="" title="">
-							<div>
-								<strong class="total-bayar">{!total_bayar!}</strong>
-							</div>
-							<div class="d-flex flex-wrap mb--5">
-								<div class="badge mr-1 mb-2 mt-1 badge-status-order {!css_btn_status_bayar!} text-uppercase"
-									style='letter-spcaing:2px;cursor:default'>
-									<span>{!tulisan_btn_status_bayar!}</span>
-								</div>
-								{!via_bayar!}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row row-list-order-footer">
-				<div class='col-md-6'>
-					<label for="list-tanda">
-						<input type="checkbox" class="icek" name="list-tanda" id="pilihCheck-{!urut_order!}">
-					</label>
-					<a href='{!url_print!}' class='btn btn-default btn-outline ml-10'><i class='fa fa-print'></i>&nbsp;&nbsp;Print</a>
-					{!btn_riwayat_bayar!}
-				</diV>
-				<div class='col-md-6 text-right'>
-					{!btn_update_bayar!}
-					{!btn_update_resi!}
-					{!btn_tandai_terima!}
-					{!btn_lacak_resi!}
-					<div class="btn-group ml-5">
-						{!btn_edit_order!}
-						<button type="button" class="btn btn-default dropdown-toggle btn-outline"
-							id="exampleSplitDropdown1" data-toggle="dropdown" aria-expanded="false">
-						</button>
-						<div class="dropdown-menu" aria-labelledby="exampleSplitDropdown1" role="menu"
-							style="position: absolute; will-change: transform; transform: translate3d(73px, 36px, 0px); top: 0px; left: 0px;">
-							<a class="dropdown-item" href="javascript:void(0);" onClick="pageLoad('{!url_detail_order!}')" role="menuitem">Detail Order</a>
-							{!btn_cancel_order!}
-						</div>
-					</div>
-				</diV>
-			</div>
-		</div>
-CUT;
-		// dd($f_);
-		$data_order = DB::table('t_order')->where("data_of", Fungsi::dataOfCek())->where("canceled", 0)->orderBy("id_order", "desc")->paginate(10);
+	private function parseDataOrder(&$data_order, &$tml, &$data_user, &$ijin){
 		$order = [];
-		$temp = "";
 		$popover = [];
 		$list_order_json_ = [];
+		$temp = "";
 		foreach($this->genArray($data_order) as $i => $d){
 			$list_order_json_[] = $d->urut_order;
 			$dataC_tujuan = DB::table("t_customer")
@@ -451,6 +328,135 @@ CUT;
 			$order[$i] = $temp;
 			$temp = "";
 		}
+		return [$order, $popover, $list_order_json_];
+	}
+
+    public function semuaIndex(Request $request){
+        list($data_user, $ijin) = $this->getIjinUser();
+		$bank = DB::table('t_bank')
+			->select('bank', 'no_rek', 'cabang', 'atas_nama', 'id_bank')
+			->where('data_of', Fungsi::dataOfCek())
+			->get();
+		$bank_list = "";
+		$bank_filter = [];
+		foreach($this->genArray($bank) as $b){
+			$bank_filter[] = [
+				'id' => $b->id_bank,
+				'bank' => $b->bank,
+			];
+			$bank_list .= "<a class='dropdown-item pilihViaBayar' data-idb='".$b->id_bank."' href='javascript:void(0)' role='menuitem'><span>".$b->bank."</span></a>";
+		}
+		$tml = <<<CUT
+		<div class='row-list-order mb-40 animation-slide-left selectBug' style='animation-delay:{!delay_anim!}ms' data-id='{!id_order!}' data-urut='{!urut_order!}'>
+			<div class="row row-list-order-head">
+				<div class="col-sm-4 col-md-3 col-lg-3">
+					<h3 class="d-inline">
+						<strong>Order #{!urut_order!}</strong>
+					</h3>
+					<div>
+						<span class="text-muted">dari</span>
+						<span>{!src_order!}</span>
+						<span class="text-muted">({!tanggal_order!})</span>
+					</div>
+				</div>
+				<div class="col-sm-8 col-md-6 col-lg-6">
+					{!catatan!}
+				</div>
+				<div class="col-xs-12 col-md-3">
+					<div class="pearls pearls-sm row mt-3 {!state_order_tooltip!}">
+						<div class="pearl {!state_order1!} col-3">
+							<div class="pearl-icon"><i class="icon fa fa-money" aria-hidden="true"></i></div>
+						</div>
+						<div class="pearl {!state_order2!} col-3">
+							<div class="pearl-icon"><i class="icon fa fa-cube" aria-hidden="true"></i></div>
+						</div>
+						<div class="pearl {!state_order3!} col-3">
+							<div class="pearl-icon"><i class="icon fa fa-road" aria-hidden="true"></i></div>
+						</div>
+						<div class="pearl {!state_order4!} col-3">
+							<div class="pearl-icon"><i class="icon fa fa-thumbs-up" aria-hidden="true"></i></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row row-list-order-body">
+				<textarea id='dataBayar-{!id_order!}' class='hidden'>{!data_bayar!}</textarea>
+				<div class='col-md-4'>
+					<div class='mb-20'>
+						<div class='text-muted text-uppercase'>Pemesan</div>
+						<span class='ml-10 font-size-20' id='myPop-{!index_mypop!}' style='cursor:pointer;'>{!nama_pemesan!}</span>
+					</div>
+					<div class='mb-20'>
+						<div class='text-muted text-uppercase'>Dikirim Kepada</div>
+						<span class='ml-10 font-size-20' id='myPop-{!index_mypop_2!}' style='cursor:pointer;'>{!nama_tujuan!}</span>
+					</div>
+					<div class='d-flex mb-20'>
+						{!nama_admin!}
+					</div>
+				</div>
+				<div class='col-md-4'>
+					<div>
+						<div class='text-muted text-uppercase'>Produk ({!jumlah_produk!} Item)</div>
+						<ul>
+							{!list_produk!}
+						</ul>
+					</div>
+				</div>
+				<div class='col-md-4'>
+					<div class='mb-20'>
+						<div class='text-muted text-uppercase'>Kurir</div>
+						<span class='ml-10 font-size-20'>{!kurir!}</span>
+					</div>
+					<div>
+						<div class='text-muted text-uppercase'>Total Bayar</div>
+						<div class="total-bayar-info {!css_status_bayar!}" style="padding: 10px"
+							data-original-title="" title="">
+							<div>
+								<strong class="total-bayar">{!total_bayar!}</strong>
+							</div>
+							<div class="d-flex flex-wrap mb--5">
+								<div class="badge mr-1 mb-2 mt-1 badge-status-order {!css_btn_status_bayar!} text-uppercase"
+									style='letter-spcaing:2px;cursor:default'>
+									<span>{!tulisan_btn_status_bayar!}</span>
+								</div>
+								{!via_bayar!}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row row-list-order-footer">
+				<div class='col-md-6'>
+					<label for="list-tanda">
+						<input type="checkbox" class="icek" name="list-tanda" id="pilihCheck-{!urut_order!}">
+					</label>
+					<a href='{!url_print!}' class='btn btn-default btn-outline ml-10'><i class='fa fa-print'></i>&nbsp;&nbsp;Print</a>
+					{!btn_riwayat_bayar!}
+				</diV>
+				<div class='col-md-6 text-right'>
+					{!btn_update_bayar!}
+					{!btn_update_resi!}
+					{!btn_tandai_terima!}
+					{!btn_lacak_resi!}
+					<div class="btn-group ml-5">
+						{!btn_edit_order!}
+						<button type="button" class="btn btn-default dropdown-toggle btn-outline"
+							id="exampleSplitDropdown1" data-toggle="dropdown" aria-expanded="false">
+						</button>
+						<div class="dropdown-menu" aria-labelledby="exampleSplitDropdown1" role="menu"
+							style="position: absolute; will-change: transform; transform: translate3d(73px, 36px, 0px); top: 0px; left: 0px;">
+							<a class="dropdown-item" href="javascript:void(0);" onClick="pageLoad('{!url_detail_order!}')" role="menuitem">Detail Order</a>
+							{!btn_cancel_order!}
+						</div>
+					</div>
+				</diV>
+			</div>
+		</div>
+CUT;
+		// dd($f_);
+		$data_order = DB::table('t_order')->where("data_of", Fungsi::dataOfCek())->where("canceled", 0)->orderBy("id_order", "desc")->paginate(10);
+		list($order, $popover, $list_order_json_) = $this->parseDataOrder($data_order, $tml, $data_user, $ijin);
+		$list_order_json = json_encode($list_order_json_);
 		$filter_order = Cache::remember('data_filter_order_lengkap_'.Fungsi::dataOfCek(), 10000, function(){
 			return DB::table('t_filter_order')->where('data_of', Fungsi::dataOfCek())->get();
 		});
@@ -483,8 +489,6 @@ CUT;
 			->where('data_of', Fungsi::dataOfCek())
 			->where('status', 1)
 			->get();
-		$list_order_json = json_encode($list_order_json_);
-		// dd($list_order_json);
 		if($request->ajax()){
 			return Fungsi::respon('belakang.order.semua', compact("order", "data_order", 'data_filter', 'popover', 'bank_list', 'order_source', 'list_order_json', 'data_user', 'ijin', 'bank_filter'), "ajax", $request);
 			// return Fungsi::parseAjax('belakang.semua_order');
@@ -1959,310 +1963,13 @@ CUT;
 			unset($data_order);
 			$data_order = DB::table('t_order')->where("data_of", Fungsi::dataOfCek())->where("canceled", 0)->orderBy("id_order", "desc")->paginate(10);
 		}
-		$order = [];
-		$temp = "";
-		$popover = [];
-		foreach($this->genArray($data_order) as $i => $d){
-			$dataC_tujuan = DB::table("t_customer")
-				->join("users", "users.id", "=", "t_customer.user_id")
-				->select("t_customer.*", "users.name", "users.no_telp", "users.email")
-				->where("user_id", $d->tujuan_kirim_id)
-				->where("data_of", Fungsi::dataOfCek())
-				->get()->first();
-			$popover[$i]["tujuan"] = $dataC_tujuan;
-			unset($dataC_tujuan);
-			$dataC_pemesan = DB::table("t_customer")
-				->join("users", "users.id", "=", "t_customer.user_id")
-				->select("t_customer.*", "users.name", "users.no_telp", "users.email")
-				->where("user_id", $d->pemesan_id)
-				->where("data_of", Fungsi::dataOfCek())
-				->get()->first();
-			$popover[$i]["pemesan"] = $dataC_pemesan;
-			unset($dataC_pemesan);
-			$lacakResiAble = 0;
-			$temp = str_replace("{!id_order!}", $d->id_order, $tml);
-			$temp = str_replace("{!urut_order!}", $d->urut_order, $temp);
-			$temp = str_replace("{!url_print!}", route('b.print-index').'/'.$d->urut_order, $temp);
-			$temp = str_replace("{!delay_anim!}", ($i+3)."00", $temp);
-			$temp = str_replace("{!index_mypop!}", ($i+1), $temp);
-			$temp = str_replace("{!index_mypop_2!}", ($i+1)."-2", $temp);
-			// $temp = str_replace("{!modBayar_orderId!}", '"'.$d->id_order.'"', $temp);
-			$temp = str_replace("{!src_order!}", ucwords(strtolower($d->src)), $temp);
-
-			$catatan = json_decode($d->catatan);
-			if($catatan->print == "true"){
-				$temp = str_replace("{!catatan!}", '<div class="alert alert-info mt-sm-down-20 rad-parent"><span>'.$catatan->data.'</span></div>', $temp);
-			} else {
-				$temp = str_replace("{!catatan!}", '', $temp);
-			}
-			unset($catatan);
-
-			$newDate = date("l, j M Y", strtotime($d->tanggal_order));
-			$temp = str_replace("{!tanggal_order!}", $newDate, $temp);
-			unset($newDate);
-
-			$cust = DB::table('users')->select("name")->where("id", $d->pemesan_id)->get()->first();
-			if(isset($cust)){
-				$temp = str_replace("{!nama_pemesan!}", ucwords(strtolower($cust->name)), $temp);
-			} else {
-				$temp = str_replace("{!nama_pemesan!}", "[?Terhapus?]", $temp);
-			}
-			unset($cust);
-
-			$cust_t = DB::table('users')->select("name")->where("id", $d->tujuan_kirim_id)->get()->first();
-			if(isset($cust_t)){
-				$temp = str_replace("{!nama_tujuan!}", ucwords(strtolower($cust_t->name)), $temp);
-			} else {
-				$temp = str_replace("{!nama_tujuan!}", "[?Terhapus?]", $temp);
-			}
-			unset($cust_t);
-			
-			if(strtolower($d->src) == "app"){
-				$adm = DB::table('users')->select("name")->where("id", $d->admin_id)->get()->first();
-				$temp = str_replace("{!nama_admin!}", "<div class='text-muted'>Admin: </div><div class='ml-10'>".ucwords(strtolower($adm->name))."</div>", $temp);
-				unset($adm);
-			} else {
-				$temp = str_replace("{!nama_admin!}", "", $temp);
-			}
-
-			$produk = json_decode($d->produk);
-			$list_prod = "";
-			$c_prod = 0;
-			foreach($produk->list as $p){
-				$cekP = DB::table('t_produk')->select("nama_produk")->where("nama_produk", $p->rawData->nama_produk)->get()->first();
-				if(isset($cekP)){
-					$list_prod .= "<li class='ml--15'>".ucwords(strtolower($p->rawData->nama_produk))."&nbsp;&nbsp;&nbsp;x".$p->jumlah."</li>";
-				} else {
-					$list_prod .= "<li class='ml--15'>[?Terhapus?]&nbsp;&nbsp;&nbsp;x".$p->jumlah."</li>";
-				}
-				$c_prod += (int)$p->jumlah;
-			}
-			$temp = str_replace("{!list_produk!}", $list_prod, $temp);
-			$temp = str_replace("{!jumlah_produk!}", (string)$c_prod, $temp);
-			unset($c_prod);
-			unset($list_prod);
-			unset($produk);
-
-			$total = 0;
-			$totalD = json_decode($d->total);
-			$total += (int)$totalD->hargaProduk + (int)$totalD->hargaOngkir;
-			if(!is_null($totalD->biayaLain)){
-				foreach($totalD->biayaLain as $biaya){
-					$total += (int)$biaya->harga;
-				}
-				unset($biaya);
-			}
-			if(!is_null($totalD->diskonOrder)){
-				foreach($totalD->diskonOrder as $diskon){
-					$total -= (int)$diskon->harga;
-				}
-				unset($diskon);
-			}
-			$temp = str_replace("{!total_bayar!}", Fungsi::uangFormat($total, true), $temp);
-			unset($total);
-			unset($totalD);
-
-			$pembayaran = json_decode($d->pembayaran);
-			if($pembayaran->status == "belum"){
-				$temp = str_replace("{!data_bayar!}", "", $temp);
-				$temp = str_replace("{!css_status_bayar!}", "bayar-belum", $temp);
-				$temp = str_replace("{!btn_riwayat_bayar!}", "", $temp);
-				$temp = str_replace("{!css_btn_status_bayar!}", "badge-danger", $temp);
-				$temp = str_replace("{!btn_update_bayar!}", '<button class="btn btn-default btn-outline ml-5 btnBayarMod" data-target="#bayarMod" data-id="{!id_order!}" data-urut="{!urut_order!}" data-toggle="modal" type="button">Update Bayar</button>', $temp);
-				$temp = str_replace("{!id_order!}", $d->id_order, $temp);
-				$temp = str_replace("{!urut_order!}", $d->urut_order, $temp);
-				$temp = str_replace("{!tulisan_btn_status_bayar!}", "Belum Bayar", $temp);
-				$temp = str_replace("{!via_bayar!}", "", $temp);
-			} else if($pembayaran->status == "cicil"){
-				$lacakResiAble++;
-				$temp = str_replace("{!css_status_bayar!}", "bayar-cicil", $temp);
-				$temp = str_replace("{!css_btn_status_bayar!}", "badge-warning", $temp);
-				$temp = str_replace("{!btn_riwayat_bayar!}", "<button type='button' class='btn btn-default btn-outline ml-10 btnRiwayatBayar' data-target='#riwayatMod' data-toggle='modal'><i class='fa fa-info'></i>&nbsp;&nbsp;Riwayat Pembayaran</button>", $temp);
-				$temp = str_replace("{!btn_update_bayar!}", '<button class="btn btn-default btn-outline ml-5 btnBayarMod" data-target="#bayarMod" data-id="{!id_order!}" data-urut="{!urut_order!}" data-toggle="modal" type="button">Update Bayar</button>', $temp);
-				$temp = str_replace("{!id_order!}", $d->id_order, $temp);
-				$temp = str_replace("{!urut_order!}", $d->urut_order, $temp);
-				$temp = str_replace("{!tulisan_btn_status_bayar!}", "Cicilan", $temp);
-				$totalD = json_decode($d->total);
-				// $total = ((int)$totalD->hargaProduk + (int)$totalD->hargaOngkir + ($totalD->biayaLain == "null" ? 0 : (int)$totalD->biayaLain)) - ($totalD->diskonOrder == "null" ? 0 : (int)$totalD->diskonOrder);
-				$total = (int)$totalD->hargaProduk + (int)$totalD->hargaOngkir;
-				if(!is_null($totalD->biayaLain)){
-					foreach($totalD->biayaLain as $biaya){
-						$total += (int)$biaya->harga;
-					}
-					unset($biaya);
-				}
-				if(!is_null($totalD->diskonOrder)){
-					foreach($totalD->diskonOrder as $diskon){
-						$total -= (int)$diskon->harga;
-					}
-					unset($diskon);
-				}
-				$bayar = DB::table('t_pembayaran')->select("id_bayar", "nominal", "order_id", "tgl_bayar", "via")->where("order_id", $d->id_order)->get();
-				foreach($bayar as $b){
-					$total -= (int)$b->nominal;
-				}
-				$dataBayar["bayar"] = $pembayaran;
-				$dataBayar["riwayat"] = $bayar;
-				$temp = str_replace("{!data_bayar!}", json_encode($dataBayar), $temp);
-				$temp = str_replace("{!via_bayar!}", '<span class="badge badge-default badge-outline mr-1 mb-2 mt-1" style="border-color:#757575"><span style="color:#757575" class="bayarStat"> - '.Fungsi::uangFormat($total, true).'</span></span>', $temp);
-				unset($total);
-				unset($dataBayar);
-				unset($totalD);
-				unset($bayar);
-			} else if($pembayaran->status == "lunas"){
-				$lacakResiAble++;
-				$bayar = DB::table('t_pembayaran')->where("order_id", $d->id_order)->get();
-				$dataBayar["bayar"] = $pembayaran;
-				$dataBayar["riwayat"] = $bayar;
-				$tmp_via = DB::table('t_pembayaran')->select("via")->where("order_id", $d->id_order)->orderBy('tgl_bayar', 'desc')->get()->first();
-				if(!isset($tmp_via)){
-					$via_bayar = count(explode('|', $pembayaran->via)) == 2 ? explode('|', $pembayaran->via)[1] : explode('|', $pembayaran->via)[0];;
-				} else {
-					$via_bayar = count(explode('|', $tmp_via->via)) == 2 ? explode('|', $tmp_via->via)[1] : explode('|', $tmp_via->via)[0];
-				}
-				$temp = str_replace("{!data_bayar!}", json_encode($dataBayar), $temp);
-				$temp = str_replace("{!css_status_bayar!}", "bayar-lunas", $temp);
-				$temp = str_replace("{!btn_riwayat_bayar!}", "<button type='button' class='btn btn-default btn-outline ml-10 btnRiwayatBayar' data-target='#riwayatMod' data-toggle='modal'><i class='fa fa-info'></i>&nbsp;&nbsp;Riwayat Pembayaran</button>", $temp);
-				$temp = str_replace("{!btn_update_bayar!}", '', $temp);
-				$temp = str_replace("{!css_btn_status_bayar!}", "badge-success", $temp);
-				$temp = str_replace("{!tulisan_btn_status_bayar!}", "Lunas", $temp);
-				$newD = date("j M Y", strtotime($pembayaran->tanggalBayar));
-				$temp = str_replace("{!via_bayar!}", '<span class="badge badge-default badge-outline mr-1 mb-2 mt-1" style="border-color:#757575"><span style="color:#757575">'.$via_bayar.' ('.$newD.')</span></span>', $temp);
-				unset($newD);
-				unset($dataBayar);
-				unset($bayar);
-			}
-
-
-			$kurir = json_decode($d->kurir);
-			if($kurir->tipe == "expedisi"){
-				$exped = explode("|", $kurir->data)[0];
-				if($exped == 'jnt'){
-					$exped = 'j&t';
-				}
-				$plm = "<div style='position: relative;padding: 15px;background-color: #f3f7fa;border: 1px solid #eee;margin-top: -20px;width: 80%;'>{!isi!}</div>";
-				$hasil = "<span style='border:4px solid #A3AFB7; padding:5px'><b>".strtoupper($exped)."</b></span>".
-					"<span style='border:1px solid #A3AFB7; padding:5px; font-size:15px' class='ml-4 {!css_resi!}'>Resi: <span class='resiDiv'>{!resi!}</span></span>";
-				$plm = str_replace("{!isi!}", $hasil, $plm);
-				$temp = str_replace("{!kurir!}", $plm, $temp);
-				$temp = str_replace("{!btn_tandai_terima!}", "", $temp);
-				if(!is_null($d->resi)){
-					$lacakResiAble++;
-					$temp = str_replace("{!resi!}", $d->resi, $temp);
-					$temp = str_replace("{!css_resi!}", "btnResi", $temp);
-					$temp = str_replace("{!btn_update_resi!}", "", $temp);
-					$temp = str_replace("{!btn_update_resi!}", "", $temp);
-				} else {
-					$pembayaran = json_decode($d->pembayaran);
-					if($pembayaran->status == "cicil" || $pembayaran->status == "lunas"){
-						$temp = str_replace("{!btn_update_resi!}", "<button type='button' class='btn btn-default btn-outline ml-5 btnUpdateResi'>Update Resi</button>", $temp);
-						$temp = str_replace("{!resi!}", "-", $temp);
-						$temp = str_replace("{!css_resi!}", "", $temp);
-					} else {
-						$temp = str_replace("{!btn_update_resi!}", "", $temp);
-						$temp = str_replace("{!resi!}", "-", $temp);
-						$temp = str_replace("{!css_resi!}", "", $temp);
-					}
-				}
-				unset($plm);
-			} else if($kurir->tipe == "kurir"){
-				$hasil = ($kurir->data->nama == "" ? "[Tanpa Nama]" : $kurir->data->nama);
-				$temp = str_replace("{!kurir!}", $hasil, $temp);
-				$temp = str_replace("{!btn_update_resi!}", "", $temp);
-				if($pembayaran->status == "lunas" || $pembayaran->status == "cicil"){
-					if($d->state == "terima"){
-						$temp = str_replace("{!btn_tandai_terima!}", "", $temp);
-					} else {
-						$temp = str_replace("{!btn_tandai_terima!}", "<button type='button' class='btn btn-default btn-outline ml-5 btnTandaiTerima'>Tandai diterima</button>", $temp);
-					}
-				} else {
-					$temp = str_replace("{!btn_tandai_terima!}", "", $temp);
-				}
-			} else {
-				$hasil = "[Ambil di Toko]";
-				$temp = str_replace("{!kurir!}", $hasil, $temp);
-				$temp = str_replace("{!btn_update_resi!}", "", $temp);
-				if($pembayaran->status == "lunas" || $pembayaran->status == "cicil"){
-					if($d->state == "terima"){
-						$temp = str_replace("{!btn_tandai_terima!}", "", $temp);
-					} else {
-						$temp = str_replace("{!btn_tandai_terima!}", "<button type='button' class='btn btn-default btn-outline ml-5 btnTandaiTerima'>Tandai diterima</button>", $temp);
-					}
-				} else {
-					$temp = str_replace("{!btn_tandai_terima!}", "", $temp);
-				}
-			}
-			unset($kurir);
-			unset($hasil);
-
-
-			if($d->state == "bayar"){
-				$temp = str_replace("{!state_order1!}", "current", $temp);
-				$temp = str_replace("{!state_order2!}", "", $temp);
-				$temp = str_replace("{!state_order3!}", "", $temp);
-				$temp = str_replace("{!state_order4!}", "", $temp);
-				$temp = str_replace("{!state_order_tooltip!}", "state-order-bayar", $temp);
-			} else if($d->state == "proses"){
-				$temp = str_replace("{!state_order1!}", "done", $temp);
-				$temp = str_replace("{!state_order2!}", "current", $temp);
-				$temp = str_replace("{!state_order3!}", "", $temp);
-				$temp = str_replace("{!state_order4!}", "", $temp);
-				$temp = str_replace("{!state_order_tooltip!}", "state-order-proses", $temp);
-			} else if($d->state == "kirim"){
-				$lacakResiAble++;
-				$temp = str_replace("{!state_order1!}", "done", $temp);
-				$temp = str_replace("{!state_order2!}", "done", $temp);
-				$temp = str_replace("{!state_order3!}", "current", $temp);
-				$temp = str_replace("{!state_order4!}", "", $temp);
-				$temp = str_replace("{!state_order_tooltip!}", "state-order-kirim", $temp);
-			} else if($d->state == "terima"){
-				$temp = str_replace("{!state_order1!}", "done", $temp);
-				$temp = str_replace("{!state_order2!}", "done", $temp);
-				$temp = str_replace("{!state_order3!}", "done", $temp);
-				$temp = str_replace("{!state_order4!}", "current", $temp);
-				$temp = str_replace("{!state_order_tooltip!}", "state-order-terima", $temp);
-			}
-			
-
-			$temp = str_replace("{!url_detail_order!}", route('b.order-detail', ['id_order' => $d->id_order]), $temp);
-			if(($ijin->editOrder === 1 && $data_user->role == 'Admin') || $data_user->role == 'Owner'){
-				if(((int)$d->admin_id) === Auth::user()->id){
-					$temp = str_replace("{!btn_edit_order!}", '<button type="button" class="btn btn-default btn-outline" onClick="pageLoad(\'{!url_edit_order!}\')">Edit Order</button>', $temp);
-					$temp = str_replace("{!url_edit_order!}", route('b.order-edit', ["id_order" => $d->id_order]), $temp);
-				} else {
-					if(($ijin->editOrderAdminLain === 1 && $data_user->role == 'Admin') || $data_user->role == 'Owner'){
-						$temp = str_replace("{!btn_edit_order!}", '<button type="button" class="btn btn-default btn-outline" onClick="pageLoad(\'{!url_edit_order!}\')">Edit Order</button>', $temp);
-						$temp = str_replace("{!url_edit_order!}", route('b.order-edit', ["id_order" => $d->id_order]), $temp);
-					} else {
-						$temp = str_replace("{!btn_edit_order!}", '<button type="button" class="btn btn-default btn-outline disabled">Edit Order</button>', $temp);
-					}
-				}
-			} else {
-				$temp = str_replace("{!btn_edit_order!}", '<button type="button" class="btn btn-default btn-outline disabled">Edit Order</button>', $temp);
-			}
-			
-			if(($ijin->cancelOrder === 1 && $data_user->role == 'Admin') || $data_user->role == 'Owner'){
-				$temp = str_replace("{!btn_cancel_order!}", '<div class="dropdown-divider"></div><a class="dropdown-item btnCancelOrder" style="color:red" href="javascript:void(0)" role="menuitem">Cancel Order</a>', $temp);
-			} else {
-				$temp = str_replace("{!btn_cancel_order!}", '', $temp);
-			}
-			
-			if($lacakResiAble == 3){
-				$temp = str_replace("{!btn_lacak_resi!}", "<button type='button' class='btn btn-default btn-outline ml-5 btnLacakResi'>Lacak Resi</button>", $temp);
-			} else {
-				$temp = str_replace("{!btn_lacak_resi!}", "", $temp);
-			}
-
-
-
-			$order[$i] = $temp;
-			$temp = "";
-		}
+		list($order, $popover, $list_order_json_) = $this->parseDataOrder($data_order, $tml, $data_user, $ijin);
+		$list_order_json = json_encode($list_order_json_);
 		if($request->ajax()){
-			return Fungsi::respon('belakang.order.cari', compact("order", "data_order", "query", "tipeCari", 'bank_list', 'popover', 'data_user', 'ijin'), "ajax", $request);
+			return Fungsi::respon('belakang.order.cari', compact("order", "data_order", "query", "tipeCari", 'bank_list', 'popover', 'data_user', 'ijin', 'list_order_json'), "ajax", $request);
 			// return Fungsi::parseAjax('belakang.semua_order');
 		}
-		return Fungsi::respon('belakang.order.cari', compact("order", "data_order", "query", "tipeCari", 'bank_list', 'popover', 'data_user', 'ijin'), "html", $request);
+		return Fungsi::respon('belakang.order.cari', compact("order", "data_order", "query", "tipeCari", 'bank_list', 'popover', 'data_user', 'ijin', 'list_order_json'), "html", $request);
 	}
 
 	public function filterIndex(Request $request){
@@ -2662,303 +2369,8 @@ CUT;
 		} else {
 			$data_order = [];
 		}
-		$order = [];
-		$temp = "";
-		$popover = [];
-		foreach($this->genArray($data_order) as $i => $d){
-			$dataC_tujuan = DB::table("t_customer")
-				->join("users", "users.id", "=", "t_customer.user_id")
-				->select("t_customer.*", "users.name", "users.no_telp", "users.email")
-				->where("user_id", $d->tujuan_kirim_id)
-				->where("data_of", Fungsi::dataOfCek())
-				->get()->first();
-			$popover[$i]["tujuan"] = $dataC_tujuan;
-			unset($dataC_tujuan);
-			$dataC_pemesan = DB::table("t_customer")
-				->join("users", "users.id", "=", "t_customer.user_id")
-				->select("t_customer.*", "users.name", "users.no_telp", "users.email")
-				->where("user_id", $d->pemesan_id)
-				->where("data_of", Fungsi::dataOfCek())
-				->get()->first();
-			$popover[$i]["pemesan"] = $dataC_pemesan;
-			unset($dataC_pemesan);
-			$lacakResiAble = 0;
-			$temp = str_replace("{!id_order!}", $d->id_order, $tml);
-			$temp = str_replace("{!urut_order!}", $d->urut_order, $temp);
-			$temp = str_replace("{!url_print!}", route('b.print-index').'/'.$d->urut_order, $temp);
-			$temp = str_replace("{!delay_anim!}", ($i+3)."00", $temp);
-			$temp = str_replace("{!index_mypop!}", ($i+1), $temp);
-			$temp = str_replace("{!index_mypop_2!}", ($i+1)."-2", $temp);
-			// $temp = str_replace("{!modBayar_orderId!}", '"'.$d->id_order.'"', $temp);
-			$temp = str_replace("{!src_order!}", ucwords(strtolower($d->src)), $temp);
-
-			$catatan = json_decode($d->catatan);
-			if($catatan->print == "true"){
-				$temp = str_replace("{!catatan!}", '<div class="alert alert-info mt-sm-down-20 rad-parent"><span>'.$catatan->data.'</span></div>', $temp);
-			} else {
-				$temp = str_replace("{!catatan!}", '', $temp);
-			}
-			unset($catatan);
-
-			$newDate = date("l, j M Y", strtotime($d->tanggal_order));
-			$temp = str_replace("{!tanggal_order!}", $newDate, $temp);
-			unset($newDate);
-
-			$cust = DB::table('users')->select("name")->where("id", $d->pemesan_id)->get()->first();
-			if(isset($cust)){
-				$temp = str_replace("{!nama_pemesan!}", ucwords(strtolower($cust->name)), $temp);
-			} else {
-				$temp = str_replace("{!nama_pemesan!}", "[?Terhapus?]", $temp);
-			}
-			unset($cust);
-
-			$cust_t = DB::table('users')->select("name")->where("id", $d->tujuan_kirim_id)->get()->first();
-			if(isset($cust_t)){
-				$temp = str_replace("{!nama_tujuan!}", ucwords(strtolower($cust_t->name)), $temp);
-			} else {
-				$temp = str_replace("{!nama_tujuan!}", "[?Terhapus?]", $temp);
-			}
-			unset($cust_t);
-			
-			if(strtolower($d->src) == "app"){
-				$adm = DB::table('users')->select("name")->where("id", $d->admin_id)->get()->first();
-				$temp = str_replace("{!nama_admin!}", "<div class='text-muted'>Admin: </div><div class='ml-10'>".ucwords(strtolower($adm->name))."</div>", $temp);
-				unset($adm);
-			} else {
-				$temp = str_replace("{!nama_admin!}", "", $temp);
-			}
-
-			$produk = json_decode($d->produk);
-			$list_prod = "";
-			$c_prod = 0;
-			foreach($produk->list as $p){
-				$cekP = DB::table('t_produk')->select("nama_produk")->where("nama_produk", $p->rawData->nama_produk)->get()->first();
-				if(isset($cekP)){
-					$list_prod .= "<li class='ml--15'>".ucwords(strtolower($p->rawData->nama_produk))."&nbsp;&nbsp;&nbsp;x".$p->jumlah."</li>";
-				} else {
-					$list_prod .= "<li class='ml--15'>[?Terhapus?]&nbsp;&nbsp;&nbsp;x".$p->jumlah."</li>";
-				}
-				$c_prod += (int)$p->jumlah;
-			}
-			$temp = str_replace("{!list_produk!}", $list_prod, $temp);
-			$temp = str_replace("{!jumlah_produk!}", (string)$c_prod, $temp);
-			unset($c_prod);
-			unset($list_prod);
-			unset($produk);
-
-			$total = 0;
-			$totalD = json_decode($d->total);
-			$total += (int)$totalD->hargaProduk + (int)$totalD->hargaOngkir;
-			if(!is_null($totalD->biayaLain)){
-				foreach($totalD->biayaLain as $biaya){
-					$total += (int)$biaya->harga;
-				}
-				unset($biaya);
-			}
-			if(!is_null($totalD->diskonOrder)){
-				foreach($totalD->diskonOrder as $diskon){
-					$total -= (int)$diskon->harga;
-				}
-				unset($diskon);
-			}
-			$temp = str_replace("{!total_bayar!}", Fungsi::uangFormat($total, true), $temp);
-			unset($total);
-			unset($totalD);
-
-			$pembayaran = json_decode($d->pembayaran);
-			if($pembayaran->status == "belum"){
-				$temp = str_replace("{!data_bayar!}", "", $temp);
-				$temp = str_replace("{!css_status_bayar!}", "bayar-belum", $temp);
-				$temp = str_replace("{!btn_riwayat_bayar!}", "", $temp);
-				$temp = str_replace("{!css_btn_status_bayar!}", "badge-danger", $temp);
-				$temp = str_replace("{!btn_update_bayar!}", '<button class="btn btn-default btn-outline ml-5 btnBayarMod" data-target="#bayarMod" data-id="{!id_order!}" data-urut="{!urut_order!}" data-toggle="modal" type="button">Update Bayar</button>', $temp);
-				$temp = str_replace("{!id_order!}", $d->id_order, $temp);
-				$temp = str_replace("{!urut_order!}", $d->urut_order, $temp);
-				$temp = str_replace("{!tulisan_btn_status_bayar!}", "Belum Bayar", $temp);
-				$temp = str_replace("{!via_bayar!}", "", $temp);
-			} else if($pembayaran->status == "cicil"){
-				$lacakResiAble++;
-				$temp = str_replace("{!css_status_bayar!}", "bayar-cicil", $temp);
-				$temp = str_replace("{!css_btn_status_bayar!}", "badge-warning", $temp);
-				$temp = str_replace("{!btn_riwayat_bayar!}", "<button type='button' class='btn btn-default btn-outline ml-10 btnRiwayatBayar' data-target='#riwayatMod' data-toggle='modal'><i class='fa fa-info'></i>&nbsp;&nbsp;Riwayat Pembayaran</button>", $temp);
-				$temp = str_replace("{!btn_update_bayar!}", '<button class="btn btn-default btn-outline ml-5 btnBayarMod" data-target="#bayarMod" data-id="{!id_order!}" data-urut="{!urut_order!}" data-toggle="modal" type="button">Update Bayar</button>', $temp);
-				$temp = str_replace("{!id_order!}", $d->id_order, $temp);
-				$temp = str_replace("{!urut_order!}", $d->urut_order, $temp);
-				$temp = str_replace("{!tulisan_btn_status_bayar!}", "Cicilan", $temp);
-				$totalD = json_decode($d->total);
-				// $total = ((int)$totalD->hargaProduk + (int)$totalD->hargaOngkir + ($totalD->biayaLain == "null" ? 0 : (int)$totalD->biayaLain)) - ($totalD->diskonOrder == "null" ? 0 : (int)$totalD->diskonOrder);
-				$total = (int)$totalD->hargaProduk + (int)$totalD->hargaOngkir;
-				if(!is_null($totalD->biayaLain)){
-					foreach($totalD->biayaLain as $biaya){
-						$total += (int)$biaya->harga;
-					}
-					unset($biaya);
-				}
-				if(!is_null($totalD->diskonOrder)){
-					foreach($totalD->diskonOrder as $diskon){
-						$total -= (int)$diskon->harga;
-					}
-					unset($diskon);
-				}
-				$bayar = DB::table('t_pembayaran')->select("id_bayar", "nominal", "order_id", "tgl_bayar", "via")->where("order_id", $d->id_order)->get();
-				foreach($bayar as $b){
-					$total -= (int)$b->nominal;
-				}
-				$dataBayar["bayar"] = $pembayaran;
-				$dataBayar["riwayat"] = $bayar;
-				$temp = str_replace("{!data_bayar!}", json_encode($dataBayar), $temp);
-				$temp = str_replace("{!via_bayar!}", '<span class="badge badge-default badge-outline mr-1 mb-2 mt-1" style="border-color:#757575"><span style="color:#757575" class="bayarStat"> - '.Fungsi::uangFormat($total, true).'</span></span>', $temp);
-				unset($total);
-				unset($dataBayar);
-				unset($totalD);
-				unset($bayar);
-			} else if($pembayaran->status == "lunas"){
-				$lacakResiAble++;
-				$bayar = DB::table('t_pembayaran')->where("order_id", $d->id_order)->get();
-				$dataBayar["bayar"] = $pembayaran;
-				$dataBayar["riwayat"] = $bayar;
-				$tmp_via = DB::table('t_pembayaran')->select("via")->where("order_id", $d->id_order)->orderBy('tgl_bayar', 'desc')->get()->first();
-				if(!isset($tmp_via)){
-					$via_bayar = count(explode('|', $pembayaran->via)) == 2 ? explode('|', $pembayaran->via)[1] : explode('|', $pembayaran->via)[0];;
-				} else {
-					$via_bayar = count(explode('|', $tmp_via->via)) == 2 ? explode('|', $tmp_via->via)[1] : explode('|', $tmp_via->via)[0];
-				}
-				$temp = str_replace("{!data_bayar!}", json_encode($dataBayar), $temp);
-				$temp = str_replace("{!css_status_bayar!}", "bayar-lunas", $temp);
-				$temp = str_replace("{!btn_riwayat_bayar!}", "<button type='button' class='btn btn-default btn-outline ml-10 btnRiwayatBayar' data-target='#riwayatMod' data-toggle='modal'><i class='fa fa-info'></i>&nbsp;&nbsp;Riwayat Pembayaran</button>", $temp);
-				$temp = str_replace("{!btn_update_bayar!}", '', $temp);
-				$temp = str_replace("{!css_btn_status_bayar!}", "badge-success", $temp);
-				$temp = str_replace("{!tulisan_btn_status_bayar!}", "Lunas", $temp);
-				$newD = date("j M Y", strtotime($pembayaran->tanggalBayar));
-				$temp = str_replace("{!via_bayar!}", '<span class="badge badge-default badge-outline mr-1 mb-2 mt-1" style="border-color:#757575"><span style="color:#757575">'.$via_bayar.' ('.$newD.')</span></span>', $temp);
-				unset($newD);
-				unset($dataBayar);
-				unset($bayar);
-			}
-
-
-			$kurir = json_decode($d->kurir);
-			if($kurir->tipe == "expedisi"){
-				$exped = explode("|", $kurir->data)[0];
-				if($exped == 'jnt'){
-					$exped = 'j&t';
-				}
-				$plm = "<div style='position: relative;padding: 15px;background-color: #f3f7fa;border: 1px solid #eee;margin-top: -20px;width: 80%;'>{!isi!}</div>";
-				$hasil = "<span style='border:4px solid #A3AFB7; padding:5px'><b>".strtoupper($exped)."</b></span>".
-					"<span style='border:1px solid #A3AFB7; padding:5px; font-size:15px' class='ml-4 {!css_resi!}'>Resi: <span class='resiDiv'>{!resi!}</span></span>";
-				$plm = str_replace("{!isi!}", $hasil, $plm);
-				$temp = str_replace("{!kurir!}", $plm, $temp);
-				$temp = str_replace("{!btn_tandai_terima!}", "", $temp);
-				if(!is_null($d->resi)){
-					$lacakResiAble++;
-					$temp = str_replace("{!resi!}", $d->resi, $temp);
-					$temp = str_replace("{!css_resi!}", "btnResi", $temp);
-					$temp = str_replace("{!btn_update_resi!}", "", $temp);
-					$temp = str_replace("{!btn_update_resi!}", "", $temp);
-				} else {
-					$pembayaran = json_decode($d->pembayaran);
-					if($pembayaran->status == "cicil" || $pembayaran->status == "lunas"){
-						$temp = str_replace("{!btn_update_resi!}", "<button type='button' class='btn btn-default btn-outline ml-5 btnUpdateResi'>Update Resi</button>", $temp);
-						$temp = str_replace("{!resi!}", "-", $temp);
-						$temp = str_replace("{!css_resi!}", "", $temp);
-					} else {
-						$temp = str_replace("{!btn_update_resi!}", "", $temp);
-						$temp = str_replace("{!resi!}", "-", $temp);
-						$temp = str_replace("{!css_resi!}", "", $temp);
-					}
-				}
-				unset($plm);
-			} else if($kurir->tipe == "kurir"){
-				$hasil = ($kurir->data->nama == "" ? "[Tanpa Nama]" : $kurir->data->nama);
-				$temp = str_replace("{!kurir!}", $hasil, $temp);
-				$temp = str_replace("{!btn_update_resi!}", "", $temp);
-				if($pembayaran->status == "lunas" || $pembayaran->status == "cicil"){
-					if($d->state == "terima"){
-						$temp = str_replace("{!btn_tandai_terima!}", "", $temp);
-					} else {
-						$temp = str_replace("{!btn_tandai_terima!}", "<button type='button' class='btn btn-default btn-outline ml-5 btnTandaiTerima'>Tandai diterima</button>", $temp);
-					}
-				} else {
-					$temp = str_replace("{!btn_tandai_terima!}", "", $temp);
-				}
-			} else {
-				$hasil = "[Ambil di Toko]";
-				$temp = str_replace("{!kurir!}", $hasil, $temp);
-				$temp = str_replace("{!btn_update_resi!}", "", $temp);
-				if($pembayaran->status == "lunas" || $pembayaran->status == "cicil"){
-					if($d->state == "terima"){
-						$temp = str_replace("{!btn_tandai_terima!}", "", $temp);
-					} else {
-						$temp = str_replace("{!btn_tandai_terima!}", "<button type='button' class='btn btn-default btn-outline ml-5 btnTandaiTerima'>Tandai diterima</button>", $temp);
-					}
-				} else {
-					$temp = str_replace("{!btn_tandai_terima!}", "", $temp);
-				}
-			}
-			unset($kurir);
-			unset($hasil);
-
-
-			if($d->state == "bayar"){
-				$temp = str_replace("{!state_order1!}", "current", $temp);
-				$temp = str_replace("{!state_order2!}", "", $temp);
-				$temp = str_replace("{!state_order3!}", "", $temp);
-				$temp = str_replace("{!state_order4!}", "", $temp);
-				$temp = str_replace("{!state_order_tooltip!}", "state-order-bayar", $temp);
-			} else if($d->state == "proses"){
-				$temp = str_replace("{!state_order1!}", "done", $temp);
-				$temp = str_replace("{!state_order2!}", "current", $temp);
-				$temp = str_replace("{!state_order3!}", "", $temp);
-				$temp = str_replace("{!state_order4!}", "", $temp);
-				$temp = str_replace("{!state_order_tooltip!}", "state-order-proses", $temp);
-			} else if($d->state == "kirim"){
-				$lacakResiAble++;
-				$temp = str_replace("{!state_order1!}", "done", $temp);
-				$temp = str_replace("{!state_order2!}", "done", $temp);
-				$temp = str_replace("{!state_order3!}", "current", $temp);
-				$temp = str_replace("{!state_order4!}", "", $temp);
-				$temp = str_replace("{!state_order_tooltip!}", "state-order-kirim", $temp);
-			} else if($d->state == "terima"){
-				$temp = str_replace("{!state_order1!}", "done", $temp);
-				$temp = str_replace("{!state_order2!}", "done", $temp);
-				$temp = str_replace("{!state_order3!}", "done", $temp);
-				$temp = str_replace("{!state_order4!}", "current", $temp);
-				$temp = str_replace("{!state_order_tooltip!}", "state-order-terima", $temp);
-			}
-			
-
-			$temp = str_replace("{!url_detail_order!}", route('b.order-detail', ["id_order" => $d->id_order]), $temp);
-			if(($ijin->editOrder === 1 && $data_user->role == 'Admin') || $data_user->role == 'Owner'){
-				if(((int)$d->admin_id) === Auth::user()->id){
-					$temp = str_replace("{!btn_edit_order!}", '<button type="button" class="btn btn-default btn-outline" onClick="pageLoad(\'{!url_edit_order!}\')">Edit Order</button>', $temp);
-					$temp = str_replace("{!url_edit_order!}", route('b.order-edit', ["id_order" => $d->id_order]), $temp);
-				} else {
-					if(($ijin->editOrderAdminLain === 1 && $data_user->role == 'Admin') || $data_user->role == 'Owner'){
-						$temp = str_replace("{!btn_edit_order!}", '<button type="button" class="btn btn-default btn-outline" onClick="pageLoad(\'{!url_edit_order!}\')">Edit Order</button>', $temp);
-						$temp = str_replace("{!url_edit_order!}", route('b.order-edit', ["id_order" => $d->id_order]), $temp);
-					} else {
-						$temp = str_replace("{!btn_edit_order!}", '<button type="button" class="btn btn-default btn-outline disabled">Edit Order</button>', $temp);
-					}
-				}
-			} else {
-				$temp = str_replace("{!btn_edit_order!}", '<button type="button" class="btn btn-default btn-outline disabled">Edit Order</button>', $temp);
-			}
-			if(($ijin->cancelOrder === 1 && $data_user->role == 'Admin') || $data_user->role == 'Owner'){
-				$temp = str_replace("{!btn_cancel_order!}", '<div class="dropdown-divider"></div><a class="dropdown-item btnCancelOrder" style="color:red" href="javascript:void(0)" role="menuitem">Cancel Order</a>', $temp);
-			} else {
-				$temp = str_replace("{!btn_cancel_order!}", '', $temp);
-			}
-			if($lacakResiAble == 3){
-				$temp = str_replace("{!btn_lacak_resi!}", "<button type='button' class='btn btn-default btn-outline ml-5 btnLacakResi'>Lacak Resi</button>", $temp);
-			} else {
-				$temp = str_replace("{!btn_lacak_resi!}", "", $temp);
-			}
-
-
-
-			$order[$i] = $temp;
-			$temp = "";
-		}
+		list($order, $popover, $list_order_json_) = $this->parseDataOrder($data_order, $tml, $data_user, $ijin);
+		$list_order_json = json_encode($list_order_json_);
 		$btnFilterCSS = [];
 		$btnFilterCSS_id = null;
 		$btnFilterCSS["f_semua"] = "filterBtnDefault";
@@ -3052,10 +2464,10 @@ CUT;
 			->where('status', 1)
 			->get();
 		if($request->ajax()){
-			return Fungsi::respon('belakang.order.filter', compact("excel_tgl", "order", "data_order", "btnFilterCSS", "data_filter", "cekIdFilter", 'bank_list', 'popover', 'order_source', 'data_user', 'ijin', 'bank_filter'), "ajax", $request);
+			return Fungsi::respon('belakang.order.filter', compact("excel_tgl", 'list_order_json', "order", "data_order", "btnFilterCSS", "data_filter", "cekIdFilter", 'bank_list', 'popover', 'order_source', 'data_user', 'ijin', 'bank_filter'), "ajax", $request);
 			// return Fungsi::parseAjax('belakang.semua_order');
 		}
-		return Fungsi::respon('belakang.order.filter', compact("excel_tgl", "order", "data_order", "btnFilterCSS", "data_filter", "cekIdFilter", 'bank_list', 'popover', 'order_source', 'data_user', 'ijin', 'bank_filter'), "html", $request);
+		return Fungsi::respon('belakang.order.filter', compact("excel_tgl", 'list_order_json', "order", "data_order", "btnFilterCSS", "data_filter", "cekIdFilter", 'bank_list', 'popover', 'order_source', 'data_user', 'ijin', 'bank_filter'), "html", $request);
 	}
 
 	public function LacakResiIndex(Request $request, $id_order = null){
