@@ -108,6 +108,7 @@
         @endif
     </div>
     <div class='row'>
+        @if(($ijin->melihatOmset === 1 && $data_user->role == 'Admin') || $data_user->role == 'Owner')
         <div class='col-xxl-6 col-xl-12'>
             <div class='panel animation-slide-left' style='animation-delay:100ms'>
                 <div class='panel-heading'>
@@ -128,6 +129,18 @@
                 </div>
             </div>
         </div>
+        @else
+        <div class='col-xxl-12'>
+            <div class='panel animation-slide-left' style='animation-delay:100ms'>
+                <div class='panel-heading'>
+                    <h3 class='panel-title'>Grafik Order dan Produk Terjual Bulan Ini</h3>
+                </div>
+                <div class='panel-body'>
+                    <canvas id="chart-order_dan_produk_bulan_ini" class=''></canvas>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 </div>
 
@@ -228,6 +241,7 @@
 			}
         });
 
+        @if(($ijin->melihatOmset === 1 && $data_user->role == 'Admin') || $data_user->role == 'Owner')
         var chart_gross_profit_bulan_ini = new Chart(document.getElementById('chart-gross_profit_bulan_ini').getContext('2d'), {
             type: 'line',
             data: {
@@ -332,6 +346,7 @@
                 }
 			}
         });
+        @endif
 
 
 
