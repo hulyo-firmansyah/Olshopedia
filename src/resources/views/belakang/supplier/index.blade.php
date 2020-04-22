@@ -566,6 +566,7 @@ $(document).ready(function(){
         var kode_posSupplier = $('#kode_posSupplier').val();
         var alamatSupplier = $('#alamatSupplier').val();
         var keteranganSupplier = $('#keteranganSupplier').val();
+        console.log(kode_posSupplier.length);
         var error = 0;
         if (namaSupplier == "") {
             $('#namaSupplier').addClass('is-invalid animation-shake');
@@ -594,6 +595,14 @@ $(document).ready(function(){
         if (kode_posSupplier == "") {
             $('#kode_posSupplier').addClass('is-invalid animation-shake');
             $('small#error_kode_posSupplier').attr('style', 'color:#f2353c;');
+            $('small#error_kode_posSupplier').text('Masukkan Kode Pos!');
+            $('small#error_kode_posSupplier').show();
+            error++;
+        }
+        if(kode_posSupplier.length > 9){
+            $('#kode_posSupplier').addClass('is-invalid animation-shake');
+            $('small#error_kode_posSupplier').attr('style', 'color:#f2353c;');
+            $('small#error_kode_posSupplier').text('Digit Kode Pos terlalu banyak!');
             $('small#error_kode_posSupplier').show();
             error++;
         }
@@ -758,6 +767,14 @@ $(document).ready(function(){
         if (edit_kode_posSupplier == "") {
             $('#edit_kode_posSupplier').addClass('is-invalid animation-shake');
             $('small#error_edit_kode_posSupplier').attr('style', 'color:#f2353c;');
+            $('small#error_edit_kode_posSupplier').text('Masukkan Kode Pos!');
+            $('small#error_edit_kode_posSupplier').show();
+            error++;
+        }
+        if(edit_kode_posSupplier.length > 9){
+            $('#edit_kode_posSupplier').addClass('is-invalid animation-shake');
+            $('small#error_edit_kode_posSupplier').attr('style', 'color:#f2353c;');
+            $('small#error_edit_kode_posSupplier').text('Digit Kode Pos terlalu banyak!');
             $('small#error_edit_kode_posSupplier').show();
             error++;
         }
