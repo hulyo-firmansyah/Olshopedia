@@ -38,7 +38,12 @@ class OrderController extends Controller
 			->where('data_of', Fungsi::dataOfCek())
 			->get();
 		$bank_list = "";
+		$bank_filter = [];
 		foreach($this->genArray($bank) as $b){
+			$bank_filter[] = [
+				'id' => $b->id_bank,
+				'bank' => $b->bank,
+			];
 			$bank_list .= "<a class='dropdown-item pilihViaBayar' data-idb='".$b->id_bank."' href='javascript:void(0)' role='menuitem'><span>".$b->bank."</span></a>";
 		}
 		$tml = <<<CUT
@@ -481,10 +486,10 @@ CUT;
 		$list_order_json = json_encode($list_order_json_);
 		// dd($list_order_json);
 		if($request->ajax()){
-			return Fungsi::respon('belakang.order.semua', compact("order", "data_order", 'data_filter', 'popover', 'bank_list', 'order_source', 'list_order_json', 'data_user', 'ijin'), "ajax", $request);
+			return Fungsi::respon('belakang.order.semua', compact("order", "data_order", 'data_filter', 'popover', 'bank_list', 'order_source', 'list_order_json', 'data_user', 'ijin', 'bank_filter'), "ajax", $request);
 			// return Fungsi::parseAjax('belakang.semua_order');
 		}
-		return Fungsi::respon('belakang.order.semua', compact("order", "data_order", 'data_filter', 'popover', 'bank_list', 'order_source', 'list_order_json', 'data_user', 'ijin'), "html", $request);
+		return Fungsi::respon('belakang.order.semua', compact("order", "data_order", 'data_filter', 'popover', 'bank_list', 'order_source', 'list_order_json', 'data_user', 'ijin', 'bank_filter'), "html", $request);
     }
 
     public function cancelIndex(Request $request){
@@ -1668,7 +1673,8 @@ CUT;
 
 	private function genArray($data){
 		foreach($data as $i => $c){
-			yield $i => $c;
+			$inject = yield $i => $c;
+			if($inject === 'stop')return;
 		}
 	}
 
@@ -2266,7 +2272,12 @@ CUT;
 			->where('data_of', Fungsi::dataOfCek())
 			->get();
 		$bank_list = "";
+		$bank_filter = [];
 		foreach($this->genArray($bank) as $b){
+			$bank_filter[] = [
+				'id' => $b->id_bank,
+				'bank' => $b->bank,
+			];
 			$bank_list .= "<a class='dropdown-item pilihViaBayar' data-idb='".$b->id_bank."' href='javascript:void(0)' role='menuitem'><span>".$b->bank."</span></a>";
 		}
 		$data["admin"] = strip_tags($request->f_admin);
@@ -2387,14 +2398,24 @@ CUT;
 		foreach($this->genArray($order_temp["3_kirim"]) as $iK => $vK){
 			if($data["via"] != "0"){
 				if(is_numeric($data["via"])){
-					//nunggu setting
+					$tmp_data = DB::table("t_pembayaran")->select("via")->where("order_id", $vK->id_order)->get();
+					if(count($tmp_data) > 0){
+						$genTmp = $this->genArray($tmp_data);
+						foreach($genTmp as $iTmp => $vTmp){
+							if($data["via"] == explode('|', $vTmp->via)[0]){
+								$order_temp["4_via"][] = $vK;
+								$genTmp->send('stop');
+							}
+						}
+					}
 				} else if($data["via"] == "cash"){
 					$tmp_data = DB::table("t_pembayaran")->select("via")->where("order_id", $vK->id_order)->get();
 					if(count($tmp_data) > 0){
-						foreach($this->genArray($tmp_data) as $iTmp => $vTmp){
+						$genTmp = $this->genArray($tmp_data);
+						foreach($genTmp as $iTmp => $vTmp){
 							if($vTmp->via == "CASH"){
 								$order_temp["4_via"][] = $vK;
-								break;
+								$genTmp->send('stop');
 							}
 						}
 					}
@@ -3031,10 +3052,10 @@ CUT;
 			->where('status', 1)
 			->get();
 		if($request->ajax()){
-			return Fungsi::respon('belakang.order.filter', compact("excel_tgl", "order", "data_order", "btnFilterCSS", "data_filter", "cekIdFilter", 'bank_list', 'popover', 'order_source', 'data_user', 'ijin'), "ajax", $request);
+			return Fungsi::respon('belakang.order.filter', compact("excel_tgl", "order", "data_order", "btnFilterCSS", "data_filter", "cekIdFilter", 'bank_list', 'popover', 'order_source', 'data_user', 'ijin', 'bank_filter'), "ajax", $request);
 			// return Fungsi::parseAjax('belakang.semua_order');
 		}
-		return Fungsi::respon('belakang.order.filter', compact("excel_tgl", "order", "data_order", "btnFilterCSS", "data_filter", "cekIdFilter", 'bank_list', 'popover', 'order_source', 'data_user', 'ijin'), "html", $request);
+		return Fungsi::respon('belakang.order.filter', compact("excel_tgl", "order", "data_order", "btnFilterCSS", "data_filter", "cekIdFilter", 'bank_list', 'popover', 'order_source', 'data_user', 'ijin', 'bank_filter'), "html", $request);
 	}
 
 	public function LacakResiIndex(Request $request, $id_order = null){

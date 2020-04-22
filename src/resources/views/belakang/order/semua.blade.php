@@ -250,6 +250,9 @@
                             <select class='form-control' id='filter-via' name='f_via'>
                                 <option value='0'>Semua</option>
                                 <option value='cash'>CASH</option>
+                                @foreach($bank_filter as $b)
+                                    <option value='{{ $b["id"] }}'>{{ $b["bank"] }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

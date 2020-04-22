@@ -245,6 +245,9 @@
                             <select class='form-control' id='filter-via' name='f_via'>
                                 <option value='0' @if(request()->f_via == '0') selected @endif>Semua</option>
                                 <option value='cash' @if(request()->f_via == 'cash') selected @endif>CASH</option>
+                                @foreach($bank_filter as $b)
+                                    <option value='{{ $b["id"] }}' @if(request()->f_via == $b["id"]) selected @endif>{{ $b["bank"] }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
