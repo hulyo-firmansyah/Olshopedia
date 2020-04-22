@@ -100,6 +100,7 @@
         Route::get('/semua', 'belakang\ProdukController@produkIndex')->name("b.produk-index");
         Route::get('/beli', 'belakang\ProdukController@beliProdukIndex')->name("b.produk-beli");
         Route::get('/data-beli', 'belakang\ProdukController@dataBeliProdukIndex')->name("b.produk-dataBeli");
+        Route::get('/data-beli/edit/{target?}', 'belakang\ProdukController@dataBeliProdukEdit')->name("b.produk-dataBeli_edit");
         Route::get('/data-beli/print/{target?}', 'belakang\ProdukController@dataBeliProdukPrint')->name("b.produk-dataBeli_print");
         Route::get('/', 'belakang\ProdukController@redirectIndex');
         Route::get('/{id_produk?}/edit', 'belakang\ProdukController@editProduk')->name("b.produk-edit");

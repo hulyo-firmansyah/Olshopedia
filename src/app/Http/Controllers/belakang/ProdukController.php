@@ -1856,9 +1856,9 @@ EOT
 
     public function dataBeliProdukIndex(Request $request){
 		if($request->ajax()){
-			return Fungsi::respon('belakang.produk.data-beli', [], "ajax", $request);
+			return Fungsi::respon('belakang.produk.data-beli.index', [], "ajax", $request);
 		}
-		return Fungsi::respon('belakang.produk.data-beli', [], "html", $request);
+		return Fungsi::respon('belakang.produk.data-beli.index', [], "html", $request);
 	}
 
     public function dataBeliProdukPrint(Request $request, $target = null){
@@ -1934,7 +1934,30 @@ EOT
 			$nama_admin = '[?Terhapus?]';
 		}
 		// dd($data_beli, $toko, $nama_admin, $data);
-		return Fungsi::respon('belakang.produk.data-beli-print', compact('data_beli', 'toko', 'nama_admin', 'data'), "html", $request);
+		return Fungsi::respon('belakang.produk.data-beli.print', compact('data_beli', 'toko', 'nama_admin', 'data'), "html", $request);
+	}
+
+	public function dataBeliProdukEdit(Request $request, $target = null){
+		if(is_null($target) || preg_match("/[^0-9\-]/", $target)){
+            return redirect()->route('b.produk-dataBeli');
+		}
+		$id = strip_tags($target);
+		$data_beli = DB::table('t_pembelian_produk')
+			->where('data_of', Fungsi::dataOfCek())
+			->where('id_pembelian_produk', $id)
+			->get()->first();
+		if(isset($data_beli)){
+
+		} else {
+			return redirect(route('b.produk-dataBeli'))->with([
+				'msg_error' => 'ID Pembelian Produk '.$id.' tidak ditemukan!'
+			]);
+		}
+		if($request->ajax()){
+			return Fungsi::respon('belakang.produk.data-beli.edit', compact('data_beli'), "ajax", $request);
+		} else {
+			return Fungsi::respon('belakang.produk.data-beli.edit', compact('data_beli'), "html", $request);
+		}
 	}
 
 	public function getProdukBeli(Request $request){

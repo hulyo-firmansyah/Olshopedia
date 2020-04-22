@@ -88,6 +88,10 @@ $(document).ready(function(){
         ]
     });
 
+    $("#table_beli_produk").on("click", ".btnEdit", function(){
+        pageLoad('{{ route("b.produk-dataBeli_edit") }}/'+$(this).data('id'));
+    });
+
     $("#table_beli_produk").on("click", ".btnHapus", function(){
         let id = $(this).data('id');
         swal({
