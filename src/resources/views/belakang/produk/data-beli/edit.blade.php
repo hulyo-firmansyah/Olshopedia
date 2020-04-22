@@ -308,7 +308,7 @@ function bersihError(){
 (function(world) {
 
     world.fn.submitForm = function(tipeD) {
-        return;
+        // return;
         if($("#tableBeli-isi tr").length < 1){
            return alertify.warning('Belum ada produk yang terpilih!').dismissOthers();
         }
