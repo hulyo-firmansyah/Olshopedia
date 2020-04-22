@@ -95,7 +95,7 @@
                 <div class="d-flex justify-content-around">
                     <div class="p-2 text-center">
                         <span style='font-weight:bold;color:black;font-size:25px'>{{ $totalBeli }}</span><br>
-                        <span style='font-size:15px'>Total @if($cekTipeProduk == 'sendiri') Harga Beli @elseif($cekTipeProduk == 'lain') Harga Bayar ke Supplier @endif</span>
+                        <span style='font-size:15px'>Total Harga Beli</span>
                     </div>
                     <div class="p-2 text-center">
                         <span style='font-weight:bold;color:black;font-size:25px'>{{ $totalJual }}</span><br>

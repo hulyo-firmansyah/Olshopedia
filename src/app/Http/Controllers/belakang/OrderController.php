@@ -1529,7 +1529,6 @@ CUT;
 		$data->hargaList = "<tbody>";
 		$total = $totalJual = $totalBeli = 0;
 		$totalUntung = "";
-		$cekTipeProduk = null;
 		foreach($data->produk as $i => $v){
 			$tmp = "";
 			$p = $v->rawData;
@@ -1581,9 +1580,6 @@ CUT;
 					$tmp .= "<span class='text-muted'><s>".Fungsi::uangFormat($hargaAwal, true)."</s></span>&nbsp;<span style='color:#ff8282'>".Fungsi::uangFormat($hargaAkhir, true)."</span>".
 						"<span class='text-muted'> x ".$v->jumlah."</span>";
 				}
-			}
-			if(is_null($cekTipeProduk)){
-				$cekTipeProduk = explode('|', $p->stok)[1];
 			}
 			$subtotal = $hargaAkhir * $v->jumlah;
 			$total += (int)$subtotal;
@@ -1677,9 +1673,9 @@ CUT;
 		$totalBeli = Fungsi::uangFormat($totalBeli, true);
 		// echo "<pre>".print_r($data, true)."</pre>";
 		if($request->ajax()){
-			return Fungsi::respon('belakang.order.detail', compact("data", "totalUntung", "totalJual", "totalBeli", "riwayatTampil", 'cekTipeProduk'), "ajax", $request);
+			return Fungsi::respon('belakang.order.detail', compact("data", "totalUntung", "totalJual", "totalBeli", "riwayatTampil"), "ajax", $request);
 		}
-		return Fungsi::respon('belakang.order.detail', compact("data", "totalUntung", "totalJual", "totalBeli", "riwayatTampil", 'cekTipeProduk'), "html", $request);
+		return Fungsi::respon('belakang.order.detail', compact("data", "totalUntung", "totalJual", "totalBeli", "riwayatTampil"), "html", $request);
 	}
 
 	private function genArray($data){
