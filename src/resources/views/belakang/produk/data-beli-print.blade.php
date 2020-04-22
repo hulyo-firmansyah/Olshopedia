@@ -85,26 +85,36 @@
         <table width="100%" border="1" cellspacing="0" class="mt-20">
             <thead>
                 <tr style='text-align:center'>
-                    <th>Nama Produk</th>
-                    <th>Supplier</th>
-                    <th>Harga Beli</th>
-                    <th>Jumlah</th>
-                    <th>Subtotal</th>
+                    <th width='3%' class='p-10'>No</th>
+                    <th class='p-10'>Nama Produk</th>
+                    <th class='p-10'>Supplier</th>
+                    <th class='p-10'>Harga Beli</th>
+                    <th class='p-10'>Jumlah</th>
+                    <th class='p-10'>Subtotal</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach(\App\Http\Controllers\PusatController::genArray($data) as $d)
+                @php
+                    $total = 0;
+                @endphp
+                @foreach(\App\Http\Controllers\PusatController::genArray($data) as $i_d => $d)
                     @php
                         $subtotal = $d->jumlah * $d->harga_beli;
+                        $total += $subtotal;
                     @endphp
                     <tr>
-                        <td>{{ $d->nama_produk }}</td>
-                        <td>{{ $d->supplier }}</td>
+                        <td class='text-center'>{{ ($i_d+1) }}</td>
+                        <td class='pl-10 pt-5 pb-5'>{{ $d->nama_produk }}</td>
+                        <td class='pl-10 pt-5 pb-5'>{{ $d->supplier }}</td>
                         <td style='text-align:center'>Rp {{ \App\Http\Controllers\PusatController::formatUang($d->harga_beli) }}</td>
                         <td style='text-align:center'>{{ $d->jumlah }}</td>
                         <td style='text-align:center'>Rp {{ \App\Http\Controllers\PusatController::formatUang($subtotal) }}</td>
                     </tr>
                 @endforeach
+                <tr>
+                    <th class='text-right pr-15 pt-5 pb-5' colspan='5'>Total</th>
+                    <td class='text-center p-5'>Rp {{ \App\Http\Controllers\PusatController::formatUang($total) }}</td>
+                </tr>
             </tbody>
         </table>
     </div>
