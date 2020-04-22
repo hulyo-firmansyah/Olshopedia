@@ -332,7 +332,14 @@ class OrderController extends Controller
 	}
 
     public function semuaIndex(Request $request){
-        list($data_user, $ijin) = $this->getIjinUser();
+		list($data_user, $ijin) = $this->getIjinUser();
+		$admin_filter = DB::table('t_user_meta')
+			->join('users', 'users.id', '=', 't_user_meta.id_user_meta')
+			->where('t_user_meta.data_of', Fungsi::dataOfCek())
+			->where('t_user_meta.role', 'Admin')
+			->select('t_user_meta.id_user_meta', 'users.name')
+			->get()->toArray();
+		// dd($admin_filter);
 		$bank = DB::table('t_bank')
 			->select('bank', 'no_rek', 'cabang', 'atas_nama', 'id_bank')
 			->where('data_of', Fungsi::dataOfCek())
@@ -490,10 +497,10 @@ CUT;
 			->where('status', 1)
 			->get();
 		if($request->ajax()){
-			return Fungsi::respon('belakang.order.semua', compact("order", "data_order", 'data_filter', 'popover', 'bank_list', 'order_source', 'list_order_json', 'data_user', 'ijin', 'bank_filter'), "ajax", $request);
+			return Fungsi::respon('belakang.order.semua', compact('admin_filter', "order", "data_order", 'data_filter', 'popover', 'bank_list', 'order_source', 'list_order_json', 'data_user', 'ijin', 'bank_filter'), "ajax", $request);
 			// return Fungsi::parseAjax('belakang.semua_order');
 		}
-		return Fungsi::respon('belakang.order.semua', compact("order", "data_order", 'data_filter', 'popover', 'bank_list', 'order_source', 'list_order_json', 'data_user', 'ijin', 'bank_filter'), "html", $request);
+		return Fungsi::respon('belakang.order.semua', compact('admin_filter', "order", "data_order", 'data_filter', 'popover', 'bank_list', 'order_source', 'list_order_json', 'data_user', 'ijin', 'bank_filter'), "html", $request);
     }
 
     public function cancelIndex(Request $request){
@@ -1974,6 +1981,12 @@ CUT;
 
 	public function filterIndex(Request $request){
         list($data_user, $ijin) = $this->getIjinUser();
+		$admin_filter = DB::table('t_user_meta')
+			->join('users', 'users.id', '=', 't_user_meta.id_user_meta')
+			->where('t_user_meta.data_of', Fungsi::dataOfCek())
+			->where('t_user_meta.role', 'Admin')
+			->select('t_user_meta.id_user_meta', 'users.name')
+			->get()->toArray();
 		$bank = DB::table('t_bank')
 			->select('bank', 'no_rek', 'cabang', 'atas_nama', 'id_bank')
 			->where('data_of', Fungsi::dataOfCek())
@@ -2028,7 +2041,7 @@ CUT;
 				if(is_numeric($data["admin"])){
 					if($vO->admin_id == $data["admin"]) $order_temp["1_admin"][] = $vO;
 				} else {
-					if($vO->admin_id == 0) $order_temp["1_admin"][] = $vO;
+					if($vO->admin_id == 0 && $vO->src == 'store_front') $order_temp["1_admin"][] = $vO;
 				}
 			} else {
 				$order_temp["1_admin"][] = $vO;
@@ -2464,10 +2477,10 @@ CUT;
 			->where('status', 1)
 			->get();
 		if($request->ajax()){
-			return Fungsi::respon('belakang.order.filter', compact("excel_tgl", 'list_order_json', "order", "data_order", "btnFilterCSS", "data_filter", "cekIdFilter", 'bank_list', 'popover', 'order_source', 'data_user', 'ijin', 'bank_filter'), "ajax", $request);
+			return Fungsi::respon('belakang.order.filter', compact('admin_filter', "excel_tgl", 'list_order_json', "order", "data_order", "btnFilterCSS", "data_filter", "cekIdFilter", 'bank_list', 'popover', 'order_source', 'data_user', 'ijin', 'bank_filter'), "ajax", $request);
 			// return Fungsi::parseAjax('belakang.semua_order');
 		}
-		return Fungsi::respon('belakang.order.filter', compact("excel_tgl", 'list_order_json', "order", "data_order", "btnFilterCSS", "data_filter", "cekIdFilter", 'bank_list', 'popover', 'order_source', 'data_user', 'ijin', 'bank_filter'), "html", $request);
+		return Fungsi::respon('belakang.order.filter', compact('admin_filter', "excel_tgl", 'list_order_json', "order", "data_order", "btnFilterCSS", "data_filter", "cekIdFilter", 'bank_list', 'popover', 'order_source', 'data_user', 'ijin', 'bank_filter'), "html", $request);
 	}
 
 	public function LacakResiIndex(Request $request, $id_order = null){

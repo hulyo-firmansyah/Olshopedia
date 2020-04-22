@@ -222,65 +222,67 @@ function uangToAngka(data, tipe = false) {
 }
 
 $(document).ready(function() {
-    $('.icek').iCheck({
-        checkboxClass: 'icheckbox_flat-blue'
-    });
-
-    $('#pilihSemua').iCheck({
-        checkboxClass: 'icheckbox_flat-blue'
-    });
-    
-    $('.icek').on('ifChecked', function(){
-        let id = parseInt($(this).parent().parent().parent().parent().parent().data('urut'));
-        // console.log(id);
-        if(pilih_order.indexOf(id) === -1){
-            pilih_order.push(id);
-        }
-        if(pilih_order.length === parseInt('{{ $data_order->total() }}')){
-            $('#pilihSemua')[0].checked = true;
-            $('#pilihSemua').iCheck('update');
-        }
-        // console.log(pilih_order);
-    });
-
-    $('.icek').on('ifUnchecked', function(){
-        let id = parseInt($(this).parent().parent().parent().parent().parent().data('urut'));
-        pilih_order = $.grep(pilih_order, function(value) {
-            return value !== parseInt(id);
+    @if(!(count($data_order) == 0))
+        $('.icek').iCheck({
+            checkboxClass: 'icheckbox_flat-blue'
         });
-        if(pilih_order.length !== parseInt('{{ $data_order->total() }}')){
-            $('#pilihSemua')[0].checked = false;
-            $('#pilihSemua').iCheck('update');
-        }
-        // console.log(pilih_order);
-    });
 
-    $('#pilihSemua').on('ifChecked', function(){
-        $.each(jQuery.parseJSON('{{ $list_order_json }}'), (i, v) => {
-            if(pilih_order.indexOf(v) === -1){
-                pilih_order.push(v);
+        $('#pilihSemua').iCheck({
+            checkboxClass: 'icheckbox_flat-blue'
+        });
+
+        $('.icek').on('ifChecked', function(){
+            let id = parseInt($(this).parent().parent().parent().parent().parent().data('urut'));
+            // console.log(id);
+            if(pilih_order.indexOf(id) === -1){
+                pilih_order.push(id);
             }
-            $('#pilihCheck-'+v)[0].checked = true;
-            $('#pilihCheck-'+v).iCheck('update');
+            if(pilih_order.length === parseInt('{{ $data_order->total() }}')){
+                $('#pilihSemua')[0].checked = true;
+                $('#pilihSemua').iCheck('update');
+            }
+            // console.log(pilih_order);
         });
-        // console.log(pilih_order);
-    });
 
-    $('#pilihSemua').on('ifUnchecked', function(){
-        pilih_order = [];
-        $.each(jQuery.parseJSON('{{ $list_order_json }}'), (i, v) => {
-            $('#pilihCheck-'+v)[0].checked = false;
-            $('#pilihCheck-'+v).iCheck('update');
+        $('.icek').on('ifUnchecked', function(){
+            let id = parseInt($(this).parent().parent().parent().parent().parent().data('urut'));
+            pilih_order = $.grep(pilih_order, function(value) {
+                return value !== parseInt(id);
+            });
+            if(pilih_order.length !== parseInt('{{ $data_order->total() }}')){
+                $('#pilihSemua')[0].checked = false;
+                $('#pilihSemua').iCheck('update');
+            }
+            // console.log(pilih_order);
         });
-        // console.log(pilih_order);
-    });
 
-    $('#btnPrintAll').on('click', function(){
-        if(pilih_order.length > 0){
-            let url = "{{ route('b.print-index') }}";
-            $(location).attr('href', url+'/'+pilih_order.join('-'));
-        }
-    });
+        $('#pilihSemua').on('ifChecked', function(){
+            $.each(jQuery.parseJSON('{{ $list_order_json }}'), (i, v) => {
+                if(pilih_order.indexOf(v) === -1){
+                    pilih_order.push(v);
+                }
+                $('#pilihCheck-'+v)[0].checked = true;
+                $('#pilihCheck-'+v).iCheck('update');
+            });
+            // console.log(pilih_order);
+        });
+
+        $('#pilihSemua').on('ifUnchecked', function(){
+            pilih_order = [];
+            $.each(jQuery.parseJSON('{{ $list_order_json }}'), (i, v) => {
+                $('#pilihCheck-'+v)[0].checked = false;
+                $('#pilihCheck-'+v).iCheck('update');
+            });
+            // console.log(pilih_order);
+        });
+
+        $('#btnPrintAll').on('click', function(){
+            if(pilih_order.length > 0){
+                let url = "{{ route('b.print-index') }}";
+                $(location).attr('href', url+'/'+pilih_order.join('-'));
+            }
+        });
+    @endif
 
     @foreach($popover as $iP => $vP)
         @if(is_null($vP['pemesan']))
