@@ -10,6 +10,29 @@
         <div class='panel'>
             <div class='panel-body'>
                 <div class='mb-40'>
+                    <h4>v0.9.2 &nbsp;&nbsp;(24 Apr 2020)</h4>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Changed</b>
+                        <ul>
+                            <li>Optimization performance pada cari, filter, semua order</li>
+                        </ul>
+                    </div>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Added</b>
+                        <ul>
+                            <li>Penambahan checklist all dan print all pada cari dan filter order</li>
+                        </ul>
+                    </div>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Fixed</b>
+                        <ul>
+                            <li>Fix bug select box kurir tertindih data order pada filter order</li>
+                            <li>Fix bug tidak bisa memfilter admin di semua, filter, cari order</li>
+                            <li>fix bug error select all saat tidak ada order di semua, filter, cari order</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class='mb-40'>
                     <h4>v0.9.1 &nbsp;&nbsp;(23 Apr 2020)</h4>
                     <div class='ml-30'>
                         <b style='font-size:15px'>Fixed</b>
