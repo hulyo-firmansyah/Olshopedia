@@ -70,7 +70,42 @@ class DashboardController extends Controller
 			unset($data[$i]['kategori_produk_id']);
 			$data[$i] = (object)$data[$i];
 		}
-		return $data;
+		$hasil = [];
+		foreach(Fungsi::genArray($data) as $i => $d){
+			$index = array_search($d->produk_id, array_column($hasil, 'id_produk'));
+			if($index !== false){
+				$count = count($hasil[$index]->varian);
+				$hasil[$index]->varian[$count] = new \stdclass();
+				$hasil[$index]->varian[$count]->diskon_jual = $d->diskon_jual;
+				$hasil[$index]->varian[$count]->harga_jual_normal = $d->harga_jual_normal;
+				$hasil[$index]->varian[$count]->sku = $d->sku;
+				$hasil[$index]->varian[$count]->stok = $d->stok;
+				$hasil[$index]->varian[$count]->ukuran = $d->ukuran;
+				$hasil[$index]->varian[$count]->warna = $d->warna;
+				$hasil[$index]->varian[$count]->foto_id = $d->foto_id;
+				if($d->harga_jual_normal > $hasil[$index]->termahal) $hasil[$index]->termahal = $d->harga_jual_normal;
+				if($d->harga_jual_normal < $hasil[$index]->termurah) $hasil[$index]->termurah = $d->harga_jual_normal;
+			} else {
+				$hasil[$i] = new \stdclass();
+				$hasil[$i]->id_produk = $d->produk_id;
+				$hasil[$i]->ket = $d->ket;
+				$hasil[$i]->berat = $d->berat;
+				$hasil[$i]->kategori = $d->kategori;
+				$hasil[$i]->nama_produk = $d->nama_produk;
+				$hasil[$i]->termurah = $d->harga_jual_normal;
+				$hasil[$i]->termahal = $d->harga_jual_normal;
+				$hasil[$i]->varian = [];
+				$hasil[$i]->varian[0] = new \stdclass();
+				$hasil[$i]->varian[0]->diskon_jual = $d->diskon_jual;
+				$hasil[$i]->varian[0]->harga_jual_normal = $d->harga_jual_normal;
+				$hasil[$i]->varian[0]->sku = $d->sku;
+				$hasil[$i]->varian[0]->stok = $d->stok;
+				$hasil[$i]->varian[0]->ukuran = $d->ukuran;
+				$hasil[$i]->varian[0]->warna = $d->warna;
+				$hasil[$i]->varian[0]->foto_id = $d->foto_id;
+			}
+		}
+		return $hasil;
 	}
 
     public function index(Request $request, $toko_slug){

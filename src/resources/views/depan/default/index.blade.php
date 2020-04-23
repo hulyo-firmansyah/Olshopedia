@@ -97,6 +97,17 @@
                     <img src="{{ asset('photo.png') }}" alt="..." width='240px' height='240px'>
                     <div class="caption">
                         <h3>{{ $p->nama_produk }}</h3>
+                        @php
+                            if($p->termurah !== $p->termahal){
+                                @endphp
+                                <p>{{ \App\Http\Controllers\PusatController::formatUang($p->termurah, true).' - '.\App\Http\Controllers\PusatController::formatUang($p->termahal, true) }}</p>
+                                @php
+                            } else {
+                                @endphp
+                                <p>{{ \App\Http\Controllers\PusatController::formatUang($p->termurah, true) }}</p>
+                                @php
+                            }
+                        @endphp
                         <p>{{ $p->ket ?? '' }}</p>
                         <p class='text-right'>
                             <a href="#" class="btn btn-primary" role="button">Selengkapnya</a>
