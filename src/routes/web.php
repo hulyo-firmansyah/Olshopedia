@@ -193,6 +193,8 @@
     });
 
     Route::get('/{toko_slug}', 'depan\DashboardController@index')->name("d.dashboard");
+
+    
 // });
 // Route::domain('{subdomain}.localhost')->group(function () {
 //     Route::get('/', function ($subdomain){

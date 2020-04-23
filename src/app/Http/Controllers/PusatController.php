@@ -277,6 +277,17 @@ class PusatController
 		}
 	}
 
+	public static function dataOfByTokoSlug($toko_slug){
+		$toko = DB::table('t_store')
+			->where('domain_toko', $toko_slug)
+			->get()->first();
+		if(isset($toko)){
+			return $toko->data_of;
+		} else {
+			return null;
+		}
+	}
+
 	public static function dataOfCekUsername($id = null){
 		if(is_null($id) || !\is_numeric($id)){
 			$id = Auth::user()->id;

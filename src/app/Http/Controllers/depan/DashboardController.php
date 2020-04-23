@@ -5,22 +5,31 @@ namespace App\Http\Controllers\depan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\PusatController as Fungsi;
 
 class DashboardController extends Controller
 {
 	public function __construct(){
-		$this->middleware('b.auth');
+		// $this->middleware('b.auth');
 		// $this->middleware('b.locale');
 		$this->middleware('xss_protect');
 	}
 
     public function index(Request $request, $toko_slug){
-		return Fungsi::dataOfCekUsername();
-		// if($request->ajax()){
-		// 	return Fungsi::respon('depan.dashboard', compact("toko_slug"), "ajax", $request);
-		// }
-		// return Fungsi::respon('depan.dashboard', compact("toko_slug"), "html", $request);
+		// dd($toko_slug);
+		$toko = DB::table('t_store')
+			->where('domain_toko', $toko_slug)
+			->get()->first();
+		if(isset($toko)){
+			// $dataOf = Fungsi::dataOfByTokoSlug($toko_slug);
+			if($request->ajax()){
+				return Fungsi::respon('depan.'.$toko->template.'.index', compact("toko"), "ajax", $request);
+			}
+			return Fungsi::respon('depan.'.$toko->template.'.index', compact("toko"), "html", $request);
+		} else {
+			// ke landing page
+		}
 	}
 
 	// public function locale(Request $request){
