@@ -434,6 +434,11 @@ function uangToAngka(data, tipe = false) {
 }
 
 $(document).ready(function() {
+    $('.tooltip-print').tooltip({
+        trigger: 'hover',
+        title: 'Pernah Diprint',
+        placement: 'top'
+    });
 
     @if($data_order->total() > 0)
         $('.icek').iCheck({

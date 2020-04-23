@@ -323,6 +323,12 @@ class OrderController extends Controller
 			} else {
 				$temp = str_replace("{!btn_lacak_resi!}", "", $temp);
 			}
+			
+			if($d->print_label){
+				$temp = str_replace("{!tooltip_print!}", "tooltip-print", $temp);
+			} else {
+				$temp = str_replace("{!tooltip_print!}", "", $temp);
+			}
 
 
 			$order[$i] = $temp;
@@ -437,7 +443,7 @@ class OrderController extends Controller
 					<label for="list-tanda">
 						<input type="checkbox" class="icek" name="list-tanda" id="pilihCheck-{!urut_order!}">
 					</label>
-					<a href='{!url_print!}' class='btn btn-default btn-outline ml-10'><i class='fa fa-print'></i>&nbsp;&nbsp;Print</a>
+					<a href='{!url_print!}' class='btn btn-default btn-outline ml-10 {!tooltip_print!}'><i class='fa fa-print'></i>&nbsp;&nbsp;Print</a>
 					{!btn_riwayat_bayar!}
 				</diV>
 				<div class='col-md-6 text-right'>
@@ -1779,7 +1785,7 @@ CUT;
 					<label for="list-tanda">
 						<input type="checkbox" class="icek" name="list-tanda" id="pilihCheck-{!urut_order!}">
 					</label>
-					<a href='{!url_print!}' class='btn btn-default btn-outline ml-10'><i class='fa fa-print'></i>&nbsp;&nbsp;Print</a>
+					<a href='{!url_print!}' class='btn btn-default btn-outline ml-10 {!tooltip_print!}'><i class='fa fa-print'></i>&nbsp;&nbsp;Print</a>
 					{!btn_riwayat_bayar!}
 				</diV>
 				<div class='col-md-6 text-right'>
@@ -2336,7 +2342,7 @@ CUT;
 					<label for="list-tanda">
 						<input type="checkbox" class="icek" name="list-tanda" id="pilihCheck-{!urut_order!}">
 					</label>
-					<a href='{!url_print!}' class='btn btn-default btn-outline ml-10'><i class='fa fa-print'></i>&nbsp;&nbsp;Print</a>
+					<a href='{!url_print!}' class='btn btn-default btn-outline ml-10 {!tooltip_print!}'><i class='fa fa-print'></i>&nbsp;&nbsp;Print</a>
 					{!btn_riwayat_bayar!}
 				</diV>
 				<div class='col-md-6 text-right'>
