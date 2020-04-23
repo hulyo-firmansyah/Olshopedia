@@ -124,10 +124,16 @@ class SettingController extends Controller
             if(strcmp($tipeKirim, $tipeKirim2) === 0){
                 switch($tipeKirim){
                     case 'first_setup':
+                        $domain_not_allow = [
+                            'admin',
+                            'customer',
+                            'administrator',
+                            'superadmin'
+                        ];
                         $domain = $request->subdomainToko;
                         $no_telp = $request->no_telp;
                         $cekDomain = DB::table('t_store')->where('domain_toko', $domain)->get()->first();
-                        if(isset($cekDomain)){
+                        if(isset($cekDomain) || in_array($domain, $domain_not_allow)){
                             return Fungsi::respon(['status' => false, 'msg' => "Subdomain telah digunakan!"], [], 'json', $request);
                         }
                         $cekNo_telp = DB::table('t_store')->where('no_telp_toko', $no_telp)->get()->first();
