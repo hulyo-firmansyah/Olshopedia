@@ -30,24 +30,32 @@
 </head>
 
 <body>
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false" aria-controls="navbar">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Project name</a>
+                <a class="navbar-brand" href="#">{{ $toko->nama_toko }}</a>
             </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <!-- <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
+                </ul> -->
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Cari..">
+                    </div>
+                    <button type="submit" class="btn btn-default"><i class='fa fa-search'></i></button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Login</a></li>
+                    <li><a href="#">Register</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                             aria-expanded="false">Dropdown <span class="caret"></span></a>
@@ -56,37 +64,49 @@
                             <li><a href="#">Another action</a></li>
                             <li><a href="#">Something else here</a></li>
                             <li role="separator" class="divider"></li>
-                            <li class="dropdown-header">Nav header</li>
                             <li><a href="#">Separated link</a></li>
-                            <li><a href="#">One more separated link</a></li>
                         </ul>
                     </li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="../navbar/">Default</a></li>
-                    <li><a href="../navbar-static-top/">Static top</a></li>
-                    <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
-                </ul>
             </div>
-            <!--/.nav-collapse -->
         </div>
     </nav>
 
     <div class="container">
-
-        <!-- Main component for a primary marketing message or call to action -->
-        <div class="jumbotron">
-            <h1>Navbar example</h1>
-            <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It
-                includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-            <p>To see the difference between static and fixed top navbars, just scroll.</p>
-            <p>
-                <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs
-                    &raquo;</a>
-            </p>
+        <div class='row'>
+            <div class='col-lg-6'>
+                <h1 class="page-title font-size-26 font-weight-100">Katalog Produk</h1>
+            </div>
+            <div class='col-lg-6'>
+                <div class='text-right' style='margin-top:25px'>
+                    <div class='form-inline'>
+                    Urutkan berdasarkan :
+                    <select class='form-control'>
+                        <option>addslashes</option>
+                    </select>
+                    </div>
+                </div>
+            </div>
         </div>
+        <hr>
 
-    </div> <!-- /container -->
+        <div class="row">
+            @foreach(\App\Http\Controllers\PusatController::genArray($produk) as $p)
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="thumbnail">
+                    <img src="{{ asset('photo.png') }}" alt="..." width='240px' height='240px'>
+                    <div class="caption">
+                        <h3>{{ $p->nama_produk }}</h3>
+                        <p>{{ $p->ket ?? '' }}</p>
+                        <p class='text-right'>
+                            <a href="#" class="btn btn-primary" role="button">Selengkapnya</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
 
 
     <script src="{{ asset('template/global/vendor/jquery/jquery.js') }}"></script>
