@@ -9,6 +9,7 @@
     <meta name="author" content="NickmanUiop">
 
     <title>Olshopedia</title>
+    <script src="{{ asset('template/global/vendor/jquery/jquery.js') }}"></script>
     <script src="{{ asset('template/global/js/Plugin/sweetalert.js') }}"></script>
     <script src="{{ asset('alertifyjs/alertify.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('template_depan/default/bootstrap-3.3.7/css/bootstrap.min.css') }}">
@@ -76,7 +77,6 @@
     </div>
 
 
-    <script src="{{ asset('template/global/vendor/jquery/jquery.js') }}"></script>
     <script src="{{ asset('template_depan/default/bootstrap-3.3.7/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('template/global/vendor/bootstrap-select/bootstrap-select.js') }}"></script>
     <script>

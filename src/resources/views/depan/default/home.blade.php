@@ -10,10 +10,10 @@
             <div class='form-inline'>
                 <label for='sorting'>Urutkan berdasarkan :</label>
                 <select id='sorting'>
-                    <option value='a-z'>A - Z</option>
-                    <option value='z-a'>Z - A</option>
-                    <option value='murah-mahal'>Termurah - Termahal</option>
-                    <option value='mahal-murah  '>Termahal - Termurah</option>
+                    <option value='a-z' @if($sort == 'a-z') selected @endif>A - Z</option>
+                    <option value='z-a' @if($sort == 'z-a') selected @endif>Z - A</option>
+                    <option value='murah-mahal' @if($sort == 'murah-mahal') selected @endif>Termurah - Termahal</option>
+                    <option value='mahal-murah' @if($sort == 'mahal-murah') selected @endif>Termahal - Termurah</option>
                 </select>
             </div>
         </div>
@@ -51,43 +51,8 @@
 <script>
     $(document).ready(function(){
         $('#sorting').on('change', function(){
-            $.ajax({
-                type: 'get',
-                url: '',
-                beforeSend: function() {
-                    $('#body-page').html(
-                        '<div style="top:50%;left:50%;position:absolute"><div class="loader vertical-align-middle loader-grill"></div></div>'
-                    );
-                },
-                xhr: function() {
-                    var xhr = new window.XMLHttpRequest();
-                    xhr.upload.addEventListener("progress", function(evt) {
-                        if (evt.lengthComputable) {
-                            var percentComplete = evt.loaded / evt.total;
-                            // console.log(percentComplete);
-                        }
-                        $('#body-page').html(
-                            '<div style="top:50%;left:50%;position:absolute"><div class="loader vertical-align-middle loader-grill"></div></div>'
-                        );
-                    }, false);
-                    xhr.addEventListener("progress", function(evt) {
-                        if (evt.lengthComputable) {
-                            var percentComplete = evt.loaded / evt.total;
-                            // console.log(percentComplete);
-                        }
-                        $('#body-page').html(
-                            '<div style="top:50%;left:50%;position:absolute"><div class="loader vertical-align-middle loader-grill"></div></div>'
-                        );
-                    }, false);
-                    return xhr;
-                },
-                success: function(data, textStatus, xhr) {
-                    console.log(data);
-                },
-                error: function(xhr, b, c) {
-                    $('#body-page').html('error');
-                }
-            }); 
+            // console.log($(this).val());
+            $(location).attr('href', '{{ route("d.home", ["toko_slug" => $toko->domain_toko]) }}?sort='+$(this).val());
         });
     });
 </script>

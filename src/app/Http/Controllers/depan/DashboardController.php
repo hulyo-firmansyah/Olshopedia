@@ -141,16 +141,17 @@ class DashboardController extends Controller
 	}
 
     public function index(Request $request, $toko_slug){
+		$sort = strip_tags($request->sort);
 		$toko = DB::table('t_store')
 			->where('domain_toko', $toko_slug)
 			->get()->first();
 		if(isset($toko)){
 			$produk = $this->getProduk(Fungsi::dataOfByTokoSlug($toko_slug));
-			$this->sortingProduk($request->sort, $produk);
+			$this->sortingProduk($sort, $produk);
 			if($request->ajax()){
-				return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk'), "ajax", $request);
+				return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk', 'sort'), "ajax", $request);
 			}
-			return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk'), "html", $request);
+			return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk', 'sort'), "html", $request);
 		} else {
 			// ke landing page
 		}
