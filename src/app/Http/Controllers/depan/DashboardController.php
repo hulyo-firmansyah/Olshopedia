@@ -108,21 +108,45 @@ class DashboardController extends Controller
 		return $hasil;
 	}
 
-	private function sortingProduk(string $tipe = null, array $produk){
+	private function sortingProduk(string $tipe = null, array &$produk){
 		switch($tipe){
+			case 'murah-mahal':
+				usort($produk, function ($a, $b){
+					if ($a->termurah == $b->termurah) {
+						return 0;
+					}
+					return ($a->termurah < $b->termurah) ? -1 : 1;
+				});
+				break;
+			case 'mahal-murah':
+				usort($produk, function ($a, $b){
+					if ($a->termahal == $b->termahal) {
+						return 0;
+					}
+					return ($a->termahal > $b->termahal) ? -1 : 1;
+				});
+				break;
+			case 'z-a':
+				usort($produk, function($a, $b){
+					return strcasecmp($a->nama_produk, $b->nama_produk);
+				});
+			break;
 			case 'a-z':
+			default:
+				usort($produk, function($a, $b){
+					return strcasecmp($b->nama_produk, $a->nama_produk);
+				});
 			break;
 		}
 	}
 
     public function index(Request $request, $toko_slug){
-		dd($request->sort);
 		$toko = DB::table('t_store')
 			->where('domain_toko', $toko_slug)
 			->get()->first();
 		if(isset($toko)){
 			$produk = $this->getProduk(Fungsi::dataOfByTokoSlug($toko_slug));
-			dd($produk);
+			$this->sortingProduk($request->sort, $produk);
 			if($request->ajax()){
 				return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk'), "ajax", $request);
 			}
