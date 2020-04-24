@@ -41,7 +41,7 @@
 </div>
 <hr>
 
-<div class="row">
+<div class="row" id='produk-list'>
     @if(count($produk) > 0)
         @foreach(\App\Http\Controllers\PusatController::genArray($produk) as $p)
         <div class="col-sm-6 col-md-4 col-lg-3">
@@ -62,16 +62,22 @@
                     @endphp
                     <p>{{ $p->ket ?? '' }}</p>
                     <p class='text-right'>
-                        <a href="javascript:void(0)" class="btn btn-primary" role="button" data-id='{{ $p->id_produk }}'>Selengkapnya</a>
+                        <a href="javascript:void(0)" class="btn btn-primary btnDetailProduk" role="button" data-id='{{ $p->id_produk }}'>Selengkapnya</a>
                     </p>
                 </div>
             </div>
         </div>
         @endforeach
     @else
-        <div class="col-xxl-12">
-            <p>Produk tidak ditemukan!</p>
-        </div>
+        @if($r['cari'] !== '')
+            <div class="col-xxl-12">
+                <p>Produk tidak ditemukan!</p>
+            </div>
+        @else
+            <div class="col-xxl-12">
+                <p>Tidak ada produk di Toko ini!</p>
+            </div>
+        @endif
     @endif
 </div>
 <script>
@@ -80,6 +86,11 @@
             // console.log($(this).val());
             $(location).attr('href', '{{ route("d.home", ["toko_slug" => $toko->domain_toko]) }}?sort='+$(this).val()+'@if($r["cari"] !== "")&q={{$r["cari"]}}@endif');
         });
+
+        $('.btnDetailProduk').on('click', function(){
+            let id = $(this).data('id');
+            $(location).attr('href', '{{ route("d.home", ["toko_slug" => $toko->domain_toko]) }}/produk/'+id);
+        })
     });
 </script>
 <!--uiop-->

@@ -154,13 +154,30 @@ class DashboardController extends Controller
 		if(isset($toko)){
 			$produk = $this->getProduk(Fungsi::dataOfByTokoSlug($toko_slug), $r['cari']);
 			$this->sortingProduk($r['sort'], $produk);
-			if($request->ajax()){
-				return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk', 'r'), "ajax", $request);
-			}
 			return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk', 'r'), "html", $request);
 		} else {
 			// ke landing page
 		}
+	}
+
+	public function produkIndex(Request $request, $toko_slug, $id_produk = null){
+		if(is_null($id_produk) || preg_match("/[^0-9]/", $id_produk)){
+            return redirect()->route('d.home', ['toko_slug' => $toko_slug]);
+		}
+		$toko = DB::table('t_store')
+			->where('domain_toko', $toko_slug)
+			->get()->first();
+		$r['sort'] = strip_tags($request->sort);
+		$r['cari'] = strip_tags($request->q);
+		if(isset($toko)){
+			return Fungsi::respon('depan.'.$toko->template.'.detail-produk', compact("toko", 'r'), "html", $request);
+			// $produk = $this->getProduk(Fungsi::dataOfByTokoSlug($toko_slug));
+			// $this->sortingProduk($r['sort'], $produk);
+			// return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk', 'r'), "html", $request);
+		} else {
+			// ke landing page
+		}
+		// dd($id_produk);
 	}
 
 	// public function locale(Request $request){

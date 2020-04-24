@@ -193,6 +193,7 @@
     });
 
     Route::get('/{toko_slug}', 'depan\DashboardController@index')->name("d.home");
+    Route::get('/{toko_slug}/produk/{id_produk?}', 'depan\DashboardController@produkIndex')->name("d.produk-index");
 
     
 // });
