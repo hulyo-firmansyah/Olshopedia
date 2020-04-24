@@ -1,6 +1,22 @@
 @extends('depan.default.index')
 @section('isi')
 <!--uiop-->
+<div class="page-header page-header-bordered">
+    <div class='row'>
+        <div class='col-md-12'>
+            <ol class="breadcrumb">
+                @if($r['cari'] !== '')
+                    <li class="breadcrumb-item">
+                        <a href='{{ route("d.home", ["toko_slug" => $toko->domain_toko]) }}'>Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">Pencarian Produk</li>
+                @else
+                    <li class="breadcrumb-item active">Home</li>
+                @endif
+            </ol>
+        </div>
+    </div>
+</div>
 <div class='row'>
     <div class='col-lg-6'>
         @if($r['cari'] !== '')
