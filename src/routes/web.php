@@ -193,7 +193,6 @@
     });
 
     Route::get('/{toko_slug}', 'depan\DashboardController@index')->name("d.dashboard");
-    // Route::get('/{toko_slug}/', 'depan\DashboardController@index')->name("d.dashboard");
 
     
 // });

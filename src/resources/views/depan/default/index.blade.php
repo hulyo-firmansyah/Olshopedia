@@ -54,6 +54,7 @@
                     <button type="submit" class="btn btn-default"><i class='fa fa-search'></i></button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><i class='fa fa-shopping-cart'></i> Cart</a></li>
                     <li><a href="#">Login</a></li>
                     <li><a href="#">Register</a></li>
                     <li class="dropdown">
@@ -71,29 +72,7 @@
     </nav>
 
     <div class="container" id='body-page'>
-        <div class='row'>
-            <div class='col-lg-6'>
-                <h1 class="page-title font-size-26 font-weight-100">Katalog Produk</h1>
-            </div>
-            <div class='col-lg-6'>
-                <div class='text-right' style='margin-top:25px'>
-                    <div class='form-inline'>
-                        <label for='sorting'>Urutkan berdasarkan :</label>
-                        <select id='sorting'>
-                            <option value='a-z'>A - Z</option>
-                            <option value='z-a'>Z - A</option>
-                            <option value='murah-mahal'>Termurah - Termahal</option>
-                            <option value='mahal-murah  '>Termahal - Termurah</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr>
-
-        <div class="row">
-            @yield('isi')
-        </div>
+        @yield('isi')
     </div>
 
 

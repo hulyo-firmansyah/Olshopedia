@@ -108,14 +108,21 @@ class DashboardController extends Controller
 		return $hasil;
 	}
 
+	private function sortingProduk(string $tipe = null, array $produk){
+		switch($tipe){
+			case 'a-z':
+			break;
+		}
+	}
+
     public function index(Request $request, $toko_slug){
-		// dd($toko_slug);
+		dd($request->sort);
 		$toko = DB::table('t_store')
 			->where('domain_toko', $toko_slug)
 			->get()->first();
 		if(isset($toko)){
 			$produk = $this->getProduk(Fungsi::dataOfByTokoSlug($toko_slug));
-			// dd($produk);
+			dd($produk);
 			if($request->ajax()){
 				return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk'), "ajax", $request);
 			}
