@@ -12,7 +12,7 @@
     <script src="{{ asset('template/global/js/Plugin/sweetalert.js') }}"></script>
     <script src="{{ asset('alertifyjs/alertify.min.js') }}"></script>
     <link rel="stylesheet"
-        href="{{ asset('template_depan/'.$toko->template.'/bootstrap-3.3.7/css/bootstrap.min.css') }}">
+        href="{{ asset('template_depan/default/bootstrap-3.3.7/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('alertifyjs/css/alertify.min.css') }}">
     <link rel="stylesheet" href="{{ asset('alertifyjs/css/themes/bootstrap.min.css') }}">
 
@@ -58,13 +58,11 @@
                     <li><a href="#">Register</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                            aria-expanded="false">Dropdown <span class="caret"></span></a>
+                            aria-expanded="false"><i class='fa fa-user'></i> User <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
+                            <li><a href="#">Profil</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+                            <li><a href="#">Logout</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -72,7 +70,7 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container" id='body-page'>
         <div class='row'>
             <div class='col-lg-6'>
                 <h1 class="page-title font-size-26 font-weight-100">Katalog Produk</h1>
@@ -81,8 +79,11 @@
                 <div class='text-right' style='margin-top:25px'>
                     <div class='form-inline'>
                     Urutkan berdasarkan :
-                    <select class='form-control'>
-                        <option>addslashes</option>
+                    <select class='form-control' id='sorting'>
+                        <option value='a-z'>A - Z</option>
+                        <option value='z-a'>Z - A</option>
+                        <option value='murah-mahal'>Termurah - Termahal</option>
+                        <option value='mahal-murah  '>Termahal - Termurah</option>
                     </select>
                     </div>
                 </div>
@@ -110,7 +111,7 @@
                         @endphp
                         <p>{{ $p->ket ?? '' }}</p>
                         <p class='text-right'>
-                            <a href="#" class="btn btn-primary" role="button">Selengkapnya</a>
+                            <a href="javascript:void(0)" class="btn btn-primary" role="button">Selengkapnya</a>
                         </p>
                     </div>
                 </div>
@@ -121,7 +122,7 @@
 
 
     <script src="{{ asset('template/global/vendor/jquery/jquery.js') }}"></script>
-    <script src="{{ asset('template_depan/'.$toko->template.'/bootstrap-3.3.7/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('template_depan/default/bootstrap-3.3.7/js/bootstrap.min.js') }}"></script>
 </body>
 
 </html>
