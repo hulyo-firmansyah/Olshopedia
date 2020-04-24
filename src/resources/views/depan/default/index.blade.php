@@ -50,9 +50,9 @@
                 </ul> -->
                 <form class="navbar-form navbar-left">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Cari..">
+                        <input type="text" class="form-control" id='queryCari' placeholder="Cari.." value='@if($r["cari"] !== ""){{$r["cari"]}}@endif'>
                     </div>
-                    <button type="submit" class="btn btn-default"><i class='fa fa-search'></i></button>
+                    <button type="button" class="btn btn-default" id='btnCari'><i class='fa fa-search'></i></button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#"><i class='fa fa-shopping-cart'></i> Cart</a></li>
@@ -84,6 +84,10 @@
         $(document).ready(function(){
             $('#sorting').selectpicker({
                 style: 'btn-outline btn-default'
+            });
+
+            $('#btnCari').on('click', function(){
+                $(location).attr('href', '{{ route("d.home", ["toko_slug" => $toko->domain_toko]) }}?q='+$('#queryCari').val()+'@if($r["sort"] !== "")&sort={{$r["sort"]}}@endif');
             });
         });
 

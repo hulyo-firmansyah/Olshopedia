@@ -17,7 +17,7 @@ class DashboardController extends Controller
 		$this->middleware('xss_protect');
 	}
 
-	private function getProduk($dataOf){
+	private function getProduk($dataOf, $cari = ''){
 		$produk = Cache::remember('data_produk_ajax_'.$dataOf, 60000, function() use($dataOf){
 			return DB::table('t_varian_produk')
 				->join('t_produk', 't_produk.id_produk', '=', 't_varian_produk.produk_id')
@@ -30,46 +30,51 @@ class DashboardController extends Controller
 				->get();
 		});
 		$data = [];
-		foreach(Fungsi::genArray($produk) as $i => $p){
-			$data[] = (array)$p;
-			if(!is_null($p->foto_id)){
-				$fotoSrc = json_decode($p->foto_id);
-				if(!is_null($fotoSrc->utama) && is_numeric($fotoSrc->utama)){
-					$fotoUtama = DB::table('t_foto')->where('id_foto', $fotoSrc->utama)->where('data_of', $dataOf)->get()->first();
-					$data[$i]['foto']["utama"] = asset($fotoUtama->path);
-					unset($fotoUtama);
-				} else if(!is_null($fotoSrc->utama) && filter_var($fotoSrc->utama, FILTER_VALIDATE_URL)){
-					$data[$i]['foto']["utama"] = $fotoSrc->utama;
-				}
-				if($fotoSrc->lain != ""){
-					$fotoLain_list = explode(";", $fotoSrc->lain);
-					foreach($fotoLain_list as $iI => $iL){
-						if(is_numeric($iL)){
-							$fotoLain = DB::table('t_foto')->where('id_foto', $iL)->where('data_of', $dataOf)->get()->first();
-							$data[$i]['foto']["lain"][$iI+1] = asset($fotoLain->path);
-							unset($fotoLain);
-						} else if(filter_var($iL, FILTER_VALIDATE_URL)){
-							$data[$i]['foto']["lain"][$iI+1] = $iL;
+		$i = 0;
+		foreach(Fungsi::genArray($produk) as $p){
+			if(preg_match("/".$cari."/", strtolower($p->nama_produk))){
+				$data[] = (array)$p;
+				if(!is_null($p->foto_id)){
+					$fotoSrc = json_decode($p->foto_id);
+					if(!is_null($fotoSrc->utama) && is_numeric($fotoSrc->utama)){
+						$fotoUtama = DB::table('t_foto')->where('id_foto', $fotoSrc->utama)->where('data_of', $dataOf)->get()->first();
+						$data[$i]['foto']["utama"] = asset($fotoUtama->path);
+						unset($fotoUtama);
+					} else if(!is_null($fotoSrc->utama) && filter_var($fotoSrc->utama, FILTER_VALIDATE_URL)){
+						$data[$i]['foto']["utama"] = $fotoSrc->utama;
+					}
+					if($fotoSrc->lain != ""){
+						$fotoLain_list = explode(";", $fotoSrc->lain);
+						foreach($fotoLain_list as $iI => $iL){
+							if(is_numeric($iL)){
+								$fotoLain = DB::table('t_foto')->where('id_foto', $iL)->where('data_of', $dataOf)->get()->first();
+								$data[$i]['foto']["lain"][$iI+1] = asset($fotoLain->path);
+								unset($fotoLain);
+							} else if(filter_var($iL, FILTER_VALIDATE_URL)){
+								$data[$i]['foto']["lain"][$iI+1] = $iL;
+							}
 						}
 					}
 				}
-			}
-			if(!is_null($data[$i]['kategori_produk_id'])){
-				$kategori = DB::table('t_kategori_produk')->where('id_kategori_produk', $data[$i]['kategori_produk_id'])->where('data_of', $dataOf)->get()->first();
-				if(isset($kategori)){
-					$data[$i]['kategori']['nama'] = $kategori->nama_kategori_produk;
-					$data[$i]['kategori']['id'] = $data[$i]['kategori_produk_id'];
+				if(!is_null($data[$i]['kategori_produk_id'])){
+					$kategori = DB::table('t_kategori_produk')->where('id_kategori_produk', $data[$i]['kategori_produk_id'])->where('data_of', $dataOf)->get()->first();
+					if(isset($kategori)){
+						$data[$i]['kategori']['nama'] = $kategori->nama_kategori_produk;
+						$data[$i]['kategori']['id'] = $data[$i]['kategori_produk_id'];
+					} else {
+						$data[$i]['kategori']['nama'] = null;
+						$data[$i]['kategori']['id'] = $data[$i]['kategori_produk_id'];
+					}
 				} else {
 					$data[$i]['kategori']['nama'] = null;
-					$data[$i]['kategori']['id'] = $data[$i]['kategori_produk_id'];
+					$data[$i]['kategori']['id'] = null;
 				}
-			} else {
-				$data[$i]['kategori']['nama'] = null;
-				$data[$i]['kategori']['id'] = null;
+				unset($data[$i]['kategori_produk_id']);
+				$data[$i] = (object)$data[$i];
+				$i++;
 			}
-			unset($data[$i]['kategori_produk_id']);
-			$data[$i] = (object)$data[$i];
 		}
+		unset($i);
 		$hasil = [];
 		foreach(Fungsi::genArray($data) as $i => $d){
 			$index = array_search($d->produk_id, array_column($hasil, 'id_produk'));
@@ -141,17 +146,18 @@ class DashboardController extends Controller
 	}
 
     public function index(Request $request, $toko_slug){
-		$sort = strip_tags($request->sort);
+		$r['sort'] = strip_tags($request->sort);
+		$r['cari'] = strip_tags($request->q);
 		$toko = DB::table('t_store')
 			->where('domain_toko', $toko_slug)
 			->get()->first();
 		if(isset($toko)){
-			$produk = $this->getProduk(Fungsi::dataOfByTokoSlug($toko_slug));
-			$this->sortingProduk($sort, $produk);
+			$produk = $this->getProduk(Fungsi::dataOfByTokoSlug($toko_slug), $r['cari']);
+			$this->sortingProduk($r['sort'], $produk);
 			if($request->ajax()){
-				return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk', 'sort'), "ajax", $request);
+				return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk', 'r'), "ajax", $request);
 			}
-			return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk', 'sort'), "html", $request);
+			return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk', 'r'), "html", $request);
 		} else {
 			// ke landing page
 		}
