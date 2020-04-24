@@ -117,9 +117,9 @@ class DashboardController extends Controller
 			$produk = $this->getProduk(Fungsi::dataOfByTokoSlug($toko_slug));
 			// dd($produk);
 			if($request->ajax()){
-				return Fungsi::respon('depan.'.$toko->template.'.index', compact("toko", 'produk'), "ajax", $request);
+				return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk'), "ajax", $request);
 			}
-			return Fungsi::respon('depan.'.$toko->template.'.index', compact("toko", 'produk'), "html", $request);
+			return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk'), "html", $request);
 		} else {
 			// ke landing page
 		}
