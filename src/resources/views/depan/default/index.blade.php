@@ -5,16 +5,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta name="description" content="bootstrap admin template">
+    <meta name="description" content="bootstrap theme">
     <meta name="author" content="NickmanUiop">
 
     <title>Olshopedia</title>
     <script src="{{ asset('template/global/js/Plugin/sweetalert.js') }}"></script>
     <script src="{{ asset('alertifyjs/alertify.min.js') }}"></script>
-    <link rel="stylesheet"
-        href="{{ asset('template_depan/default/bootstrap-3.3.7/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('template_depan/default/bootstrap-3.3.7/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('alertifyjs/css/alertify.min.css') }}">
     <link rel="stylesheet" href="{{ asset('alertifyjs/css/themes/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/global/vendor/bootstrap-select/bootstrap-select.css') }}">
 
     <link rel="apple-touch-icon" href="{{ asset('template/assets/images/apple-touch-icon.png') }}">
     <link rel="shortcut icon" href="{{ asset('template/assets/images/favicon.ico') }}">
@@ -78,13 +78,13 @@
             <div class='col-lg-6'>
                 <div class='text-right' style='margin-top:25px'>
                     <div class='form-inline'>
-                    Urutkan berdasarkan :
-                    <select class='form-control' id='sorting'>
-                        <option value='a-z'>A - Z</option>
-                        <option value='z-a'>Z - A</option>
-                        <option value='murah-mahal'>Termurah - Termahal</option>
-                        <option value='mahal-murah  '>Termahal - Termurah</option>
-                    </select>
+                        <label for='sorting'>Urutkan berdasarkan :</label>
+                        <select id='sorting'>
+                            <option value='a-z'>A - Z</option>
+                            <option value='z-a'>Z - A</option>
+                            <option value='murah-mahal'>Termurah - Termahal</option>
+                            <option value='mahal-murah  '>Termahal - Termurah</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -123,6 +123,16 @@
 
     <script src="{{ asset('template/global/vendor/jquery/jquery.js') }}"></script>
     <script src="{{ asset('template_depan/default/bootstrap-3.3.7/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('template/global/vendor/bootstrap-select/bootstrap-select.js') }}"></script>
+    <script>
+
+        $(document).ready(function(){
+            $('#sorting').selectpicker({
+                style: 'btn-outline btn-default'
+            });
+        });
+
+    </script>
 </body>
 
 </html>
