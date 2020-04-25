@@ -98,12 +98,12 @@ class HomeController extends Controller
 				if(isset($d->foto)){
 					if(isset($d->foto['utama'])){
 						$hasil[$index]->varian[$count]->foto->utama[] = $d->foto['utama'];
-						$hasil[$index]->varian[$count]->foto->list[] = $d->foto['utama'];
+						// $hasil[$index]->varian[$count]->foto->list[] = $d->foto['utama'];
 					}
 					if(count($d->foto['lain']) > 0){
 						foreach(Fungsi::genArray($d->foto['lain']) as $f){
 							$hasil[$index]->varian[$count]->foto->lain[] = $f;
-							$hasil[$index]->varian[$count]->foto->list[] = $f;
+							// $hasil[$index]->varian[$count]->foto->list[] = $f;
 						}
 					}
 				}
@@ -141,13 +141,13 @@ class HomeController extends Controller
 				if(isset($d->foto)){
 					if(isset($d->foto['utama'])){
 						$hasil[$i]->varian[0]->foto->utama[] = $d->foto['utama'];
-						$hasil[$i]->varian[0]->foto->list[] = $d->foto['utama'];
+						// $hasil[$i]->varian[0]->foto->list[] = $d->foto['utama'];
 
 					}
 					if(count($d->foto['lain']) > 0){
 						foreach(Fungsi::genArray($d->foto['lain']) as $f){
 							$hasil[$i]->varian[0]->foto->lain[] = $f;
-							$hasil[$i]->varian[0]->foto->list[] = $f;
+							// $hasil[$i]->varian[0]->foto->list[] = $f;
 						}
 					}
 				}

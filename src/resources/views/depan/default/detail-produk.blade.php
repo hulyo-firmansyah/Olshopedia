@@ -38,29 +38,51 @@
             <img src="{{ $foto_awal }}" alt="image utama" class="img-thumbnail" width='100%' id='foto-utama' style='margin-bottom:20px'>
         </a>
         @php
-            $img_i = 0;
             foreach(\App\Http\Controllers\PusatController::genArray($produk->varian) as $v){
-                foreach(\App\Http\Controllers\PusatController::genArray($v->foto->list) as $l){
+            $img_i = 0;
+            $img_id = false;
+                foreach(\App\Http\Controllers\PusatController::genArray($v->foto->utama) as $i_lu => $lu){
                     if($img_i % 4 === 0){
+                        if(!$img_id){
+                            @endphp
+                            <div class='row'>andika|
+                            <!-- <div class='row'><div class='col-xs-3' style='padding:5px;'><img src="{{ $lu }}" alt="image list" id='lu-{{ $v->id_varian }}' class="img-thumbnail btnFotoPilih" width='120' height='120'></div> -->
+                            @php
+                            $img_id = true;
+                        } else {
+                            echo "</div>";
+                            $img_id = false;
+                        }
+                    } else {
                         @endphp
-                        <div class='row'>
+                        andika|
+                        <!-- <div class='col-xs-3' style='padding:5px;'><img src="{{ $lu }}" alt="image list" id='lu-{{ $v->id_varian }}' class="img-thumbnail btnFotoPilih" width='120' height='120'></div> -->
                         @php
                     }
-                    @endphp
-                    <div class='col-xs-3' style='padding:5px;'>
-                        <img src="{{ $l }}" alt="image list" class="img-thumbnail btnFotoPilih" width='120' height='120'>
-                    </div>
-                    @php
                     $img_i++;
+                }
+                foreach(\App\Http\Controllers\PusatController::genArray($v->foto->lain) as $ll){
                     if($img_i % 4 === 0){
+                        if(!$img_id){
+                            @endphp
+                            <div class='row'>mob|
+                            <!-- <div class='row'><div class='col-xs-3' style='padding:5px;'><img src="{{ $ll }}" alt="image list" class="img-thumbnail btnFotoPilih" width='120' height='120'></div> -->
+                            @php
+                            $img_id = true;
+                        } else {
+                            echo "</div>";
+                            $img_id = false;
+                        }
+                    } else {
                         @endphp
-                        </div>
+                        mob|
+                        <!-- <div class='col-xs-3' style='padding:5px;'><img src="{{ $ll }}" alt="image list" class="img-thumbnail btnFotoPilih" width='120' height='120'></div> -->
                         @php
                     }
+                    $img_i++;
                 }
             }
         @endphp
-        </div>
     </div>
     <div class='col-sm-7'>
         <h1>{{ $produk->nama_produk }}</h1>
@@ -83,8 +105,16 @@
                             $btnTampil = ($i+1);
                         }
                         @endphp
-                        <button class='btn btn-default btnPilihVarian' type='button'>{{ $btnTampil }}</button>
                         @php
+                        if($i == 0){
+                            @endphp
+                            <button class='btn btn-primary btnPilihVarian' type='button' data-id='lu-{{ $v->id_varian }}'>{{ $btnTampil }}</button>
+                            @php
+                        } else {
+                            @endphp
+                            <button class='btn btn-default btnPilihVarian' type='button' data-id='lu-{{ $v->id_varian }}'>{{ $btnTampil }}</button>
+                            @php
+                        }
                     }
                 @endphp
             </div>
@@ -100,18 +130,20 @@
         });
 
         $('.btnPilihVarian').on('click', function(){
-            let list = Array.prototype.slice.call($(this));
+            let list = Array.prototype.slice.call($(this).parent().children());
+            var this_ = this;
             list.forEach(function(html) {
-                console.log(html, $(html));
-                if($(html).hasClass('btn-primary')){
+                if($(html).hasClass('btn-primary') && html !== this_){
                     $(html).removeClass('btn-primary');
                     $(html).addClass('btn-default');
                 }
             });
-            // console.log(this, $(this));
             if($(this).hasClass('btn-default')){
                 $(this).removeClass('btn-default');
                 $(this).addClass('btn-primary');
+                let id_src = $(this).data('id');
+                let src = $('#'+id_src).attr('src');
+                $('#foto-utama').attr('src', src);
             }
         });
 
