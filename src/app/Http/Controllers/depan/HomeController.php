@@ -83,6 +83,7 @@ class HomeController extends Controller
 			if($index !== false){
 				$count = count($hasil[$index]->varian);
 				$hasil[$index]->varian[$count] = new \stdclass();
+				$hasil[$index]->varian[$count]->id_varian = $d->id_varian;
 				$hasil[$index]->varian[$count]->diskon_jual = $d->diskon_jual;
 				$hasil[$index]->varian[$count]->harga_jual_normal = $d->harga_jual_normal;
 				$hasil[$index]->varian[$count]->sku = $d->sku;
@@ -125,6 +126,7 @@ class HomeController extends Controller
 				$hasil[$i]->termahal = $d->harga_jual_normal;
 				$hasil[$i]->varian = [];
 				$hasil[$i]->varian[0] = new \stdclass();
+				$hasil[$i]->varian[0]->id_varian = $d->id_varian;
 				$hasil[$i]->varian[0]->diskon_jual = $d->diskon_jual;
 				$hasil[$i]->varian[0]->harga_jual_normal = $d->harga_jual_normal;
 				$hasil[$i]->varian[0]->sku = $d->sku;
