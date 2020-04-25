@@ -46,7 +46,21 @@
         @foreach(\App\Http\Controllers\PusatController::genArray($produk) as $p)
         <div class="col-sm-6 col-md-4 col-lg-3">
             <div class="thumbnail">
-                <img src="{{ asset('photo.png') }}" alt="..." width='240px' height='240px'>
+                @php
+                    $cekFoto = false;
+                    $genVarian = \App\Http\Controllers\PusatController::genArray($p->varian);
+                    foreach($genVarian as $v){
+                        if(count($v->foto->utama) > 0){
+                            $foto = $v->foto->utama[0];
+                            $cekFoto = true;
+                            $genVarian->send('stop');
+                        }
+                    }
+                    if(!$cekFoto){
+                        $foto = asset('photo.png');
+                    }
+                @endphp
+                <img src="{{ $foto }}" alt="..." width='240px' height='240px'>
                 <div class="caption">
                     <h3>{{ $p->nama_produk }}</h3>
                     @php
@@ -62,7 +76,7 @@
                     @endphp
                     <p>{{ $p->ket ?? '' }}</p>
                     <p class='text-right'>
-                        <a href="javascript:void(0)" class="btn btn-primary btnDetailProduk" role="button" data-id='{{ $p->id_produk }}'>Selengkapnya</a>
+                        <a href="javascript:void(0)" class="btn btn-primary btnDetailProduk" role="button" data-url='{{ $p->produk_url }}'>Selengkapnya</a>
                     </p>
                 </div>
             </div>
@@ -88,8 +102,8 @@
         });
 
         $('.btnDetailProduk').on('click', function(){
-            let id = $(this).data('id');
-            $(location).attr('href', '{{ route("d.home", ["toko_slug" => $toko->domain_toko]) }}/produk/'+id);
+            let url = $(this).data('url');
+            $(location).attr('href', '{{ route("d.home", ["toko_slug" => $toko->domain_toko]) }}/produk/'+url);
         })
     });
 </script>

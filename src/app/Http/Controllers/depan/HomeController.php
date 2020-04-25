@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Controllers\PusatController as Fungsi;
 
-class DashboardController extends Controller
+class HomeController extends Controller
 {
 	public function __construct(){
 		// $this->middleware('b.auth');
@@ -74,9 +74,11 @@ class DashboardController extends Controller
 				$i++;
 			}
 		}
+		// dd($data);
 		unset($i);
 		$hasil = [];
-		foreach(Fungsi::genArray($data) as $i => $d){
+		$i = 0;
+		foreach(Fungsi::genArray($data) as $d){
 			$index = array_search($d->produk_id, array_column($hasil, 'id_produk'));
 			if($index !== false){
 				$count = count($hasil[$index]->varian);
@@ -88,6 +90,22 @@ class DashboardController extends Controller
 				$hasil[$index]->varian[$count]->ukuran = $d->ukuran;
 				$hasil[$index]->varian[$count]->warna = $d->warna;
 				$hasil[$index]->varian[$count]->foto_id = $d->foto_id;
+				$hasil[$index]->varian[$count]->foto = new \stdclass();
+				$hasil[$index]->varian[$count]->foto->utama = [];
+				$hasil[$index]->varian[$count]->foto->lain = [];
+				$hasil[$index]->varian[$count]->foto->list = [];
+				if(isset($d->foto)){
+					if(isset($d->foto['utama'])){
+						$hasil[$index]->varian[$count]->foto->utama[] = $d->foto['utama'];
+						$hasil[$index]->varian[$count]->foto->list[] = $d->foto['utama'];
+					}
+					if(count($d->foto['lain']) > 0){
+						foreach(Fungsi::genArray($d->foto['lain']) as $f){
+							$hasil[$index]->varian[$count]->foto->lain[] = $f;
+							$hasil[$index]->varian[$count]->foto->list[] = $f;
+						}
+					}
+				}
 				if($d->harga_jual_normal > $hasil[$index]->termahal) $hasil[$index]->termahal = $d->harga_jual_normal;
 				if($d->harga_jual_normal < $hasil[$index]->termurah) $hasil[$index]->termurah = $d->harga_jual_normal;
 			} else {
@@ -97,6 +115,12 @@ class DashboardController extends Controller
 				$hasil[$i]->berat = $d->berat;
 				$hasil[$i]->kategori = $d->kategori;
 				$hasil[$i]->nama_produk = $d->nama_produk;
+				if(strlen($d->nama_produk) > 20){
+					$nama_produk = substr(strtolower($d->nama_produk), 0, 20);
+				} else {
+					$nama_produk = strtolower($d->nama_produk);
+				}
+				$hasil[$i]->produk_url = preg_replace('/[^\-0-9a-z]/', '', str_replace(' ', '-', $nama_produk)).'-'.$d->produk_id;
 				$hasil[$i]->termurah = $d->harga_jual_normal;
 				$hasil[$i]->termahal = $d->harga_jual_normal;
 				$hasil[$i]->varian = [];
@@ -108,8 +132,27 @@ class DashboardController extends Controller
 				$hasil[$i]->varian[0]->ukuran = $d->ukuran;
 				$hasil[$i]->varian[0]->warna = $d->warna;
 				$hasil[$i]->varian[0]->foto_id = $d->foto_id;
+				$hasil[$i]->varian[0]->foto = new \stdclass();
+				$hasil[$i]->varian[0]->foto->utama = [];
+				$hasil[$i]->varian[0]->foto->lain = [];
+				$hasil[$i]->varian[0]->foto->list = [];
+				if(isset($d->foto)){
+					if(isset($d->foto['utama'])){
+						$hasil[$i]->varian[0]->foto->utama[] = $d->foto['utama'];
+						$hasil[$i]->varian[0]->foto->list[] = $d->foto['utama'];
+
+					}
+					if(count($d->foto['lain']) > 0){
+						foreach(Fungsi::genArray($d->foto['lain']) as $f){
+							$hasil[$i]->varian[0]->foto->lain[] = $f;
+							$hasil[$i]->varian[0]->foto->list[] = $f;
+						}
+					}
+				}
+				$i++;
 			}
 		}
+		// dd($data, $hasil);
 		return $hasil;
 	}
 
@@ -133,13 +176,13 @@ class DashboardController extends Controller
 				break;
 			case 'z-a':
 				usort($produk, function($a, $b){
-					return strcasecmp($a->nama_produk, $b->nama_produk);
+					return strcasecmp($b->nama_produk, $a->nama_produk);
 				});
 			break;
 			case 'a-z':
 			default:
 				usort($produk, function($a, $b){
-					return strcasecmp($b->nama_produk, $a->nama_produk);
+					return strcasecmp($a->nama_produk, $b->nama_produk);
 				});
 			break;
 		}
@@ -153,6 +196,7 @@ class DashboardController extends Controller
 			->get()->first();
 		if(isset($toko)){
 			$produk = $this->getProduk(Fungsi::dataOfByTokoSlug($toko_slug), $r['cari']);
+			// dd($produk);
 			$this->sortingProduk($r['sort'], $produk);
 			return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk', 'r'), "html", $request);
 		} else {
@@ -160,20 +204,23 @@ class DashboardController extends Controller
 		}
 	}
 
-	public function produkIndex(Request $request, $toko_slug, $id_produk = null){
-		if(is_null($id_produk) || preg_match("/[^0-9]/", $id_produk)){
+	public function produkIndex(Request $request, $toko_slug, $nama_produk = null){
+		if(is_null($nama_produk) || preg_match("/[^0-9a-z\-]/", $nama_produk)){
             return redirect()->route('d.home', ['toko_slug' => $toko_slug]);
 		}
+		// dd($nama_produk);
 		$toko = DB::table('t_store')
 			->where('domain_toko', $toko_slug)
 			->get()->first();
 		$r['sort'] = strip_tags($request->sort);
 		$r['cari'] = strip_tags($request->q);
 		if(isset($toko)){
-			return Fungsi::respon('depan.'.$toko->template.'.detail-produk', compact("toko", 'r'), "html", $request);
-			// $produk = $this->getProduk(Fungsi::dataOfByTokoSlug($toko_slug));
-			// $this->sortingProduk($r['sort'], $produk);
-			// return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk', 'r'), "html", $request);
+			$list_produk = $this->getProduk(Fungsi::dataOfByTokoSlug($toko_slug));
+			$e_produk = explode('-', $nama_produk);
+			$index = array_search($e_produk[count($e_produk)-1], array_column($list_produk, 'id_produk'));
+			$produk = $list_produk[$index];
+			// dd($produk);
+			return Fungsi::respon('depan.'.$toko->template.'.detail-produk', compact("toko", 'r', 'produk'), "html", $request);
 		} else {
 			// ke landing page
 		}

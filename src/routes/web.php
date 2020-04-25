@@ -192,8 +192,8 @@
         // Route::get('/export-kategori-produk','belakang\ExcelController@exportKategoriProduk')->name("e.export-kategori-produk");
     });
 
-    Route::get('/{toko_slug}', 'depan\DashboardController@index')->name("d.home");
-    Route::get('/{toko_slug}/produk/{id_produk?}', 'depan\DashboardController@produkIndex')->name("d.produk-index");
+    Route::get('/{toko_slug}', 'depan\HomeController@index')->name("d.home");
+    Route::get('/{toko_slug}/produk/{nama_produk?}', 'depan\HomeController@produkIndex')->name("d.produk-index");
 
     
 // });
