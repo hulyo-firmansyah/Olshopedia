@@ -92,18 +92,15 @@ class HomeController extends Controller
 				$hasil[$index]->varian[$count]->warna = $d->warna;
 				$hasil[$index]->varian[$count]->foto_id = $d->foto_id;
 				$hasil[$index]->varian[$count]->foto = new \stdclass();
-				$hasil[$index]->varian[$count]->foto->utama = [];
+				$hasil[$index]->varian[$count]->foto->utama = null;
 				$hasil[$index]->varian[$count]->foto->lain = [];
-				$hasil[$index]->varian[$count]->foto->list = [];
 				if(isset($d->foto)){
 					if(isset($d->foto['utama'])){
-						$hasil[$index]->varian[$count]->foto->utama[] = $d->foto['utama'];
-						// $hasil[$index]->varian[$count]->foto->list[] = $d->foto['utama'];
+						$hasil[$index]->varian[$count]->foto->utama = $d->foto['utama'];
 					}
 					if(count($d->foto['lain']) > 0){
 						foreach(Fungsi::genArray($d->foto['lain']) as $f){
 							$hasil[$index]->varian[$count]->foto->lain[] = $f;
-							// $hasil[$index]->varian[$count]->foto->list[] = $f;
 						}
 					}
 				}
@@ -135,19 +132,15 @@ class HomeController extends Controller
 				$hasil[$i]->varian[0]->warna = $d->warna;
 				$hasil[$i]->varian[0]->foto_id = $d->foto_id;
 				$hasil[$i]->varian[0]->foto = new \stdclass();
-				$hasil[$i]->varian[0]->foto->utama = [];
+				$hasil[$i]->varian[0]->foto->utama = null;
 				$hasil[$i]->varian[0]->foto->lain = [];
-				$hasil[$i]->varian[0]->foto->list = [];
 				if(isset($d->foto)){
 					if(isset($d->foto['utama'])){
-						$hasil[$i]->varian[0]->foto->utama[] = $d->foto['utama'];
-						// $hasil[$i]->varian[0]->foto->list[] = $d->foto['utama'];
-
+						$hasil[$i]->varian[0]->foto->utama = $d->foto['utama'];
 					}
 					if(count($d->foto['lain']) > 0){
 						foreach(Fungsi::genArray($d->foto['lain']) as $f){
 							$hasil[$i]->varian[0]->foto->lain[] = $f;
-							// $hasil[$i]->varian[0]->foto->list[] = $f;
 						}
 					}
 				}

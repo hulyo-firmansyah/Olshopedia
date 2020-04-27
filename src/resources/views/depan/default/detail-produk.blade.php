@@ -24,8 +24,8 @@
             $cekFoto = false;
             $genVarian = \App\Http\Controllers\PusatController::genArray($produk->varian);
             foreach($genVarian as $v){
-                if(count($v->foto->utama) > 0){
-                    $foto_awal = $v->foto->utama[0];
+                if(isset($v->foto->utama)){
+                    $foto_awal = $v->foto->utama;
                     $cekFoto = true;
                     $genVarian->send('stop');
                 }
@@ -41,27 +41,25 @@
             $img_i = 0;
             $img_count = 0;
             foreach(\App\Http\Controllers\PusatController::genArray($produk->varian) as $v){
-                $img_count += count($v->foto->utama) + count($v->foto->lain);
-                foreach(\App\Http\Controllers\PusatController::genArray($v->foto->utama) as $i_lu => $lu){
-                    if($img_i < 4){
-                        if($img_i == 0){
-                            echo "<div class='row'>";
-                        }
-                        echo "<div class='col-xs-3' style='padding:5px;'><img src='".$lu."' alt='image list' id='lu-".$v->id_varian."' class='img-thumbnail btnFotoPilih' width='120' height='120'></div>";
-                        $img_i++;
-                    } else {
+                $img_count += (isset($v->foto->utama) ? 1 : 0) + count($v->foto->lain);
+                if(isset($v->foto->utama)){
+                    if($img_i === 0){
+                        echo "<div class='row'>";
+                    }
+                    echo "<div class='col-xs-3' style='padding:5px;'><img src='".$v->foto->utama."' alt='image list' id='lu-".$v->id_varian."' class='img-thumbnail btnFotoPilih' width='120' height='120'></div>";
+                    $img_i++;
+                    if($img_i % 4 === 0){
                         $img_i = 0;
                         echo "</div>";
                     }
                 }
                 foreach(\App\Http\Controllers\PusatController::genArray($v->foto->lain) as $ll){
-                    if($img_i < 4){
-                        if($img_i == 0){
-                            echo "<div class='row'>";
-                        }
-                        echo "<div class='col-xs-3' style='padding:5px;'><img src='".$ll."' alt='image list' class='img-thumbnail btnFotoPilih' width='120' height='120'></div>";
-                        $img_i++;
-                    } else {
+                    if($img_i === 0){
+                        echo "<div class='row'>";
+                    }
+                    echo "<div class='col-xs-3' style='padding:5px;'><img src='".$ll."' alt='image list' class='img-thumbnail btnFotoPilih' width='120' height='120'></div>";
+                    $img_i++;
+                    if($img_i % 4 === 0){
                         $img_i = 0;
                         echo "</div>";
                     }
