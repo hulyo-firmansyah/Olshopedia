@@ -281,7 +281,7 @@ class CustomerController extends Controller
 			$data = [];
 			$no = 0;
 			foreach ($customer as $row) {      
-				if(preg_match('/kosong/', $row->email) || ){
+				if(preg_match('/kosong/', $row->email)){
 					$email = '<i>Tidak ada Email</i>';
 				} else {
 					$email = $row->email;
