@@ -38,49 +38,37 @@
             <img src="{{ $foto_awal }}" alt="image utama" class="img-thumbnail" width='100%' id='foto-utama' style='margin-bottom:20px'>
         </a>
         @php
-            foreach(\App\Http\Controllers\PusatController::genArray($produk->varian) as $v){
             $img_i = 0;
-            $img_id = false;
+            $img_count = 0;
+            foreach(\App\Http\Controllers\PusatController::genArray($produk->varian) as $v){
+                $img_count += count($v->foto->utama) + count($v->foto->lain);
                 foreach(\App\Http\Controllers\PusatController::genArray($v->foto->utama) as $i_lu => $lu){
-                    if($img_i % 4 === 0){
-                        if(!$img_id){
-                            @endphp
-                            <div class='row'>andika|
-                            <!-- <div class='row'><div class='col-xs-3' style='padding:5px;'><img src="{{ $lu }}" alt="image list" id='lu-{{ $v->id_varian }}' class="img-thumbnail btnFotoPilih" width='120' height='120'></div> -->
-                            @php
-                            $img_id = true;
-                        } else {
-                            echo "</div>";
-                            $img_id = false;
+                    if($img_i < 4){
+                        if($img_i == 0){
+                            echo "<div class='row'>";
                         }
+                        echo "<div class='col-xs-3' style='padding:5px;'><img src='".$lu."' alt='image list' id='lu-".$v->id_varian."' class='img-thumbnail btnFotoPilih' width='120' height='120'></div>";
+                        $img_i++;
                     } else {
-                        @endphp
-                        andika|
-                        <!-- <div class='col-xs-3' style='padding:5px;'><img src="{{ $lu }}" alt="image list" id='lu-{{ $v->id_varian }}' class="img-thumbnail btnFotoPilih" width='120' height='120'></div> -->
-                        @php
+                        $img_i = 0;
+                        echo "</div>";
                     }
-                    $img_i++;
                 }
                 foreach(\App\Http\Controllers\PusatController::genArray($v->foto->lain) as $ll){
-                    if($img_i % 4 === 0){
-                        if(!$img_id){
-                            @endphp
-                            <div class='row'>mob|
-                            <!-- <div class='row'><div class='col-xs-3' style='padding:5px;'><img src="{{ $ll }}" alt="image list" class="img-thumbnail btnFotoPilih" width='120' height='120'></div> -->
-                            @php
-                            $img_id = true;
-                        } else {
-                            echo "</div>";
-                            $img_id = false;
+                    if($img_i < 4){
+                        if($img_i == 0){
+                            echo "<div class='row'>";
                         }
+                        echo "<div class='col-xs-3' style='padding:5px;'><img src='".$ll."' alt='image list' class='img-thumbnail btnFotoPilih' width='120' height='120'></div>";
+                        $img_i++;
                     } else {
-                        @endphp
-                        mob|
-                        <!-- <div class='col-xs-3' style='padding:5px;'><img src="{{ $ll }}" alt="image list" class="img-thumbnail btnFotoPilih" width='120' height='120'></div> -->
-                        @php
+                        $img_i = 0;
+                        echo "</div>";
                     }
-                    $img_i++;
                 }
+            }
+            if($img_count % 4 !== 0){
+                echo "</div>";
             }
         @endphp
     </div>
