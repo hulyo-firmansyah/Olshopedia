@@ -281,9 +281,14 @@ class CustomerController extends Controller
 			$data = [];
 			$no = 0;
 			foreach ($customer as $row) {      
+				if(preg_match('/kosong/', $row->email) || ){
+					$email = '<i>Tidak ada Email</i>';
+				} else {
+					$email = $row->email;
+				}
 				$data[$no] = [
 					($no+1),
-					$row->name . "<br><span style='color:#888;'>" . $row->email . "</span>",
+					$row->name . "<br><span style='color:#888;'>" . $email . "</span>",
 					$row->kategori,
 					$row->no_telp,
 					$row->alamat . ", " . $row->kecamatan . ", " . $row->kabupaten . ", " . $row->provinsi . ", "  . $row->kode_pos
