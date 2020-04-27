@@ -50,8 +50,8 @@
                     $cekFoto = false;
                     $genVarian = \App\Http\Controllers\PusatController::genArray($p->varian);
                     foreach($genVarian as $v){
-                        if(count($v->foto->utama) > 0){
-                            $foto = $v->foto->utama[0];
+                        if(isset($v->foto->utama)){
+                            $foto_awal = $v->foto->utama;
                             $cekFoto = true;
                             $genVarian->send('stop');
                         }
