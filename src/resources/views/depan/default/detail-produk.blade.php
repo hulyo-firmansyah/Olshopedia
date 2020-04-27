@@ -105,6 +105,52 @@
                 @endphp
             </div>
         </div>
+        <div class='row' style='margin-top:20px'>
+            <div class='col-md-12'>
+                <label>Jumlah</label>
+            </div>
+            <div class='col-md-5 col-lg-3'>
+                <input type='text' class='form-control' name='jumlah' id='jumlah' placeholder='Jumlah' value='1'>
+            </div>
+        </div>
+        <div class='d-flex flex-column flex-md-row' style='margin-top:30px'>
+            <button type='button' class='btn btn-primary'><i class='fa fa-shopping-cart'></i> Masukkan ke Keranjang</button>
+            <button type='button' class='btn btn-default'><i class='fa fa-whatsapp'></i> Beli Via Whatsapp</button>
+        </div>
+        <div style='margin-top:30px'>
+            <label>Share:</label>
+            <div class="d-flex">
+                <a class='btn btn-default' style='margin-right:5px;' target='_blank' href='http://www.facebook.com/sharer.php?u={{ urlencode(url()->current()) }}'><i class="fa fa-facebook"></i></a>
+                <a class='btn btn-default' style='margin-right:5px;' target='_blank' href='https://twitter.com/share?url={{ urlencode(url()->current()) }}'><i class="fa fa-twitter"></i></a>
+                <a class='btn btn-default' style='margin-right:5px;' target='_blank' href='https://plus.google.com/share?url={{ urlencode(url()->current()) }}'><i class="fa fa-google-plus"></i></a>
+                <a class='btn btn-default' style='margin-right:5px;' target='_blank' href='https://telegram.me/share/url?url={{ urlencode(url()->current()) }}&text={{ $produk->nama_produk }}'><i class="fa fa-telegram"></i></a>
+                <a class='btn btn-default' target='_blank' href='https://api.whatsapp.com/send?phone=&text={{ urlencode(url()->current()) }}'><i class="fa fa-whatsapp"></i></a>
+            </div>
+        </div>
+        @if(isset($produk->ket) && $produk->ket !== '')
+        <div style='margin-top:40px'>
+            <ul class="nav nav-tabs">
+                <li role="presentation" class="active"><a href="#tabDeskripsi" data-toggle='tab'>Deskripsi</a></li>
+                <!-- <li role="presentation"><a href="#tab2" data-toggle='tab'>Profile</a></li> -->
+            </ul>
+            <div class="tab-content" style='padding-top:20px'>
+                <div class="tab-pane active" id="tabDeskripsi" role="tabpanel">
+                    {{ $produk->ket }}
+                </div>
+                <!-- <div class="tab-pane" id="tab2" role="tabpanel">
+                    Mnesarchum velit cumanum utuntur tantam deterritum, democritum vulgo contumeliae
+                    abest studuisse quanta telos. Inmensae. Arbitratu dixisset
+                    invidiae ferre constituto gaudeat contentam, omnium nescius,
+                    consistat interesse animi, amet fuisset numen graecos incidunt
+                    euripidis praesens, homines religionis dirigentur postulant.
+                    Magnum utrumvis gravitate appareat fabulae facio perveniri
+                    fruenda indicaverunt texit, frequenter probet diligenter
+                    sententia meam distinctio theseo legerint corporis quoquo,
+                    optari futurove expedita.
+                </div> -->
+            </div>
+        </div>
+        @endif
     </div>
 </div>
 <script>
