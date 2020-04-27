@@ -187,7 +187,14 @@ class CustomerController extends Controller
 				->where('t_customer.data_of', Fungsi::dataOfCek())
 				->get()->first();
 			if ($request->ajax()) {
-				return Fungsi::respon($customer, [], "json", $request);
+				if(isset($customer)){
+					if(preg_match('/kosong/', $customer->email)){
+						$customer->email = '';
+					}
+					return Fungsi::respon($customer, [], "json", $request);
+				} else {
+					return Fungsi::respon(false, [], "json", $request);
+				}
 			} else {
 				abort(404);
 			}
@@ -198,46 +205,142 @@ class CustomerController extends Controller
 
   	public function update(Request $request)
   	{
+		// return "<pre>".print_r($request->all(), true)."</pre>";
 		list($data_user, $ijin) = $this->getIjinUser();
 		if(($ijin->editCustomer === 1 && $data_user->role == 'Admin') || $data_user->role == 'Owner'){
-			$cekEmail = DB::table('users')
-				->where("email", $request->emailC_edit)
-				->where("id", '!=', $request->id_cust)
-				->get()->first();
-			if(isset($cekEmail)){
-				return response()->json(['status' => false, 'msg' => 'Email telah digunakan!']);
-			}
-			$customer = DB::table('t_customer')      
-				->where('user_id', $request->id_cust)
-				->update([
-					'kategori' => $request->kategoriC_edit,
-					'provinsi' => $request->provinsiC_edit,
-					'kabupaten' => $request->kabupatenC_edit,
-					'kecamatan' => $request->kecamatanC_edit,
-					'kode_pos' => $request->kode_posC_edit,
-					'alamat' => $request->alamatC_edit
-				]);
-			$user = DB::table('users')
-				->where('id', $request->id_cust)
-				->update([
-					'name' => $request->namaC_edit,
-					'email' => $request->emailC_edit,  
-					'no_telp' => $request->no_telpC_edit,    
-				]);
-			Cache::forget('data_customer_analisa_'.Fungsi::dataOfCek());
-			Cache::forget('data_customer_lengkap_'.Fungsi::dataOfCek());
-			Cache::forget('data_laporan_'.Fungsi::dataOfCek());
-			Cache::forget('data_user_pengaturan_'.Fungsi::dataOfCek());
-			if ($customer || $user) {
-				event(new BelakangLogging(Fungsi::dataOfCek(), 'edit_customer', [
-					'user_id' => Auth::user()->id,
-					'kategori' => $request->kategoriC_edit,
-					'nama' => $request->namaC_edit,
-				]));
-				return response()->json(['status' => true]);
+			if($request->ajax()){
+				$cekCust = DB::table('users')
+					->where("id", $request->id_cust)
+					->get()->first();
+				if(!isset($cekCust)){
+					return response()->json(['status' => false, 'msg' => "Data Customer tersebut tidak ditemukan!"]);
+				}
+				if(preg_match('/kosong/', $cekCust->email)){
+					if($request->emailC_edit !== ''){
+						$cekEmail = DB::table('users')
+							->where("email", $request->emailC_edit)
+							->where("id", '!=', $request->id_cust)
+							->get()->first();
+						if(isset($cekEmail)){
+							return response()->json(['status' => false, 'msg' => 'Email telah digunakan!']);
+						}
+						if($request->passwordC_edit !== ''){
+							$customer = DB::table('t_customer')      
+								->where('user_id', $request->id_cust)
+								->update([
+									'kategori' => $request->kategoriC_edit,
+									'provinsi' => $request->provinsiC_edit,
+									'kabupaten' => $request->kabupatenC_edit,
+									'kecamatan' => $request->kecamatanC_edit,
+									'kode_pos' => $request->kode_posC_edit,
+									'alamat' => $request->alamatC_edit
+								]);
+							$user = DB::table('users')
+								->where('id', $request->id_cust)
+								->update([
+									'name' => $request->namaC_edit,
+									'email' => $request->emailC_edit,  
+									'no_telp' => $request->no_telpC_edit,    
+									'password' => Hash::make($request->passwordC_edit),
+								]);
+						} else {
+							return response()->json(['status' => false, 'msg' => "Data customer sebelumnya belum mempunyai password silahkan masukkan password terlebih dahulu!"]);
+						}
+					} else {
+						$customer = DB::table('t_customer')      
+							->where('user_id', $request->id_cust)
+							->update([
+								'kategori' => $request->kategoriC_edit,
+								'provinsi' => $request->provinsiC_edit,
+								'kabupaten' => $request->kabupatenC_edit,
+								'kecamatan' => $request->kecamatanC_edit,
+								'kode_pos' => $request->kode_posC_edit,
+								'alamat' => $request->alamatC_edit
+							]);
+						$user = DB::table('users')
+							->where('id', $request->id_cust)
+							->update([
+								'name' => $request->namaC_edit,
+								'no_telp' => $request->no_telpC_edit,
+							]);
+					}
+				} else {
+					if($request->emailC_edit !== ''){
+						$cekEmail = DB::table('users')
+							->where("email", $request->emailC_edit)
+							->where("id", '!=', $request->id_cust)
+							->get()->first();
+						if(isset($cekEmail)){
+							return response()->json(['status' => false, 'msg' => 'Email telah digunakan!']);
+						}
+						$customer = DB::table('t_customer')      
+							->where('user_id', $request->id_cust)
+							->update([
+								'kategori' => $request->kategoriC_edit,
+								'provinsi' => $request->provinsiC_edit,
+								'kabupaten' => $request->kabupatenC_edit,
+								'kecamatan' => $request->kecamatanC_edit,
+								'kode_pos' => $request->kode_posC_edit,
+								'alamat' => $request->alamatC_edit
+							]);
+						if($request->passwordC_edit !== ''){
+							$user = DB::table('users')
+								->where('id', $request->id_cust)
+								->update([
+									'name' => $request->namaC_edit,
+									'email' => $request->emailC_edit,  
+									'no_telp' => $request->no_telpC_edit,    
+									'password' => Hash::make($request->passwordC_edit),
+								]);
+						} else {
+							$user = DB::table('users')
+								->where('id', $request->id_cust)
+								->update([
+									'name' => $request->namaC_edit,
+									'email' => $request->emailC_edit,  
+									'no_telp' => $request->no_telpC_edit,    
+								]);
+						}
+					} else {
+						$customer = DB::table('t_customer')      
+							->where('user_id', $request->id_cust)
+							->update([
+								'kategori' => $request->kategoriC_edit,
+								'provinsi' => $request->provinsiC_edit,
+								'kabupaten' => $request->kabupatenC_edit,
+								'kecamatan' => $request->kecamatanC_edit,
+								'kode_pos' => $request->kode_posC_edit,
+								'alamat' => $request->alamatC_edit
+							]);
+						$data_t = 'kosong|'.str_random();
+						$user = DB::table('users')
+							->where('id', $request->id_cust)
+							->update([
+								'name' => $request->namaC_edit, 
+								'no_telp' => $request->no_telpC_edit,    
+								'email' => $data_t,    
+							]);
+					}
+				}
+				Cache::forget('data_customer_analisa_'.Fungsi::dataOfCek());
+				Cache::forget('data_customer_lengkap_'.Fungsi::dataOfCek());
+				Cache::forget('data_laporan_'.Fungsi::dataOfCek());
+				Cache::forget('data_user_pengaturan_'.Fungsi::dataOfCek());
+				if ($customer || $user) {
+					event(new BelakangLogging(Fungsi::dataOfCek(), 'edit_customer', [
+						'user_id' => Auth::user()->id,
+						'kategori' => $request->kategoriC_edit,
+						'nama' => $request->namaC_edit,
+					]));
+					return response()->json(['status' => true]);
+				} else {
+					return response()->json(['status' => false, 'msg' => "Gagal mengedit Customer!"]);
+				}
 			} else {
-				return response()->json(['status' => false, 'msg' => "Gagal mengedit Customer!"]);
+				abort(404);
 			}
+		} else {
+			return redirect()->route('b.customer-index');
 		}
   	}
 

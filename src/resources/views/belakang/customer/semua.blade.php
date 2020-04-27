@@ -95,14 +95,6 @@
                                 <input type='text' name='passwordC' class='form-control' id='passwordC' placeholder="Password" value='' autocomplete="on" style='border-radius:unset'>
                                 <small id="error_passwordC" class="hidden"></small>
                             </div>
-                            <!-- <div class='input-group'>
-                                <input type='text' name='passwordC' class='form-control' id='passwordC'
-                                    value='{{$pass}}' readOnly>
-                                <div class='input-group-append'>
-                                    <button type='button' onClick='copyToClipboard($("#passwordC"))'
-                                        style='cursor:pointer' class='input-group-text'>Copy</button>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                     <div class='row'>
@@ -207,22 +199,20 @@
                         </div>
                     </div>
                     <div class='row'>
-                        <div class="col-md-12 form-group">
+                        <div class="col-md-6 form-group">
                             <label>Email</label>
                             <input type='email' name='emailC_edit' class='form-control' id='emailC_edit'>
                             <small id="error_emailC_edit" class='hidden'></small>
                         </div>
-                        <!-- <div class="col-md-6 form-group">
-                            <label>Password</label>
-                            <div class='input-group'>
-                                <input type='text' name='passwordC_edit' class='form-control' id='passwordC_edit'
-                                    value='{{$pass}}' readOnly>
-                                <div class='input-group-append'>
-                                    <button type='button' onClick='copyToClipboard($("#passwordC"))'
-                                        style='cursor:pointer' class='input-group-text'>Copy</button>
-                                </div>
-                            </div>
-                        </div> -->
+                        <div class="col-md-6 form-group">
+                            <label>Password <small class='orange-700'>*Jangan diisi jika tidak ingin dirubah</small></label>
+							<div class="input-search">
+								<button type="button" style="height:40px;cursor:pointer" class="input-search-btn" id='btnEye_edit' tabindex='-1'><i class="icon md-eye-off" aria-hidden="true"></i></button>
+								<!-- <input type='text' name='passwordC' class='form-control' id='passwordC' placeholder="Password" value='{{$pass}}' autocomplete="on" style='border-radius:unset'> -->
+								<input type='text' name='passwordC_edit' class='form-control' id='passwordC_edit' placeholder="Password" value='' autocomplete="on" style='border-radius:unset'>
+								<small id="error_passwordC_edit" class="hidden"></small>
+							</div>
+                        </div>
                     </div>
                     <div class='row'>
                         <div class="col-md-4 form-group">
@@ -425,6 +415,27 @@
         });
 
 		
+		$('#passwordC_edit').password({
+			animate: false,
+			minimumLength: 0,
+			enterPass: '',
+			badPass: '<span class="red-800 font-size-14">The password is weak</span>',
+			goodPass: '<span class="yellow-800 font-size-14">Good password</span>',
+			strongPass: '<span class="green-700 font-size-14">Strong password</span>',
+			shortPass: ''
+		});
+
+        $('#btnEye_edit').click(function(){
+            if($('#passwordC_edit').attr('type') == 'password'){
+                $('#passwordC_edit').attr('type', 'text');
+                $('#btnEye_edit').children().attr('class', 'icon md-eye-off');
+            } else if($('#passwordC_edit').attr('type') == 'text'){
+                $('#passwordC_edit').attr('type', 'password');
+                $('#btnEye_edit').children().attr('class', 'icon md-eye');
+            }
+        });
+
+		
 		$('#namaC').on('input', function(){
 			if($('small#error_namaC').is(':visible')){
 				$('small#error_namaC').hide();
@@ -478,6 +489,13 @@
 			if($('small#error_emailC_edit').is(':visible')){
 				$('small#error_emailC_edit').hide();
 				$('#emailC_edit').removeClass('is-invalid animation-shake');
+			}
+		});
+		
+		$('#passwordC_edit').on('input', function(){
+			if($('small#error_passwordC_edit').is(':visible')){
+				$('small#error_passwordC_edit').hide();
+				$('#passwordC_edit').removeClass('is-invalid animation-shake');
 			}
 		});
 		
@@ -1025,12 +1043,25 @@
 				kode_posC_edit: "Kode Pos",
 				no_telpC_edit: "Nomor Telepon",
 				alamatC_edit: "Alamat",
+				passwordC_edit: "Password",
 			};
+			// var cekEmail_diisi_edit = false;
 			$.each(data, function(i, v) {
-				if (v.name == "passwordC_edit" && v.value == "") {
-					v.value = "12345";
+				if (v.name == "emailC_edit" && v.value != "") {
+					var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+					if (!regex.test(v.value)) {
+						$('#' + v.name).attr('class', 'form-control is-invalid animation-shake');
+						$('#error_' + v.name).show();
+						$('#error_' + v.name).attr('class', 'invalid-feedback');
+						$('#error_' + v.name).html('Masukkan ' + namaData[v.name] + ' yang benar!');
+						errorValidasi++;
+					}
+					// cekEmail_diisi_edit = true;
 				}
-				if (v.name != "id_cust" && v.value == "") {
+			});
+			$.each(data, function(i, v) {
+				// if (v.name != "id_cust" && v.value == "") {
+				if (v.name != "id_cust" && v.value == "" && v.name != 'emailC_edit' && v.name != 'passwordC_edit') {
 					if (v.name == 'provinsiC_edit' || v.name == 'kabupatenC_edit' || v.name == 'kecamatanC_edit') {
 						$('#' + v.name).selectpicker('setStyle', 'animation-shake', 'add');
 					} else {
@@ -1058,16 +1089,24 @@
 						' tidak boleh lebih dari 191 karakter!');
 					errorValidasi++;
 				}
-				if (v.name == "emailC_edit" && v.value != "") {
-					var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-					if (!regex.test(v.value)) {
-						$('#' + v.name).attr('class', 'form-control is-invalid animation-shake');
-						$('#error_' + v.name).show();
-						$('#error_' + v.name).attr('class', 'invalid-feedback');
-						$('#error_' + v.name).html('Masukkan ' + namaData[v.name] + ' yang benar!');
-						errorValidasi++;
-					}
-				}
+				// if (v.name == "passwordC_edit" && v.value == "" && cekEmail_diisi_edit) {
+				// 	$('#' + v.name).attr('class', 'form-control is-invalid animation-shake');
+				// 	$('#error_' + v.name).show();
+				// 	$('#error_' + v.name).attr('class', 'invalid-feedback');
+				// 	$('#error_' + v.name).html(namaData[v.name] +
+				// 		' harus diisi jika email juga diisi!');
+				// 	errorValidasi++;
+				// }
+				// if (v.name == "emailC_edit" && v.value != "") {
+				// 	var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+				// 	if (!regex.test(v.value)) {
+				// 		$('#' + v.name).attr('class', 'form-control is-invalid animation-shake');
+				// 		$('#error_' + v.name).show();
+				// 		$('#error_' + v.name).attr('class', 'invalid-feedback');
+				// 		$('#error_' + v.name).html('Masukkan ' + namaData[v.name] + ' yang benar!');
+				// 		errorValidasi++;
+				// 	}
+				// }
 				if (v.name == "kategoriC_edit") {
 					if (v.value != "Customer" && v.value != "Reseller" && v.value !=
 						"Dropshipper") {
@@ -1128,6 +1167,10 @@
 					// console.log(data);
 				}
 			}).done(function () {
+				if(hasil2 === false){
+					swal("Gagal", "Data customer tersebut tidak ditemukan!", "error");
+					return $('#modEdit').modal('hide');;
+				}
 				// console.log(hasil2, id);
 				$("#kategoriC_edit").selectpicker('val', hasil2.kategori);
 				$("#provinsiC_edit").selectpicker('val', hasil2.provinsi);
