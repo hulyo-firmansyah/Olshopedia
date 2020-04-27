@@ -44,6 +44,9 @@ class OrderController extends Controller
 				->where("user_id", $d->tujuan_kirim_id)
 				->where("data_of", Fungsi::dataOfCek())
 				->get()->first();
+			if(preg_match('/kosong/', $dataC_tujuan->email)){
+				$dataC_tujuan->email = '-';
+			}
 			$popover[$i]["tujuan"] = $dataC_tujuan;
 			unset($dataC_tujuan);
 			$dataC_pemesan = DB::table("t_customer")
@@ -52,6 +55,9 @@ class OrderController extends Controller
 				->where("user_id", $d->pemesan_id)
 				->where("data_of", Fungsi::dataOfCek())
 				->get()->first();
+			if(preg_match('/kosong/', $dataC_pemesan->email)){
+				$dataC_pemesan->email = '-';
+			}
 			$popover[$i]["pemesan"] = $dataC_pemesan;
 			unset($dataC_pemesan);
 			$lacakResiAble = 0;
@@ -611,6 +617,9 @@ CUT;
 				->where("user_id", $d->tujuan_kirim_id)
 				->where("data_of", Fungsi::dataOfCek())
 				->get()->first();
+			if(preg_match('/kosong/', $dataC_tujuan->email)){
+				$dataC_tujuan->email = '-';
+			}
 			$popover[$i]["tujuan"] = $dataC_tujuan;
 			unset($dataC_tujuan);
 			$dataC_pemesan = DB::table("t_customer")
@@ -619,6 +628,9 @@ CUT;
 				->where("user_id", $d->pemesan_id)
 				->where("data_of", Fungsi::dataOfCek())
 				->get()->first();
+			if(preg_match('/kosong/', $dataC_pemesan->email)){
+				$dataC_pemesan->email = '-';
+			}
 			$popover[$i]["pemesan"] = $dataC_pemesan;
 			unset($dataC_pemesan);
 			$lacakResiAble = 0;
@@ -1545,6 +1557,9 @@ CUT;
 			unset($data_tujuan->data_of);
 		}
 		// return "<pre>".print_r($data_tujuan, true)."</pre>";
+		if(preg_match('/kosong/', $data_tujuan->email)){
+			$data_tujuan->email = '-';
+		}
 		$data->tujuan = $data_tujuan;
 		unset($data_tujuan);
 		$data->kategori_pemesan = $data_pemesan;
