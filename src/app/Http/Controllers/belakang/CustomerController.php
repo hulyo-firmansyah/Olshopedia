@@ -348,23 +348,27 @@ class CustomerController extends Controller
   	{
 		list($data_user, $ijin) = $this->getIjinUser();
 		if(($ijin->hapusCustomer === 1 && $data_user->role == 'Admin') || $data_user->role == 'Owner'){
-			$get_name = DB::table('users')->where('id', $request->id)->select('name')->get()->first();
-			$get_kategori = DB::table('t_customer')->where('user_id', $request->id)->select('kategori')->get()->first();
-			$proses1 = DB::table('t_customer')->where('user_id', $request->id)->delete();
-			$proses2 = DB::table('users')->where('id', $request->id)->delete();
-			Cache::forget('data_customer_analisa_'.Fungsi::dataOfCek());
-			Cache::forget('data_customer_lengkap_'.Fungsi::dataOfCek());
-			Cache::forget('data_laporan_'.Fungsi::dataOfCek());
-			Cache::forget('data_user_pengaturan_'.Fungsi::dataOfCek());
-			if ($proses1 && $proses2) {
-				event(new BelakangLogging(Fungsi::dataOfCek(), 'hapus_customer', [
-					'user_id' => Auth::user()->id,
-					'kategori' => $get_kategori->kategori,
-					'nama' => $get_name->name,
-				]));
-				return response()->json(['sukses' => true]);
+			if($request->ajax()){
+				$get_name = DB::table('users')->where('id', $request->id)->select('name')->get()->first();
+				$get_kategori = DB::table('t_customer')->where('user_id', $request->id)->select('kategori')->get()->first();
+				$proses1 = DB::table('t_customer')->where('user_id', $request->id)->delete();
+				$proses2 = DB::table('users')->where('id', $request->id)->delete();
+				Cache::forget('data_customer_analisa_'.Fungsi::dataOfCek());
+				Cache::forget('data_customer_lengkap_'.Fungsi::dataOfCek());
+				Cache::forget('data_laporan_'.Fungsi::dataOfCek());
+				Cache::forget('data_user_pengaturan_'.Fungsi::dataOfCek());
+				if ($proses1 && $proses2) {
+					event(new BelakangLogging(Fungsi::dataOfCek(), 'hapus_customer', [
+						'user_id' => Auth::user()->id,
+						'kategori' => $get_kategori->kategori,
+						'nama' => $get_name->name,
+					]));
+					return response()->json(['sukses' => true]);
+				} else {
+					return response()->json(['sukses' => false, 'msg' => 'Gagal menghapus data!']);
+				}
 			} else {
-				return response()->json(['sukses' => false, 'msg' => 'Gagal menghapus data!']);
+				abort(404);
 			}
 		} else {
 			return redirect()->route('b.customer-index');
