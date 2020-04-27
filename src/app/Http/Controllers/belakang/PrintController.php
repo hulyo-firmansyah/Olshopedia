@@ -102,6 +102,9 @@ class PrintController extends Controller
                     't_customer.provinsi', 't_customer.kecamatan', 't_customer.alamat', 't_customer.kode_pos')
                 ->get()->first();
             if(isset($data_pemesan)){
+                if(preg_match('/kosong/', $data_pemesan->email)){
+                    $data_pemesan->email = '-';
+                }
                 $data[$i_tD]['pemesan'] = $data_pemesan;
             } else {
                 $data[$i_tD]['pemesan'] = new \stdclass();
@@ -123,6 +126,9 @@ class PrintController extends Controller
                     't_customer.provinsi', 't_customer.kecamatan', 't_customer.alamat', 't_customer.kode_pos')
                 ->get()->first();
             if(isset($data_tujuan)){
+                if(preg_match('/kosong/', $data_tujuan->email)){
+                    $data_tujuan->email = '-';
+                }
                 $data[$i_tD]['tujuan'] = $data_tujuan;
             } else {
                 $data[$i_tD]['tujuan'] = new \stdclass();
