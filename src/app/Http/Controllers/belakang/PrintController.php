@@ -102,9 +102,21 @@ class PrintController extends Controller
                     't_customer.provinsi', 't_customer.kecamatan', 't_customer.alamat', 't_customer.kode_pos')
                 ->get()->first();
             if(isset($data_pemesan)){
+                if(preg_match('/kosong/', $data_pemesan->email)){
+                    $data_pemesan->email = '-';
+                }
                 $data[$i_tD]['pemesan'] = $data_pemesan;
             } else {
-                $data[$i_tD]['pemesan'] = null;
+                $data[$i_tD]['pemesan'] = new \stdclass();
+                $data[$i_tD]['pemesan']->name = '[?Terhapus?]';
+                $data[$i_tD]['pemesan']->no_telp = '[?Terhapus?]';
+                $data[$i_tD]['pemesan']->kabupaten = '[?Terhapus?]';
+                $data[$i_tD]['pemesan']->kategori = '[?Terhapus?]';
+                $data[$i_tD]['pemesan']->id_customer = '[?Terhapus?]';
+                $data[$i_tD]['pemesan']->provinsi = '[?Terhapus?]';
+                $data[$i_tD]['pemesan']->kecamatan = '[?Terhapus?]';
+                $data[$i_tD]['pemesan']->alamat = '[?Terhapus?]';
+                $data[$i_tD]['pemesan']->kode_pos = '[?Terhapus?]';
             }
             $data_tujuan = DB::table('t_customer')
                 ->join('users', 'users.id', '=', 't_customer.user_id')
@@ -114,9 +126,21 @@ class PrintController extends Controller
                     't_customer.provinsi', 't_customer.kecamatan', 't_customer.alamat', 't_customer.kode_pos')
                 ->get()->first();
             if(isset($data_tujuan)){
+                if(preg_match('/kosong/', $data_tujuan->email)){
+                    $data_tujuan->email = '-';
+                }
                 $data[$i_tD]['tujuan'] = $data_tujuan;
             } else {
-                $data[$i_tD]['tujuan'] = null;
+                $data[$i_tD]['tujuan'] = new \stdclass();
+                $data[$i_tD]['tujuan']->name = '[?Terhapus?]';
+                $data[$i_tD]['tujuan']->no_telp = '[?Terhapus?]';
+                $data[$i_tD]['tujuan']->kabupaten = '[?Terhapus?]';
+                $data[$i_tD]['tujuan']->kategori = '[?Terhapus?]';
+                $data[$i_tD]['tujuan']->id_customer = '[?Terhapus?]';
+                $data[$i_tD]['tujuan']->provinsi = '[?Terhapus?]';
+                $data[$i_tD]['tujuan']->kecamatan = '[?Terhapus?]';
+                $data[$i_tD]['tujuan']->alamat = '[?Terhapus?]';
+                $data[$i_tD]['tujuan']->kode_pos = '[?Terhapus?]';
             }
             $data_toko = DB::table('t_store')
                 ->where('data_of', Fungsi::dataOfCek())

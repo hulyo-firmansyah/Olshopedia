@@ -78,8 +78,8 @@
                                             <small id="notifWa-resiUpdate" class='red-700 hidden'>Template tidak boleh kosong!<br></small>
                                         </div>
                                     </div>
-                                    <div  id='notifWa-resiUpdate-div'>
-                                        <div class='row' style="@if(!isset($addonData) || $addonData['resi_update']['aktif'] === false) display:none; @endif">
+                                    <div  id='notifWa-resiUpdate-div' style="@if(!isset($addonData) || $addonData['resi_update']['aktif'] === false) display:none; @endif">
+                                        <div class='row'>
                                             <div class='col-xl-3 col-lg-5 col-md-6 mt-5'>
                                                 <b>Template Pesan</b>
                                             </div>
@@ -88,7 +88,7 @@
                                                 <small id="error_notifWa-resiUpdate-tmp" class='red-700 hidden'>Template tidak boleh kosong!<br></small>
                                             </div>
                                         </div>
-                                        <div class='row mt-25' style="@if(!isset($addonData) || $addonData['resi_update']['aktif'] === false) display:none; @endif">
+                                        <div class='row mt-25'>
                                             <div class='col-xl-3 col-lg-5 col-md-6 mt-5'>
                                                 <b>Catatan</b>
                                             </div>
@@ -145,6 +145,7 @@ $(document).ready(() => {
     });
 
     $('#notifWa-resiUpdate').on('change', function() {
+        // console.log('asd');
         if($(this).is(':checked')){
             $('#notifWa-resiUpdate-div').show();
             // $('#notifWa-resiUpdate-divBtn').attr('style', '');

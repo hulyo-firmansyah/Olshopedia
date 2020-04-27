@@ -44,6 +44,11 @@ class OrderController extends Controller
 				->where("user_id", $d->tujuan_kirim_id)
 				->where("data_of", Fungsi::dataOfCek())
 				->get()->first();
+			if(isset($dataC_tujuan)){
+				if(preg_match('/kosong/', $dataC_tujuan->email)){
+					$dataC_tujuan->email = '-';
+				}
+			}
 			$popover[$i]["tujuan"] = $dataC_tujuan;
 			unset($dataC_tujuan);
 			$dataC_pemesan = DB::table("t_customer")
@@ -52,6 +57,11 @@ class OrderController extends Controller
 				->where("user_id", $d->pemesan_id)
 				->where("data_of", Fungsi::dataOfCek())
 				->get()->first();
+			if(isset($dataC_pemesan)){
+				if(preg_match('/kosong/', $dataC_pemesan->email)){
+					$dataC_pemesan->email = '-';
+				}
+			}
 			$popover[$i]["pemesan"] = $dataC_pemesan;
 			unset($dataC_pemesan);
 			$lacakResiAble = 0;
@@ -323,6 +333,12 @@ class OrderController extends Controller
 			} else {
 				$temp = str_replace("{!btn_lacak_resi!}", "", $temp);
 			}
+			
+			if($d->print_label){
+				$temp = str_replace("{!tooltip_print!}", "tooltip-print", $temp);
+			} else {
+				$temp = str_replace("{!tooltip_print!}", "", $temp);
+			}
 
 
 			$order[$i] = $temp;
@@ -437,7 +453,7 @@ class OrderController extends Controller
 					<label for="list-tanda">
 						<input type="checkbox" class="icek" name="list-tanda" id="pilihCheck-{!urut_order!}">
 					</label>
-					<a href='{!url_print!}' class='btn btn-default btn-outline ml-10'><i class='fa fa-print'></i>&nbsp;&nbsp;Print</a>
+					<a href='{!url_print!}' class='btn btn-default btn-outline ml-10 {!tooltip_print!}'><i class='fa fa-print'></i>&nbsp;&nbsp;Print</a>
 					{!btn_riwayat_bayar!}
 				</diV>
 				<div class='col-md-6 text-right'>
@@ -605,6 +621,11 @@ CUT;
 				->where("user_id", $d->tujuan_kirim_id)
 				->where("data_of", Fungsi::dataOfCek())
 				->get()->first();
+			if(isset($dataC_tujuan)){
+				if(preg_match('/kosong/', $dataC_tujuan->email)){
+					$dataC_tujuan->email = '-';
+				}
+			}
 			$popover[$i]["tujuan"] = $dataC_tujuan;
 			unset($dataC_tujuan);
 			$dataC_pemesan = DB::table("t_customer")
@@ -613,6 +634,11 @@ CUT;
 				->where("user_id", $d->pemesan_id)
 				->where("data_of", Fungsi::dataOfCek())
 				->get()->first();
+			if(isset($dataC_pemesan)){
+				if(preg_match('/kosong/', $dataC_pemesan->email)){
+					$dataC_pemesan->email = '-';
+				}
+			}
 			$popover[$i]["pemesan"] = $dataC_pemesan;
 			unset($dataC_pemesan);
 			$lacakResiAble = 0;
@@ -939,26 +965,42 @@ CUT;
 		switch($request->tipeKirim){
 			case "tambah_customer":
 				if($request->ajax()){
-					$cekEmail = DB::table('users')->where("email", $request->emailC)->get()->first();
-					if(isset($cekEmail)){
-						return response()->json(['sukses' => false, 'msg' => 'Email telah digunakan!']);
+					if(isset($request->emailC) && $request->emailC !== ''){
+						if(!isset($request->passwordC) || $request->passwordC === ''){
+							return response()->json(['status' => false, 'msg' => 'Password belum diisi!']);
+						} else {
+							$cekEmail = DB::table('users')->where("users.email", $request->emailC)->get()->first();
+							if(isset($cekEmail)){
+								return response()->json(['status' => false, 'msg' => 'Email telah digunakan!']);
+							}
+							$lastUser_id = DB::table('users')->insertGetId([
+								'name' => $request->namaC,
+								'email' => $request->emailC,
+								'no_telp' => $request->no_telpC,
+								'password' => Hash::make($request->passwordC),
+								'created_at' => date("Y-m-d H:i:s"),
+								'updated_at' => date("Y-m-d H:i:s")
+							]);
+						}
+					} else {
+						$data_t = 'kosong|'.str_random();
+						$lastUser_id = DB::table('users')->insertGetId([
+							'name' => $request->namaC,
+							'email' => $data_t,
+							'no_telp' => $request->no_telpC,
+							'password' => Hash::make($data_t),
+							'created_at' => date("Y-m-d H:i:s"),
+							'updated_at' => date("Y-m-d H:i:s")
+						]);
 					}
-					$lastID = DB::table('users')->insertGetId([
-						'name' => $request->namaC,
-						'email' => $request->emailC,
-						'no_telp' => $request->no_telpC,
-						'password' => Hash::make($request->passwordC),
-						'created_at' => date("Y-m-d H:i:s"),
-						'updated_at' => date("Y-m-d H:i:s")
-					]);
 					$proses = DB::table('t_customer')->insert([
-						'user_id' => $lastID,
+						'user_id' => $lastUser_id,
+						'kategori' => $request->kategoriC,
 						'provinsi' => $request->provinsiC,
 						'kabupaten' => $request->kabupatenC,
 						'kecamatan' => $request->kecamatanC,
 						'kode_pos' => $request->kode_posC,
 						'alamat' => $request->alamatC,
-						'kategori' => $request->kategoriC,
 						'data_of' => Fungsi::dataOfCek()
 					]);
 					Cache::forget('data_customer_analisa_'.Fungsi::dataOfCek());
@@ -971,7 +1013,7 @@ CUT;
 							'kategori' => $request->kategoriC,
 							'nama' => $request->namaC,
 						]));
-						return response()->json(['sukses' => true, 'last_id' => $lastID]);
+						return response()->json(['sukses' => true, 'last_id' => $lastUser_id]);
 					} else {
 						return response()->json(['sukses' => false, 'msg' => 'Gagal menambah customer!']);
 					}
@@ -1523,6 +1565,9 @@ CUT;
 			unset($data_tujuan->data_of);
 		}
 		// return "<pre>".print_r($data_tujuan, true)."</pre>";
+		if(preg_match('/kosong/', $data_tujuan->email)){
+			$data_tujuan->email = '-';
+		}
 		$data->tujuan = $data_tujuan;
 		unset($data_tujuan);
 		$data->kategori_pemesan = $data_pemesan;
@@ -1779,7 +1824,7 @@ CUT;
 					<label for="list-tanda">
 						<input type="checkbox" class="icek" name="list-tanda" id="pilihCheck-{!urut_order!}">
 					</label>
-					<a href='{!url_print!}' class='btn btn-default btn-outline ml-10'><i class='fa fa-print'></i>&nbsp;&nbsp;Print</a>
+					<a href='{!url_print!}' class='btn btn-default btn-outline ml-10 {!tooltip_print!}'><i class='fa fa-print'></i>&nbsp;&nbsp;Print</a>
 					{!btn_riwayat_bayar!}
 				</diV>
 				<div class='col-md-6 text-right'>
@@ -2336,7 +2381,7 @@ CUT;
 					<label for="list-tanda">
 						<input type="checkbox" class="icek" name="list-tanda" id="pilihCheck-{!urut_order!}">
 					</label>
-					<a href='{!url_print!}' class='btn btn-default btn-outline ml-10'><i class='fa fa-print'></i>&nbsp;&nbsp;Print</a>
+					<a href='{!url_print!}' class='btn btn-default btn-outline ml-10 {!tooltip_print!}'><i class='fa fa-print'></i>&nbsp;&nbsp;Print</a>
 					{!btn_riwayat_bayar!}
 				</diV>
 				<div class='col-md-6 text-right'>

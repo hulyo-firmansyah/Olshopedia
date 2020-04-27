@@ -257,15 +257,15 @@ $(document).ready(function() {
                 } else {
                     swal("Gagal", "" + hasil.msg, "error");
                 }
+                $('input[name=tanggal]').val("");
+                $('input[name=nama_p]').val("");
+                $('input[name=harga]').val("");
+                $('input[name=jumlah]').val("");
+                $('#Note').val("");
+                $('span#subtotal').html("0");
             }).fail(function() {
                 $('#modTambah').modal('hide');
             });
-            $('input[name=tanggal]').val("");
-            $('input[name=nama_p]').val("");
-            $('input[name=harga]').val("");
-            $('input[name=jumlah]').val("");
-            $('#Note').val("");
-            $('span#subtotal').html("0");
         }
     });
     $('#modTambah').on('hidden.bs.modal', function(e) {
@@ -332,15 +332,15 @@ $(document).ready(function() {
                 } else {
                     swal("Gagal", "" + hasil.msg, "error");
                 }
+                $('input[name=tanggalE]').val("");
+                $('input[name=nama_pE]').val("");
+                $('input[name=hargaE]').val("");
+                $('input[name=jumlahE]').val("");
+                $('#NoteE').val("");
+                $('span#subtotalE').html("0");
             }).fail(function() {
                 $('#modEdit').modal('hide');
             });
-            $('input[name=tanggalE]').val("");
-            $('input[name=nama_pE]').val("");
-            $('input[name=hargaE]').val("");
-            $('input[name=jumlahE]').val("");
-            $('#NoteE').val("");
-            $('span#subtotalE').html("0");
         }
     });
     $('#modEdit').on('hidden.bs.modal', function(e) {
@@ -369,9 +369,7 @@ $(document).ready(function() {
                                 data-date-end-date="0d" required />
                             <small id="error_tgl" style='color:#f2353c;display:none;'>Masukkan Tanggal!</small>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 form-group">
+                        <div class="col-md-8 form-group">
                             <label>Nama Pengeluaran</label>
                             <input type="text" class="form-control" id="Nama_P" name="nama_p" required />
                             <small id="error_nama" style='color:#f2353c;display:none;'>Masukkan Nama Expense!</small>
@@ -436,9 +434,7 @@ $(document).ready(function() {
                                 data-date-end-date="0d" required />
                             <small id="error_tglE" style='color:#f2353c;display:none;'>Masukkan Tanggal!</small>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 form-group">
+                        <div class="col-md-8 form-group">
                             <label>Nama Pengeluaran</label>
                             <input type="text" class="form-control" id="Nama_PE" name="nama_pE" required />
                             <input type="hidden" class="form-control" id="idExE" name="idExE" required />
