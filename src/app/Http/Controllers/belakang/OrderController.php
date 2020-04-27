@@ -945,26 +945,42 @@ CUT;
 		switch($request->tipeKirim){
 			case "tambah_customer":
 				if($request->ajax()){
-					$cekEmail = DB::table('users')->where("email", $request->emailC)->get()->first();
-					if(isset($cekEmail)){
-						return response()->json(['sukses' => false, 'msg' => 'Email telah digunakan!']);
+					if(isset($request->emailC) && $request->emailC !== ''){
+						if(!isset($request->passwordC) || $request->passwordC === ''){
+							return response()->json(['status' => false, 'msg' => 'Password belum diisi!']);
+						} else {
+							$cekEmail = DB::table('users')->where("users.email", $request->emailC)->get()->first();
+							if(isset($cekEmail)){
+								return response()->json(['status' => false, 'msg' => 'Email telah digunakan!']);
+							}
+							$lastUser_id = DB::table('users')->insertGetId([
+								'name' => $request->namaC,
+								'email' => $request->emailC,
+								'no_telp' => $request->no_telpC,
+								'password' => Hash::make($request->passwordC),
+								'created_at' => date("Y-m-d H:i:s"),
+								'updated_at' => date("Y-m-d H:i:s")
+							]);
+						}
+					} else {
+						$data_t = 'kosong|'.str_random();
+						$lastUser_id = DB::table('users')->insertGetId([
+							'name' => $request->namaC,
+							'email' => $data_t,
+							'no_telp' => $request->no_telpC,
+							'password' => Hash::make($data_t),
+							'created_at' => date("Y-m-d H:i:s"),
+							'updated_at' => date("Y-m-d H:i:s")
+						]);
 					}
-					$lastID = DB::table('users')->insertGetId([
-						'name' => $request->namaC,
-						'email' => $request->emailC,
-						'no_telp' => $request->no_telpC,
-						'password' => Hash::make($request->passwordC),
-						'created_at' => date("Y-m-d H:i:s"),
-						'updated_at' => date("Y-m-d H:i:s")
-					]);
 					$proses = DB::table('t_customer')->insert([
-						'user_id' => $lastID,
+						'user_id' => $lastUser_id,
+						'kategori' => $request->kategoriC,
 						'provinsi' => $request->provinsiC,
 						'kabupaten' => $request->kabupatenC,
 						'kecamatan' => $request->kecamatanC,
 						'kode_pos' => $request->kode_posC,
 						'alamat' => $request->alamatC,
-						'kategori' => $request->kategoriC,
 						'data_of' => Fungsi::dataOfCek()
 					]);
 					Cache::forget('data_customer_analisa_'.Fungsi::dataOfCek());
@@ -977,7 +993,7 @@ CUT;
 							'kategori' => $request->kategoriC,
 							'nama' => $request->namaC,
 						]));
-						return response()->json(['sukses' => true, 'last_id' => $lastID]);
+						return response()->json(['sukses' => true, 'last_id' => $lastUser_id]);
 					} else {
 						return response()->json(['sukses' => false, 'msg' => 'Gagal menambah customer!']);
 					}
