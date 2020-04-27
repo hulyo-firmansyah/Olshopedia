@@ -355,7 +355,7 @@
     <footer class="site-footer">
         <div class="site-footer-legal">© 2020 <a href="#">Olshopedia</a></div>
         <div class="site-footer-right">
-            v0.9.2
+            v0.9.3
         </div>
     </footer>
 

@@ -10,17 +10,33 @@
         <div class='panel'>
             <div class='panel-body'>
                 <div class='mb-40'>
-                    <h4>v0.9.2 &nbsp;&nbsp;(24 Apr 2020)</h4>
+                    <h4>v0.9.3 &nbsp;&nbsp;(27 Apr 2020)</h4>
                     <div class='ml-30'>
                         <b style='font-size:15px'>Changed</b>
                         <ul>
-                            <li>Optimization performance pada cari, filter, semua order</li>
+                            <li>Sekarang email customer dibuat optional saat tambah dan edit customer</li>
                         </ul>
                     </div>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Fixed</b>
+                        <ul>
+                            <li>Fix bug data customer tidak ada di print order</li>
+                            <li>Fix bug template pesan edit tidak tertampilkan di addon wanotif</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class='mb-40'>
+                    <h4>v0.9.2 &nbsp;&nbsp;(24 Apr 2020)</h4>
                     <div class='ml-30'>
                         <b style='font-size:15px'>Added</b>
                         <ul>
                             <li>Penambahan checklist all dan print all pada cari dan filter order</li>
+                        </ul>
+                    </div>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Changed</b>
+                        <ul>
+                            <li>Optimization performance pada cari, filter, semua order</li>
                         </ul>
                     </div>
                     <div class='ml-30'>
