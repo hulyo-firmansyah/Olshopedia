@@ -91,8 +91,8 @@
                             <label>Password</label>
                             <div class="input-search">
                                 <button type="button" style="height:40px;cursor:pointer" class="input-search-btn" id='btnEye' tabindex='-1'><i class="icon md-eye-off" aria-hidden="true"></i></button>
-                                <input type='text' name='passwordC' class='form-control' id='passwordC' placeholder="Password"
-                                    value='{{$pass}}' autocomplete="on" style='border-radius:unset'>
+                                <!-- <input type='text' name='passwordC' class='form-control' id='passwordC' placeholder="Password" value='{{$pass}}' autocomplete="on" style='border-radius:unset'> -->
+                                <input type='text' name='passwordC' class='form-control' id='passwordC' placeholder="Password" value='' autocomplete="on" style='border-radius:unset'>
                                 <small id="error_passwordC" class="hidden"></small>
                             </div>
                             <!-- <div class='input-group'>
@@ -890,8 +890,23 @@
 				alamatC: "Alamat",
 				passwordC: "Password",
 			};
+			var cekEmail_diisi = false;
 			$.each(data, function(i, v) {
-				if (v.name != "tipe_customerM" && v.value == "") {
+				if (v.name == "emailC" && v.value != "") {
+					var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+					if (!regex.test(v.value)) {
+						$('#' + v.name).attr('class', 'form-control is-invalid animation-shake');
+						$('#error_' + v.name).show();
+						$('#error_' + v.name).attr('class', 'invalid-feedback');
+						$('#error_' + v.name).html('Masukkan ' + namaData[v.name] + ' yang benar!');
+						errorValidasi++;
+					}
+					cekEmail_diisi = true;
+				}
+			});
+			$.each(data, function(i, v) {
+				// if (v.name != "tipe_customerM" && v.value == "") {
+				if (v.name != "tipe_customerM" && v.value == "" && v.name != 'emailC' && v.name != 'passwordC') {
 					if (v.name == 'provinsiC' || v.name == 'kabupatenC' || v.name == 'kecamatanC') {
 						$('#' + v.name).selectpicker('setStyle', 'animation-shake', 'add');
 					} else {
@@ -919,16 +934,24 @@
 						' tidak boleh lebih dari 191 karakter!');
 					errorValidasi++;
 				}
-				if (v.name == "emailC" && v.value != "") {
-					var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-					if (!regex.test(v.value)) {
-						$('#' + v.name).attr('class', 'form-control is-invalid animation-shake');
-						$('#error_' + v.name).show();
-						$('#error_' + v.name).attr('class', 'invalid-feedback');
-						$('#error_' + v.name).html('Masukkan ' + namaData[v.name] + ' yang benar!');
-						errorValidasi++;
-					}
+				if (v.name == "passwordC" && v.value == "" && cekEmail_diisi) {
+					$('#' + v.name).attr('class', 'form-control is-invalid animation-shake');
+					$('#error_' + v.name).show();
+					$('#error_' + v.name).attr('class', 'invalid-feedback');
+					$('#error_' + v.name).html(namaData[v.name] +
+						' harus diisi jika email juga diisi!');
+					errorValidasi++;
 				}
+				// if (v.name == "emailC" && v.value != "") {
+				// 	var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+				// 	if (!regex.test(v.value)) {
+				// 		$('#' + v.name).attr('class', 'form-control is-invalid animation-shake');
+				// 		$('#error_' + v.name).show();
+				// 		$('#error_' + v.name).attr('class', 'invalid-feedback');
+				// 		$('#error_' + v.name).html('Masukkan ' + namaData[v.name] + ' yang benar!');
+				// 		errorValidasi++;
+				// 	}
+				// }
 				if (v.name == "kategoriC") {
 					if (v.value != "Customer" && v.value != "Reseller" && v.value !=
 						"Dropshipper") {
@@ -944,7 +967,7 @@
 					hasil[v.name] = v.value;
 				})
 				var resp = '';
-				// console.log(hasil);
+				// return console.log(hasil);
 				// console.log(data);
 				$.ajax({
 					type: 'post',

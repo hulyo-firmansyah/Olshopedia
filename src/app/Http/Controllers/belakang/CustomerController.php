@@ -121,17 +121,32 @@ class CustomerController extends Controller
 
   	public function store(Request $request)
   	{
+		// return "<pre>".print_r($request->all(), true).' '.((isset($request->emailC))." ".($request->emailC === ''))."</pre>";
 		if($request->ajax()){
-			$cekEmail = DB::table('users')->where("users.email", $request->emailC)->get()->first();
-			if(isset($cekEmail)){
-				return response()->json(['status' => false, 'msg' => 'Email telah digunakan!']);
+			if(isset($request->emailC) && $request->emailC !== ''){
+				if(!isset($request->passwordC) || $request->passwordC === ''){
+					return response()->json(['status' => false, 'msg' => 'Password belum diisi!']);
+				} else {
+					$cekEmail = DB::table('users')->where("users.email", $request->emailC)->get()->first();
+					if(isset($cekEmail)){
+						return response()->json(['status' => false, 'msg' => 'Email telah digunakan!']);
+					}
+					$lastUser_id = DB::table('users')->insertGetId([
+						'name' => $request->namaC,
+						'email' => $request->emailC,
+						'no_telp' => $request->no_telpC,
+						'password' => Hash::make($request->passwordC),
+					]);
+				}
+			} else {
+				$data_t = 'kosong|'.str_random();
+				$lastUser_id = DB::table('users')->insertGetId([
+					'name' => $request->namaC,
+					'email' => $data_t,
+					'no_telp' => $request->no_telpC,
+					'password' => Hash::make($data_t),
+				]);
 			}
-			$lastUser_id = DB::table('users')->insertGetId([
-				'name' => $request->namaC,
-				'email' => $request->emailC,
-				'no_telp' => $request->no_telpC,
-				'password' => Hash::make($request->passwordC),
-			]);
 			$customer = DB::table('t_customer')->insert([
 				'user_id' => $lastUser_id,
 				'kategori' => $request->kategoriC,
@@ -154,7 +169,7 @@ class CustomerController extends Controller
 				]));
 				return response()->json(['status' => true]);
 			} else {
-				return response()->json(['status' => true, 'msg' => 'Gagal Menambahkan Customer!']);
+				return response()->json(['status' => false, 'msg' => 'Gagal Menambahkan Customer!']);
 			}
 		} else {
 			abort(404);
