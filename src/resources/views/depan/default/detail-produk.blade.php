@@ -115,7 +115,7 @@
         </div>
         <div class='d-flex flex-column flex-md-row' style='margin-top:30px'>
             <button type='button' class='btn btn-primary'><i class='fa fa-shopping-cart'></i> Masukkan ke Keranjang</button>
-            <button type='button' class='btn btn-default'><i class='fa fa-whatsapp'></i> Beli Via Whatsapp</button>
+            <!-- <a class='btn btn-default' href='https://api.whatsapp.com/send?phone=&text={{ urlencode(url()->current()) }}'><i class='fa fa-whatsapp'></i> Beli Via Whatsapp</a> -->
         </div>
         <div style='margin-top:30px'>
             <label>Share:</label>

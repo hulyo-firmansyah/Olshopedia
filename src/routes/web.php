@@ -192,8 +192,11 @@
         // Route::get('/export-kategori-produk','belakang\ExcelController@exportKategoriProduk')->name("e.export-kategori-produk");
     });
 
+    //storefront
     Route::get('/{toko_slug}', 'depan\HomeController@index')->name("d.home");
     Route::get('/{toko_slug}/produk/{nama_produk?}', 'depan\HomeController@produkIndex')->name("d.produk-index");
+    Route::get('/{toko_slug}/register', 'depan\auth\RegisterController@showRegistrationForm')->name("d.register");
+    Route::post('/{toko_slug}/register', 'depan\auth\RegisterController@register');
 
     
 // });
