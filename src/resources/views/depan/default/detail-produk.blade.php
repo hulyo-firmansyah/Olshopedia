@@ -30,7 +30,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-12 col-sm-6">
+                    <div class="col-12 col-sm-6" id='gambarDiv'>
                         <h3 class="d-inline-block d-sm-none">{{ $produk->nama_produk }}</h3>
                         <div class="col-12">
                             <img src="{{ $produk->varian[0]->foto->utama }}" class="product-image" alt="Product Image">
@@ -88,14 +88,14 @@
                                     if($i == 0){
                                         @endphp
                                         <label class="btn btn-primary text-center">
-                                            <input type="radio" name="varian_pilihan" id="varian_pilihan-{{($i+1)}}" autocomplete="off">
+                                            <input type="radio" name="varian_pilihan" id="varian_pilihan-{{($i+1)}}" value='{{ $v->id_varian }}' autocomplete="off">
                                             {!! $btnTampil !!}
                                         </label>
                                         @php
                                     } else {
                                         @endphp
                                         <label class="btn btn-default text-center">
-                                            <input type="radio" name="varian_pilihan" id="varian_pilihan-{{($i+1)}}" autocomplete="off">
+                                            <input type="radio" name="varian_pilihan" id="varian_pilihan-{{($i+1)}}" value='{{ $v->id_varian }}' autocomplete="off">
                                             {!! $btnTampil !!}
                                         </label>
                                         @php
@@ -127,10 +127,10 @@
                             </div>
                         </div>
                         <div class="mt-5 product-share">
-                            <a href="#" class="text-gray">
+                            <a href="http://www.facebook.com/sharer.php?u={{ urlencode(url()->current()) }}" target='_blank' class="text-gray">
                                 <i class="fab fa-facebook-square fa-2x"></i>
                             </a>
-                            <a href="#" class="text-gray">
+                            <a href="https://twitter.com/share?url={{ urlencode(url()->current()) }}" target='_blank' class="text-gray">
                                 <i class="fab fa-twitter-square fa-2x"></i>
                             </a>
                         </div>
@@ -160,11 +160,44 @@
 </div>
 <script>
     $(document).ready(function(){
-        $('.product-image-thumb').on('click', function() {
+        $('.card-body').on('click', '.product-image-thumb', function() {
             const image_element = $(this).find('img');
             $('.product-image').prop('src', $(image_element).attr('src'))
             $('.product-image-thumb.active').removeClass('active');
             $(this).addClass('active');
+        });
+
+        $('.card-body').on('click', 'input[name=varian_pilihan]', function(){
+            const data = {
+                @foreach(\App\Http\Controllers\PusatController::genArray($produk->varian) as $v)
+                    '{{ $v->id_varian }}' : {
+                        utama: '{{ $v->foto->utama }}',
+                        lain: jQuery.parseJSON('{!! json_encode($v->foto->lain) !!}')
+                    },
+                @endforeach
+            };
+            let id = $(this).val();
+            // console.log(data[id].utama);
+            $('#gambarDiv').find('.product-image').prop('src', data[id].utama);
+            $('#gambarDiv').children('div:last').html('');
+            let i_ = 0;
+            $('#gambarDiv').children('div:last').append('<div class="product-image-thumb active"><img src="'+data[id].utama+'" alt="Product Image"></div>');
+            $.each(data[id].lain, (i, v) => {
+                $('#gambarDiv').children('div:last').append('<div class="product-image-thumb"><img src="'+v+'" alt="Product Image"></div>');
+            });
+            let list = Array.prototype.slice.call($(this).parent().parent().children());
+            var this_ = this;
+            list.forEach(function(html) {
+                if($(html).hasClass('btn-primary') && html !== this_){
+                    $(html).removeClass('btn-primary');
+                    $(html).addClass('btn-default');
+                }
+            });
+            if($(this).parent().hasClass('btn-default')){
+                $(this).parent().removeClass('btn-default');
+                $(this).parent().removeClass('btn-default');
+                $(this).parent().addClass('btn-primary');
+            }
         });
     });
 </script>

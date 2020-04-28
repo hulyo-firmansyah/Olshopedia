@@ -56,7 +56,7 @@
 
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Cart</a>
+                        <a href="#" class="nav-link"><i class='fa fa-shopping-cart'></i> Cart</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
