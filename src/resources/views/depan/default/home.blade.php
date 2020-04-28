@@ -55,7 +55,7 @@
     <div class='container'>
         <div class='row'>
             <div class='col-md-12'>
-                <select id='sorting' class='select2' height='100%'>
+                <select id='sorting' height='100%'>
                     <option value='a-z' @if($r['sort']=='a-z' || $r['sort']==='' ) selected @endif>A - Z</option>
                     <option value='z-a' @if($r['sort']=='z-a' ) selected @endif>Z - A</option>
                     <option value='murah-mahal' @if($r['sort']=='murah-mahal' ) selected @endif>Termurah - Termahal</option>
@@ -126,7 +126,7 @@
 
 <script>
 $(document).ready(function() {
-    $('.select2').select2({
+    $('#sorting').select2({
         theme: 'bootstrap4'
     });
 

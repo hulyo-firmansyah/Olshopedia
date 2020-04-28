@@ -103,7 +103,7 @@
                                 }
                             @endphp
                         </div>
-                        <div class="mt-4">
+                        <div class="mt-4" id='hargaDiv'>
                             <h5>Harga</h5>
                             <h4 class="mb-0">
                                 {{ \App\Http\Controllers\PusatController::formatUang($produk->varian[0]->harga_jual_normal, true) }}
@@ -159,6 +159,22 @@
     </div>
 </div>
 <script>
+function uangFormat(number) {
+    var sp = number.toString().split("").reverse();
+    var yt = 0;
+    var te = "";
+    $.each(sp, function(i, v) {
+        if (yt === 3) {
+            te += ".";
+            yt = 0;
+        }
+        te += v;
+        yt++;
+    });
+    var hasil = te.split("").reverse().join("");
+    return hasil;
+}
+
     $(document).ready(function(){
         $('.card-body').on('click', '.product-image-thumb', function() {
             const image_element = $(this).find('img');
@@ -168,7 +184,7 @@
         });
 
         $('.card-body').on('click', 'input[name=varian_pilihan]', function(){
-            const data = {
+            const data_img = {
                 @foreach(\App\Http\Controllers\PusatController::genArray($produk->varian) as $v)
                     '{{ $v->id_varian }}' : {
                         utama: '{{ $v->foto->utama }}',
@@ -176,13 +192,20 @@
                     },
                 @endforeach
             };
+            const data_harga = {
+                @foreach(\App\Http\Controllers\PusatController::genArray($produk->varian) as $v)
+                    '{{ $v->id_varian }}' : {
+                        harga: parseInt('{{ $v->harga_jual_normal }}')
+                    },
+                @endforeach
+            };
             let id = $(this).val();
-            // console.log(data[id].utama);
-            $('#gambarDiv').find('.product-image').prop('src', data[id].utama);
+            $('#hargaDiv').children('h4').text('Rp '+uangFormat(data_harga[id].harga));
+            $('#gambarDiv').find('.product-image').prop('src', data_img[id].utama);
             $('#gambarDiv').children('div:last').html('');
             let i_ = 0;
-            $('#gambarDiv').children('div:last').append('<div class="product-image-thumb active"><img src="'+data[id].utama+'" alt="Product Image"></div>');
-            $.each(data[id].lain, (i, v) => {
+            $('#gambarDiv').children('div:last').append('<div class="product-image-thumb active"><img src="'+data_img[id].utama+'" alt="Product Image"></div>');
+            $.each(data_img[id].lain, (i, v) => {
                 $('#gambarDiv').children('div:last').append('<div class="product-image-thumb"><img src="'+v+'" alt="Product Image"></div>');
             });
             let list = Array.prototype.slice.call($(this).parent().parent().children());
