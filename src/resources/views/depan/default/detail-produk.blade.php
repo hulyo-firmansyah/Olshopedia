@@ -2,184 +2,247 @@
 @section('isi')
 <!--uiop-->
 <style>
-.btnFotoPilih {
-    cursor:pointer;
+.product-image-thumb {
+    cursor: pointer;
 }
 </style>
-<div class="page-header page-header-bordered">
-    <div class='row'>
-        <div class='col-md-12'>
-            <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href='{{ route("d.home", ["toko_slug" => $toko->domain_toko]) }}'>Home</a>
-                    </li>
-                    <li class="breadcrumb-item active">{{ $produk->nama_produk }}</li>
+<div class="content-header">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Home</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a
+                        href="{{ route('d.home', ['domain_toko' => $toko->domain_toko]) }}">Home</a></li>
+                <li class="breadcrumb-item active">{{ $produk->nama_produk }}</li>
             </ol>
         </div>
     </div>
-</div> 
-<div class='row'>
-    <div class='col-sm-5'>
-        @php
-            $cekFoto = false;
-            $genVarian = \App\Http\Controllers\PusatController::genArray($produk->varian);
-            foreach($genVarian as $v){
-                if(isset($v->foto->utama)){
-                    $foto_awal = $v->foto->utama;
-                    $cekFoto = true;
-                    $genVarian->send('stop');
-                }
-            }
-            if(!$cekFoto){
-                $foto_awal = asset('photo.png');
-            }
-        @endphp
-        <a href='{{ $foto_awal }}'>
-            <img src="{{ $foto_awal }}" alt="image utama" class="img-thumbnail" width='100%' id='foto-utama' style='margin-bottom:20px'>
-        </a>
-        @php
-            $img_i = 0;
-            $img_count = 0;
-            foreach(\App\Http\Controllers\PusatController::genArray($produk->varian) as $v){
-                $img_count += (isset($v->foto->utama) ? 1 : 0) + count($v->foto->lain);
-                if(isset($v->foto->utama)){
-                    if($img_i === 0){
-                        echo "<div class='row'>";
-                    }
-                    echo "<div class='col-xs-3' style='padding:5px;'><img src='".$v->foto->utama."' alt='image list' id='lu-".$v->id_varian."' class='img-thumbnail btnFotoPilih' width='120' height='120'></div>";
-                    $img_i++;
-                    if($img_i % 4 === 0){
-                        $img_i = 0;
-                        echo "</div>";
-                    }
-                }
-                foreach(\App\Http\Controllers\PusatController::genArray($v->foto->lain) as $ll){
-                    if($img_i === 0){
-                        echo "<div class='row'>";
-                    }
-                    echo "<div class='col-xs-3' style='padding:5px;'><img src='".$ll."' alt='image list' class='img-thumbnail btnFotoPilih' width='120' height='120'></div>";
-                    $img_i++;
-                    if($img_i % 4 === 0){
-                        $img_i = 0;
-                        echo "</div>";
-                    }
-                }
-            }
-            if($img_count % 4 !== 0){
-                echo "</div>";
-            }
-        @endphp
-    </div>
-    <div class='col-sm-7'>
-        <h1>{{ $produk->nama_produk }}</h1>
-        <div class='row' style='margin-top:30px'>
-            <div class='col-md-12'>
-                <label>Varian</label>
-            </div>
-            <div class='col-md-12'>
-                @php
-                    foreach(\App\Http\Controllers\PusatController::genArray($produk->varian) as $i => $v){
-                        $btnTampil = '';
-                        if(($v->ukuran != null && $v->ukuran != "") && ($v->warna != null && $v->warna != "")){
-                            $btnTampil .= " (".$v->ukuran." "+$v->warna.") ";
-                        } else if(($v->ukuran != null && $v->ukuran != "") && ($v->warna == null || $v->warna == "")){
-                            $btnTampil .= " (".$v->ukuran.") ";
-                        } else if(($v->ukuran == null || $v->ukuran == "") && ($v->warna != null && $v->warna != "")){
-                            $btnTampil .= " (".$v->warna.") ";
-                        }
-                        if($btnTampil === ''){
-                            $btnTampil = ($i+1);
-                        }
-                        @endphp
+</div>
+
+<hr>
+
+<div class="content">
+    <div class="card card-solid">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <h3 class="d-inline-block d-sm-none">{{ $produk->nama_produk }}</h3>
+                    <div class="col-12">
+                        <img src="{{ $produk->varian[0]->foto->utama }}" class="product-image" alt="Product Image">
+                    </div>
+                    <div class="col-12 product-image-thumbs">
                         @php
-                        if($i == 0){
-                            @endphp
-                            <button class='btn btn-primary btnPilihVarian' type='button' data-id='lu-{{ $v->id_varian }}'>{{ $btnTampil }}</button>
-                            @php
-                        } else {
-                            @endphp
-                            <button class='btn btn-default btnPilihVarian' type='button' data-id='lu-{{ $v->id_varian }}'>{{ $btnTampil }}</button>
-                            @php
-                        }
-                    }
-                @endphp
-            </div>
-        </div>
-        <div class='row' style='margin-top:20px'>
-            <div class='col-md-12'>
-                <label>Jumlah</label>
-            </div>
-            <div class='col-md-5 col-lg-3'>
-                <input type='text' class='form-control' name='jumlah' id='jumlah' placeholder='Jumlah' value='1'>
-            </div>
-        </div>
-        <div class='d-flex flex-column flex-md-row' style='margin-top:30px'>
-            <button type='button' class='btn btn-primary'><i class='fa fa-shopping-cart'></i> Masukkan ke Keranjang</button>
-            <!-- <a class='btn btn-default' href='https://api.whatsapp.com/send?phone=&text={{ urlencode(url()->current()) }}'><i class='fa fa-whatsapp'></i> Beli Via Whatsapp</a> -->
-        </div>
-        <div style='margin-top:30px'>
-            <label>Share:</label>
-            <div class="d-flex">
-                <a class='btn btn-default' style='margin-right:5px;' target='_blank' href='http://www.facebook.com/sharer.php?u={{ urlencode(url()->current()) }}'><i class="fa fa-facebook"></i></a>
-                <a class='btn btn-default' style='margin-right:5px;' target='_blank' href='https://twitter.com/share?url={{ urlencode(url()->current()) }}'><i class="fa fa-twitter"></i></a>
-                <a class='btn btn-default' style='margin-right:5px;' target='_blank' href='https://plus.google.com/share?url={{ urlencode(url()->current()) }}'><i class="fa fa-google-plus"></i></a>
-                <a class='btn btn-default' style='margin-right:5px;' target='_blank' href='https://telegram.me/share/url?url={{ urlencode(url()->current()) }}&text={{ $produk->nama_produk }}'><i class="fa fa-telegram"></i></a>
-                <a class='btn btn-default' target='_blank' href='https://api.whatsapp.com/send?phone=&text={{ urlencode(url()->current()) }}'><i class="fa fa-whatsapp"></i></a>
-            </div>
-        </div>
-        @if(isset($produk->ket) && $produk->ket !== '')
-        <div style='margin-top:40px'>
-            <ul class="nav nav-tabs">
-                <li role="presentation" class="active"><a href="#tabDeskripsi" data-toggle='tab'>Deskripsi</a></li>
-                <!-- <li role="presentation"><a href="#tab2" data-toggle='tab'>Profile</a></li> -->
-            </ul>
-            <div class="tab-content" style='padding-top:20px'>
-                <div class="tab-pane active" id="tabDeskripsi" role="tabpanel">
-                    {{ $produk->ket }}
+                            $img_i = 0;
+                            if(isset($produk->varian[0]->foto->utama)){
+                                if($img_i === 0){
+                                    @endphp
+                                        <div class="product-image-thumb active"><img src="{{ $produk->varian[0]->foto->utama }}" alt="Product Image"></div>
+                                    @php
+                                } else {
+                                    @endphp
+                                        <div class="product-image-thumb"><img src="{{ $produk->varian[0]->foto->utama }}" alt="Product Image"></div>
+                                    @php
+                                }
+                                $img_i++;
+                            }
+                            foreach(\App\Http\Controllers\PusatController::genArray($produk->varian[0]->foto->lain) as $ll){
+                                if($img_i === 0){
+                                    @endphp
+                                        <div class="product-image-thumb active"><img src="{{ $ll }}" alt="Product Image"></div>
+                                    @php
+                                } else {
+                                    @endphp
+                                        <div class="product-image-thumb"><img src="{{ $ll }}" alt="Product Image"></div>
+                                    @php
+                                }
+                                $img_i++;
+                            }
+                        @endphp
+                    </div>
                 </div>
-                <!-- <div class="tab-pane" id="tab2" role="tabpanel">
-                    Mnesarchum velit cumanum utuntur tantam deterritum, democritum vulgo contumeliae
-                    abest studuisse quanta telos. Inmensae. Arbitratu dixisset
-                    invidiae ferre constituto gaudeat contentam, omnium nescius,
-                    consistat interesse animi, amet fuisset numen graecos incidunt
-                    euripidis praesens, homines religionis dirigentur postulant.
-                    Magnum utrumvis gravitate appareat fabulae facio perveniri
-                    fruenda indicaverunt texit, frequenter probet diligenter
-                    sententia meam distinctio theseo legerint corporis quoquo,
-                    optari futurove expedita.
-                </div> -->
+                <div class="col-12 col-sm-6">
+                    <h3 class="my-3">{{ $produk->nama_produk }}</h3>
+                    <hr>
+                    <h4>Available Colors</h4>
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-default text-center active">
+                            <input type="radio" name="color_option" id="color_option1" autocomplete="off" checked="">
+                            Green
+                            <br>
+                            <i class="fas fa-circle fa-2x text-green"></i>
+                        </label>
+                        <label class="btn btn-default text-center">
+                            <input type="radio" name="color_option" id="color_option2" autocomplete="off">
+                            Blue
+                            <br>
+                            <i class="fas fa-circle fa-2x text-blue"></i>
+                        </label>
+                        <label class="btn btn-default text-center">
+                            <input type="radio" name="color_option" id="color_option3" autocomplete="off">
+                            Purple
+                            <br>
+                            <i class="fas fa-circle fa-2x text-purple"></i>
+                        </label>
+                        <label class="btn btn-default text-center">
+                            <input type="radio" name="color_option" id="color_option4" autocomplete="off">
+                            Red
+                            <br>
+                            <i class="fas fa-circle fa-2x text-red"></i>
+                        </label>
+                        <label class="btn btn-default text-center">
+                            <input type="radio" name="color_option" id="color_option5" autocomplete="off">
+                            Orange
+                            <br>
+                            <i class="fas fa-circle fa-2x text-orange"></i>
+                        </label>
+                    </div>
+
+                    <h4 class="mt-3">Size <small>Please select one</small></h4>
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-default text-center">
+                            <input type="radio" name="color_option" id="color_option1" autocomplete="off">
+                            <span class="text-xl">S</span>
+                            <br>
+                            Small
+                        </label>
+                        <label class="btn btn-default text-center">
+                            <input type="radio" name="color_option" id="color_option1" autocomplete="off">
+                            <span class="text-xl">M</span>
+                            <br>
+                            Medium
+                        </label>
+                        <label class="btn btn-default text-center">
+                            <input type="radio" name="color_option" id="color_option1" autocomplete="off">
+                            <span class="text-xl">L</span>
+                            <br>
+                            Large
+                        </label>
+                        <label class="btn btn-default text-center">
+                            <input type="radio" name="color_option" id="color_option1" autocomplete="off">
+                            <span class="text-xl">XL</span>
+                            <br>
+                            Xtra-Large
+                        </label>
+                    </div>
+
+                    <div class="bg-gray py-2 px-3 mt-4">
+                        <h2 class="mb-0">
+                            $80.00
+                        </h2>
+                        <h4 class="mt-0">
+                            <small>Ex Tax: $80.00 </small>
+                        </h4>
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="btn btn-primary btn-lg btn-flat">
+                            <i class="fas fa-cart-plus fa-lg mr-2"></i>
+                            Add to Cart
+                        </div>
+
+                        <div class="btn btn-default btn-lg btn-flat">
+                            <i class="fas fa-heart fa-lg mr-2"></i>
+                            Add to Wishlist
+                        </div>
+                    </div>
+
+                    <div class="mt-4 product-share">
+                        <a href="#" class="text-gray">
+                            <i class="fab fa-facebook-square fa-2x"></i>
+                        </a>
+                        <a href="#" class="text-gray">
+                            <i class="fab fa-twitter-square fa-2x"></i>
+                        </a>
+                        <a href="#" class="text-gray">
+                            <i class="fas fa-envelope-square fa-2x"></i>
+                        </a>
+                        <a href="#" class="text-gray">
+                            <i class="fas fa-rss-square fa-2x"></i>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row mt-4">
+                <nav class="w-100">
+                    <div class="nav nav-tabs" id="product-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc"
+                            role="tab" aria-controls="product-desc" aria-selected="true">Description</a>
+                        <a class="nav-item nav-link" id="product-comments-tab" data-toggle="tab"
+                            href="#product-comments" role="tab" aria-controls="product-comments"
+                            aria-selected="false">Comments</a>
+                        <a class="nav-item nav-link" id="product-rating-tab" data-toggle="tab" href="#product-rating"
+                            role="tab" aria-controls="product-rating" aria-selected="false">Rating</a>
+                    </div>
+                </nav>
+                <div class="tab-content p-3" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="product-desc" role="tabpanel"
+                        aria-labelledby="product-desc-tab"> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Morbi vitae condimentum erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+                        posuere cubilia Curae; Sed posuere, purus at efficitur hendrerit, augue elit lacinia arcu, a
+                        eleifend sem elit et nunc. Sed rutrum vestibulum est, sit amet cursus dolor fermentum vel.
+                        Suspendisse mi nibh, congue et ante et, commodo mattis lacus. Duis varius finibus purus sed
+                        venenatis. Vivamus varius metus quam, id dapibus velit mattis eu. Praesent et semper risus.
+                        Vestibulum erat erat, condimentum at elit at, bibendum placerat orci. Nullam gravida velit
+                        mauris, in pellentesque urna pellentesque viverra. Nullam non pellentesque justo, et ultricies
+                        neque. Praesent vel metus rutrum, tempus erat a, rutrum ante. Quisque interdum efficitur nunc
+                        vitae consectetur. Suspendisse venenatis, tortor non convallis interdum, urna mi molestie eros,
+                        vel tempor justo lacus ac justo. Fusce id enim a erat fringilla sollicitudin ultrices vel metus.
+                    </div>
+                    <div class="tab-pane fade" id="product-comments" role="tabpanel"
+                        aria-labelledby="product-comments-tab"> Vivamus rhoncus nisl sed venenatis luctus. Sed
+                        condimentum risus ut tortor feugiat laoreet. Suspendisse potenti. Donec et finibus sem, ut
+                        commodo lectus. Cras eget neque dignissim, placerat orci interdum, venenatis odio. Nulla turpis
+                        elit, consequat eu eros ac, consectetur fringilla urna. Duis gravida ex pulvinar mauris ornare,
+                        eget porttitor enim vulputate. Mauris hendrerit, massa nec aliquam cursus, ex elit euismod
+                        lorem, vehicula rhoncus nisl dui sit amet eros. Nulla turpis lorem, dignissim a sapien eget,
+                        ultrices venenatis dolor. Curabitur vel turpis at magna elementum hendrerit vel id dui.
+                        Curabitur a ex ullamcorper, ornare velit vel, tincidunt ipsum. </div>
+                    <div class="tab-pane fade" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab">
+                        Cras ut ipsum ornare, aliquam ipsum non, posuere elit. In hac habitasse platea dictumst. Aenean
+                        elementum leo augue, id fermentum risus efficitur vel. Nulla iaculis malesuada scelerisque.
+                        Praesent vel ipsum felis. Ut molestie, purus aliquam placerat sollicitudin, mi ligula euismod
+                        neque, non bibendum nibh neque et erat. Etiam dignissim aliquam ligula, aliquet feugiat nibh
+                        rhoncus ut. Aliquam efficitur lacinia lacinia. Morbi ac molestie lectus, vitae hendrerit nisl.
+                        Nullam metus odio, malesuada in vehicula at, consectetur nec justo. Quisque suscipit odio velit,
+                        at accumsan urna vestibulum a. Proin dictum, urna ut varius consectetur, sapien justo porta
+                        lectus, at mollis nisi orci et nulla. Donec pellentesque tortor vel nisl commodo ullamcorper.
+                        Donec varius massa at semper posuere. Integer finibus orci vitae vehicula placerat. </div>
+                </div>
             </div>
         </div>
-        @endif
+        <!-- /.card-body -->
     </div>
 </div>
 <script>
-    $(document).ready(function(){
+$(document).ready(function() {
 
-        $('.btnFotoPilih').on('click', function(){
-            let src = $(this).attr('src');
-            $('#foto-utama').attr('src', src);
-        });
+    $('.btnFotoPilih').on('click', function() {
+        let src = $(this).attr('src');
+        $('#foto-utama').attr('src', src);
+    });
 
-        $('.btnPilihVarian').on('click', function(){
-            let list = Array.prototype.slice.call($(this).parent().children());
-            var this_ = this;
-            list.forEach(function(html) {
-                if($(html).hasClass('btn-primary') && html !== this_){
-                    $(html).removeClass('btn-primary');
-                    $(html).addClass('btn-default');
-                }
-            });
-            if($(this).hasClass('btn-default')){
-                $(this).removeClass('btn-default');
-                $(this).addClass('btn-primary');
-                let id_src = $(this).data('id');
-                let src = $('#'+id_src).attr('src');
-                $('#foto-utama').attr('src', src);
+    $('.btnPilihVarian').on('click', function() {
+        let list = Array.prototype.slice.call($(this).parent().children());
+        var this_ = this;
+        list.forEach(function(html) {
+            if ($(html).hasClass('btn-primary') && html !== this_) {
+                $(html).removeClass('btn-primary');
+                $(html).addClass('btn-default');
             }
         });
-
+        if ($(this).hasClass('btn-default')) {
+            $(this).removeClass('btn-default');
+            $(this).addClass('btn-primary');
+            let id_src = $(this).data('id');
+            let src = $('#' + id_src).attr('src');
+            $('#foto-utama').attr('src', src);
+        }
     });
+
+});
 </script>
 <!--uiop-->
 @endsection

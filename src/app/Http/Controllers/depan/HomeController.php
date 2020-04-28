@@ -42,6 +42,8 @@ class HomeController extends Controller
 						unset($fotoUtama);
 					} else if(!is_null($fotoSrc->utama) && filter_var($fotoSrc->utama, FILTER_VALIDATE_URL)){
 						$data[$i]['foto']["utama"] = $fotoSrc->utama;
+					} else {
+						$data[$i]['foto']["utama"] = asset('photo.png');
 					}
 					if($fotoSrc->lain != ""){
 						$fotoLain_list = explode(";", $fotoSrc->lain);
@@ -52,8 +54,12 @@ class HomeController extends Controller
 								unset($fotoLain);
 							} else if(filter_var($iL, FILTER_VALIDATE_URL)){
 								$data[$i]['foto']["lain"][$iI+1] = $iL;
+							} else {
+								$data[$i]['foto']["lain"][$iI+1] = asset('photo.png');
 							}
 						}
+					} else {
+						$data[$i]['foto']["lain"] = [];
 					}
 				}
 				if(!is_null($data[$i]['kategori_produk_id'])){
