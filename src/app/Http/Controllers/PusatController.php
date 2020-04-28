@@ -277,7 +277,7 @@ class PusatController
 		}
 	}
 
-	public static function dataOfByTokoSlug($toko_slug){
+	public static function dataOfByDomainToko($toko_slug){
 		$toko = DB::table('t_store')
 			->where('domain_toko', $toko_slug)
 			->get()->first();

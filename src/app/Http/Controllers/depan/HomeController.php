@@ -183,14 +183,14 @@ class HomeController extends Controller
 		}
 	}
 
-    public function index(Request $request, $toko_slug){
+    public function index(Request $request, $domain_toko){
 		$r['sort'] = strip_tags($request->sort);
 		$r['cari'] = strip_tags($request->q);
 		$toko = DB::table('t_store')
-			->where('domain_toko', $toko_slug)
+			->where('domain_toko', $domain_toko)
 			->get()->first();
 		if(isset($toko)){
-			$produk = $this->getProduk(Fungsi::dataOfByTokoSlug($toko_slug), $r['cari']);
+			$produk = $this->getProduk(Fungsi::dataOfByDomainToko($domain_toko), $r['cari']);
 			// dd($produk);
 			$this->sortingProduk($r['sort'], $produk);
 			return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk', 'r'), "html", $request);
@@ -199,18 +199,18 @@ class HomeController extends Controller
 		}
 	}
 
-	public function produkIndex(Request $request, $toko_slug, $nama_produk = null){
+	public function produkIndex(Request $request, $domain_toko, $nama_produk = null){
 		if(is_null($nama_produk) || preg_match("/[^0-9a-z\-]/", $nama_produk)){
-            return redirect()->route('d.home', ['toko_slug' => $toko_slug]);
+            return redirect()->route('d.home', ['domain_toko' => $domain_toko]);
 		}
 		// dd($nama_produk);
 		$toko = DB::table('t_store')
-			->where('domain_toko', $toko_slug)
+			->where('domain_toko', $domain_toko)
 			->get()->first();
 		$r['sort'] = strip_tags($request->sort);
 		$r['cari'] = strip_tags($request->q);
 		if(isset($toko)){
-			$list_produk = $this->getProduk(Fungsi::dataOfByTokoSlug($toko_slug));
+			$list_produk = $this->getProduk(Fungsi::dataOfByDomainToko($domain_toko));
 			$e_produk = explode('-', $nama_produk);
 			$index = array_search($e_produk[count($e_produk)-1], array_column($list_produk, 'id_produk'));
 			$produk = $list_produk[$index];
