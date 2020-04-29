@@ -78,15 +78,19 @@
                 total += (harga * jumlah);
             });
             $('#totalCart').text('Rp '+uangFormat(total));
+            $('#badgeCart').show();
         } else {
             $('#cartList').append('<tr><td colspan="5" class="text-center">Tidak ada produk di Cart</td></tr>');
             $('#totalCart').text('Rp 0');
+            $('#badgeCart').hide();
         }
     }
 
     $(document).ready(function(){
 
-        hitungUlang(true);
+        @if(count($cart) < 1)
+            hitungUlang(true);
+        @endif
 
         $('.btnHapusCart').on('click', function(){
             let id = $(this).data('id');

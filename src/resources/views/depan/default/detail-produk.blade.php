@@ -178,6 +178,7 @@
                             body: ''+data.msg
                         });
                         $('#badgeCart').text(data.cart_count);
+                        $('#badgeCart').show();
                     } else {
                         $(document).Toasts('create', {
                             class: 'bg-danger',
