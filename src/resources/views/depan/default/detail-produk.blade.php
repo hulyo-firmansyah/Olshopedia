@@ -179,17 +179,29 @@ function uangFormat(number) {
                 data: {
                     _token: '{{ csrf_token() }}',
                     ip: $(this).data('ip'),
-                    iv: $(this).data('iv')
+                    iv: $(this).data('iv'),
+                    jumlah: $('#jumlah').val()
                 },
                 success: function(data) {
-                    console.log(data);
-                    $(document).Toasts('create', {
-                        class: 'bg-success',
-                        title: 'Berhasil',
-                        autohide: true,
-                        delay: 3000,
-                        body: 'Berhasil menambahkan produk ke cart!'
-                    });
+                    // console.log(data);
+                    if(data.status){
+                        $(document).Toasts('create', {
+                            class: 'bg-success',
+                            title: 'Berhasil',
+                            autohide: true,
+                            delay: 3000,
+                            body: ''+data.msg
+                        });
+                        $('#badgeCart').text(data.cart_count);
+                    } else {
+                        $(document).Toasts('create', {
+                            class: 'bg-danger',
+                            title: 'Error',
+                            autohide: true,
+                            delay: 3000,
+                            body: ''+data.msg
+                        });
+                    }
                 },
                 error: function(xhr, b, c) {
                     $(document).Toasts('create', {

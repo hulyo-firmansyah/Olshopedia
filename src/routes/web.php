@@ -197,6 +197,7 @@
     Route::get('/{domain_toko}/produk/{nama_produk?}', 'depan\HomeController@produkIndex')->name("d.produk-index");
     // Route::get('/{domain_toko}/register', 'depan\auth\RegisterController@showRegistrationForm')->name("d.register");
     // Route::post('/{domain_toko}/register', 'depan\auth\RegisterController@register');
+    Route::get('/{domain_toko}/cart', 'depan\CartController@tampil')->name('d.cart-index');
     Route::post('/{domain_toko}/cart-tambah', 'depan\CartController@tambah')->name('d.cart-tambah');
 
 
