@@ -46,10 +46,10 @@
             </div>
         </div>
         @endif
+        <hr>
     </div>
 </div>
 
-<hr>
 
 <div class="content">
     <div class='container'>

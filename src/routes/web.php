@@ -195,8 +195,10 @@
     //storefront
     Route::get('/{domain_toko}', 'depan\HomeController@index')->name("d.home");
     Route::get('/{domain_toko}/produk/{nama_produk?}', 'depan\HomeController@produkIndex')->name("d.produk-index");
-    Route::get('/{domain_toko}/register', 'depan\auth\RegisterController@showRegistrationForm')->name("d.register");
-    Route::post('/{domain_toko}/register', 'depan\auth\RegisterController@register');
+    // Route::get('/{domain_toko}/register', 'depan\auth\RegisterController@showRegistrationForm')->name("d.register");
+    // Route::post('/{domain_toko}/register', 'depan\auth\RegisterController@register');
+    Route::post('/{domain_toko}/cart-tambah', 'depan\CartController@tambah')->name('d.cart-tambah');
+
 
     
 // });

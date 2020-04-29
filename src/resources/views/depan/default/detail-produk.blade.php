@@ -116,15 +116,10 @@
                             </div>
                         </div>
                         <div class="mt-4">
-                            <div class="btn btn-primary btn-md">
+                            <button type='button' id='btnTambahCart' class="btn btn-primary btn-md" data-ip='{{ $produk->id_produk }}' data-iv='{{ $produk->varian[0]->id_varian }}'>
                                 <i class="fas fa-cart-plus fa-lg mr-2"></i>
                                 Tambahkan ke Keranjang
-                            </div>
-
-                            <div class="btn btn-default btn-md">
-                                <i class="fas fa-heart fa-lg mr-2"></i>
-                                Tambahkan ke Wishlist
-                            </div>
+                            </button>
                         </div>
                         <div class="mt-5 product-share">
                             <a href="http://www.facebook.com/sharer.php?u={{ urlencode(url()->current()) }}" target='_blank' class="text-gray">
@@ -176,6 +171,39 @@ function uangFormat(number) {
 }
 
     $(document).ready(function(){
+
+        $('#btnTambahCart').on('click', function(){
+            $.ajax({
+                type: 'post',
+                url: "{{ route('d.cart-tambah', ['domain_toko' => $toko->domain_toko]) }}",
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    ip: $(this).data('ip'),
+                    iv: $(this).data('iv')
+                },
+                success: function(data) {
+                    console.log(data);
+                    $(document).Toasts('create', {
+                        class: 'bg-success',
+                        title: 'Berhasil',
+                        autohide: true,
+                        delay: 3000,
+                        body: 'Berhasil menambahkan produk ke cart!'
+                    });
+                },
+                error: function(xhr, b, c) {
+                    $(document).Toasts('create', {
+                        class: 'bg-danger',
+                        title: 'Error',
+                        autohide: true,
+                        delay: 3000,
+                        body: ''+c
+                    });
+                }
+            });
+            console.log($(this).data('iv'), $(this).data('ip'));
+        });
+
         $('.card-body').on('click', '.product-image-thumb', function() {
             const image_element = $(this).find('img');
             $('.product-image').prop('src', $(image_element).attr('src'))
@@ -200,6 +228,7 @@ function uangFormat(number) {
                 @endforeach
             };
             let id = $(this).val();
+            $('#btnTambahCart').data('iv', id);
             $('#hargaDiv').children('h4').text('Rp '+uangFormat(data_harga[id].harga));
             $('#gambarDiv').find('.product-image').prop('src', data_img[id].utama);
             $('#gambarDiv').children('div:last').html('');
