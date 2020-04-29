@@ -198,7 +198,6 @@
                     });
                 }
             });
-            console.log($(this).data('iv'), $(this).data('ip'));
         });
 
         $('.card-body').on('click', '.product-image-thumb', function() {

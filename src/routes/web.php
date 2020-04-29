@@ -199,6 +199,7 @@
     // Route::post('/{domain_toko}/register', 'depan\auth\RegisterController@register');
     Route::get('/{domain_toko}/cart', 'depan\CartController@tampil')->name('d.cart-index');
     Route::post('/{domain_toko}/cart-tambah', 'depan\CartController@tambah')->name('d.cart-tambah');
+    Route::post('/{domain_toko}/cart-hapus', 'depan\CartController@hapus')->name('d.cart-hapus');
 
 
     

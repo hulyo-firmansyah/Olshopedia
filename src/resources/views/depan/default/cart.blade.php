@@ -66,25 +66,73 @@
     </div>
 </div>
 <script>
-    function hitungUlang(){
+    function hitungUlang(awal = false){
         var total = 0;
-        let list = Array.prototype.slice.call($('#cartList tr'));
-        var i = 0;
-        list.forEach(function(html) {
-            $(html).children('td:first').text(++i);
-            let harga = parseInt($(html).children('td:nth-child(4)').data('harga'));
-            let jumlah = parseInt($(html).children('td:nth-child(3)').text());
-            total += (harga * jumlah);
-        });
-        $('#totalCart').text('Rp '+uangFormat(total));
+        if($('#cartList tr').length > 0 && !awal){
+            let list = Array.prototype.slice.call($('#cartList tr'));
+            var i = 0;
+            list.forEach(function(html) {
+                $(html).children('td:first').text(++i);
+                let harga = parseInt($(html).children('td:nth-child(4)').data('harga'));
+                let jumlah = parseInt($(html).children('td:nth-child(3)').text());
+                total += (harga * jumlah);
+            });
+            $('#totalCart').text('Rp '+uangFormat(total));
+        } else {
+            $('#cartList').append('<tr><td colspan="5" class="text-center">Tidak ada produk di Cart</td></tr>');
+            $('#totalCart').text('Rp 0');
+        }
     }
 
     $(document).ready(function(){
+
+        hitungUlang(true);
+
         $('.btnHapusCart').on('click', function(){
             let id = $(this).data('id');
-            $(this).parent().parent().remove();
-            hitungUlang();
+            var this_ = this;
+            $.ajax({
+                type: 'post',
+                url: "{{ route('d.cart-hapus', ['domain_toko' => $toko->domain_toko]) }}",
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: id,
+                },
+                success: function(data) {
+                    // console.log(data);
+                    if(data.status){
+                        $(document).Toasts('create', {
+                            class: 'bg-success',
+                            title: 'Berhasil',
+                            autohide: true,
+                            delay: 3000,
+                            body: ''+data.msg
+                        });
+                        $('#badgeCart').text(data.cart_count);
+                        $(this_).parent().parent().remove();
+                        hitungUlang();
+                    } else {
+                        $(document).Toasts('create', {
+                            class: 'bg-danger',
+                            title: 'Error',
+                            autohide: true,
+                            delay: 3000,
+                            body: ''+data.msg
+                        });
+                    }
+                },
+                error: function(xhr, b, c) {
+                    $(document).Toasts('create', {
+                        class: 'bg-danger',
+                        title: 'Error',
+                        autohide: true,
+                        delay: 3000,
+                        body: ''+c
+                    });
+                }
+            });
         });
+
     });
 </script>
 <!--uiop-->

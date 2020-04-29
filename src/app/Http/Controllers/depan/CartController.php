@@ -63,7 +63,7 @@ class CartController extends Controller
                     ]);
                     return Fungsi::respon([
                         'status' => true,
-                        'msg' => 'Produk berhasil ditambahkan di cart!',
+                        'msg' => 'Produk berhasil ditambahkan ke cart!',
                         'cart_count' => count(Cart::session($request->getClientIp())->getContent())
                     ], [], 'json', $request);
                 } else {
@@ -72,6 +72,29 @@ class CartController extends Controller
                         'msg' => 'Data produk tersebut tidak ditemukan!'
                     ], [], 'json', $request);
                 }
+            } else {
+                return Fungsi::respon([
+                    'status' => false,
+                    'msg' => 'Data kurang lengkap!'
+                ], [], 'json', $request);
+            }
+        } else {
+            abort(404);
+        }
+    }
+
+    public function hapus(Request $request, $domain_toko){
+        // echo '<pre>'.print_r($request->getClientIp(), true)."</pre>";
+        // return '<pre>'.print_r($request->all(), true)."</pre>";
+        if($request->ajax()){
+            if($request->id !== ''){
+                $id = strip_tags($request->id);
+                Cart::session($request->getClientIp())->remove($id);
+                return Fungsi::respon([
+                    'status' => true,
+                    'msg' => 'Produk berhasil dihapus dari cart!',
+                    'cart_count' => count(Cart::session($request->getClientIp())->getContent())
+                ], [], 'json', $request);
             } else {
                 return Fungsi::respon([
                     'status' => false,
