@@ -95,6 +95,21 @@
     <script src="{{ asset('template_depan/default/dist/js/adminlte.min.js') }}"></script>
     <script src="{{ asset('template_depan/default/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
+function uangFormat(number) {
+    var sp = number.toString().split("").reverse();
+    var yt = 0;
+    var te = "";
+    $.each(sp, function(i, v) {
+        if (yt === 3) {
+            te += ".";
+            yt = 0;
+        }
+        te += v;
+        yt++;
+    });
+    var hasil = te.split("").reverse().join("");
+    return hasil;
+}
 
         $(document).ready(function(){
 

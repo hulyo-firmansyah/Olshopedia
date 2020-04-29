@@ -13,9 +13,19 @@ use Cart;
 class CartController extends Controller
 {
 
-    public function tampil(Request $request){
-        $data = Cart::session($request->getClientIp())->getContent();
-        dd($data);
+    public function tampil(Request $request, $domain_toko){
+        $cart = Cart::session($request->getClientIp())->getContent();
+        // dd($cart);
+		$toko = DB::table('t_store')
+            ->where('domain_toko', $domain_toko)
+            ->get()->first();
+        $r['sort'] = strip_tags($request->sort);
+        $r['cari'] = strip_tags($request->q);
+        if(isset($toko)){
+            return Fungsi::respon('depan.'.$toko->template.'.cart', compact("toko", 'r', 'cart'), "html", $request);
+        } else {
+            // ke landing page
+        }
     }
 
     public function tambah(Request $request, $domain_toko){
@@ -29,14 +39,22 @@ class CartController extends Controller
                 $produk = DB::table('t_varian_produk')
                     ->join('t_produk', 't_produk.id_produk', '=', 't_varian_produk.produk_id')
                     ->select('t_produk.nama_produk', 't_varian_produk.harga_jual_normal', 't_varian_produk.ukuran', 
-                        't_varian_produk.warna', 't_varian_produk.foto_id', 't_varian_produk.diskon_jual')
+                        't_varian_produk.warna', 't_varian_produk.foto_id', 't_varian_produk.diskon_jual', 't_varian_produk.stok')
                     ->where('t_varian_produk.data_of', Fungsi::dataOfByDomainToko($domain_toko))
                     ->where('t_varian_produk.id_varian', $id_varian)
                     ->get()->first();
                 if(isset($produk)){
+                    $nama_produk = $produk->nama_produk;
+                    if((isset($produk->ukuran) && $produk->ukuran !== '') && (isset($produk->warna) && $produk->warna !== '')){
+                        $nama_produk .= ' ('.$produk->ukuran.' '.$produk->warna.')';
+                    } else if((isset($produk->ukuran) && $produk->ukuran !== '') && (!isset($produk->warna) || $produk->warna === '')){
+                        $nama_produk .= ' ('.$produk->ukuran.')';
+                    } else if((!isset($produk->ukuran) || $produk->ukuran === '') && (isset($produk->warna) && $produk->warna !== '')){
+                        $nama_produk .= ' ('.$produk->warna.')';
+                    }
                     Cart::session($request->getClientIp())->add([
                         'id' => 'p'.$id_produk.'v'.$id_varian,
-                        'name' => $produk->nama_produk,
+                        'name' => $nama_produk,
                         'price' => $produk->harga_jual_normal,
                         'quantity' => $jumlah,
                         'attributes' => [
