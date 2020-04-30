@@ -32,7 +32,7 @@
                     <form action="{{ route('d.register', ['domain_toko' => $toko->domain_toko]) }}" method="post">
                         {{ csrf_field() }}
                         <div class="input-group">
-                            <input type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name='name' placeholder="Nama Lengkap" value='{{ old("name") }}' required>
+                            <input type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name='name' placeholder="Nama Lengkap" value='{{ old("name") }}' >
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-user"></span>
@@ -43,7 +43,7 @@
                         <small id="name-error" class="error invalid-feedback" style='display:block'>{{ $errors->first('name') }}</small>
                         @endif
                         <div class="input-group mt-3">
-                            <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Email" name='email' value='{{ old("email") }}' required>
+                            <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Email" name='email' value='{{ old("email") }}' >
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-envelope"></span>
@@ -54,7 +54,7 @@
                         <small id="email-error" class="error invalid-feedback" style='display:block'>{{ $errors->first('email') }}</small>
                         @endif
                         <div class="input-group mt-3">
-                            <input type="text" class="form-control angkaSaja{{ $errors->has('no_telp') ? ' is-invalid' : '' }}" placeholder="No Telepon" name='no_telp' value='{{ old("no_telp") }}' required>
+                            <input type="text" class="form-control angkaSaja{{ $errors->has('no_telp') ? ' is-invalid' : '' }}" placeholder="No Telepon" name='no_telp' value='{{ old("no_telp") }}' >
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-phone"></span>
@@ -65,7 +65,7 @@
                         <small id="no_telp-error" class="error invalid-feedback" style='display:block'>{{ $errors->first('no_telp') }}</small>
                         @endif
                         <div class="input-group mt-3">
-                            <input type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Password" name='password' value='{{ old("password") }}' required>
+                            <input type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Password" name='password' value='{{ old("password") }}' >
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>
@@ -76,7 +76,7 @@
                         <small id="password-error" class="error invalid-feedback" style='display:block'>{{ $errors->first('password') }}</small>
                         @endif
                         <div class="input-group mt-3 mb-3">
-                            <input type="password" class="form-control" placeholder="Ulangi password" name='password_confirmation' required>
+                            <input type="password" class="form-control" placeholder="Ulangi password" name='password_confirmation' >
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>
@@ -86,7 +86,7 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="icheck-primary">
-                                    <input type="checkbox" id="agreeTerms" name="terms" value="agree" required>
+                                    <input type="checkbox" id="agreeTerms" name="terms" >
                                     <label for="agreeTerms">
                                         I agree to the <a href="#">terms</a>
                                     </label>

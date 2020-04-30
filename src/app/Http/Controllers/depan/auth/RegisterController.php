@@ -58,7 +58,6 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:50',
-            'username' => 'required|string|max:30|unique:users',
             'email' => 'required|string|email|max:70|unique:users',
             'no_telp' => 'required|string|min:5|max:25|unique:users',                                    
             'password' => 'required|string|min:6|confirmed',
@@ -76,7 +75,6 @@ class RegisterController extends Controller
     {
         $user = User::create([
             'name' => $data['name'],
-            'username' => $data['username'],
             'email' => $data['email'],
             'no_telp' => $data['no_telp'],
             'password' => bcrypt($data['password']),
@@ -96,16 +94,17 @@ class RegisterController extends Controller
     }
 
 	
-    public function register(Request $request)
+    public function register(Request $request, $domain_toko)
     {
-        // dd($request->no_telp, strlen($request->no_telp));
         $this->validator($request->all())->validate();
         $user = $this->create($request->all());
         try {
 
-            dd('asd');
             // Log::info('mau mengirim email queue');
-            Mail::to($user->email)->send(new EmailVerification($user, route('d.email-verified', ['token' => $user->email_token]), 'depan'));
+            Mail::to($user->email)->send(new EmailVerification($user, route('d.email-verified', [
+                'domain_toko' => $domain_toko,
+                'token' => $user->email_token
+                ]), 'depan'));
             // dispatch(new SendEmail([
             //     'tujuan' => $user->email,
             //     'email' => new EmailVerification($user, route('b.email-verified', ['token' => $user->email_token]))
@@ -116,7 +115,7 @@ class RegisterController extends Controller
             DB::table('users')
                 ->where('id', $user->id)
                 ->delete();
-            return redirect(route('d.register'))->with('error', $e->getMessage());
+            return redirect(route('d.register', ['domain_toko' => $domain_toko]))->with('error', $e->getMessage());
         }
 
         return $this->registered($request, $user)
