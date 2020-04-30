@@ -194,6 +194,8 @@
 
     //storefront
     Route::get('/{domain_toko}', 'depan\HomeController@index')->name("d.home");
+    Route::get('/{domain_toko}/login', 'depan\auth\LoginController@showLoginForm')->name('d.login');
+    Route::post('/{domain_toko}/login', 'depan\auth\LoginController@login');
     Route::get('/{domain_toko}/register', 'depan\auth\RegisterController@showRegistrationForm')->name("d.register");
     Route::post('/{domain_toko}/register', 'depan\auth\RegisterController@register');
     Route::get('/{domain_toko}/verified/{token}','depan\auth\AccountVerifiedController@verified')->name('d.email-verified');

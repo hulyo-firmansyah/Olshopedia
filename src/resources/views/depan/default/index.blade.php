@@ -79,7 +79,7 @@
                         <a href="{{ route('d.cart-index', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link"><i class='fa fa-shopping-cart'></i> Cart<span class="badge badge-danger navbar-badge" style='{{ $hidden }}' id="badgeCart">{{ $cart_count }}</span></a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('d.cart-index', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link">Login</a>
+                        <a href="{{ route('d.login', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link">Login</a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('d.register', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link">Register</a>
