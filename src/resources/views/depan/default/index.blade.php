@@ -23,6 +23,20 @@
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
             <div class="container">
                 <a href="{{ route('d.home', ['domain_toko' => $toko->domain_toko]) }}" class="navbar-brand">
+                    @php
+                        if(isset($toko->foto_id)){
+                            $foto = \DB::table('t_foto')
+                                ->where('data_of', \App\Http\Controllers\PusatController::dataOfByDomainToko($toko->domain_toko))
+                                ->where('id_foto', $toko->foto_id)
+                                ->get()->first();
+                            if(isset($foto->path)){
+                                @endphp
+                                <img src="{{ asset($foto->path) }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                                    style="opacity: .8">
+                                @php
+                            }
+                        }
+                    @endphp
                     <span class="brand-text font-weight-light">{{ $toko->nama_toko }}</span>
                 </a>
 
