@@ -78,6 +78,12 @@
                     <li class="nav-item">
                         <a href="{{ route('d.cart-index', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link"><i class='fa fa-shopping-cart'></i> Cart<span class="badge badge-danger navbar-badge" style='{{ $hidden }}' id="badgeCart">{{ $cart_count }}</span></a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('d.cart-index', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('d.register', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link">Register</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
@@ -111,23 +117,28 @@
     <script src="{{ asset('template_depan/default/dist/js/adminlte.min.js') }}"></script>
     <script src="{{ asset('template_depan/default/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
-function uangFormat(number) {
-    var sp = number.toString().split("").reverse();
-    var yt = 0;
-    var te = "";
-    $.each(sp, function(i, v) {
-        if (yt === 3) {
-            te += ".";
-            yt = 0;
+
+        function uangFormat(number) {
+            var sp = number.toString().split("").reverse();
+            var yt = 0;
+            var te = "";
+            $.each(sp, function(i, v) {
+                if (yt === 3) {
+                    te += ".";
+                    yt = 0;
+                }
+                te += v;
+                yt++;
+            });
+            var hasil = te.split("").reverse().join("");
+            return hasil;
         }
-        te += v;
-        yt++;
-    });
-    var hasil = te.split("").reverse().join("");
-    return hasil;
-}
 
         $(document).ready(function(){
+
+            $('.angkaSaja').on('input', function(){
+                this.value = this.value.replace(/[^0-9]/gi, '');
+            });
 
             $('#btnCari').on('click', function(){
                 $(location).attr('href', '{{ route("d.home", ["toko_slug" => $toko->domain_toko]) }}?q='+$('#queryCari').val()+'@if($r["sort"] !== "")&sort={{$r["sort"]}}@endif');

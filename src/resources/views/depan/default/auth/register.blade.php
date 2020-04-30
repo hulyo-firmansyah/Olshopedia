@@ -20,42 +20,63 @@
             <div class="card">
                 <div class="card-body register-card-body">
                     <p class="login-box-msg">Register Pelanggan</p>
+                    @if ($danger = session('error'))
+                    <div role="alert" class="alert alert-danger alert-dismissible">
+                        <button aria-label="Close" data-dismiss="alert" class="close" type="button">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4>Error</h4>
+                        <p>{{ $danger }}</p>
+                    </div>
+                    @endif
                     <form action="{{ route('d.register', ['domain_toko' => $toko->domain_toko]) }}" method="post">
                         {{ csrf_field() }}
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Nama Lengkap" required>
+                        <div class="input-group">
+                            <input type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name='name' placeholder="Nama Lengkap" value='{{ old("name") }}' required>
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-user"></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="input-group mb-3">
-                            <input type="email" class="form-control" placeholder="Email" required>
+                        @if ($errors->has('name'))
+                        <small id="name-error" class="error invalid-feedback" style='display:block'>{{ $errors->first('name') }}</small>
+                        @endif
+                        <div class="input-group mt-3">
+                            <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Email" name='email' value='{{ old("email") }}' required>
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-envelope"></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="No Telepon" required>
+                        @if ($errors->has('email'))
+                        <small id="email-error" class="error invalid-feedback" style='display:block'>{{ $errors->first('email') }}</small>
+                        @endif
+                        <div class="input-group mt-3">
+                            <input type="text" class="form-control angkaSaja{{ $errors->has('no_telp') ? ' is-invalid' : '' }}" placeholder="No Telepon" name='no_telp' value='{{ old("no_telp") }}' required>
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-phone"></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="input-group mb-3">
-                            <input type="password" class="form-control" placeholder="Password" required>
+                        @if ($errors->has('no_telp'))
+                        <small id="no_telp-error" class="error invalid-feedback" style='display:block'>{{ $errors->first('no_telp') }}</small>
+                        @endif
+                        <div class="input-group mt-3">
+                            <input type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Password" name='password' value='{{ old("password") }}' required>
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="input-group mb-3">
-                            <input type="password" class="form-control" placeholder="Ulangi password" required>
+                        @if ($errors->has('password'))
+                        <small id="password-error" class="error invalid-feedback" style='display:block'>{{ $errors->first('password') }}</small>
+                        @endif
+                        <div class="input-group mt-3 mb-3">
+                            <input type="password" class="form-control" placeholder="Ulangi password" name='password_confirmation' required>
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>

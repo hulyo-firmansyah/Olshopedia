@@ -57,10 +57,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:191',
+            'name' => 'required|string|max:50',
             'username' => 'required|string|max:30|unique:users',
-            'email' => 'required|string|email|max:191|unique:users',
-            'no_telp' => 'required|string|max:20|unique:users',                                    
+            'email' => 'required|string|email|max:70|unique:users',
+            'no_telp' => 'required|string|min:5|max:25|unique:users',                                    
             'password' => 'required|string|min:6|confirmed',
             'terms' => 'required|accepted',
         ]);
@@ -98,10 +98,12 @@ class RegisterController extends Controller
 	
     public function register(Request $request)
     {
+        // dd($request->no_telp, strlen($request->no_telp));
         $this->validator($request->all())->validate();
         $user = $this->create($request->all());
         try {
 
+            dd('asd');
             // Log::info('mau mengirim email queue');
             Mail::to($user->email)->send(new EmailVerification($user, route('d.email-verified', ['token' => $user->email_token]), 'depan'));
             // dispatch(new SendEmail([
@@ -118,8 +120,10 @@ class RegisterController extends Controller
         }
 
         return $this->registered($request, $user)
-                    ?: redirect($this->redirectPath())
+                    ?: redirect(route('b.login'))
                         ->with('success', 'We sent you an activation code. Check your email and click on the link to verify, Didn\'t receive email <a href="javascript:void(0);" class="text-reset resendMail">resend mail</a>.')
                         ->with('user_token', $user->email_token);
     }
+
+    
 }
