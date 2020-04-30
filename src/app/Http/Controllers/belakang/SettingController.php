@@ -451,7 +451,7 @@ class SettingController extends Controller
                 $logo_id = null;
                 $logo_lawas = false;
                 if(isset($logo)){
-                    if(in_array($logo->getClientOriginalExtension(), array('jpg', 'jpeg', 'png', 'bmp', 'gif', ''))){
+                    if(in_array(strtolower($logo->getClientOriginalExtension()), array('jpg', 'jpeg', 'png', 'bmp', 'gif', ''))){
                         $path = "../data/".base64_encode(base64_encode(Fungsi::dataOfCek())."+".base64_encode(Fungsi::dataOfCekUsername()))."/";
                         if(is_dir(base_path($path))){
                             $path_isset = true;
