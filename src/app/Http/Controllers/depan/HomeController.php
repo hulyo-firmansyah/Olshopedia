@@ -61,6 +61,9 @@ class HomeController extends Controller
 					} else {
 						$data[$i]['foto']["lain"] = [];
 					}
+				} else {
+					$data[$i]['foto']["utama"] = asset('photo.png');
+					$data[$i]['foto']["lain"] = [];
 				}
 				if(!is_null($data[$i]['kategori_produk_id'])){
 					$kategori = DB::table('t_kategori_produk')->where('id_kategori_produk', $data[$i]['kategori_produk_id'])->where('data_of', $dataOf)->get()->first();
