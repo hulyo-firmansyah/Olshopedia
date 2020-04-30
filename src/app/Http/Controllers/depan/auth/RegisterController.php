@@ -88,9 +88,13 @@ class RegisterController extends Controller
 		$toko = DB::table('t_store')
             ->where('domain_toko', $domain_toko)
             ->get()->first();
-        $r['sort'] = strip_tags($request->sort);
-        $r['cari'] = strip_tags($request->q);
-		return Fungsi::respon('depan.'.$toko->template.'.auth.register', compact('toko', 'r'), "html", $request);
+        if(isset($toko)){
+            $r['sort'] = strip_tags($request->sort);
+            $r['cari'] = strip_tags($request->q);
+            return Fungsi::respon('depan.'.$toko->template.'.auth.register', compact('toko', 'r'), "html", $request);
+        } else {
+            //landing page
+        }
     }
 
 	
@@ -119,9 +123,9 @@ class RegisterController extends Controller
         }
 
         return $this->registered($request, $user)
-                    ?: redirect(route('d.login', ['domain_toko' => $domain_toko]))
-                        ->with('success', 'We sent you an activation code. Check your email and click on the link to verify, Didn\'t receive email <a href="javascript:void(0);" class="text-reset resendMail">resend mail</a>.')
-                        ->with('user_token', $user->email_token);
+                    ?: redirect(route('d.register-after', ['domain_toko' => $domain_toko]).'?v='.$user->id.'&i='.time().'&d='.str_random(6));
+                        // ->with('success', 'We sent you an activation code. Check your email and click on the link to verify, Didn\'t receive email <a href="javascript:void(0);" class="text-reset resendMail">resend mail</a>.')
+                        // ->with('user_token', $user->email_token);
     }
 
     
