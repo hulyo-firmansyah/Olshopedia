@@ -87,12 +87,12 @@
                     </div> -->
     
                     <p class="mb-1">
-                        <a href="forgot-password.html">Lupa Password?</a>
+                        <a href="#">Lupa Password?</a>
                     </p>
                 </div>
             </div>
             <div class='text-center'>
-                Belum punya akun? <a href="#">Register</a>
+                Belum punya akun? <a href="{{ route('d.register', ['domain_toko' => $toko->domain_toko]) }}">Register</a>
             </div>
         </div>
     </div>

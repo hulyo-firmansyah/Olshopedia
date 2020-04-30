@@ -113,7 +113,7 @@
                 </div>
             </div>
             <div class='text-center'>
-                Sudah punya akun? <a href="#">Login</a>
+                Sudah punya akun? <a href="{{ route('d.login', ['domain_toko' => $toko->domain_toko]) }}">Login</a>
             </div>
         </div>
     </div>

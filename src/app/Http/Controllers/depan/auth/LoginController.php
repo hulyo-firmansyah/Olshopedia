@@ -58,7 +58,7 @@ class LoginController extends Controller
 	
     public function logout(Request $request)
     {
-        event(new BelakangLogging(Fungsi::dataOfCek(), 'logout', Auth::user()->id));
+        // event(new BelakangLogging(Fungsi::dataOfCek(), 'logout', Auth::user()->id));
         $this->guard()->logout();
 
         $request->session()->invalidate();
@@ -68,15 +68,19 @@ class LoginController extends Controller
     
     protected function credentials(Request $request)
     {
-        if(filter_var($request->get($this->username()), FILTER_VALIDATE_EMAIL)){
-            $field = $this->username();
-        } else if(is_numeric($request->get($this->username()))){
-            $field = "no_telp";
-        } else {
-            $field = "username";
-        }
+        // if(filter_var($request->get($this->username()), FILTER_VALIDATE_EMAIL)){
+        //     $field = $this->username();
+        // } else if(is_numeric($request->get($this->username()))){
+        //     $field = "no_telp";
+        // } else {
+        //     $field = "username";
+        // }
+        // return [
+        //     $field => $request->get($this->username()),
+        //     'password' => $request->password,
+        // ];
         return [
-            $field => $request->get($this->username()),
+            'email' => $request->email,
             'password' => $request->password,
         ];
     }
@@ -92,9 +96,9 @@ class LoginController extends Controller
         if(is_null($data_verif->email_verified_at)) {
             auth()->logout();
             if(is_null($data_verif->email_token)){
-                $token_gen = \Str::random(40);
+                $token_gen = str_random(45);
                 $data_verif_edit = DB::table('users')->where('id', $user->id)->update(['email_token' => $token_gen]);
-                Mail::to($user->email)->send(new EmailVerification($user, route('b.email-verified', ['token' => $token_gen])));
+                Mail::to($user->email)->send(new EmailVerification($user, route('d.email-verified', ['token' => $token_gen]), 'depan'));
                 // dispatch(new SendEmail([
                 //     'tujuan' => $user->email,
                 //     'email' => new EmailVerification($user, route('b.email-verified', ['token' => $token_gen]))
@@ -102,15 +106,15 @@ class LoginController extends Controller
             }
             return back()->with('warning', 'You need to confirm your account. We have sent you an activation code, please check your email.');
         }
-        $role_tipe = DB::table('t_user_meta')
-                ->where('user_id', $user->id)
-                ->select('role')
-                ->get()->first();
-        if($role_tipe->role != 'Admin' && $role_tipe->role != 'Owner'){
-            auth()->logout();
-            return back()->with('warning', 'Hanya bisa diakses oleh admin atau owner');
-        }
-        event(new BelakangLogging(Fungsi::dataOfCek(), 'login', $user));
-        return redirect()->intended($this->redirectPath());
+        // $role_tipe = DB::table('t_user_meta')
+        //         ->where('user_id', $user->id)
+        //         ->select('role')
+        //         ->get()->first();
+        // if($role_tipe->role != 'Admin' && $role_tipe->role != 'Owner'){
+        //     auth()->logout();
+        //     return back()->with('warning', 'Hanya bisa diakses oleh admin atau owner');
+        // }
+        // event(new BelakangLogging(Fungsi::dataOfCek(), 'login', $user));
+        // return redirect()->intended($this->redirectPath());
     }
 }
