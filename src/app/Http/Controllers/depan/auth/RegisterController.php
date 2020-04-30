@@ -83,10 +83,10 @@ class RegisterController extends Controller
         return $user;
     }
 	 
-    public function showRegistrationForm(Request $request, $toko_slug)
+    public function showRegistrationForm(Request $request, $domain_toko)
     {
 		$toko = DB::table('t_store')
-            ->where('domain_toko', $toko_slug)
+            ->where('domain_toko', $domain_toko)
             ->get()->first();
         $r['sort'] = strip_tags($request->sort);
         $r['cari'] = strip_tags($request->q);
@@ -119,7 +119,7 @@ class RegisterController extends Controller
         }
 
         return $this->registered($request, $user)
-                    ?: redirect(route('b.login'))
+                    ?: redirect(route('d.login', ['domain_toko' => $domain_toko]))
                         ->with('success', 'We sent you an activation code. Check your email and click on the link to verify, Didn\'t receive email <a href="javascript:void(0);" class="text-reset resendMail">resend mail</a>.')
                         ->with('user_token', $user->email_token);
     }
