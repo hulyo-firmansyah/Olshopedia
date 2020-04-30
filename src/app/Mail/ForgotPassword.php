@@ -14,16 +14,18 @@ class ForgotPassword extends Mailable
 
     public $user;
     public $link;
+    public $tipe;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user, $link)
+    public function __construct(User $user, $link, string $tipe = 'belakang')
     {
         $this->user = $user;
         $this->link = $link;
+        $this->tipe = $tipe;
     }
 
     /**
@@ -33,7 +35,7 @@ class ForgotPassword extends Mailable
      */
     public function build()
     {
-        return $this->markdown('belakang.mail.ForgotPassword')
+        return $this->markdown($this->tipe.'.mail.ForgotPassword')
             ->with([
                 'link' => $this->link
             ]);

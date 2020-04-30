@@ -14,17 +14,19 @@ class NotifResiEmailAddon extends Mailable
     public $pesan;
     public $tipe;
     public $from;
+    public $tipe_;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(array $from, string $tipe, string $pesan)
+    public function __construct(array $from, string $tipe, string $pesan, string $tipe_ = 'belakang')
     {
         $this->from = $from;
         $this->tipe = $tipe;
         $this->pesan = $pesan;
+        $this->tipe_ = $tipe_;
     }
 
     /**
@@ -35,7 +37,7 @@ class NotifResiEmailAddon extends Mailable
     public function build()
     {
         $this->from($this->from['alamat'], $this->from['nama']);
-        return $this->markdown('belakang.mail.NotifResiEmail')
+        return $this->markdown($this->tipe_.'.mail.NotifResiEmail')
             ->with([
                 'pesan' => $this->pesan
             ]);

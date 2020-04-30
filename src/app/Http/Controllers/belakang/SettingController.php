@@ -124,10 +124,16 @@ class SettingController extends Controller
             if(strcmp($tipeKirim, $tipeKirim2) === 0){
                 switch($tipeKirim){
                     case 'first_setup':
+                        $domain_not_allow = [
+                            'admin',
+                            'customer',
+                            'administrator',
+                            'superadmin'
+                        ];
                         $domain = $request->subdomainToko;
                         $no_telp = $request->no_telp;
                         $cekDomain = DB::table('t_store')->where('domain_toko', $domain)->get()->first();
-                        if(isset($cekDomain)){
+                        if(isset($cekDomain) || in_array($domain, $domain_not_allow)){
                             return Fungsi::respon(['status' => false, 'msg' => "Subdomain telah digunakan!"], [], 'json', $request);
                         }
                         $cekNo_telp = DB::table('t_store')->where('no_telp_toko', $no_telp)->get()->first();
@@ -445,7 +451,7 @@ class SettingController extends Controller
                 $logo_id = null;
                 $logo_lawas = false;
                 if(isset($logo)){
-                    if(in_array($logo->getClientOriginalExtension(), array('jpg', 'jpeg', 'png', 'bmp', 'gif', ''))){
+                    if(in_array(strtolower($logo->getClientOriginalExtension()), array('jpg', 'jpeg', 'png', 'bmp', 'gif', ''))){
                         $path = "../data/".base64_encode(base64_encode(Fungsi::dataOfCek())."+".base64_encode(Fungsi::dataOfCekUsername()))."/";
                         if(is_dir(base_path($path))){
                             $path_isset = true;
