@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('template_depan/default/dist/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template_depan/default/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template_depan/default/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('template_depan/default/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 
