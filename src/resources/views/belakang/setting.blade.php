@@ -1457,22 +1457,24 @@ $(document).ready(function() {
     //DataTable
     $('#orderSideTombol').on('click', function(){
         //Get data order source
-        tabelDataOrderSource = $('#tableOrderSource').DataTable({
-            ajax: {
-                type: 'get',
-                url: "{{ route('b.setting-getOrderSourceData') }}",
-            },
-            "paging": false,
-            "info": false,
-            "columnDefs": [{
-                "searchable": false,
-                "orderable": false,
-                "targets": 0
-            }],
-            "order": [
-                [1, 'asc']
-            ]
-        });
+        if (!$.fn.DataTable.isDataTable('#tableOrderSource')) {
+            tabelDataOrderSource = $('#tableOrderSource').DataTable({
+                ajax: {
+                    type: 'get',
+                    url: "{{ route('b.setting-getOrderSourceData') }}",
+                },
+                "paging": false,
+                "info": false,
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0
+                }],
+                "order": [
+                    [1, 'asc']
+                ]
+            });
+        }
         tabelDataOrderSource.on('order.dt search.dt', function() {
             tabelDataOrderSource.column(0, {
                 search: 'applied',
@@ -1483,22 +1485,24 @@ $(document).ready(function() {
         }).draw();
 
         //Get data filter order
-        tabelDataFilterOrder = $('#tableFilterOrder').DataTable({
-            ajax: {
-                type: 'get',
-                url: "{{ route('b.setting-getFilterOrderData') }}",
-            },
-            "paging": false,
-            "info": false,
-            "columnDefs": [{
-                "searchable": false,
-                "orderable": false,
-                "targets": 0
-            }],
-            "order": [
-                [1, 'asc']
-            ]
-        });
+        if (!$.fn.DataTable.isDataTable('#tableFilterOrder')) {
+            tabelDataFilterOrder = $('#tableFilterOrder').DataTable({
+                ajax: {
+                    type: 'get',
+                    url: "{{ route('b.setting-getFilterOrderData') }}",
+                },
+                "paging": false,
+                "info": false,
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0
+                }],
+                "order": [
+                    [1, 'asc']
+                ]
+            });
+        }
         tabelDataFilterOrder.on('order.dt search.dt', function() {
             tabelDataFilterOrder.column(0, {
                 search: 'applied',
@@ -1511,20 +1515,22 @@ $(document).ready(function() {
 
     $('#paymentSideTombol').on('click', function(){
         //Get data payment
-        tabelDataPayment = $('#tablePayment').DataTable({
-            ajax: {
-                type: 'get',
-                url: "{{ route('b.setting-getPaymentData') }}",
-            },
-            "columnDefs": [{
-                "searchable": false,
-                "orderable": false,
-                "targets": 0
-            }],
-            "order": [
-                [1, 'asc']
-            ]
-        });
+        if (!$.fn.DataTable.isDataTable('#tablePayment')) {
+            tabelDataPayment = $('#tablePayment').DataTable({
+                ajax: {
+                    type: 'get',
+                    url: "{{ route('b.setting-getPaymentData') }}",
+                },
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0
+                }],
+                "order": [
+                    [1, 'asc']
+                ]
+            });
+        }
         tabelDataPayment.on('order.dt search.dt', function() {
             tabelDataPayment.column(0, {
                 search: 'applied',
@@ -1537,20 +1543,22 @@ $(document).ready(function() {
 
     $('#userSideTombol').on('click', function(){
         //Get data user table
-        tableDataUser = $('#tableUser').DataTable({
-            ajax: {
-                type: 'get',
-                url: "{{ route('b.setting-getUserData') }}",
-            },
-            "columnDefs": [{
-                "searchable": false,
-                "orderable": false,
-                "targets": 0
-            }],
-            "order": [
-                [1, 'asc']
-            ]
-        });
+        if (!$.fn.DataTable.isDataTable('#tableUser')) {
+            tableDataUser = $('#tableUser').DataTable({
+                ajax: {
+                    type: 'get',
+                    url: "{{ route('b.setting-getUserData') }}",
+                },
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0
+                }],
+                "order": [
+                    [1, 'asc']
+                ]
+            });
+        }
         tableDataUser.on('order.dt search.dt', function() {
             tableDataUser.column(0, {
                 search: 'applied',
