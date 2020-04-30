@@ -196,6 +196,8 @@
     Route::get('/{domain_toko}', 'depan\HomeController@index')->name("d.home");
     Route::get('/{domain_toko}/register', 'depan\auth\RegisterController@showRegistrationForm')->name("d.register");
     Route::post('/{domain_toko}/register', 'depan\auth\RegisterController@register');
+    Route::get('/{domain_toko}/verified/{token}','depan\auth\AccountVerifiedController@verified')->name('d.email-verified');
+    // Route::get('/{domain_toko}/resendMail', 'depan\auth\AccountVerifiedController@resendMail')->name('d.email-redendMail');
     Route::get('/{domain_toko}/produk/{nama_produk?}', 'depan\HomeController@produkIndex')->name("d.produk-index");
     Route::get('/{domain_toko}/cart', 'depan\CartController@tampil')->name('d.cart-index');
     Route::post('/{domain_toko}/cart-tambah', 'depan\CartController@tambah')->name('d.cart-tambah');

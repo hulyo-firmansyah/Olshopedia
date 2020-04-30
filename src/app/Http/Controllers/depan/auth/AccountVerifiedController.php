@@ -12,10 +12,10 @@ use App\Http\Controllers\PusatController as Fungsi;
 
 class AccountVerifiedController extends Controller
 {
-    public function verified($token)
+    public function verified($domain_toko, $toko)
     {
         $user = DB::table('users')
-			->where('email_token',$token)
+			->where('email_token', $token)
 			->update([
 				'email_verified_at' => date("Y-m-d H:i:s"),
 				'email_token' => null,

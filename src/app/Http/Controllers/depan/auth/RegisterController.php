@@ -80,7 +80,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'no_telp' => $data['no_telp'],
             'password' => bcrypt($data['password']),
-            'email_token' => str_random(40),
+            'email_token' => str_random(45),
         ]);
         return $user;
     }
@@ -103,7 +103,7 @@ class RegisterController extends Controller
         try {
 
             // Log::info('mau mengirim email queue');
-            Mail::to($user->email)->send(new EmailVerification($user, route('d.email-verified', ['token' => $user->email_token])));
+            Mail::to($user->email)->send(new EmailVerification($user, route('d.email-verified', ['token' => $user->email_token]), 'depan'));
             // dispatch(new SendEmail([
             //     'tujuan' => $user->email,
             //     'email' => new EmailVerification($user, route('b.email-verified', ['token' => $user->email_token]))

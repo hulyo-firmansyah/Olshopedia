@@ -21,6 +21,7 @@
                 <div class="card-body register-card-body">
                     <p class="login-box-msg">Register Pelanggan</p>
                     <form action="{{ route('d.register', ['domain_toko' => $toko->domain_toko]) }}" method="post">
+                        {{ csrf_field() }}
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" placeholder="Nama Lengkap" required>
                             <div class="input-group-append">
