@@ -67,34 +67,35 @@
                             </div>
                         </div>
                     </form>
+                    
+                    @php
+                        $cart_count = count(\Cart::session(request()->getClientIp())->getContent());
+                        $hidden = $cart_count > 0 ? '' : 'display:none;';
+                    @endphp
+
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="{{ route('d.cart-index', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link"><i class='fa fa-shopping-cart'></i> Cart<span class="badge badge-danger navbar-badge" style='{{ $hidden }}' id="badgeCart">{{ $cart_count }}</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('d.login', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('d.register', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link">Register</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
+                            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                                <li><a href="#" class="dropdown-item">Some action </a></li>
+                                <li><a href="#" class="dropdown-item">Some other action</a></li>
+                                <li class="dropdown-divider"></li>
+                                <li><a href="#" class="dropdown-item">Some other action</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
 
-                @php
-                    $cart_count = count(\Cart::session(request()->getClientIp())->getContent());
-                    $hidden = $cart_count > 0 ? '' : 'display:none;';
-                @endphp
-
-                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <li class="nav-item">
-                        <a href="{{ route('d.cart-index', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link"><i class='fa fa-shopping-cart'></i> Cart<span class="badge badge-danger navbar-badge" style='{{ $hidden }}' id="badgeCart">{{ $cart_count }}</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('d.login', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('d.register', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link">Register</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
-                        <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                            <li><a href="#" class="dropdown-item">Some action </a></li>
-                            <li><a href="#" class="dropdown-item">Some other action</a></li>
-                            <li class="dropdown-divider"></li>
-                            <li><a href="#" class="dropdown-item">Some other action</a></li>
-                        </ul>
-                    </li>
-                </ul>
             </div>
         </nav>
 
