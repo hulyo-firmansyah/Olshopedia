@@ -25,7 +25,7 @@ class EmailVerification extends Mailable
     {
         $this->user = $user;
         $this->link = $link;
-        $this->tipe = $tipe;
+        $this->data = $data;
     }
 
     /**
