@@ -128,5 +128,19 @@ class RegisterController extends Controller
                         // ->with('user_token', $user->email_token);
     }
 
+    public function registerAfter(Request $request, $domain_toko){
+		$toko = DB::table('t_store')
+            ->where('domain_toko', $domain_toko)
+            ->get()->first();
+        if(isset($toko)){
+            $r['sort'] = strip_tags($request->sort);
+            $r['cari'] = strip_tags($request->q);
+            $wilayah_indonesia = json_decode(Fungsi::getContent('data/wilayah_indonesia.json'));
+            return Fungsi::respon('depan.'.$toko->template.'.auth.register-after', compact('toko', 'r', 'wilayah_indonesia'), "html", $request);
+        } else {
+            //landing page
+        }
+    }
+
     
 }
