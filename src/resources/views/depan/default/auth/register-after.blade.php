@@ -49,18 +49,20 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>No Telepon</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name='no_telp' placeholder='No Telepon'>
+                                        <small id="error_no_telp" style='display:none;'>Silahkan Pilih Kabupaten!</small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Kode Pos</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name='kode_pos' placeholder='Kode Pos'>
+                                        <small id="error_kode_pos" style='display:none;'>Silahkan Pilih Kabupaten!</small>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Provinsi</label>
                                         <select name='provinsi' id='provinsiS'>
@@ -74,7 +76,7 @@
                                         <small id="error_provinsiS" style='display:none;'>Silahkan Pilih Provinsi!</small>
                                     </div>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Kabupaten/Kota</label>
                                         <select name='kabupaten' id='kabupatenS'>
@@ -104,7 +106,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Alamat Lengkap</label>
-                                        <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                                        <textarea class="form-control" rows="3" placeholder="Alamat lengkap"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -123,13 +125,16 @@ var cacheProvinsiAll = [];
 
     $(document).ready(function(){
         $('#provinsiS').select2({
-            theme: 'bootstrap4'
+            theme: 'bootstrap4',
+            width: '100%'
         });
         $('#kabupatenS').select2({
-            theme: 'bootstrap4'
+            theme: 'bootstrap4',
+            width: '100%'
         });
         $('#kecamatanS').select2({
-            theme: 'bootstrap4'
+            theme: 'bootstrap4',
+            width: '100%'
         });
 
         $('#provinsiS').on('change', function(){
@@ -140,7 +145,6 @@ var cacheProvinsiAll = [];
         });
 
         $('#kabupatenS').on('change', function(){
-            // alert('asd');
             if($('small#error_kabupatenS').is(':visible')){
                 $('small#error_kabupatenS').hide();
                 $('#kabupatenS').removeClass('animation-shake');
