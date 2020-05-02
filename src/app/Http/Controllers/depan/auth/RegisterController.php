@@ -104,11 +104,17 @@ class RegisterController extends Controller
         $user = $this->create($request->all());
         try {
 
+            $toko = DB::table('t_store')
+                ->where('domain_toko', $domain_toko)
+                ->get()->first();
             // Log::info('mau mengirim email queue');
             Mail::to($user->email)->send(new EmailVerification($user, route('d.email-verified', [
                 'domain_toko' => $domain_toko,
                 'token' => $user->email_token
-                ]), 'depan'));
+                ]), [
+                    'tipe' => 'depan',
+                    'tema' => $toko->template
+                ]));
             // dispatch(new SendEmail([
             //     'tujuan' => $user->email,
             //     'email' => new EmailVerification($user, route('b.email-verified', ['token' => $user->email_token]))
@@ -135,8 +141,17 @@ class RegisterController extends Controller
         if(isset($toko)){
             $r['sort'] = strip_tags($request->sort);
             $r['cari'] = strip_tags($request->q);
-            $wilayah_indonesia = json_decode(Fungsi::getContent('data/wilayah_indonesia.json'));
-            return Fungsi::respon('depan.'.$toko->template.'.auth.register-after', compact('toko', 'r', 'wilayah_indonesia'), "html", $request);
+            if($request->v != '' && $request->i != '' && $request->d != ''){
+                $id = strip_tags($request->v);
+                $userData = DB::table('users')
+                    ->where('id', $id)
+                    ->select('name', 'email', 'no_telp')
+                    ->get()->first();
+                $wilayah_indonesia = json_decode(Fungsi::getContent('data/wilayah_indonesia.json'));
+                return Fungsi::respon('depan.'.$toko->template.'.auth.register-after', compact('toko', 'r', 'wilayah_indonesia', 'userData'), "html", $request);
+            } else {
+                return redirect(route('d.register', ['domain_toko' => $domain_toko]));
+            }
         } else {
             //landing page
         }

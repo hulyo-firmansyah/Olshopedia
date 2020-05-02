@@ -24,7 +24,7 @@
                                     <div class="form-group">
                                         <label>Nama Lengkap</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" readonly>
+                                            <input type="text" class="form-control" value='{{ $userData->name }}' readonly>
                                             <div class="input-group-append">
                                                 <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                                             </div>
@@ -37,7 +37,7 @@
                                     <div class="form-group">
                                         <label>Email</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" readonly>
+                                            <input type="text" class="form-control" value='{{ $userData->email }}' readonly>
                                             <div class="input-group-append">
                                                 <span class="input-group-text"><i class="fas fa-at"></i></span>
                                             </div>
@@ -49,7 +49,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>No Telepon</label>
-                                        <input type="text" class="form-control" name='no_telp' placeholder='No Telepon'>
+                                        <input type="text" class="form-control" name='no_telp' placeholder='No Telepon' value='{{ $userData->no_telp }}'>
                                         <small id="error_no_telp" style='display:none;'>Silahkan Pilih Kabupaten!</small>
                                     </div>
                                 </div>
@@ -111,6 +111,9 @@
                                 </div>
                             </div>
                         </form>
+                    </div>
+                    <div class='card-footer'>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </div>
             </div>
