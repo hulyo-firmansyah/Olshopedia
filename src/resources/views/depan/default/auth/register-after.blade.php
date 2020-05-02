@@ -63,8 +63,8 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Provinsi</label>
-                                        <select class='select2' name='provinsi' id='provinsiS'>
-                                            <option value='' disabled selected>-- Pilih Provinsi --</option>
+                                        <select name='provinsi' id='provinsiS'>
+                                            <option value=''>-- Pilih Provinsi --</option>
                                             @php
                                             foreach(\App\Http\Controllers\PusatController::genArray($wilayah_indonesia) as $w){
                                                 echo "<option value='".$w->provinsi."'>".$w->provinsi."</option>";
@@ -77,8 +77,8 @@
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label>Kabupaten/Kota</label>
-                                        <select class='select2' name='kabupaten' id='kabupatenS'>
-                                            <option value='' disabled selected>-- Pilih Kabupaten/Kota --</option>
+                                        <select name='kabupaten' id='kabupatenS'>
+                                            <option value=''>-- Pilih Kabupaten/Kota --</option>
                                             @php
                                             foreach(\App\Http\Controllers\PusatController::genArray($wilayah_indonesia) as $w){
                                                 foreach($w->kabupaten as $k){
@@ -93,8 +93,8 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Kecamatan</label>
-                                        <select class='select2' name='kecamatan' id='kecamatanS' width='100%'>
-                                            <option value='' disabled selected>-- Pilih Kecamatan --</option>
+                                        <select name='kecamatan' id='kecamatanS' width='100%'>
+                                            <option value=''>-- Pilih Kecamatan --</option>
                                         </select>
                                         <small id="error_kecamatanS" style='display:none;'>Silahkan Pilih Kecamatan!</small>
                                     </div>
@@ -122,98 +122,107 @@ var cacheKabupaten = {},
 var cacheProvinsiAll = [];
 
     $(document).ready(function(){
-        $('.select2').select2({
+        $('#provinsiS').select2({
+            theme: 'bootstrap4'
+        });
+        $('#kabupatenS').select2({
+            theme: 'bootstrap4'
+        });
+        $('#kecamatanS').select2({
             theme: 'bootstrap4'
         });
 
         $('#provinsiS').on('change', function(){
             if($('small#error_provinsiS').is(':visible')){
                 $('small#error_provinsiS').hide();
-                $('#provinsiS').selectpicker('setStyle', 'animation-shake', 'remove');
+                $('#provinsiS').removeClass('animation-shake');
             }
         });
 
         $('#kabupatenS').on('change', function(){
+            // alert('asd');
             if($('small#error_kabupatenS').is(':visible')){
                 $('small#error_kabupatenS').hide();
-                $('#kabupatenS').selectpicker('setStyle', 'animation-shake', 'remove');
+                $('#kabupatenS').removeClass('animation-shake');
             }
         });
 
         $('#kecamatanS').on('change', function(){
             if($('small#error_kecamatanS').is(':visible')){
                 $('small#error_kecamatanS').hide();
-                $('#kecamatanS').selectpicker('setStyle', 'animation-shake', 'remove');
+                $('#kecamatanS').removeClass('animation-shake');
             }
         });
         
+        var kabupatenCek = false;
         $('#provinsiS').on('change', function(e, clickedIndex, isSelected, previousValue) {
             $('#provinsiS').removeClass('animation-shake');
             if (!$('#error_provinsiS').is(':hidden')) $('#error_provinsiS').hide();
-            var val = $(this).val();
-            $('#kabupatenS').html(
-                '<option value="" disabled selected>-- Pilih Kabupaten --</option>');
-            var term = val.replace(/[^a-zA-Z]/gi, '');
-            if(term in cacheKabupaten){
-                $.each(cacheKabupaten[term], function(i2, v2) {
-                    $('#kabupatenS').append("<option value='" + v2.type + " " + v2
-                        .kabupaten_nama + "'>" + v2.type + " " + v2
-                        .kabupaten_nama + "</option>");
-                });
-                // $('#kabupatenS').selectpicker('refresh');
-            } else {
-                $.ajax({
-                    url: "{{ route('b.ajax-getWilayah') }}",
-                    type: 'get',
-                    data: {
-                        term: val
-                    },
-                    dataType: 'json',
-                    success: function(data) {
-                        cacheKabupaten[term] = data;
-                        $.each(data, function(i2, v2) {
-                            $('#kabupatenS').append("<option value='" + v2.type + " " + v2
-                                .kabupaten_nama + "'>" + v2.type + " " + v2
-                                .kabupaten_nama + "</option>");
-                        });
-                        // $('#kabupatenS').selectpicker('refresh');
-                    }
-                });
-            }
-            var term2 = term+"1";
-            $('#kecamatanS').html(
-                '<option value="" disabled selected>-- Pilih Kecamatan --</option>');
-            if(term2 in cacheKecamatan){
-                $.each(cacheKecamatan[term2], function(i3, v3) {
-                    $('#kecamatanS').append("<option value='" + v3.kecamatan.nama +
-                        "'>" + v3.kecamatan.nama + "</option>");
-                });
-                // $('#kecamatanS').selectpicker('refresh');
-            } else {
-                $.ajax({
-                    url: "{{ route('b.ajax-getWilayahDetail') }}",
-                    type: 'get',
-                    data: {
-                        term: val,
-                        tipe: "1"
-                    },
-                    dataType: 'json',
-                    success: function(data) {
-                        cacheKecamatan[term2] = data;
-                        $.each(data, function(i3, v3) {
-                            $('#kecamatanS').append("<option value='" + v3.kecamatan.nama +
-                                "'>" + v3.kecamatan.nama + "</option>");
-                        });
-                        // $('#kecamatanS').selectpicker('refresh');
-                    }
-                });
+            if(!kabupatenCek){
+                var val = $(this).val();
+                $('#kabupatenS').html(
+                    '<option value="">-- Pilih Kabupaten --</option>');
+                var term = val.replace(/[^a-zA-Z]/gi, '');
+                if(term in cacheKabupaten){
+                    $.each(cacheKabupaten[term], function(i2, v2) {
+                        let value = v2.type + " " + v2.kabupaten_nama;
+                        let newOption = new Option(value, value, false, false);
+                        $('#kabupatenS').append(newOption);
+                    });
+                } else {
+                    $.ajax({
+                        url: "{{ route('b.ajax-getWilayah') }}",
+                        type: 'get',
+                        data: {
+                            term: val
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            cacheKabupaten[term] = data;
+                            $.each(data, function(i2, v2) {
+                                let value = v2.type + " " + v2.kabupaten_nama;
+                                let newOption = new Option(value, value, false, false);
+                                $('#kabupatenS').append(newOption);
+                            });
+                        }
+                    });
+                }
+                var term2 = term+"1";
+                $('#kecamatanS').html(
+                    '<option value="">-- Pilih Kecamatan --</option>');
+                if(term2 in cacheKecamatan){
+                    $.each(cacheKecamatan[term2], function(i3, v3) {
+                        let value = v3.kecamatan.nama;
+                        let newOption = new Option(value, value, false, false);
+                        $('#kecamatanS').append(newOption);
+                    });
+                } else {
+                    $.ajax({
+                        url: "{{ route('b.ajax-getWilayahDetail') }}",
+                        type: 'get',
+                        data: {
+                            term: val,
+                            tipe: "1"
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            cacheKecamatan[term2] = data;
+                            $.each(data, function(i3, v3) {
+                                let value = v3.kecamatan.nama;
+                                let newOption = new Option(value, value, false, false);
+                                $('#kecamatanS').append(newOption);
+                            });
+                        }
+                    });
+                }
+                kabupatenCek = true;
             }
             if (!$('#error_kabupatenS').is(':hidden')) $('#error_kabupatenS').hide();
             if (!$('#error_kecamatanS').is(':hidden')) $('#error_kecamatanS').hide();
         });
 
-        $('#kabupatenS').on('change', function(e, clickedIndex, isSelected, previousValue) {
-            $('#kabupatenS').selectpicker('setStyle', 'animation-shake', 'remove');
+        $('#kabupatenS').on('change', function(e) {
+            $('#kabupatenS').removeClass('animation-shake');
             if (!$('#error_kabupatenS').is(':hidden')) $('#error_kabupatenS').hide();
             var pilihKab = $(this).val();
             var provinsiPilih = '';
@@ -229,7 +238,7 @@ var cacheProvinsiAll = [];
                     });
                     if (provinsiPilih != '') return false;
                 });
-                $('#provinsiS').selectpicker('val', provinsiPilih);
+                $('#provinsiS').val(provinsiPilih).trigger('change.select2');
             } else {
                 $.ajax({
                     url: "{{ route('b.ajax-getWilayah') }}",
@@ -247,19 +256,19 @@ var cacheProvinsiAll = [];
                             });
                             if (provinsiPilih != '') return false;
                         });
-                        $('#provinsiS').selectpicker('val', provinsiPilih);
+                        $('#provinsiS').val(provinsiPilih).trigger('change.select2');
                     }
                 });
             }
             var term2 = term+"2";
             $('#kecamatanS').html(
-                '<option value="" disabled selected>-- Pilih Kecamatan --</option>');
+                '<option value="">-- Pilih Kecamatan --</option>');
             if(term2 in cacheKecamatan_Kabupaten){
                 $.each(cacheKecamatan_Kabupaten[term2], function(i3, v3) {
-                    $('#kecamatanS').append("<option value='" + v3.kecamatan.nama +
-                        "'>" + v3.kecamatan.nama + "</option>");
+                    let value = v3.kecamatan.nama;
+                    let newOption = new Option(value, value, false, false);
+                    $('#kecamatanS').append(newOption);
                 });
-                $('#kecamatanS').selectpicker('refresh');
             } else {
                 $.ajax({
                     url: "{{ route('b.ajax-getWilayahDetail') }}",
@@ -272,10 +281,10 @@ var cacheProvinsiAll = [];
                     success: function(data) {
                         cacheKecamatan_Kabupaten[term2] = data;
                         $.each(data, function(i3, v3) {
-                            $('#kecamatanS').append("<option value='" + v3.kecamatan.nama +
-                                "'>" + v3.kecamatan.nama + "</option>");
+                            let value = v3.kecamatan.nama;
+                            let newOption = new Option(value, value, false, false);
+                            $('#kecamatanS').append(newOption);
                         });
-                        $('#kecamatanS').selectpicker('refresh');
                     }
                 });
             }
@@ -284,7 +293,7 @@ var cacheProvinsiAll = [];
         });
         
         $('#kecamatanS').on('change', function(e, clickedIndex, isSelected, previousValue) {
-            $('#kecamatanS').selectpicker('setStyle', 'animation-shake', 'remove');
+            $('#kecamatanS').removeClass('animation-shake');
             if (!$('#error_kecamatanS').is(':hidden')) $('#error_kecamatanS').hide();
             if (!$('#error_provinsiS').is(':hidden')) $('#error_provinsiS').hide();
             if (!$('#error_kabupatenS').is(':hidden')) $('#error_kabupatenS').hide();
