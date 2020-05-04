@@ -182,6 +182,12 @@ $(document).ready(function() {
                         $('#'+v.name).addClass('is-invalid');
                         errorValidasi++;
                     }
+                    if(v.value.length > 9){
+                        $('small#error_'+v.name).text('Kode Pos tidak boleh lebih dari 9 angka!');
+                        $('small#error_'+v.name).show();
+                        $('#'+v.name).addClass('is-invalid');
+                        errorValidasi++;
+                    }
                 } else if(v.name == 'no_telp'){
                     var regex = /[^0-9]/gi;
                     if(regex.test(v.value)){

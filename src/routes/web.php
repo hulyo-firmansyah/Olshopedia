@@ -198,10 +198,10 @@
     Route::post('/{domain_toko}/register', 'depan\auth\RegisterController@register');
     Route::get('/{domain_toko}/register-proses', 'depan\auth\RegisterController@registerAfter')->name('d.register-after');
     Route::post('/{domain_toko}/register-proses', 'depan\auth\RegisterController@registerProses');
+    Route::get('/{domain_toko}/verified/{token}','depan\auth\AccountVerifiedController@verified')->name('d.email-verified');
     Route::get('/{domain_toko}/login', 'depan\auth\LoginController@showLoginForm')->name('d.login');
     Route::post('/{domain_toko}/login', 'depan\auth\LoginController@login');
-    Route::get('/{domain_toko}/verified/{token}','depan\auth\AccountVerifiedController@verified')->name('d.email-verified');
-    // Route::get('/{domain_toko}/resendMail', 'depan\auth\AccountVerifiedController@resendMail')->name('d.email-redendMail');
+    Route::post('/{domain_toko}/resendMail', 'depan\auth\AccountVerifiedController@resendMail')->name('d.email-resendMail');
     Route::get('/{domain_toko}/produk/{nama_produk?}', 'depan\HomeController@produkIndex')->name("d.produk-index");
     Route::get('/{domain_toko}/cart', 'depan\CartController@tampil')->name('d.cart-index');
     Route::post('/{domain_toko}/cart-tambah', 'depan\CartController@tambah')->name('d.cart-tambah');

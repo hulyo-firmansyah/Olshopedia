@@ -38,6 +38,9 @@
                         <p>{!! $sukses !!}</p>
                     </div>
                     @endif
+                    @if ($token = session('user_token'))
+                    <input type="hidden" id="h_tokenEmail" value="{{$token}}">
+                    @endif
                     <form action="{{ route('d.login', ['domain_toko' => $toko->domain_toko]) }}" method="post">
                         <div class="input-group">
                             <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Email" name='email'>
@@ -97,5 +100,55 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        
+            // Resend Email
+            $('.resendMail').on('click', function () {
+                $('#loader').show();
+                var hasil;
+                var token = $('#h_tokenEmail').val();
+                $.ajax({
+                    type: 'post',
+                    url: "{{ route('d.email-resendMail', ['domain_toko' => $toko->domain_toko]) }}",
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        token: token,
+                    },
+                    success: function (data) {
+                        hasil = data;
+                    },
+                    error: function (error, b, c) {
+                        $(document).Toasts('create', {
+                            class: 'bg-danger',
+                            title: 'Error',
+                            autohide: true,
+                            delay: 3000,
+                            body: ''+c
+                        });
+                    }
+                }).done(function () {
+                    $('#loader').hide();
+                    if (hasil.status) {
+                        $(document).Toasts('create', {
+                            class: 'bg-success',
+                            title: 'Berhasil',
+                            autohide: true,
+                            delay: 3000,
+                            body: 'Berhasil mengirim ulang email verifikasi!'
+                        });
+                    } else {
+                        $(document).Toasts('create', {
+                            class: 'bg-danger',
+                            title: 'Gagal',
+                            autohide: true,
+                            delay: 3000,
+                            body: 'Gagal mengirim ulang email verifikasi!'
+                        });
+                    }
+                }).fail(function () {});
+            })
+    });
+</script>
 <!--uiop-->
 @endsection

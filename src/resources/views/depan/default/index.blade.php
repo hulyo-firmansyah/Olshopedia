@@ -15,9 +15,27 @@
     <link rel="stylesheet" href="{{ asset('template_depan/default/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template_depan/default/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <style>
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.75);
+        z-index: 10000;
+    }
+    </style>
 </head>
 
 <body class="hold-transition layout-top-nav">
+    <div id="loader">
+        <div class="layout-full vertical-align text-center">
+            <div class="loader vertical-align-middle loader-cube"></div>
+        </div>
+    </div>
     <div class="wrapper">
 
         <!-- header -->
