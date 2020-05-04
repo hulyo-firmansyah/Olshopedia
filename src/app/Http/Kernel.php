@@ -66,6 +66,7 @@ class Kernel extends HttpKernel
         'b.ijin-menuExpense' => \App\Http\Middleware\BelakangIjinMenuExpense::class,
         'b.ijin-melihatAnalisa' => \App\Http\Middleware\BelakangIjinMelihatAnalisa::class,
         'b.cekOwner' => \App\Http\Middleware\BelakangCekOwner::class,
+        'd.auth' => \App\Http\Middleware\DepanAuth::class,
         'xss_protect' => \App\Http\Middleware\XssProtect::class,
     ];
 
