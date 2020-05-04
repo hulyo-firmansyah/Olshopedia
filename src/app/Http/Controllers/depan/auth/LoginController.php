@@ -42,7 +42,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('b.guest')->except('logout');
+        $this->middleware('d.guest')->except('logout');
     }
 	
     public function showLoginForm(Request $request, $domain_toko)
