@@ -24,7 +24,7 @@ class DepanIfRedirectAuth
                 ->select('kategori')
                 ->get()->first();
             if(isset($userData)){
-                return redirect()->route('d.home');
+                return redirect()->route('d.home', ['domain_toko' => $request->domain_toko]);
             }
         }
 

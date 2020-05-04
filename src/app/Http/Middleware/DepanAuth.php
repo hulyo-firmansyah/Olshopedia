@@ -27,6 +27,6 @@ class DepanAuth
             }
         }
 
-        return redirect()->route("d.login");
+        return redirect()->route("d.login", ['domain_toko' => $request->domain_toko]);
     }
 }
