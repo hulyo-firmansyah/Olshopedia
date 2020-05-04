@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class BelakangAuth
+class DepanAuth
 {
     /**
      * Handle an incoming request.
@@ -18,17 +18,15 @@ class BelakangAuth
     public function handle($request, Closure $next)
     {
         if (Auth::check() && !is_null(Auth::user()->email_verified_at)) {
-            $userData = DB::table('t_user_meta')
+            $userData = DB::table('t_customer')
                 ->where('user_id', Auth::user()->id)
-                ->select('role')
+                ->select('kategori')
                 ->get()->first();
-            if(isset($userData) && ( $userData->role === 'Owner' || $userData->role === 'Admin')){
+            if(isset($userData)){
                 return $next($request);
             }
-        } else if($request->ajax()){
-            return redirect()->route("b.login")->with(['dari_ajax_butuh_login' => true]);
         }
 
-        return redirect()->route("b.login");
+        return redirect()->route("d.login");
     }
 }
