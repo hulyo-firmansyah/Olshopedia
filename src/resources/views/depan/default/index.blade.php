@@ -100,22 +100,32 @@
                         <li class="nav-item">
                             <a href="{{ route('d.cart-index', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link"><i class='fa fa-shopping-cart'></i> Cart<span class="badge badge-danger navbar-badge" style='{{ $hidden }}' id="badgeCart">{{ $cart_count }}</span></a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ route('d.login', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('d.register', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link">Register</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
-                            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                                <li><a href="#" class="dropdown-item">Some action </a></li>
-                                <li><a href="#" class="dropdown-item">Some other action</a></li>
-                                <li class="dropdown-divider"></li>
-                                <li><a href="#" class="dropdown-item">Some other action</a></li>
-                            </ul>
-                        </li>
+                        @if(\Auth::check())
+                            <li class="nav-item dropdown">
+                                <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false" class="nav-link dropdown-toggle">{{ \Auth::user()->name }}</a>
+                                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                                    <li><a href="#" class="dropdown-item">Some action </a></li>
+                                    <li><a href="#" class="dropdown-item">Some other action</a></li>
+                                    <li class="dropdown-divider"></li>
+                                    <li>
+                                        <form id="logout-form" action="{{ route('d.logout', ['domain_toko' => $toko->domain_toko]) }}" method="post" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                        <a class="dropdown-item" href="{{ route('d.logout', ['domain_toko' => $toko->domain_toko]) }}" role="menuitem" 
+                                            onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i
+                                            class="icon wb-power" aria-hidden="true"></i> Logout</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a href="{{ route('d.login', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('d.register', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link">Register</a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
 

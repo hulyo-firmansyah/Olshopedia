@@ -201,6 +201,7 @@
     Route::get('/{domain_toko}/verified/{token}','depan\auth\AccountVerifiedController@verified')->name('d.email-verified');
     Route::get('/{domain_toko}/login', 'depan\auth\LoginController@showLoginForm')->name('d.login');
     Route::post('/{domain_toko}/login', 'depan\auth\LoginController@login');
+    Route::post('/{domain_toko}/logout', 'depan\auth\LoginController@logout')->name('d.logout');
     Route::post('/{domain_toko}/resendMail', 'depan\auth\AccountVerifiedController@resendMail')->name('d.email-resendMail');
     Route::get('/{domain_toko}/produk/{nama_produk?}', 'depan\HomeController@produkIndex')->name("d.produk-index");
     Route::get('/{domain_toko}/cart', 'depan\CartController@tampil')->name('d.cart-index');

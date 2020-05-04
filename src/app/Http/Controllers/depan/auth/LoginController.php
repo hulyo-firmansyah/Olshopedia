@@ -54,31 +54,56 @@ class LoginController extends Controller
         $r['cari'] = strip_tags($request->q);
 		return Fungsi::respon('depan.'.$toko->template.'.auth.login', compact('toko', 'r'), "html", $request);
     }
+
+    public function login(Request $request, $domain_toko)
+    {
+		$toko = DB::table('t_store')
+            ->where('domain_toko', $domain_toko)
+            ->get()->first();
+        if(isset($toko)){
+            $this->validateLogin($request);
+
+            if (method_exists($this, 'hasTooManyLoginAttempts') &&
+                $this->hasTooManyLoginAttempts($request)) {
+                $this->fireLockoutEvent($request);
+
+                return $this->sendLockoutResponse($request);
+            }
+
+            if ($this->attemptLogin($request)) {
+                return $this->sendLoginResponse($request, $domain_toko);
+            }
+
+            $this->incrementLoginAttempts($request);
+
+            return $this->sendFailedLoginResponse($request);
+        } else {
+            
+        }
+    }
+
+    protected function sendLoginResponse(Request $request, $domain_toko)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        return $this->authenticated($request, $this->guard()->user(), $domain_toko)
+                ?: redirect()->intended($this->redirectPath());
+    }
 	
-	
-    public function logout(Request $request)
+    public function logout(Request $request, $domain_toko)
     {
         // event(new BelakangLogging(Fungsi::dataOfCek(), 'logout', Auth::user()->id));
         $this->guard()->logout();
 
         $request->session()->invalidate();
 
-        return redirect('/login');
+        return redirect()->route('d.home', ['domain_toko' => $domain_toko]);
     }
     
     protected function credentials(Request $request)
     {
-        // if(filter_var($request->get($this->username()), FILTER_VALIDATE_EMAIL)){
-        //     $field = $this->username();
-        // } else if(is_numeric($request->get($this->username()))){
-        //     $field = "no_telp";
-        // } else {
-        //     $field = "username";
-        // }
-        // return [
-        //     $field => $request->get($this->username()),
-        //     'password' => $request->password,
-        // ];
         return [
             'email' => $request->email,
             'password' => $request->password,
@@ -86,8 +111,11 @@ class LoginController extends Controller
     }
 	
 	
-    public function authenticated(Request $request, $user)
+    public function authenticated(Request $request, $user, $domain_toko)
     {
+		$toko = DB::table('t_store')
+            ->where('domain_toko', $domain_toko)
+            ->get()->first();
         $data_verif = DB::table('users')
                 ->where('id', $user->id)
                 ->select('email_verified_at', 'email_token')
@@ -98,23 +126,39 @@ class LoginController extends Controller
             if(is_null($data_verif->email_token)){
                 $token_gen = str_random(45);
                 $data_verif_edit = DB::table('users')->where('id', $user->id)->update(['email_token' => $token_gen]);
-                Mail::to($user->email)->send(new EmailVerification($user, route('d.email-verified', ['token' => $token_gen]), 'depan'));
+                // Mail::to($user->email)->send(new EmailVerification($user, route('d.email-verified', ['token' => $token_gen]), 'depan'));
                 // dispatch(new SendEmail([
                 //     'tujuan' => $user->email,
                 //     'email' => new EmailVerification($user, route('b.email-verified', ['token' => $token_gen]))
                 // ]));
+                try {
+
+                    // Log::info('mau mengirim email queue');
+                    Mail::to($user->email)->send(new EmailVerification($user, route('d.email-verified', [
+                        'domain_toko' => $domain_toko,
+                        'token' => $token_gen
+                        ]), [
+                            'tipe' => 'depan',
+                            'tema' => $toko->template
+                        ]));
+                    // dispatch(new SendEmail([
+                    //     'tujuan' => $user->email,
+                    //     'email' => new EmailVerification($user, route('b.email-verified', ['token' => $user->email_token]))
+                    // ]));
+                    // Log::info('selesai mengirim email queue');
+        
+                } catch(\Exception $e){
+                    DB::table('users')
+                        ->where('id', $user->id)
+                        ->delete();
+                    DB::table('t_customer')
+                        ->where('user_id', $user->id)
+                        ->delete();
+                    return redirect(route('d.login', ['domain_toko' => $domain_toko]))->with('error', $e->getMessage());
+                }
             }
             return back()->with('warning', 'You need to confirm your account. We have sent you an activation code, please check your email.');
         }
-        // $role_tipe = DB::table('t_user_meta')
-        //         ->where('user_id', $user->id)
-        //         ->select('role')
-        //         ->get()->first();
-        // if($role_tipe->role != 'Admin' && $role_tipe->role != 'Owner'){
-        //     auth()->logout();
-        //     return back()->with('warning', 'Hanya bisa diakses oleh admin atau owner');
-        // }
-        // event(new BelakangLogging(Fungsi::dataOfCek(), 'login', $user));
-        // return redirect()->intended($this->redirectPath());
+        return redirect()->route('d.home', ['domain_toko' => $domain_toko]);
     }
 }

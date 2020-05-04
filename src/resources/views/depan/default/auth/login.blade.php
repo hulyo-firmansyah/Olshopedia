@@ -29,6 +29,15 @@
                         <p>{{ $danger }}</p>
                     </div>
                     @endif
+                    @if ($warning = session('warning'))
+                    <div role="alert" class="alert alert-warning alert-dismissible">
+                        <button aria-label="Close" data-dismiss="alert" class="close" type="button">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4>Warning</h4>
+                        <p>{{ $warning }}</p>
+                    </div>
+                    @endif
                     @if ($sukses = session('sukses'))
                     <div role="alert" class="alert alert-success alert-dismissible">
                         <button aria-label="Close" data-dismiss="alert" class="close" type="button">
@@ -42,6 +51,7 @@
                     <input type="hidden" id="h_tokenEmail" value="{{$token}}">
                     @endif
                     <form action="{{ route('d.login', ['domain_toko' => $toko->domain_toko]) }}" method="post">
+                        {{ csrf_field() }}
                         <div class="input-group">
                             <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Email" name='email'>
                             <div class="input-group-append">

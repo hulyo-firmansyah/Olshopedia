@@ -22,7 +22,7 @@ class AccountVerifiedController extends Controller
             ]);
 
         if ($user) {
-            return redirect(route('d.login', ['domain_toko' => $domain_toko]))->with('success', 'Your Email address has been succesfully verified.');
+            return redirect(route('d.login', ['domain_toko' => $domain_toko]))->with('sukses', 'Your Email address has been succesfully verified.');
         } else {
             return redirect(route('d.login', ['domain_toko' => $domain_toko]))->with('error', 'Your Token Email Verification is invalid!');
         }
