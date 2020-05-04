@@ -19,7 +19,7 @@
         <div class="login-box">
             <div class="card">
                 <div class="card-body login-card-body">
-                    <p class="login-box-msg">Login</p>
+                    <h3 class="login-box-msg">Login</h3>
                     @if ($danger = session('error'))
                     <div role="alert" class="alert alert-danger alert-dismissible">
                         <button aria-label="Close" data-dismiss="alert" class="close" type="button">
@@ -35,7 +35,7 @@
                             <span aria-hidden="true">×</span>
                         </button>
                         <h4>Berhasil</h4>
-                        <p>{{ $sukses }}</p>
+                        <p>{!! $sukses !!}</p>
                     </div>
                     @endif
                     <form action="{{ route('d.login', ['domain_toko' => $toko->domain_toko]) }}" method="post">

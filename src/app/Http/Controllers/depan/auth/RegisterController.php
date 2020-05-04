@@ -102,36 +102,7 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
         $user = $this->create($request->all());
-        try {
-
-            $toko = DB::table('t_store')
-                ->where('domain_toko', $domain_toko)
-                ->get()->first();
-            // Log::info('mau mengirim email queue');
-            Mail::to($user->email)->send(new EmailVerification($user, route('d.email-verified', [
-                'domain_toko' => $domain_toko,
-                'token' => $user->email_token
-                ]), [
-                    'tipe' => 'depan',
-                    'tema' => $toko->template
-                ]));
-            // dispatch(new SendEmail([
-            //     'tujuan' => $user->email,
-            //     'email' => new EmailVerification($user, route('b.email-verified', ['token' => $user->email_token]))
-            // ]));
-            // Log::info('selesai mengirim email queue');
-
-        } catch(\Exception $e){
-            DB::table('users')
-                ->where('id', $user->id)
-                ->delete();
-            return redirect(route('d.register', ['domain_toko' => $domain_toko]))->with('error', $e->getMessage());
-        }
-
-        return $this->registered($request, $user)
-                    ?: redirect(route('d.register-after', ['domain_toko' => $domain_toko]).'?v='.$user->id.'&i='.time().'&d='.str_random(6));
-                        // ->with('success', 'We sent you an activation code. Check your email and click on the link to verify, Didn\'t receive email <a href="javascript:void(0);" class="text-reset resendMail">resend mail</a>.')
-                        // ->with('user_token', $user->email_token);
+        return redirect(route('d.register-after', ['domain_toko' => $domain_toko]).'?v='.$user->id.'&i='.time().'&d='.str_random(6));
     }
 
     public function registerAfter(Request $request, $domain_toko){
@@ -142,13 +113,98 @@ class RegisterController extends Controller
             $r['sort'] = strip_tags($request->sort);
             $r['cari'] = strip_tags($request->q);
             if($request->v != '' && $request->i != '' && $request->d != ''){
-                $id = strip_tags($request->v);
+                $requestData['v'] = strip_tags($request->v);
+                $requestData['i'] = strip_tags($request->i);
+                $requestData['d'] = strip_tags($request->d);
                 $userData = DB::table('users')
-                    ->where('id', $id)
+                    ->where('id', $requestData['v'])
                     ->select('name', 'email', 'no_telp')
                     ->get()->first();
                 $wilayah_indonesia = json_decode(Fungsi::getContent('data/wilayah_indonesia.json'));
-                return Fungsi::respon('depan.'.$toko->template.'.auth.register-after', compact('toko', 'r', 'wilayah_indonesia', 'userData'), "html", $request);
+                return Fungsi::respon('depan.'.$toko->template.'.auth.register-after', compact('toko', 'r', 'wilayah_indonesia', 'userData', 'requestData'), "html", $request);
+            } else {
+                return redirect(route('d.register', ['domain_toko' => $domain_toko]));
+            }
+        } else {
+            //landing page
+        }
+    }
+
+    public function registerProses(Request $request, $domain_toko){
+        // dd($request->all(), $domain_toko);
+		$toko = DB::table('t_store')
+            ->where('domain_toko', $domain_toko)
+            ->get()->first();
+        if(isset($toko)){
+            $data_['i'] = strip_tags($request->i);
+            $data_['v'] = strip_tags($request->v);
+            $data_['d'] = strip_tags($request->d);
+            if($data_['i'] != '' && $data_['v'] != '' && $data_['d'] != ''){
+                $data['no_telp'] = strip_tags($request->no_telp);
+                $data['kode_pos'] = strip_tags($request->kode_pos);
+                $data['provinsi'] = strip_tags($request->provinsi);
+                $data['kabupaten'] = strip_tags($request->kabupaten);
+                $data['kecamatan'] = strip_tags($request->kecamatan);
+                $data['alamat'] = strip_tags($request->alamat);
+                if(preg_match('/[^0-9]/', $data['no_telp']) || preg_match('/[^0-9]/', $data['kode_pos'])){
+                    return redirect(route('d.register', ['domain_toko' => $domain_toko]));
+                }
+                $userData = DB::table('users')
+                    ->where('id', $data_['v'])
+                    ->select('no_telp')
+                    ->get()->first();
+                if(isset($userData)){
+                    $dataNo = DB::table('users')
+                        ->where('id', $data_['v'])
+                        ->update([
+                            'no_telp' => $data['no_telp']
+                        ]);
+                    $insert = DB::table('t_customer')
+                        ->insert([
+                            'user_id' => $data_['v'],
+                            'provinsi' => $data['provinsi'],
+                            'kabupaten' => $data['kabupaten'],
+                            'kecamatan' => $data['kecamatan'],
+                            'alamat' => $data['alamat'],
+                            'kode_pos' => $data['kode_pos'],
+                            'kategori' => 'Customer',
+                            'data_of' => Fungsi::dataOfByDomainToko($domain_toko)
+                        ]);
+                    if($insert){
+                        $user = User::find($data_['v']);
+                        // dd($user);
+                        try {
+
+                            // Log::info('mau mengirim email queue');
+                            Mail::to($user->email)->send(new EmailVerification($user, route('d.email-verified', [
+                                'domain_toko' => $domain_toko,
+                                'token' => $user->email_token
+                                ]), [
+                                    'tipe' => 'depan',
+                                    'tema' => $toko->template
+                                ]));
+                            // dispatch(new SendEmail([
+                            //     'tujuan' => $user->email,
+                            //     'email' => new EmailVerification($user, route('b.email-verified', ['token' => $user->email_token]))
+                            // ]));
+                            // Log::info('selesai mengirim email queue');
+                
+                        } catch(\Exception $e){
+                            DB::table('users')
+                                ->where('id', $user->id)
+                                ->delete();
+                            DB::table('t_customer')
+                                ->where('user_id', $user->id)
+                                ->delete();
+                            return redirect(route('d.register', ['domain_toko' => $domain_toko]))->with('error', $e->getMessage());
+                        }
+                        return redirect(route('d.login', ['domain_toko' => $domain_toko]))->with('sukses', 
+                            'We sent you an activation code. Check your email and click on the link to verify, Didn\'t receive email <a href="javascript:void(0);" class="text-reset resendMail">resend mail</a>.'
+                        );
+                    }
+                } else {
+                    return redirect(route('d.register', ['domain_toko' => $domain_toko]));
+                }
             } else {
                 return redirect(route('d.register', ['domain_toko' => $domain_toko]));
             }

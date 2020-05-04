@@ -19,7 +19,7 @@
         <div class="register-box">
             <div class="card">
                 <div class="card-body register-card-body">
-                    <p class="login-box-msg">Register Pelanggan</p>
+                    <h3 class="login-box-msg">Register</h3>
                     @if ($danger = session('error'))
                     <div role="alert" class="alert alert-danger alert-dismissible">
                         <button aria-label="Close" data-dismiss="alert" class="close" type="button">
