@@ -105,7 +105,7 @@
         
             // Resend Email
             $('.resendMail').on('click', function () {
-                $('#loader').show();
+                $('#loader').css('display', 'flex');
                 var hasil;
                 var token = $('#h_tokenEmail').val();
                 $.ajax({
@@ -143,7 +143,7 @@
                             title: 'Gagal',
                             autohide: true,
                             delay: 3000,
-                            body: 'Gagal mengirim ulang email verifikasi!'
+                            body: ''+hasil.msg
                         });
                     }
                 }).fail(function () {});

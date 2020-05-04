@@ -59,16 +59,16 @@ class AccountVerifiedController extends Controller
                         'msg' => $e->getMessage()
                     ], [], 'json', $request);
                 }
+
                 return Fungsi::respon(['status' => true], [], 'json', $request);
             } else {
-                dd();
                 return Fungsi::respon([
                     'status' => false,
                     'msg' => 'Gagal mengirim ulang email verifikasi!'
                 ], [], 'json', $request);
             }
         } else {
-
+            //landing page
         }
     }
 }

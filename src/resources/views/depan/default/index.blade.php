@@ -26,17 +26,22 @@
         width: 100%;
         background: rgba(0, 0, 0, 0.75);
         z-index: 10000;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: center;
+        justify-content: center;
     }
     </style>
 </head>
 
 <body class="hold-transition layout-top-nav">
     <div id="loader">
-        <div class="layout-full vertical-align text-center">
-            <div class="loader vertical-align-middle loader-cube"></div>
+        <div class="text-center">
+            <i class="fas fa-sync-alt fa-spin" style='font-size:5em;color:white;'></i>
         </div>
     </div>
     <div class="wrapper">
+    
 
         <!-- header -->
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
