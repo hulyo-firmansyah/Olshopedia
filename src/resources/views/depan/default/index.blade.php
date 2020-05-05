@@ -55,8 +55,7 @@
                                 ->get()->first();
                             if(isset($foto->path)){
                                 @endphp
-                                <img src="{{ asset($foto->path) }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-                                    style="opacity: .8">
+                                <img src="{{ asset($foto->path) }}" alt="AdminLTE Logo" class="brand-image">
                                 @php
                             }
                         }
