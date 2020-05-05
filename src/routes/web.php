@@ -194,15 +194,24 @@
 
     //storefront
     Route::get('/{domain_toko}', 'depan\HomeController@index')->name("d.home");
+
     Route::get('/{domain_toko}/register', 'depan\auth\RegisterController@showRegistrationForm')->name("d.register");
     Route::post('/{domain_toko}/register', 'depan\auth\RegisterController@register');
     Route::get('/{domain_toko}/register-proses', 'depan\auth\RegisterController@registerAfter')->name('d.register-after');
     Route::post('/{domain_toko}/register-proses', 'depan\auth\RegisterController@registerProses');
+
     Route::get('/{domain_toko}/verified/{token}','depan\auth\AccountVerifiedController@verified')->name('d.email-verified');
+    Route::post('/{domain_toko}/resendMail', 'depan\auth\AccountVerifiedController@resendMail')->name('d.email-resendMail');
+
     Route::get('/{domain_toko}/login', 'depan\auth\LoginController@showLoginForm')->name('d.login');
     Route::post('/{domain_toko}/login', 'depan\auth\LoginController@login');
     Route::post('/{domain_toko}/logout', 'depan\auth\LoginController@logout')->name('d.logout');
-    Route::post('/{domain_toko}/resendMail', 'depan\auth\AccountVerifiedController@resendMail')->name('d.email-resendMail');
+    
+    // Route::get('/{domain_toko}/passMailSend', 'depan\auth\ForgotPasswordController@passMailSend')->name('d.password-email');
+    // Route::get('/{domain_toko}/resetPass/{mail}-{token}', 'depan\auth\ForgotPasswordController@showFormResetPass')->name('d.password-resetPass');
+    // Route::get('/{domain_toko}/renewPassword','depan\auth\ForgotPasswordController@renewPassword')->name('d.password-renewPassword');
+    Route::get('/{domain_toko}/forgotPassword', 'depan\auth\ForgotPasswordController@showLinkRequestForm')->name('d.password-forgotPassword');
+
     Route::get('/{domain_toko}/produk/{nama_produk?}', 'depan\HomeController@produkIndex')->name("d.produk-index");
     Route::get('/{domain_toko}/cart', 'depan\CartController@tampil')->name('d.cart-index');
     Route::post('/{domain_toko}/cart-tambah', 'depan\CartController@tambah')->name('d.cart-tambah');
