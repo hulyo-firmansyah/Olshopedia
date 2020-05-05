@@ -240,7 +240,7 @@
                         } else {
                             swal("Gagal", "Gagal mengubah password", "error");
                         }
-                    }).fail(function () {})
+                    });
                 }
             });
 
