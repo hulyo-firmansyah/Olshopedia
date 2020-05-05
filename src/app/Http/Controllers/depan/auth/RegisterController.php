@@ -45,7 +45,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('d.guest');
+        $this->middleware(['d.guest', 'cek_toko_domain']);
     }
 
     /**

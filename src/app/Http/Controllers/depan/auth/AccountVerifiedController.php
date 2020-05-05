@@ -12,6 +12,10 @@ use App\Http\Controllers\PusatController as Fungsi;
 
 class AccountVerifiedController extends Controller
 {
+	public function __construct(){
+		$this->middleware('cek_toko_domain');
+    }
+    
     public function verified($domain_toko, $token)
     {
         $user = DB::table('users')

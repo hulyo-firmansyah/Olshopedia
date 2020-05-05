@@ -12,9 +12,7 @@ use App\Http\Controllers\PusatController as Fungsi;
 class HomeController extends Controller
 {
 	public function __construct(){
-		// $this->middleware('b.auth');
-		// $this->middleware('b.locale');
-		$this->middleware('xss_protect');
+		$this->middleware('cek_toko_domain');
 	}
 
 	private function getProduk($dataOf, $cari = ''){

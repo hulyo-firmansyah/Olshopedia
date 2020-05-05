@@ -12,6 +12,9 @@ use Cart;
 
 class CartController extends Controller
 {
+	public function __construct(){
+		$this->middleware('cek_toko_domain');
+	}
 
     public function tampil(Request $request, $domain_toko){
         $cart = Cart::session($request->getClientIp())->getContent();
