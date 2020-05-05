@@ -200,7 +200,7 @@
                             });
                             setTimeout(function() {
                                 $(location).attr('href', '{{ route("d.login", ["domain_toko" => $toko->domain_toko]) }}');
-                            }, 3400);
+                            }, 3050);
                         } else {
                             $(document).Toasts('create', {
                                 class: 'bg-danger',
