@@ -193,6 +193,9 @@ class HomeController extends Controller
 	}
 
     public function index(Request $request, $domain_toko){
+        if(Auth::viaRemember()){
+            return dd(Auth::user());
+        }
 		$r['sort'] = strip_tags($request->sort);
 		$r['cari'] = strip_tags($request->q);
 		$toko = DB::table('t_store')
