@@ -50,7 +50,7 @@
                     @if ($token = session('user_token'))
                     <input type="hidden" id="h_tokenEmail" value="{{$token}}">
                     @endif
-                    <form action="{{ route('d.login', ['domain_toko' => $toko->domain_toko]) }}" method="post">
+                    <form action="{{ route('d.login', ['domain_toko' => $toko->domain_toko]) }}" method="post" id='formLogin'>
                         {{ csrf_field() }}
                         <div class="input-group">
                             <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Email" name='email'>
@@ -77,14 +77,14 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="icheck-primary">
-                                    <input type="checkbox" id="remember">
+                                    <input type="checkbox" id="remember" name='remember'>
                                     <label for="remember">
                                         Remember Me
                                     </label>
                                 </div>
                             </div>
                             <div class="col-4">
-                                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                                <button type="submit" class="btn btn-primary btn-block" id='btnSubmit'>Login</button>
                             </div>
                         </div>
                     </form>
@@ -113,6 +113,19 @@
 <script>
     $(document).ready(function(){
         
+        $('#btnSubmit').on('click', function(e){
+            e.preventDefault();
+
+            let data = $('#formLogin').serializeArray();
+            $.each(data, (i, v) => {
+                if(v.name === 'remember'){
+                    $('#remember').val(v.value === 'on' ? 1 : 0);
+                }
+            });
+
+            $('#formLogin').submit();
+        });
+
             // Resend Email
             $('.resendMail').on('click', function () {
                 $('#loader').css('display', 'flex');

@@ -60,6 +60,7 @@ class LoginController extends Controller
 		$toko = DB::table('t_store')
             ->where('domain_toko', $domain_toko)
             ->get()->first();
+            // dd($request->all());
         if(isset($toko)){
             $this->validateLogin($request);
 
@@ -78,7 +79,7 @@ class LoginController extends Controller
 
             return $this->sendFailedLoginResponse($request);
         } else {
-            
+            //landing page
         }
     }
 
