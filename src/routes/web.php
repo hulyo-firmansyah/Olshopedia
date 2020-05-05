@@ -209,7 +209,7 @@
     
     Route::get('/{domain_toko}/passMailSend', 'depan\auth\ForgotPasswordController@passMailSend')->name('d.password-email');
     Route::get('/{domain_toko}/resetPass/{mail}-{token}', 'depan\auth\ForgotPasswordController@showFormResetPass')->name('d.password-resetPass');
-    // Route::get('/{domain_toko}/renewPassword','depan\auth\ForgotPasswordController@renewPassword')->name('d.password-renewPassword');
+    Route::get('/{domain_toko}/renewPassword','depan\auth\ForgotPasswordController@renewPassword')->name('d.password-renewPassword');
     Route::get('/{domain_toko}/forgotPassword', 'depan\auth\ForgotPasswordController@showLinkRequestForm')->name('d.password-forgotPassword');
 
     Route::get('/{domain_toko}/produk/{nama_produk?}', 'depan\HomeController@produkIndex')->name("d.produk-index");

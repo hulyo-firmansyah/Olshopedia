@@ -137,52 +137,106 @@ class ForgotPasswordController extends Controller
     /*
      * Show form reset password
      */
-    public function showFormResetPass(Request $request, $mail, $token)
+    public function showFormResetPass(Request $request, $domain_toko, $mail, $token)
     {
-        $user_mail = strip_tags(urldecode($mail));
-        $user_token = strip_tags($token);
-        $user = DB::table('password_resets')
-            ->where('email', $user_mail)
+		$toko = DB::table('t_store')
+            ->where('domain_toko', $domain_toko)
             ->get()->first();
-        if(isset($user)){
-            if($user->token == $user_token){
-                return Fungsi::respon('belakang.auth.passwords.reset', compact('user_mail'), 'html', $request);
+        if(isset($toko)){
+            // dd($mail, $token);
+            if($mail !== '' && $token !== ''){
+                $user_mail = strip_tags(urldecode($mail));
+                $user_token = strip_tags($token);
+                $user = DB::table('password_resets')
+                    ->where('email', $user_mail)
+                    ->get()->first();
+                if(isset($user)){
+                    if($user->token == $user_token){
+                        return Fungsi::respon('depan.'.$toko->template.'.auth.passwords.reset', compact('user_mail', 'toko'), 'html', $request);
+                    } else {
+                        return redirect()
+                            ->route('d.password-forgotPassword', ['domain_toko' => $domain_toko])
+                            ->with([
+                                'error_msg' => 'Token anda salah!'
+                            ]);
+                    }
+                } else {
+                    return redirect()
+                        ->route('d.password-forgotPassword', ['domain_toko' => $domain_toko])
+                        ->with([
+                            'error_msg' => 'Email tersebut belum terdaftar!'
+                        ]);
+                }
             } else {
                 return redirect()
-                    ->route('b.password-forgotPassword')
+                    ->route('d.password-forgotPassword', ['domain_toko' => $domain_toko])
                     ->with([
-                        'error_msg' => 'Token anda salah!'
+                        'error_msg' => 'Email dan Password tidak ditemukan!'
                     ]);
             }
         } else {
-            return redirect()
-                ->route('b.password-forgotPassword')
-                ->with([
-                    'error_msg' => 'Email tersebut belum terdaftar!'
-                ]);
+            //landing page
         }
     }
 
     /*
     * Renew Password
     */
-    public function renewPassword(Request $request)
+    public function renewPassword(Request $request, $domain_toko)
     {
-        $renewPass = DB::table('users')
-            ->where('email', $request->email)
-            ->update([
-                "password" => bcrypt($request->newPass)
-            ]);
-        if ($renewPass) {
-            $user_hapus = DB::table('password_resets')
-                ->where('email', $request->email)
-                ->delete();
-            return Fungsi::respon([
-                'status' => [
-                    'data' => true,
-                    'pesan' => "Password anda berhasil diubah"
-                ],
-            ], [], 'json', $request);
+		$toko = DB::table('t_store')
+            ->where('domain_toko', $domain_toko)
+            ->get()->first();
+        if(isset($toko)){
+            $email = strip_tags($request->email);
+            $cekUser = DB::table('users')
+                ->where('email', $email)
+                ->get()->first();
+            if(isset($cekUser)){
+                $pass = strip_tags($request->newPass);
+                $re_pass = strip_tags($request->re_newPass);
+                if(strcmp($pass, $re_pass) === 0){
+                    $renewPass = DB::table('users')
+                        ->where('email', $email)
+                        ->update([
+                            "password" => bcrypt($pass)
+                        ]);
+                    if($renewPass){
+                        $user_hapus = DB::table('password_resets')
+                            ->where('email', $request->email)
+                            ->delete();
+                        return Fungsi::respon([
+                            'status' => [
+                                'data' => true,
+                                'pesan' => "Password anda berhasil diubah!"
+                            ],
+                        ], [], 'json', $request);
+                    } else {
+                        return Fungsi::respon([
+                            'status' => [
+                                'data' => false,
+                                'pesan' => "Gagal mengubah password!"
+                            ],
+                        ], [], 'json', $request);
+                    }
+                } else {
+                    return Fungsi::respon([
+                        'status' => [
+                            'data' => false,
+                            'pesan' => "Password dan Password Konfirmasi tidak sama!"
+                        ],
+                    ], [], 'json', $request);
+                }
+            } else {
+                return Fungsi::respon([
+                    'status' => [
+                        'data' => false,
+                        'pesan' => "User dengan email tersebut tidak ada!"
+                    ],
+                ], [], 'json', $request);
+            }
+        } else {
+            //landing page
         }
     }
 }

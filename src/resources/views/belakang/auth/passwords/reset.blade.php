@@ -97,8 +97,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="button" id="btnRenewPassword" class="btn btn-primary btn-block btn-round">Renew Your
-                        Password</button>
+                    <button type="button" id="btnRenewPassword" class="btn btn-primary btn-block btn-round">Renew Your Password</button>
                 </div>
             </form>
             <p>Have account already? Please go to <a href="{{ route('b.login') }}">Sign In</a></p>
