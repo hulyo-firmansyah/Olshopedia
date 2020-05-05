@@ -150,12 +150,6 @@ class LoginController extends Controller
                     // Log::info('selesai mengirim email queue');
         
                 } catch(\Exception $e){
-                    DB::table('users')
-                        ->where('id', $user->id)
-                        ->delete();
-                    DB::table('t_customer')
-                        ->where('user_id', $user->id)
-                        ->delete();
                     return redirect(route('d.login', ['domain_toko' => $domain_toko]))->with('error', $e->getMessage());
                 }
             }
