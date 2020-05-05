@@ -72,7 +72,7 @@ class ForgotPasswordController extends Controller
                     ->get()->first();
                 if(isset($cekUser)){
                     $data_user = DB::table('password_resets')
-                        ->where('email', $user->mail)
+                        ->where('email', $user->email)
                         ->update([
                             'token' => $token,
                             'created_at' => date('Y-m-d H:i:s')
