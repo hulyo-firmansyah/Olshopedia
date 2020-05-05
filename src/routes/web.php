@@ -207,8 +207,8 @@
     Route::post('/{domain_toko}/login', 'depan\auth\LoginController@login');
     Route::post('/{domain_toko}/logout', 'depan\auth\LoginController@logout')->name('d.logout');
     
-    // Route::get('/{domain_toko}/passMailSend', 'depan\auth\ForgotPasswordController@passMailSend')->name('d.password-email');
-    // Route::get('/{domain_toko}/resetPass/{mail}-{token}', 'depan\auth\ForgotPasswordController@showFormResetPass')->name('d.password-resetPass');
+    Route::get('/{domain_toko}/passMailSend', 'depan\auth\ForgotPasswordController@passMailSend')->name('d.password-email');
+    Route::get('/{domain_toko}/resetPass/{mail}-{token}', 'depan\auth\ForgotPasswordController@showFormResetPass')->name('d.password-resetPass');
     // Route::get('/{domain_toko}/renewPassword','depan\auth\ForgotPasswordController@renewPassword')->name('d.password-renewPassword');
     Route::get('/{domain_toko}/forgotPassword', 'depan\auth\ForgotPasswordController@showLinkRequestForm')->name('d.password-forgotPassword');
 

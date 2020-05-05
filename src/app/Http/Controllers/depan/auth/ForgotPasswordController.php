@@ -56,44 +56,81 @@ class ForgotPasswordController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    public function passMailSend(Request $request)
+    public function passMailSend(Request $request, $domain_toko)
     {
-        $user = User::where('email', $request->email)
+		$toko = DB::table('t_store')
+            ->where('domain_toko', $domain_toko)
             ->get()->first();
-        if ($user) {
-            $token = Str::random(40);
-            $data_user = DB::table('password_resets')
-                ->insert([
-                    'email' => $user->email,
-                    'token' => $token,
-                    'created_at' => date('Y-m-d H:i:s')
-                ]);
-            // dispatch(new SendEmail([
-            //     'tujuan' => $user->email,
-            //     'email' => new ForgotPassword($user, route('b.password-resetPass', [
-            //         'mail' => urlencode($user->email), 
-            //         'token' => $token
-            //     ]))
-            // ]));
-            Mail::to($user->email)->send(new ForgotPassword($user, route('b.password-resetPass', [
-                'mail' => urlencode($user->email), 
-                'token' => $token
-            ])));
-            return Fungsi::respon([
-                'status' => [
-                    'data' => true,
-                    'pesan' => "Email autentikasi berhasil dikirim, periksa email anda!"
-                ],
-                'email' => $user->email
-            ], [], 'json', $request);
-        } else if (is_null($user)) {
-            return Fungsi::respon([
-                'status' => [
-                    'data' => false,
-                    'pesan' => "Email yang anda masukkan belum terdaftar!"
-                ],
-                'email' => null
-            ], [], 'json', $request);
+        if(isset($toko)){
+
+            $user = User::where('email', $request->email)
+                ->get()->first();
+            if ($user) {
+                $token = Str::random(45);
+                $cekUser = DB::table('password_resets')
+                    ->where('email', $user->email)
+                    ->get()->first();
+                if(isset($cekUser)){
+                    $data_user = DB::table('password_resets')
+                        ->where('email', $user->mail)
+                        ->update([
+                            'token' => $token,
+                            'created_at' => date('Y-m-d H:i:s')
+                        ]);
+                } else {
+                    $data_user = DB::table('password_resets')
+                        ->insert([
+                            'email' => $user->email,
+                            'token' => $token,
+                            'created_at' => date('Y-m-d H:i:s')
+                        ]);
+                }
+                // dispatch(new SendEmail([
+                //     'tujuan' => $user->email,
+                //     'email' => new ForgotPassword($user, route('b.password-resetPass', [
+                //         'mail' => urlencode($user->email), 
+                //         'token' => $token
+                //     ]))
+                // ]));
+                try {
+    
+                    Mail::to($user->email)->send(new ForgotPassword($user, route('d.password-resetPass', [
+                        'domain_toko' => $domain_toko, 
+                        'mail' => urlencode($user->email), 
+                        'token' => $token
+                    ]), [
+                        'tipe' => 'depan',
+                        'tema' => $toko->template
+                    ]));
+    
+                } catch(\Exception $e){
+                    return Fungsi::respon([
+                        'status' => [
+                            'data' => false,
+                            'pesan' => "".$e->getMessage()
+                        ],
+                        'email' => null
+                    ], [], 'json', $request);
+                }
+    
+                return Fungsi::respon([
+                    'status' => [
+                        'data' => true,
+                        'pesan' => "Email autentikasi berhasil dikirim, periksa email anda!"
+                    ],
+                    'email' => $user->email
+                ], [], 'json', $request);
+            } else if (is_null($user)) {
+                return Fungsi::respon([
+                    'status' => [
+                        'data' => false,
+                        'pesan' => "Email yang anda masukkan belum terdaftar!"
+                    ],
+                    'email' => null
+                ], [], 'json', $request);
+            }
+        } else {
+            //landing page
         }
     }
 

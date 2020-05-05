@@ -100,7 +100,7 @@
                     </div> -->
     
                     <p class="mb-1">
-                        <a href="#">Lupa Password?</a>
+                        <a href="{{ route('d.password-forgotPassword', ['domain_toko' => $toko->domain_toko]) }}">Lupa Password?</a>
                     </p>
                 </div>
             </div>
