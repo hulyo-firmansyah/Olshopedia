@@ -69,6 +69,7 @@ class Kernel extends HttpKernel
         'd.auth' => \App\Http\Middleware\DepanAuth::class,
         'd.guest' => \App\Http\Middleware\DepanIfRedirectAuth::class,
         'xss_protect' => \App\Http\Middleware\XssProtect::class,
+        'cek_toko_domain' => \App\Http\Middleware\CekTokoDomain::class,
     ];
 
     /**

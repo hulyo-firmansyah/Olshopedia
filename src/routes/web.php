@@ -45,12 +45,12 @@
     Route::prefix('ajax')->group(function(){
         Route::get('/getWilayah', 'belakang\AjaxController@getWilayah')->name("b.ajax-getWilayah");
         Route::get('/getWilayahDetail', 'belakang\AjaxController@getWilayahDetail')->name("b.ajax-getWilayahDetail");
-        Route::get('/getProduk', 'belakang\AjaxController@getProduk')->name("b.ajax-getProduk")->middleware('b.auth');
-        Route::get('/getProdukById', 'belakang\AjaxController@getProdukById')->name("b.ajax-getProdukById")->middleware('b.auth');
-        Route::get('/getOffsetProdukAkhirById', 'belakang\AjaxController@getOffsetProdukAkhirById')->name("b.ajax-getOffsetProdukAkhirById")->middleware('b.auth');
+        Route::get('/getProduk', 'belakang\AjaxController@getProduk')->name("b.ajax-getProduk");
+        Route::get('/getProdukById', 'belakang\AjaxController@getProdukById')->name("b.ajax-getProdukById");
+        Route::get('/getOffsetProdukAkhirById', 'belakang\AjaxController@getOffsetProdukAkhirById')->name("b.ajax-getOffsetProdukAkhirById");
         Route::get('/cariKecamatan', 'belakang\AjaxController@cariKecamatan')->name("b.ajax-cariKecamatan");
-        Route::get('/get-ProdukDetail', 'belakang\AjaxController@getProdukDetail')->name("b.ajax-getProdukDetail")->middleware('b.auth');
-        Route::get('/get-Customer', 'belakang\AjaxController@getCustomer')->name("b.ajax-getCustomer")->middleware('b.auth');
+        Route::get('/get-ProdukDetail', 'belakang\AjaxController@getProdukDetail')->name("b.ajax-getProdukDetail");
+        Route::get('/get-Customer', 'belakang\AjaxController@getCustomer')->name("b.ajax-getCustomer");
     });
 
     //Profile User
