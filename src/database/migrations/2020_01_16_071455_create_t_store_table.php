@@ -20,6 +20,7 @@ class CreateTStoreTable extends Migration
             $table->string("template", 50)->nullable();
             $table->text("deskripsi_toko")->nullable();
             $table->text("alamat_toko")->nullable();
+            $table->text("alamat_toko_offset")->nullable();
             $table->string("no_telp_toko", 20)->unique()->nullable();
             $table->enum("s_order_nama", ['on', 'off'])->default('off');
             $table->enum("s_tampil_logo", ['on', 'off'])->default('off');

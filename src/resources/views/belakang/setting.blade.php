@@ -115,15 +115,15 @@
                                                 value="{{$store->no_telp_toko}}" />
                                         </div>
                                         <div class="form-group form-material">
+                                            <label class="form-control-label" for="alamatToko">Alamat</label>
+                                            <textarea class="form-control" id="alamatToko" name="alamatToko"
+                                                rows="3" placeholder="Alamat">{{$store->alamat_toko}}</textarea>
+                                        </div>
+                                        <div class="form-group form-material">
                                             <label class="form-control-label" for="deskripsiToko">Deskripsi</label>
                                             <textarea class="form-control" id="deskripsiToko" name="deskripsiToko"
                                                 rows="3"
                                                 placeholder="Deskripsi">{{$store->deskripsi_toko}}</textarea>
-                                        </div>
-                                        <div class="form-group form-material">
-                                            <label class="form-control-label" for="alamatToko">Alamat</label>
-                                            <textarea class="form-control" id="alamatToko" name="alamatToko"
-                                                rows="3" placeholder="Alamat">{{$store->alamat_toko}}</textarea>
                                         </div>
                                         <div class="form-group form-material">
                                             <button type="button" class="btn btn-primary"
