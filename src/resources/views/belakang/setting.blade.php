@@ -2,6 +2,207 @@
 @section('title', 'Settings')
 @section('isi')
 <!--uiop-->
+<style>
+.ui-helper-hidden {
+    display: none;
+}
+
+.ui-helper-hidden-accessible {
+    position: absolute !important;
+    clip: rect(1px 1px 1px 1px);
+    clip: rect(1px, 1px, 1px, 1px);
+}
+
+.ui-helper-reset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    line-height: 1.3;
+    text-decoration: none;
+    font-size: 100%;
+    list-style: none;
+}
+
+.ui-helper-clearfix:before,
+.ui-helper-clearfix:after {
+    content: "";
+    display: table;
+}
+
+.ui-helper-clearfix:after {
+    clear: both;
+}
+
+.ui-helper-clearfix {
+    zoom: 1;
+}
+
+.ui-helper-zfix {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    opacity: 0;
+    filter: Alpha(Opacity=0);
+}
+
+
+/* Interaction Cues
+----------------------------------*/
+.ui-state-disabled {
+    cursor: default !important;
+}
+
+
+/* Icons
+----------------------------------*/
+
+/* states and images */
+.ui-icon {
+    display: block;
+    text-indent: -99999px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+}
+
+
+/* Misc visuals
+----------------------------------*/
+
+/* Overlays */
+.ui-widget-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* IE/Win - Fix animation bug - #4615 */
+.ui-accordion {
+    width: 100%;
+}
+
+.ui-accordion .ui-accordion-header {
+    cursor: pointer;
+    position: relative;
+    margin-top: 1px;
+    zoom: 1;
+}
+
+.ui-accordion .ui-accordion-li-fix {
+    display: inline;
+}
+
+.ui-accordion .ui-accordion-header-active {
+    border-bottom: 0 !important;
+}
+
+.ui-accordion .ui-accordion-header a {
+    display: block;
+    font-size: 1em;
+    padding: .5em .5em .5em .7em;
+}
+
+.ui-accordion-icons .ui-accordion-header a {
+    padding-left: 2.2em;
+}
+
+.ui-accordion .ui-accordion-header .ui-icon {
+    position: absolute;
+    left: .5em;
+    top: 50%;
+    margin-top: -8px;
+}
+
+.ui-accordion .ui-accordion-content {
+    padding: 1em 2.2em;
+    border-top: 0;
+    margin-top: -2px;
+    position: relative;
+    top: 1px;
+    margin-bottom: 2px;
+    overflow: auto;
+    display: none;
+    zoom: 1;
+}
+
+.ui-accordion .ui-accordion-content-active {
+    display: block;
+}
+
+.ui-autocomplete {
+    position: absolute;
+    cursor: default;
+    width: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 350px;
+}
+
+/* workarounds */
+* html .ui-autocomplete {
+    width: 1px;
+}
+
+/* without this, the menu expands to 100% in IE6 */
+
+/*
+ * jQuery UI Menu 1.8.23
+ *
+ * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Menu#theming
+ */
+.ui-menu {
+    list-style: none;
+    padding: 2px;
+    margin: 0;
+    display: block;
+    float: left;
+    border-radius: 5px;
+}
+
+.ui-menu .ui-menu {
+    margin-top: -3px;
+}
+
+.ui-menu .ui-menu-item {
+    margin: 0;
+    padding: 1px;
+    zoom: 1;
+    float: left;
+    clear: left;
+    width: 100%;
+    border-bottom: 1px solid #e3e3e3;
+}
+
+.ui-menu .ui-menu-item div {
+    text-decoration: none;
+    display: block;
+    padding: .2em .4em;
+    line-height: 1.5;
+    zoom: 1;
+}
+
+.ui-menu-item .ui-menu-item-wrapper.ui-state-active {
+    background: #e3e3e3 !important;
+    border: 1px solid #e3e3e3;
+    color: black;
+}
+
+.ui-menu .ui-menu-item div.ui-state-hover,
+.ui-menu .ui-menu-item div.ui-state-active {
+    font-weight: normal;
+    margin: -1px;
+}
+
+
+</style>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="page-header page-header-bordered">
     <h1 class="page-title font-size-26 font-weight-100">Settings</h1>
@@ -114,13 +315,29 @@
                                                 name="no_telpToko" placeholder="No HP"
                                                 value="{{$store->no_telp_toko}}" />
                                         </div>
-                                        <div class="form-group form-material">
-                                            <label class="form-control-label" for="alamatToko">Alamat</label>
-                                            <textarea class="form-control" id="alamatToko" name="alamatToko"
-                                                rows="3" placeholder="Alamat">{{$store->alamat_toko}}</textarea>
+                                        <div class="form-group">
+                                            <label for="alamatToko" style='font-weight:500'>Alamat</label>
+                                            <div class='row'>
+                                                <div class='col-md-4'>
+                                                    <div class="input-search">
+                                                        <a href='javascript:void(0)' class="input-search-btn" style='margin-top:8px;color:#76838f;cursor:default;' id='iconKecamatanCari'>
+                                                            <i class="icon wb-search" aria-hidden="true"></i>
+                                                        </a>
+                                                        <input id="kecamatanCari" class="ui-autocomplete-input form-control" type="text"
+                                                            maxlength="100" acceskey="k" autocomplete="off" placeholder="Kecamatan"
+                                                            role="textbox" aria-autocomplete="list" aria-haspopup="true" style='border-radius:inherit;'>
+                                                    </div>
+                                                    <div id='hasilKecamatanCari' style='display:none;border:1px solid #e4eaec;padding:10px' onMouseOver='pilihover()' onMouseOut='pilihout()'></div> 
+                                                    <small id='error-kecamatanCari' class='hidden' style='color:red;'>Tidak ditemukan!</small>
+                                                </div>
+                                                <div class='col-md-8'>
+                                                    <textarea class="form-control" id="alamatToko" name="alamatToko"
+                                                        rows="3" placeholder="Alamat Lengkap">{{$store->alamat_toko}}</textarea>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="form-group form-material">
-                                            <label class="form-control-label" for="deskripsiToko">Deskripsi</label>
+                                        <div class="form-group">
+                                            <label style='font-weight:500' for="deskripsiToko">Deskripsi</label>
                                             <textarea class="form-control" id="deskripsiToko" name="deskripsiToko"
                                                 rows="3"
                                                 placeholder="Deskripsi">{{$store->deskripsi_toko}}</textarea>
@@ -1277,22 +1494,122 @@
 <script>
 var cacheKabupaten = {},
     cacheKecamatan = {},
-    cacheKecamatan_Kabupaten = {};
+    cacheKecamatan_Kabupaten = {},
+    cacheKecamatanCari = {};
 var cacheProvinsiAll = [];
 var isTrue_provinsi = false,
     isTrue_kabupaten = false,
     isTrue_kecamatan = false;
 var tabelDataOrderSource, tabelDataPayment, tableDataUser, tableFilterOrder;
+var tampilPilih = false,
+    kecamatanCari = '';
 
 function cekEmail(emailAddress) {
     var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
     return pattern.test(emailAddress);
 }
 
+function pilihover() {
+    if (!tampilPilih) {
+        if (!$('#editKecamatanCari').length)
+            $('#hasilKecamatanCari').append(
+                '<div id="editKecamatanCari" style="color:#eb6709;display:inline-block;position:absolute;right:50px;"><div>Edit</div></div>'
+            );
+        $('#hasilKecamatanCari').css({
+            'border': '1px solid #eb6709',
+            'padding': '10px',
+            'cursor': 'pointer'
+        });
+        tampilPilih = true;
+    }
+}
+
+function pilihout() {
+    if (tampilPilih) {
+        if ($('#editKecamatanCari').length)
+            $('#editKecamatanCari').remove();
+        $('#hasilKecamatanCari').css({
+            'border': '1px solid #e4eaec',
+            'padding': '10px',
+            'cursor': 'default'
+        });
+        tampilPilih = false;
+    }
+}
+
 // Document ready
 $(document).ready(function() {
     	
     $.fn.dataTable.ext.errMode = 'throw';
+
+    $("input#kecamatanCari").autocomplete({
+        minLength: 3,
+        source: function(request, response) {
+            var term = request.term;
+            if (term in cacheKecamatanCari) {
+                $("#iconKecamatanCari").html("<div class='loader vertical-align-middle loader-rotate-plane' style='height:20px;width:20px'></div>");
+                response(cacheKecamatanCari[term]);
+                $("#iconKecamatanCari").html('<i class="icon wb-search" aria-hidden="true"></i>');
+                if(cacheKecamatanCari[term].length > 0){
+                    $("#error-kecamatanCari").hide();
+                } else {
+                    $("#error-kecamatanCari").show();
+                }
+                return;
+            }
+
+            $.ajax({
+                url: "{{ route('b.ajax-cariKecamatan') }}",
+                type: 'get',
+                dataType: "json",
+                data: request,
+                success: function(data) {
+                    cacheKecamatanCari[term] = data;
+                    response(data);
+                    $("#iconKecamatanCari").html('<i class="icon wb-search" aria-hidden="true"></i>');
+                    if(data.length > 0){
+                        $("#error-kecamatanCari").hide();
+                    } else {
+                        $("#error-kecamatanCari").show();
+                    }
+                },
+                beforeSend: function(){
+                    $("#iconKecamatanCari").html("<div class='loader vertical-align-middle loader-rotate-plane' style='height:20px;width:20px'></div>");
+                },
+            });
+        },
+        open: function(e, ui) {
+            var acData = $(this).data('uiAutocomplete');
+            acData.menu.element.find('div').each(function() {
+                var me = $(this);
+                var t = me.text();
+                me.html(' ');
+                me.html(t);
+            });
+        },
+        select: function(event, ui) {
+            var hasil = ui.item.label;
+            $('#hasilKecamatanCari').html(hasil);
+            $('#hasilKecamatanCari').show();
+            $('#iconKecamatanCari').hide();
+            $(this).hide();
+            kecamatanCari = ui.item.label;
+        }
+    });
+
+    $('#kecamatanCari').on('input', function(){
+        if($('#error-kecamatanCari').is(':visible')){
+            $('#error-kecamatanCari').hide();
+        }
+    })
+
+    $('#hasilKecamatanCari').click(function() {
+        $(this).hide();
+        $('#hasilKecamatanCari').html('');
+        $('input#kecamatanCari').show();
+        $('#iconKecamatanCari').show();
+        $('input#kecamatanCari').val(kecamatanCari);
+    });
     
     $('#cache-help').tooltip({
         trigger: 'hover',
