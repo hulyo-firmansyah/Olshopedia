@@ -18,7 +18,6 @@ class CartController extends Controller
 
     public function tampil(Request $request, $domain_toko){
         $cart = Cart::session($request->getClientIp())->getContent();
-        // dd($cart);
 		$toko = DB::table('t_store')
             ->where('domain_toko', $domain_toko)
             ->get()->first();
@@ -32,8 +31,6 @@ class CartController extends Controller
     }
 
     public function tambah(Request $request, $domain_toko){
-        // echo '<pre>'.print_r($request->getClientIp(), true)."</pre>";
-        // return '<pre>'.print_r($request->all(), true)."</pre>";
         if($request->ajax()){
             if($request->ip !== '' && $request->iv !== '' && $request->jumlah !== ''){
                 $id_produk = strip_tags($request->ip);
@@ -87,8 +84,6 @@ class CartController extends Controller
     }
 
     public function hapus(Request $request, $domain_toko){
-        // echo '<pre>'.print_r($request->getClientIp(), true)."</pre>";
-        // return '<pre>'.print_r($request->all(), true)."</pre>";
         if($request->ajax()){
             if($request->id !== ''){
                 $id = strip_tags($request->id);

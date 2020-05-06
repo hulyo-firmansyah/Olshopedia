@@ -201,7 +201,6 @@ class HomeController extends Controller
 			->get()->first();
 		if(isset($toko)){
 			$produk = $this->getProduk(Fungsi::dataOfByDomainToko($domain_toko), $r['cari']);
-			// dd($produk);
 			$this->sortingProduk($r['sort'], $produk);
 			return Fungsi::respon('depan.'.$toko->template.'.home', compact("toko", 'produk', 'r'), "html", $request);
 		} else {
@@ -213,7 +212,6 @@ class HomeController extends Controller
 		if(is_null($nama_produk) || preg_match("/[^0-9a-z\-]/", $nama_produk)){
             return redirect()->route('d.home', ['domain_toko' => $domain_toko]);
 		}
-		// dd($nama_produk);
 		$toko = DB::table('t_store')
 			->where('domain_toko', $domain_toko)
 			->get()->first();
@@ -224,7 +222,6 @@ class HomeController extends Controller
 			$e_produk = explode('-', $nama_produk);
 			$index = array_search($e_produk[count($e_produk)-1], array_column($list_produk, 'id_produk'));
 			$produk = $list_produk[$index];
-			// dd($produk);
 			return Fungsi::respon('depan.'.$toko->template.'.detail-produk', compact("toko", 'r', 'produk'), "html", $request);
 		} else {
 			// ke landing page
