@@ -154,12 +154,14 @@ class SettingController extends Controller
                             'superadmin'
                         ];
                         $domain = $request->subdomainToko;
-                        $no_telp = $request->no_telp;
+                        $no_telpToko = $request->no_telpToko;
+                        $alamatToko = $request->alamatToko;
+                        $kecamatan = $request->kecamatan;
                         $cekDomain = DB::table('t_store')->where('domain_toko', $domain)->get()->first();
                         if(isset($cekDomain) || in_array($domain, $domain_not_allow)){
                             return Fungsi::respon(['status' => false, 'msg' => "Subdomain telah digunakan!"], [], 'json', $request);
                         }
-                        $cekNo_telp = DB::table('t_store')->where('no_telp_toko', $no_telp)->get()->first();
+                        $cekNo_telp = DB::table('t_store')->where('no_telp_toko', $no_telpToko)->get()->first();
                         if(isset($cekNo_telp)){
                             return Fungsi::respon(['status' => false, 'msg' => "No Telp toko telah digunakan!"], [], 'json', $request);
                         }
@@ -168,8 +170,10 @@ class SettingController extends Controller
                             ->update([
                                 'nama_toko' => $request->namaToko,
                                 'template' => 'default',
+                                'alamat_toko' => $alamatToko,
+                                'alamat_toko_offset' => $kecamatan,
                                 'domain_toko' => $domain,
-                                'no_telp_toko' => $no_telp,
+                                'no_telp_toko' => $no_telpToko,
                                 'deskripsi_toko' => $request->deskripsiToko,
                             ]);
                         $user = DB::table('users')
