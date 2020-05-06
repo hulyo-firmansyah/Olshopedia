@@ -307,23 +307,25 @@
                                         <div class="form-group form-material">
                                             <label class="form-control-label" for="namaToko">Nama Toko</label>
                                             <input type="text" class="form-control" id="namaToko" name="namaToko"
-                                                placeholder="Nama Toko" value="{{$store->nama_toko}}" />
+                                                placeholder="Nama Toko" value="{{$store->nama_toko}}" /> 
+                                                <small id='error-namaToko' class='hidden' style='color:red;'>Silahkan isi Nama Toko terlebih dahulu!</small>
                                         </div>
                                         <div class="form-group form-material">
-                                            <label class="form-control-label" for="no_telpToko">No Hp</label>
+                                            <label class="form-control-label" for="no_telpToko">No Telepon Toko</label>
                                             <input type="text" class="form-control" id="no_telpToko"
-                                                name="no_telpToko" placeholder="No HP"
+                                                name="no_telpToko" placeholder="No Telepon Toko"
                                                 value="{{$store->no_telp_toko}}" />
+                                                <small id='error-no_telpToko' class='hidden' style='color:red;'>Silahkan isi No Telepon terlebih dahulu!</small>
                                         </div>
                                         <div class="form-group">
-                                            <label for="alamatToko" style='font-weight:500'>Alamat</label>
+                                            <label for="alamatToko" style='font-weight:500'>Alamat Toko</label>
                                             <div class='row'>
                                                 <div class='col-md-4'>
                                                     <div class="input-search">
                                                         <a href='javascript:void(0)' class="input-search-btn" style='margin-top:8px;color:#76838f;cursor:default;' id='iconKecamatanCari'>
                                                             <i class="icon wb-search" aria-hidden="true"></i>
                                                         </a>
-                                                        <input id="kecamatanCari" class="ui-autocomplete-input form-control" type="text"
+                                                        <input id="kecamatanCari" name='kecamatan' class="ui-autocomplete-input form-control" type="text"
                                                             maxlength="100" acceskey="k" autocomplete="off" placeholder="Kecamatan"
                                                             role="textbox" aria-autocomplete="list" aria-haspopup="true" style='border-radius:inherit;'>
                                                     </div>
@@ -333,11 +335,12 @@
                                                 <div class='col-md-8'>
                                                     <textarea class="form-control" id="alamatToko" name="alamatToko"
                                                         rows="3" placeholder="Alamat Lengkap">{{$store->alamat_toko}}</textarea>
+                                                    <small id='error-alamatToko' class='hidden' style='color:red;'>Silahkan isi Alamat Lengkap terlebih dahulu!</small>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label style='font-weight:500' for="deskripsiToko">Deskripsi</label>
+                                            <label style='font-weight:500' for="deskripsiToko">Deskripsi Toko</label>
                                             <textarea class="form-control" id="deskripsiToko" name="deskripsiToko"
                                                 rows="3"
                                                 placeholder="Deskripsi">{{$store->deskripsi_toko}}</textarea>
@@ -345,8 +348,6 @@
                                         <div class="form-group form-material">
                                             <button type="button" class="btn btn-primary"
                                                 name="btnUpdateToko">Simpan </button>
-                                            <button type="reset" class="btn btn-default btn-outline"
-                                                id="resetFromToko">Reset</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1541,6 +1542,18 @@ function pilihout() {
 $(document).ready(function() {
     	
     $.fn.dataTable.ext.errMode = 'throw';
+    
+    @if(!is_null($kecamatan_cari))
+        //isi kecamatan cari
+        let data_kecamatanCari = jQuery.parseJSON('{!! $kecamatan_cari !!}');
+        $('#hasilKecamatanCari').html(data_kecamatanCari.label);
+        $('#hasilKecamatanCari').show();
+        $('#kecamatanCari').val(data_kecamatanCari.value);
+        $('#kecamatanCari').hide();
+        $('#iconKecamatanCari').hide();
+        kecamatanCari = data_kecamatanCari.label;
+        data_kecamatanCari = undefined;
+    @endif
 
     $("input#kecamatanCari").autocomplete({
         minLength: 3,
@@ -1554,6 +1567,7 @@ $(document).ready(function() {
                     $("#error-kecamatanCari").hide();
                 } else {
                     $("#error-kecamatanCari").show();
+                    $("#error-kecamatanCari").text('Tidak Ditemukan!');
                 }
                 return;
             }
@@ -1571,6 +1585,7 @@ $(document).ready(function() {
                         $("#error-kecamatanCari").hide();
                     } else {
                         $("#error-kecamatanCari").show();
+                        $("#error-kecamatanCari").text('Tidak Ditemukan!');
                     }
                 },
                 beforeSend: function(){
@@ -1605,7 +1620,7 @@ $(document).ready(function() {
 
     $('#hasilKecamatanCari').click(function() {
         $(this).hide();
-        $('#hasilKecamatanCari').html('');
+        $('#hasilKecamatanCari').text('');
         $('input#kecamatanCari').show();
         $('#iconKecamatanCari').show();
         $('input#kecamatanCari').val(kecamatanCari);
@@ -2139,7 +2154,6 @@ $(document).ready(function() {
                 swal("Error", '' + c, "error")
             }
         }).done(function() {
-            console.log(hasil);
             $('#filterMod').modal('hide');
             if (hasil.sukses) {
                 swal("Berhasil!", "Berhasil mengedit Filter Order!", "success");
@@ -2154,12 +2168,33 @@ $(document).ready(function() {
 
     //Update Form Toko
     $("button[name=btnUpdateToko]").on('click', function() {
+        let error = 0;
+        let regexKecamatan = /[0-9]{1,2}\|[0-9]{1,3}\|[0-9]{1,5}/gi;
+        if($('#kecamatanCari').is(':visible') || $('#hasilKecamatanCari').text() === '' || $('#kecamatanCari').val().match(regexKecamatan) === null){
+            $("#error-kecamatanCari").text('Silahakan pilih Kecamatan terlebih dahulu!');
+            $("#error-kecamatanCari").show();
+            error++;
+        }
+        if($('#namaToko').val() === ''){
+            $("#error-namaToko").show();
+            error++;
+        }
+        if($('#no_telpToko').val() === ''){
+            $("#error-no_telpToko").show();
+            error++;
+        }
+        if($('#alamatToko').val() === ''){
+            $("#error-alamatToko").show();
+            error++;
+        }
+        if(error > 0) return;
         var url = "{{ route('b.setting-proses') }}";
         var form = $("<form action='"+url+"' method='post' enctype='multipart/form-data'></form>");
         $('#namaToko').clone().appendTo(form);
         $('#no_telpToko').clone().appendTo(form);
         $('#deskripsiToko').clone().appendTo(form);
         $('#alamatToko').clone().appendTo(form);
+        $('#kecamatanCari').clone().appendTo(form);
         $('#namaToko').clone().appendTo(form);
         form.append($('#logoToko'));
         form.append($('#logoTemp'));
