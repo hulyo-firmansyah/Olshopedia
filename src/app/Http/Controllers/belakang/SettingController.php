@@ -473,6 +473,26 @@ class SettingController extends Controller
             }
             $tipeKirim2 = base64_decode($request->tt);
             if(strcmp($tipeKirim, $tipeKirim2) === 0 && strcmp($tipeKirim, 'edit_toko') === 0){
+                $dataMauSimpan['nama_toko'] = $request->namaToko;
+                $dataMauSimpan['no_telp_toko'] = $request->no_telpToko;
+                $dataMauSimpan['deskripsi_toko'] = $request->deskripsiToko;
+                $dataMauSimpan['alamat_toko'] = $request->alamatToko;
+                $dataMauSimpan['alamat_toko_offset'] = $request->kecamatan;
+                if($dataMauSimpan['nama_toko'] == ''){
+                    return redirect()->route("b.setting-index")->with(['msg_error' => 'Gagal mengubah pengaturan toko, Nama Toko belum diisi!']);
+                }
+                if($dataMauSimpan['no_telp_toko'] == ''){
+                    return redirect()->route("b.setting-index")->with(['msg_error' => 'Gagal mengubah pengaturan toko, No Telepon Toko belum diisi!']);
+                }
+                if($dataMauSimpan['deskripsi_toko'] == ''){
+                    return redirect()->route("b.setting-index")->with(['msg_error' => 'Gagal mengubah pengaturan toko, Deskripsi Toko belum diisi!']);
+                }
+                if($dataMauSimpan['alamat_toko'] == ''){
+                    return redirect()->route("b.setting-index")->with(['msg_error' => 'Gagal mengubah pengaturan toko, Alamat Toko belum diisi!']);
+                }
+                if($dataMauSimpan['alamat_toko_offset'] == '' || preg_match('/[0-9]{1,2}\|[0-9]{1,3}\|[0-9]{1,5}/i', $dataMauSimpan['alamat_toko_offset']) === 0){
+                    return redirect()->route("b.setting-index")->with(['msg_error' => 'Gagal mengubah pengaturan toko, Alamat Kecamatan Toko belum dipilih!']);
+                }
                 $logo = $request->file('logoToko');
                 $tmp_logo = $request->logoTemp;
                 $logo_id = null;
@@ -547,11 +567,6 @@ class SettingController extends Controller
                         }
                     }
                 }
-                $dataMauSimpan['nama_toko'] = $request->namaToko;           
-                $dataMauSimpan['no_telp_toko'] = $request->no_telpToko;           
-                $dataMauSimpan['deskripsi_toko'] = $request->deskripsiToko;           
-                $dataMauSimpan['alamat_toko'] = $request->alamatToko;   
-                $dataMauSimpan['alamat_toko_offset'] = $request->kecamatan;   
                 if(!is_null($logo_id) && !$logo_lawas){
                     $dataMauSimpan['foto_id'] = $logo_id;
                 } else if(is_null($logo_id) && $logo_lawas){
