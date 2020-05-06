@@ -924,6 +924,7 @@ CUT;
     
     public function orderTambah(Request $request){
 		$wilayah_indonesia = Fungsi::getContent('data/wilayah_indonesia.json');
+		$wilayah_lengkap = json_decode(Fungsi::getContent('data/wilayah-lengkap.json'));
 		$bank = DB::table('t_bank')
 			->select('bank', 'no_rek', 'cabang', 'atas_nama', 'id_bank')
 			->where('data_of', Fungsi::dataOfCek())
@@ -955,10 +956,31 @@ CUT;
 			->where('data_of', Fungsi::dataOfCek())
 			->where('status', 1)
 			->get();
-		if($request->ajax()){
-			return Fungsi::respon('belakang.order.tambah', compact('pass', 'wilayah_indonesia', 'bank_list', 'cekOngkir', 'kat_customer', 'order_source'), "ajax", $request);
+
+		$store = DB::table('t_store')
+			->where('data_of', Fungsi::dataOfCek())
+            ->select('t_store.alamat_toko_offset')
+            ->get()->first();
+		$genKecamatan2 = Fungsi::genArray($wilayah_lengkap);
+		if($store->alamat_toko_offset == '' || is_null($store->alamat_toko_offset) || preg_match('/[0-9]{1,2}\|[0-9]{1,3}\|[0-9]{1,5}/i', $store->alamat_toko_offset) === 0){
+			$kecamatan_cari = null;
+		} else {
+			$kecamatan_c = explode('|', $store->alamat_toko_offset)[2];
+			foreach($genKecamatan2 as $w){
+				if(preg_match("/".strTolower($kecamatan_c)."/", strtolower($w->kecamatan->id))){
+					$kecamatan_cari = json_encode([
+						'value' => $w->provinsi->id."|".$w->kota->id."|".$w->kecamatan->id,
+						'label' => $w->kecamatan->nama.", ".$w->kota->nama.", ".$w->provinsi->nama
+					]);
+					$genKecamatan2->send('stop');
+				}
+			}
 		}
-		return Fungsi::respon('belakang.order.tambah', compact('pass', 'wilayah_indonesia', 'bank_list', 'cekOngkir', 'kat_customer', 'order_source'), "html", $request);
+
+		if($request->ajax()){
+			return Fungsi::respon('belakang.order.tambah', compact('pass', 'wilayah_indonesia', 'bank_list', 'cekOngkir', 'kat_customer', 'order_source', 'kecamatan_cari'), "ajax", $request);
+		}
+		return Fungsi::respon('belakang.order.tambah', compact('pass', 'wilayah_indonesia', 'bank_list', 'cekOngkir', 'kat_customer', 'order_source', 'kecamatan_cari'), "html", $request);
 	}
 
 	public function proses(Request $request){

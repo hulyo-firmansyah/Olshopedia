@@ -35,7 +35,7 @@ class ForgotPasswordController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        // $this->middleware('guest');
     }
 
     public function showLinkRequestForm(Request $request)
@@ -68,10 +68,23 @@ class ForgotPasswordController extends Controller
             //         'token' => $token
             //     ]))
             // ]));
-            Mail::to($user->email)->send(new ForgotPassword($user, route('b.password-resetPass', [
-                'mail' => urlencode($user->email), 
-                'token' => $token
-            ])));
+            try {
+
+                Mail::to($user->email)->send(new ForgotPassword($user, route('b.password-resetPass', [
+                    'mail' => urlencode($user->email), 
+                    'token' => $token
+                ])));
+
+            } catch(\Exception $e){
+                return Fungsi::respon([
+                    'status' => [
+                        'data' => false,
+                        'pesan' => "".$e->getMessage()
+                    ],
+                    'email' => null
+                ], [], 'json', $request);
+            }
+            
             return Fungsi::respon([
                 'status' => [
                     'data' => true,

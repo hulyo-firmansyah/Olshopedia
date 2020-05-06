@@ -11,7 +11,12 @@ use App\Http\Controllers\PusatController as Fungsi;
 class AjaxController extends Controller
 {
 	public function __construct(){
-		$this->middleware(['b.auth', 'xss_protect']);
+		$this->middleware('xss_protect');
+		$this->middleware('b.auth')->except([
+			'getWilayah',
+			'getWilayahDetail',
+			'cariKecamatan'
+		]);
 	}
 
 	public function getWilayah(Request $request){

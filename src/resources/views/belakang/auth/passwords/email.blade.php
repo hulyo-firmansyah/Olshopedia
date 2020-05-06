@@ -205,8 +205,7 @@
                             swal("Gagal", "Gagal mengirim email", "error");
                         }
                         $('#inputEmail').val('');
-                    }).fail(function() {
-                    })
+                    });
                 }
             });
 

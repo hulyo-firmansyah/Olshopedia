@@ -22,6 +22,7 @@ class SettingController extends Controller
         $id = Fungsi::dataOfCek();
         $pass = Fungsi::acakPass();
         $wilayah_indonesia = json_decode(Fungsi::getContent('data/wilayah_indonesia.json'));
+		$wilayah_lengkap = json_decode(Fungsi::getContent('data/wilayah-lengkap.json'));
         $store = DB::table('t_store')
             ->join('users', 'users.id', '=', 't_store.data_of')
             ->where('users.id', $id)
@@ -106,11 +107,27 @@ class SettingController extends Controller
             return $key;
         });
 
+        $genKecamatan2 = Fungsi::genArray($wilayah_lengkap);
+        if($store->alamat_toko_offset == '' || is_null($store->alamat_toko_offset) || preg_match('/[0-9]{1,2}\|[0-9]{1,3}\|[0-9]{1,5}/i', $store->alamat_toko_offset) === 0){
+            $kecamatan_cari = null;
+        } else {
+            $kecamatan_c = explode('|', $store->alamat_toko_offset)[2];
+            foreach($genKecamatan2 as $w){
+                if(preg_match("/".strTolower($kecamatan_c)."/", strtolower($w->kecamatan->id))){
+                    $kecamatan_cari = json_encode([
+                        'value' => $w->provinsi->id."|".$w->kota->id."|".$w->kecamatan->id,
+                        'label' => $w->kecamatan->nama.", ".$w->kota->nama.", ".$w->provinsi->nama
+                    ]);
+                    $genKecamatan2->send('stop');
+                }
+            }
+        }
+
         $kat_customer = json_decode($store->kat_customer);
         if ($request->ajax()) {
-            return Fungsi::respon('belakang.setting', compact('store', 'pass', 'wilayah_indonesia', 'tmp_logo', 'piece', 'kat_customer', 'key', 'cekOngkir'), 'ajax', $request);
+            return Fungsi::respon('belakang.setting', compact('store', 'pass', 'wilayah_indonesia', 'tmp_logo', 'piece', 'kat_customer', 'key', 'cekOngkir', 'kecamatan_cari'), 'ajax', $request);
         }
-        return Fungsi::respon('belakang.setting', compact('store', 'pass', 'wilayah_indonesia', 'tmp_logo', 'piece', 'kat_customer', 'key', 'cekOngkir'), 'html', $request);
+        return Fungsi::respon('belakang.setting', compact('store', 'pass', 'wilayah_indonesia', 'tmp_logo', 'piece', 'kat_customer', 'key', 'cekOngkir', 'kecamatan_cari'), 'html', $request);
     }
 
     public function proses(Request $request){
@@ -128,15 +145,23 @@ class SettingController extends Controller
                             'admin',
                             'customer',
                             'administrator',
+                            'app',
+                            'aplikasi',
+                            'application',
+                            'pelanggan',
+                            'dropshipper',
+                            'reseller',
                             'superadmin'
                         ];
                         $domain = $request->subdomainToko;
-                        $no_telp = $request->no_telp;
+                        $no_telpToko = $request->no_telpToko;
+                        $alamatToko = $request->alamatToko;
+                        $kecamatan = $request->kecamatan;
                         $cekDomain = DB::table('t_store')->where('domain_toko', $domain)->get()->first();
                         if(isset($cekDomain) || in_array($domain, $domain_not_allow)){
                             return Fungsi::respon(['status' => false, 'msg' => "Subdomain telah digunakan!"], [], 'json', $request);
                         }
-                        $cekNo_telp = DB::table('t_store')->where('no_telp_toko', $no_telp)->get()->first();
+                        $cekNo_telp = DB::table('t_store')->where('no_telp_toko', $no_telpToko)->get()->first();
                         if(isset($cekNo_telp)){
                             return Fungsi::respon(['status' => false, 'msg' => "No Telp toko telah digunakan!"], [], 'json', $request);
                         }
@@ -145,8 +170,10 @@ class SettingController extends Controller
                             ->update([
                                 'nama_toko' => $request->namaToko,
                                 'template' => 'default',
+                                'alamat_toko' => $alamatToko,
+                                'alamat_toko_offset' => $kecamatan,
                                 'domain_toko' => $domain,
-                                'no_telp_toko' => $no_telp,
+                                'no_telp_toko' => $no_telpToko,
                                 'deskripsi_toko' => $request->deskripsiToko,
                             ]);
                         $user = DB::table('users')
@@ -446,12 +473,32 @@ class SettingController extends Controller
             }
             $tipeKirim2 = base64_decode($request->tt);
             if(strcmp($tipeKirim, $tipeKirim2) === 0 && strcmp($tipeKirim, 'edit_toko') === 0){
+                $dataMauSimpan['nama_toko'] = $request->namaToko;
+                $dataMauSimpan['no_telp_toko'] = $request->no_telpToko;
+                $dataMauSimpan['deskripsi_toko'] = $request->deskripsiToko;
+                $dataMauSimpan['alamat_toko'] = $request->alamatToko;
+                $dataMauSimpan['alamat_toko_offset'] = $request->kecamatan;
+                if($dataMauSimpan['nama_toko'] == ''){
+                    return redirect()->route("b.setting-index")->with(['msg_error' => 'Gagal mengubah pengaturan toko, Nama Toko belum diisi!']);
+                }
+                if($dataMauSimpan['no_telp_toko'] == ''){
+                    return redirect()->route("b.setting-index")->with(['msg_error' => 'Gagal mengubah pengaturan toko, No Telepon Toko belum diisi!']);
+                }
+                if($dataMauSimpan['deskripsi_toko'] == ''){
+                    return redirect()->route("b.setting-index")->with(['msg_error' => 'Gagal mengubah pengaturan toko, Deskripsi Toko belum diisi!']);
+                }
+                if($dataMauSimpan['alamat_toko'] == ''){
+                    return redirect()->route("b.setting-index")->with(['msg_error' => 'Gagal mengubah pengaturan toko, Alamat Toko belum diisi!']);
+                }
+                if($dataMauSimpan['alamat_toko_offset'] == '' || preg_match('/[0-9]{1,2}\|[0-9]{1,3}\|[0-9]{1,5}/i', $dataMauSimpan['alamat_toko_offset']) === 0){
+                    return redirect()->route("b.setting-index")->with(['msg_error' => 'Gagal mengubah pengaturan toko, Alamat Kecamatan Toko belum dipilih!']);
+                }
                 $logo = $request->file('logoToko');
                 $tmp_logo = $request->logoTemp;
                 $logo_id = null;
                 $logo_lawas = false;
                 if(isset($logo)){
-                    if(in_array($logo->getClientOriginalExtension(), array('jpg', 'jpeg', 'png', 'bmp', 'gif', ''))){
+                    if(in_array(strtolower($logo->getClientOriginalExtension()), array('jpg', 'jpeg', 'png', 'bmp', 'gif', ''))){
                         $path = "../data/".base64_encode(base64_encode(Fungsi::dataOfCek())."+".base64_encode(Fungsi::dataOfCekUsername()))."/";
                         if(is_dir(base_path($path))){
                             $path_isset = true;
@@ -520,10 +567,6 @@ class SettingController extends Controller
                         }
                     }
                 }
-                $dataMauSimpan['nama_toko'] = $request->namaToko;           
-                $dataMauSimpan['no_telp_toko'] = $request->no_telpToko;           
-                $dataMauSimpan['deskripsi_toko'] = $request->deskripsiToko;           
-                $dataMauSimpan['alamat_toko'] = $request->alamatToko;   
                 if(!is_null($logo_id) && !$logo_lawas){
                     $dataMauSimpan['foto_id'] = $logo_id;
                 } else if(is_null($logo_id) && $logo_lawas){

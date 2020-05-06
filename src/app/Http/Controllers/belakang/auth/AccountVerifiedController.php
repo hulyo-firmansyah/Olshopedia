@@ -31,7 +31,31 @@ class AccountVerifiedController extends Controller
     public function resendMail(Request $request)
     {
         $user = User::where('email_token', $request->token)->first();
-        Mail::to($user->email)->send(new EmailVerification($user, route('b.email-verified', ['token' => $user->email_token])));
-        return Fungsi::respon(['sukses' => true], [], 'json', $request);
+        if(isset($user)){
+            try {
+                
+                // Log::info('mau mengirim email queue');
+                Mail::to($user->email)->send(new EmailVerification($user, route('b.email-verified', ['token' => $user->email_token])));
+                // dispatch(new SendEmail([
+                //     'tujuan' => $user->email,
+                //     'email' => new EmailVerification($user, route('b.email-verified', ['token' => $user->email_token]))
+                // ]));
+                // Log::info('selesai mengirim email queue');
+    
+            } catch(\Exception $e){
+                return Fungsi::respon([
+                    'status' => false,
+                    'msg' => $e->getMessage()
+                ], [], 'json', $request);
+            }
+
+            return Fungsi::respon(['sukses' => true], [], 'json', $request);
+        } else {
+            return Fungsi::respon([
+                'status' => false,
+                'msg' => 'Data User dengan email tersebut tidak ada!'
+            ], [], 'json', $request);
+        }
+
     }
 }

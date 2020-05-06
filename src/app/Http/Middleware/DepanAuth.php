@@ -6,28 +6,27 @@ use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class BelakangIfRedirectAuth
+class DepanAuth
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next)
     {
         if (Auth::check() && !is_null(Auth::user()->email_verified_at)) {
-            $userData = DB::table('t_user_meta')
+            $userData = DB::table('t_customer')
                 ->where('user_id', Auth::user()->id)
-                ->select('role')
+                ->select('kategori')
                 ->get()->first();
-            if(isset($userData) && ( $userData->role === 'Owner' || $userData->role === 'Admin')){
-                return redirect()->route('b.dashboard');
+            if(isset($userData)){
+                return $next($request);
             }
         }
 
-        return $next($request);
+        return redirect()->route("d.login", ['domain_toko' => $request->domain_toko]);
     }
 }

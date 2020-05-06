@@ -90,11 +90,17 @@ class LoginController extends Controller
             if(is_null($data_verif->email_token)){
                 $token_gen = \Str::random(40);
                 $data_verif_edit = DB::table('users')->where('id', $user->id)->update(['email_token' => $token_gen]);
-                Mail::to($user->email)->send(new EmailVerification($user, route('b.email-verified', ['token' => $token_gen])));
-                // dispatch(new SendEmail([
-                //     'tujuan' => $user->email,
-                //     'email' => new EmailVerification($user, route('b.email-verified', ['token' => $token_gen]))
-                // ]));
+                try {
+
+                    Mail::to($user->email)->send(new EmailVerification($user, route('b.email-verified', ['token' => $token_gen])));
+                    // dispatch(new SendEmail([
+                    //     'tujuan' => $user->email,
+                    //     'email' => new EmailVerification($user, route('b.email-verified', ['token' => $token_gen]))
+                    // ]));
+        
+                } catch(\Exception $e){
+                    return back()->with('error', $e->getMessage());
+                }
             }
             return back()->with('warning', 'You need to confirm your account. We have sent you an activation code, please check your email.');
         }
