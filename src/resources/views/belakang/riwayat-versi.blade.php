@@ -10,6 +10,27 @@
         <div class='panel'>
             <div class='panel-body'>
                 <div class='mb-40'>
+                    <h4>v0.9.4 &nbsp;&nbsp;(6 May 2020)</h4>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Changed</b>
+                        <ul>
+                            <li>Sekarang di pengaturan harus memasukkan alamat toko</li>
+                            <li>Sekarang saat pertama kali masuk ke dashboard harus memasukkan alamat toko</li>
+                            <li>Sekarang saat order sudah otomatis pengirim dari akan diisi dengan alamat toko</li>
+                        </ul>
+                    </div>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Fixed</b>
+                        <ul>
+                            <li>Fix bug upload logo toko salah extensi</li>
+                            <li>Fix bug datatable cannot reinitialize di menu setting</li>
+                            <li>Fix bug mail template tidak berubah</li>
+                            <li>Fix bug double middleware untuk authentikasi</li>
+                            <li>Fix bug exception error saat di lupa password</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class='mb-40'>
                     <h4>v0.9.3 &nbsp;&nbsp;(27 Apr 2020)</h4>
                     <div class='ml-30'>
                         <b style='font-size:15px'>Changed</b>
