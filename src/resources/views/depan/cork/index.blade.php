@@ -5,20 +5,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>Alternate Menu - Multipurpose Bootstrap Dashboard Template </title>
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
-    <link href="assets/css/loader.css" rel="stylesheet" type="text/css" />
-    <script src="assets/js/loader.js"></script>
-
-    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <title>{{ $toko->nama_toko }}</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('template_depan/cork/assets/img/favicon.ico') }}" />
+    <link href="{{ asset('template_depan/cork/assets/css/loader.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('template_depan/cork/assets/js/loader.js') }}"></script>
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
     <link href="{{ asset('template_depan/cork/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('template_depan/cork/assets/css/plugins.css') }}" rel="stylesheet" type="text/css" />
-    <!-- END GLOBAL MANDATORY STYLES -->
-
-    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
-    <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
-
+    <link rel="stylesheet" href="{{ asset('template_depan/cork/plugins/font-icons/fontawesome/css/regular.css') }}">
+    <link rel="stylesheet" href="{{ asset('template_depan/cork/plugins/font-icons/fontawesome/css/fontawesome.css') }}">
 </head>
 
 <body class="alt-menu">
@@ -37,22 +32,34 @@
         <header class="header navbar navbar-expand-sm">
 
             <ul class="navbar-item theme-brand flex-row  text-center">
-                <li class="nav-item theme-logo">
-                    <a href="index.html">
-                        <img src="{{ asset('template_depan/cork/assets/img/90x90.jpg') }}" class="navbar-logo"
-                            alt="logo">
-                    </a>
-                </li>
+                @php
+                    if(isset($toko->foto_id)){
+                        $foto = \DB::table('t_foto')
+                            ->where('data_of', \App\Http\Controllers\PusatController::dataOfByDomainToko($toko->domain_toko))
+                            ->where('id_foto', $toko->foto_id)
+                            ->get()->first();
+                        if(isset($foto->path)){
+                            @endphp
+                            <li class="nav-item theme-logo">
+                                <a href="{{ route('d.home', ['domain_toko' => $toko->domain_toko]) }}">
+                                    <img src="{{ asset($foto->path) }}" class="navbar-logo" alt="logo">
+                                </a>
+                            </li>
+                            @php
+                        }
+                    }
+                @endphp
                 <li class="nav-item theme-text">
-                    <a href="index.html" class="nav-link"> CORK </a>
+                    <a href="{{ route('d.home', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link">{{ $toko->nama_toko }}</a>
                 </li>
             </ul>
 
             <ul class="navbar-item flex-row ml-md-auto">
+                @if(\Auth::check())
                 <li class="nav-item dropdown user-profile-dropdown">
                     <a href="javascript:void(0);" class="nav-link dropdown-toggle user" id="userProfileDropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <img src="{{ asset('template_depan/cork/assets/img/90x90.jpg') }}" alt="avatar">
+                        <svg xmlns="http://www.w3.org/2000/svg" style='color:white;' width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     </a>
                     <div class="dropdown-menu position-absolute" aria-labelledby="userProfileDropdown">
                         <div class="">
@@ -98,6 +105,18 @@
                         </div>
                     </div>
                 </li>
+                @else
+                <li class="nav-item dropdown message-dropdown">
+                    <a href="{{ route('d.login', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link" id="login" aria-haspopup="true" aria-expanded="true" style='color:white;'>
+                        Login
+                    </a>
+                </li>
+                <li class="nav-item dropdown user-profile-dropdown">
+                    <a href="{{ route('d.register', ['domain_toko' => $toko->domain_toko]) }}" class="nav-link user" id="register" aria-haspopup="true" aria-expanded="true" style='color:white;'>
+                        Register
+                    </a>
+                </li>
+                @endif
             </ul>
         </header>
     </div>
@@ -106,26 +125,25 @@
     <!--  BEGIN NAVBAR  -->
     <div class="sub-header-container">
         <header class="header navbar navbar-expand-sm">
-            <a href="javascript:void(0);" class="sidebarCollapse" data-placement="bottom"><svg
+            <a href="javascript:void(0);" class="sidebarCollapse" data-placement="bottom">
+                <svg
                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="feather feather-menu">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
                     <line x1="3" y1="6" x2="21" y2="6"></line>
                     <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg></a>
+                </svg>
+            </a>
 
             <ul class="navbar-nav flex-row">
                 <li>
                     <div class="page-header">
-
                         <nav class="breadcrumb-one" aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="javascript:void(0);">Starter Kit</a></li>
-                                <li class="breadcrumb-item active" aria-current="page"><span>Alternate Menu</span></li>
+                                <li class="breadcrumb-item active" aria-current="page"><span>Home</span></li>
                             </ol>
                         </nav>
-
                     </div>
                 </li>
             </ul>
