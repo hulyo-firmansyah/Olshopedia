@@ -7,13 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <title>{{ $toko->nama_toko }}</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('template_depan/cork/assets/img/favicon.ico') }}" />
+    
+    <script src="{{ asset('template_depan/cork/assets/js/libs/jquery-3.1.1.min.js') }}"></script>
+    
     <link href="{{ asset('template_depan/cork/assets/css/loader.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('template_depan/cork/assets/js/loader.js') }}"></script>
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
     <link href="{{ asset('template_depan/cork/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('template_depan/cork/assets/css/plugins.css') }}" rel="stylesheet" type="text/css" />
+
     <link rel="stylesheet" href="{{ asset('template_depan/cork/plugins/font-icons/fontawesome/css/regular.css') }}">
     <link rel="stylesheet" href="{{ asset('template_depan/cork/plugins/font-icons/fontawesome/css/fontawesome.css') }}">
+    <link href="{{ asset('template_depan/cork/assets/css/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('template_depan/cork/plugins/select2/select2.min.css') }}">
 </head>
 
 <body class="alt-menu">
@@ -216,7 +222,6 @@
     <!-- END MAIN CONTAINER -->
 
     <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
-    <script src="{{ asset('template_depan/cork/assets/js/libs/jquery-3.1.1.min.js') }}"></script>
     <script src="{{ asset('template_depan/cork/bootstrap/js/popper.min.js') }}"></script>
     <script src="{{ asset('template_depan/cork/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('template_depan/cork/plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
@@ -230,6 +235,9 @@
     <!-- END GLOBAL MANDATORY SCRIPTS -->
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
+    <script src="{{ asset('template_depan/cork/assets/js/scrollspyNav.js') }}"></script>
+    <script src="{{ asset('template_depan/cork/plugins/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('template_depan/cork/plugins/select2/custom-select2.js') }}"></script>
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
 
 </body>
