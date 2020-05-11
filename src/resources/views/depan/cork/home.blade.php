@@ -107,6 +107,12 @@ $(document).ready(function() {
         $(location).attr('href', '{{ route("d.home", ["domain_toko" => $toko->domain_toko]) }}?sort=' +
             $(this).val() + '@if($r["cari"] !== "")&q={{$r["cari"]}}@endif');
     });
+    
+    $('.btnDetailProduk').on('click', function() {
+        let url = $(this).data('url');
+        $(location).attr('href',
+            '{{ route("d.home", ["domain_toko" => $toko->domain_toko]) }}/produk/' + url);
+    })
 });
 </script>
 <!--uiop-->
