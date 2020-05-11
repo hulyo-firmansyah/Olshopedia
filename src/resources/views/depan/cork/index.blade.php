@@ -20,8 +20,6 @@
     <link rel="stylesheet" href="{{ asset('template_depan/cork/plugins/font-icons/fontawesome/css/fontawesome.css') }}">
     <link href="{{ asset('template_depan/cork/assets/css/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="{{ asset('template_depan/cork/plugins/select2/select2.min.css') }}">
-    <link href="{{ asset('template_depan/cork/assets/css/main.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('template_depan/cork/assets/css/pages/faq/faq.css') }}" rel="stylesheet" type="text/css" /> 
 </head>
 
 <body class="alt-menu">
@@ -224,12 +222,11 @@
         });
     });
     </script>
+    <script src="{{ asset('template_depan/cork/assets/js/custom.js') }}"></script>
     <script src="{{ asset('template_depan/cork/plugins/select2/select2.min.js') }}"></script>
     <script src="{{ asset('template_depan/cork/plugins/select2/custom-select2.js') }}"></script>
-    <script src="{{ asset('template_depan/cork/assets/js/custom.js') }}"></script>
 
     <script src="{{ asset('template_depan/cork/assets/js/scrollspyNav.js') }}"></script>
-    <script src="{{ asset('template_depan/cork/assets/js/pages/faq/faq.js') }}"></script>
 
 </body>
 

@@ -41,61 +41,61 @@
 
     </div>
 
-        <div class="row">
-            @if(count($produk) > 0)
-                @foreach(\App\Http\Controllers\PusatController::genArray($produk) as $p)
-                    <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
-                        <div class="card">
-                            @php
-                                $cekFoto = false;
-                                $genVarian = \App\Http\Controllers\PusatController::genArray($p->varian);
-                                foreach($genVarian as $v){
-                                    if(isset($v->foto->utama)){
-                                        $foto = $v->foto->utama;
-                                        $cekFoto = true;
-                                        $genVarian->send('stop');
-                                    }
+    <div class="row" style='border-top: 1px solid #b2acac;padding-top:25px'>
+        @if(count($produk) > 0)
+            @foreach(\App\Http\Controllers\PusatController::genArray($produk) as $p)
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                    <div class="card">
+                        @php
+                            $cekFoto = false;
+                            $genVarian = \App\Http\Controllers\PusatController::genArray($p->varian);
+                            foreach($genVarian as $v){
+                                if(isset($v->foto->utama)){
+                                    $foto = $v->foto->utama;
+                                    $cekFoto = true;
+                                    $genVarian->send('stop');
                                 }
-                                if(!$cekFoto){
-                                    $foto = asset('photo.png');
+                            }
+                            if(!$cekFoto){
+                                $foto = asset('photo.png');
+                            }
+                        @endphp
+                        <img src="{{ $foto }}" class="card-img-top" alt="faq-video-tutorials">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $p->nama_produk }}</h5>
+                            @php
+                                if($p->termurah !== $p->termahal){
+                                    @endphp
+                                    <p class='card-text'>{{ \App\Http\Controllers\PusatController::formatUang($p->termurah, true).' - '.\App\Http\Controllers\PusatController::formatUang($p->termahal, true) }}
+                                    </p>
+                                    @php
+                                } else {
+                                    @endphp
+                                    <p class='card-text'>{{ \App\Http\Controllers\PusatController::formatUang($p->termurah, true) }}</p>
+                                    @php
                                 }
                             @endphp
-                            <img src="{{ $foto }}" class="card-img-top" alt="faq-video-tutorials">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $p->nama_produk }}</h5>
-                                @php
-                                    if($p->termurah !== $p->termahal){
-                                        @endphp
-                                        <p class='card-text'>{{ \App\Http\Controllers\PusatController::formatUang($p->termurah, true).' - '.\App\Http\Controllers\PusatController::formatUang($p->termahal, true) }}
-                                        </p>
-                                        @php
-                                    } else {
-                                        @endphp
-                                        <p class='card-text'>{{ \App\Http\Controllers\PusatController::formatUang($p->termurah, true) }}</p>
-                                        @php
-                                    }
-                                @endphp
-                                <p class="card-text">{{ $p->ket ?? '' }}</p>
-                                <p class="meta-text">
-                                    <a href="javascript:void(0)" class="btn btn-primary btnDetailProduk" role="button"
-                                        data-url='{{ $p->produk_url }}'>Selengkapnya</a>
-                                </p>
-                            </div>
+                            <p class="card-text">{{ $p->ket ?? '' }}</p>
+                            <p class="meta-text">
+                                <a href="javascript:void(0)" class="btn btn-primary btnDetailProduk" role="button"
+                                    data-url='{{ $p->produk_url }}'>Selengkapnya</a>
+                            </p>
                         </div>
                     </div>
-                @endforeach
+                </div>
+            @endforeach
+        @else
+            @if($r['cari'] !== '')
+            <div class="col-xxl-12">
+                <p>Produk tidak ditemukan!</p>
+            </div>
             @else
-                @if($r['cari'] !== '')
-                <div class="col-xxl-12">
-                    <p>Produk tidak ditemukan!</p>
-                </div>
-                @else
-                <div class="col-xxl-12">
-                    <p>Tidak ada produk di Toko ini!</p>
-                </div>
-                @endif
+            <div class="col-xxl-12">
+                <p>Tidak ada produk di Toko ini!</p>
+            </div>
             @endif
-        </div>
+        @endif
+    </div>
 </div>
 <script>
 $(document).ready(function() {
