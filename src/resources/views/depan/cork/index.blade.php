@@ -212,6 +212,16 @@
     <script>
     $(document).ready(function() {
         App.init();
+
+        $('#btnCari').on('click', function(){
+            $(location).attr('href', '{{ route("d.home", ["toko_slug" => $toko->domain_toko]) }}?q='+$('#queryCari').val()+'@if($r["sort"] !== "")&sort={{$r["sort"]}}@endif');
+        });
+
+        $('#queryCari').keyup(function(e){
+            if(e.keyCode == 13){
+                $('#btnCari').trigger("click");
+            }
+        });
     });
     </script>
     <script src="{{ asset('template_depan/cork/plugins/select2/select2.min.js') }}"></script>
