@@ -1,4 +1,16 @@
 @extends('depan.cork.index')
+@section('page')
+    @if($r['cari'] !== '')
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('d.home', ['domain_toko' => $toko->domain_toko]) }}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><span>Pencarian Produk</span></li>
+        </ol>
+    @else
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page"><span>Home</span></li>
+        </ol>
+    @endif
+@endsection
 @section('isi')
 <!--uiop-->
 <div class='container'>
@@ -13,7 +25,7 @@
                             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                         </svg></span>
                 </div>
-                <input type="text" class="form-control" placeholder="Let's find your question in fast way"
+                <input type="text" class="form-control" placeholder="Cari Produk"
                     aria-label="Username" aria-describedby="basic-addon1">
             </div>
         </div>

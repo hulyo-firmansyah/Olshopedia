@@ -23,7 +23,6 @@
 </head>
 
 <body class="alt-menu">
-    <!-- BEGIN LOADER -->
     <div id="load_screen">
         <div class="loader">
             <div class="loader-content">
@@ -31,9 +30,7 @@
             </div>
         </div>
     </div>
-    <!--  END LOADER -->
 
-    <!--  BEGIN NAVBAR  -->
     <div class="header-container fixed-top">
         <header class="header navbar navbar-expand-sm">
 
@@ -126,9 +123,7 @@
             </ul>
         </header>
     </div>
-    <!--  END NAVBAR  -->
 
-    <!--  BEGIN NAVBAR  -->
     <div class="sub-header-container">
         <header class="header navbar navbar-expand-sm">
             <a href="javascript:void(0);" class="sidebarCollapse" data-placement="bottom">
@@ -146,9 +141,7 @@
                 <li>
                     <div class="page-header">
                         <nav class="breadcrumb-one" aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item active" aria-current="page"><span>Home</span></li>
-                            </ol>
+                            @yield('page')
                         </nav>
                     </div>
                 </li>
@@ -166,20 +159,15 @@
             </ul>
         </header>
     </div>
-    <!--  END NAVBAR  -->
 
-    <!--  BEGIN MAIN CONTAINER  -->
     <div class="main-container sidebar-closed sbar-open" id="container">
 
         <div class="overlay"></div>
         <div class="search-overlay"></div>
 
-        <!--  BEGIN SIDEBAR  -->
         <div class="sidebar-wrapper sidebar-theme">
-
             <nav id="sidebar">
                 <div class="shadow-bottom"></div>
-
                 <ul class="list-unstyled menu-categories ps" id="accordionExample">
                     <li class="menu">
                         <a href="javascript:void(0);" aria-expanded="false" class="dropdown-toggle">
@@ -195,13 +183,9 @@
                         </a>
                     </li>
                 </ul>
-
             </nav>
-
         </div>
-        <!--  END SIDEBAR  -->
 
-        <!--  BEGIN CONTENT PART  -->
         <div id="content" class="main-content">
             <div class="layout-px-spacing">
                 @yield('isi')
@@ -216,12 +200,9 @@
                 </div>
             </div>
         </div>
-        <!--  END CONTENT PART  -->
 
     </div>
-    <!-- END MAIN CONTAINER -->
 
-    <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
     <script src="{{ asset('template_depan/cork/bootstrap/js/popper.min.js') }}"></script>
     <script src="{{ asset('template_depan/cork/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('template_depan/cork/plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
@@ -232,13 +213,10 @@
     });
     </script>
     <script src="{{ asset('template_depan/cork/assets/js/custom.js') }}"></script>
-    <!-- END GLOBAL MANDATORY SCRIPTS -->
 
-    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
     <script src="{{ asset('template_depan/cork/assets/js/scrollspyNav.js') }}"></script>
     <script src="{{ asset('template_depan/cork/plugins/select2/select2.min.js') }}"></script>
     <script src="{{ asset('template_depan/cork/plugins/select2/custom-select2.js') }}"></script>
-    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
 
 </body>
 
