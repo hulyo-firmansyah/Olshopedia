@@ -7,15 +7,45 @@
 @endsection
 @section('isi')
 <!--uiop-->
+<style>
+.product-image-thumb {
+    box-shadow: 0 1px 2px rgba(0,0,0,.075);
+    border-radius: .25rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    display: -ms-flexbox;
+    display: flex;
+    margin-right: 1rem;
+    max-width: 7rem;
+    padding: .5rem;
+    cursor:pointer;
+}
+.product-image-thumb img {
+    max-width: 100%;
+    height: auto;
+    -ms-flex-item-align: center;
+    align-self: center;
+}
+.product-image-thumbs {
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    display: -ms-flexbox;
+    display: flex;
+    margin-top: 2rem;
+}
+.product-image-thumb:hover {
+    opacity: .5;
+}
+</style>
 <div class='container'>
     <div class="row layout-top-spacing justify-content-between">
-        <div class="card">
+        <div class="card" style='width:100%;'>
             <div class="card-body">
                 <div class="row">
                     <div class="col-12 col-sm-6" id='gambarDiv'>
                         <h3 class="d-inline-block d-sm-none">{{ $produk->nama_produk }}</h3>
                         <div class="col-12">
-                            <img src="{{ $produk->varian[0]->foto->utama }}" class="product-image" alt="Product Image">
+                            <img src="{{ $produk->varian[0]->foto->utama }}" class="product-image" alt="Product Image" style='width:100%;'>
                         </div>
                         <div class="col-12 product-image-thumbs">
                             @php
@@ -99,16 +129,17 @@
                         </div>
                         <div class="mt-4">
                             <button type='button' id='btnTambahCart' class="btn btn-primary btn-md" data-ip='{{ $produk->id_produk }}' data-iv='{{ $produk->varian[0]->id_varian }}'>
-                                <i class="fas fa-cart-plus fa-lg mr-2"></i>
-                                Tambahkan ke Keranjang
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                                &nbsp;Tambahkan ke Keranjang
                             </button>
                         </div>
                         <div class="mt-5 product-share">
-                            <a href="http://www.facebook.com/sharer.php?u={{ urlencode(url()->current()) }}" target='_blank' class="text-gray">
-                                <i class="fab fa-facebook-square fa-2x"></i>
+                            Shar    e:
+                            <a href="http://www.facebook.com/sharer.php?u={{ urlencode(url()->current()) }}" target='_blank' class="btn btn-outline-dark">
+                                Facebook
                             </a>
-                            <a href="https://twitter.com/share?url={{ urlencode(url()->current()) }}" target='_blank' class="text-gray">
-                                <i class="fab fa-twitter-square fa-2x"></i>
+                            <a href="https://twitter.com/share?url={{ urlencode(url()->current()) }}" target='_blank' class="btn btn-outline-dark">
+                                Twitter
                             </a>
                         </div>
                     </div>
