@@ -80,6 +80,7 @@
                     <div class="col-12 col-sm-6">
                         <h3 class="my-3">{{ $produk->nama_produk }}</h3>
                         <hr>
+                        @if(count($produk->varian) > 1)
                         <h5 class="mt-4">Varian</h5>
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
                             @php
@@ -115,6 +116,7 @@
                                 }
                             @endphp
                         </div>
+                        @endif
                         <div class="mt-4" id='hargaDiv'>
                             <h5>Harga</h5>
                             <h4 class="mb-0">
@@ -134,7 +136,7 @@
                             </button>
                         </div>
                         <div class="mt-5 product-share">
-                            Shar    e:
+                            Share:
                             <a href="http://www.facebook.com/sharer.php?u={{ urlencode(url()->current()) }}" target='_blank' class="btn btn-outline-dark">
                                 Facebook
                             </a>
@@ -166,5 +168,57 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        
+        $('.card-body').on('click', '.product-image-thumb', function() {
+            const image_element = $(this).find('img');
+            $('.product-image').prop('src', $(image_element).attr('src'))
+            $('.product-image-thumb.active').removeClass('active');
+            $(this).addClass('active');
+        });
+
+        $('.card-body').on('click', 'input[name=varian_pilihan]', function(){
+            const data_img = {
+                @foreach(\App\Http\Controllers\PusatController::genArray($produk->varian) as $v)
+                    '{{ $v->id_varian }}' : {
+                        utama: '{{ $v->foto->utama }}',
+                        lain: jQuery.parseJSON('{!! json_encode($v->foto->lain) !!}')
+                    },
+                @endforeach
+            };
+            const data_harga = {
+                @foreach(\App\Http\Controllers\PusatController::genArray($produk->varian) as $v)
+                    '{{ $v->id_varian }}' : {
+                        harga: parseInt('{{ $v->harga_jual_normal }}')
+                    },
+                @endforeach
+            };
+            let id = $(this).val();
+            $('#btnTambahCart').data('iv', id);
+            $('#hargaDiv').children('h4').text('Rp '+uangFormat(data_harga[id].harga));
+            $('#gambarDiv').find('.product-image').prop('src', data_img[id].utama);
+            $('#gambarDiv').children('div:last').html('');
+            let i_ = 0;
+            $('#gambarDiv').children('div:last').append('<div class="product-image-thumb active"><img src="'+data_img[id].utama+'" alt="Product Image"></div>');
+            $.each(data_img[id].lain, (i, v) => {
+                $('#gambarDiv').children('div:last').append('<div class="product-image-thumb"><img src="'+v+'" alt="Product Image"></div>');
+            });
+            let list = Array.prototype.slice.call($(this).parent().parent().children());
+            var this_ = this;
+            list.forEach(function(html) {
+                if($(html).hasClass('btn-primary') && html !== this_){
+                    $(html).removeClass('btn-primary');
+                    $(html).addClass('btn-default');
+                }
+            });
+            if($(this).parent().hasClass('btn-default')){
+                $(this).parent().removeClass('btn-default');
+                $(this).parent().removeClass('btn-default');
+                $(this).parent().addClass('btn-primary');
+            }
+        });
+    });
+</script>
 <!--uiop-->
 @endsection
