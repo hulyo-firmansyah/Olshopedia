@@ -166,26 +166,44 @@
 
         <h1 class="">Register</h1>
         <p class="signup-link register">Already have an account? <a href="{{ route('d.login', ['domain_toko' => $toko->domain_toko]) }}">Log in</a></p>
-        <form class="text-left">
+        @if ($danger = session('error'))
+        <div role="alert" class="alert alert-danger alert-dismissible">
+            <button aria-label="Close" data-dismiss="alert" class="close" type="button">
+                <span aria-hidden="true">×</span>
+            </button>
+            <h4>Error</h4>
+            <p>{{ $danger }}</p>
+        </div>
+        @endif
+        <form class="text-left"  action="{{ route('d.register', ['domain_toko' => $toko->domain_toko]) }}" method="post">
             {{ csrf_field() }}
             <div class="form">
 
-                <div id="nama-field" class="field-wrapper input">
-                    <label for="nama">NAMA LENGKAP</label>
+                <div id="name-field" class="field-wrapper input">
+                    <label for="name">NAMA LENGKAP</label>
                     <svg style='top:52px' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    <input id="nama" name="nama" type="text" class="form-control" placeholder="Nama Lengkap">
+                    <input id="name" name="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Nama Lengkap">
+                    @if ($errors->has('name'))
+                        <div id="error_name" class="invalid-feedback" style='display:block'>{{ $errors->first('name') }}</div>
+                    @endif
                 </div>
 
                 <div id="email-field" class="field-wrapper input">
                     <label for="email">EMAIL</label>
                     <svg style='top:52px' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-at-sign register"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg>
-                    <input id="email" name="email" type="text" value="" class="form-control" placeholder="Email">
+                    <input id="email" name="email" type="text" value="" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Email">
+                    @if ($errors->has('email'))
+                        <div id="error_email" class="invalid-feedback" style='display:block'>{{ $errors->first('email') }}</div>
+                    @endif
                 </div>
 
                 <div id="no_telp-field" class="field-wrapper input">
                     <label for="no_telp">NOMOR TELEPON</label>
                     <svg style='top:52px;' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-phone"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                    <input id="no_telp" name="no_telp" type="text" value="" class="form-control ph-number" placeholder="Nomor Telepon">
+                    <input id="no_telp" name="no_telp" type="text" value="" class="form-control ph-number{{ $errors->has('no_telp') ? ' is-invalid' : '' }}" placeholder="Nomor Telepon">
+                    @if ($errors->has('no_telp'))
+                        <div id="error_no_telp" class="invalid-feedback" style='display:block'>{{ $errors->first('no_telp') }}</div>
+                    @endif
                 </div>
 
                 <div id="password-field" class="field-wrapper input">
@@ -193,8 +211,11 @@
                         <label for="password">PASSWORD</label>
                     </div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                    <input id="password" name="password" type="password" class="form-control" placeholder="Password">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="toggle-password" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    <input id="password" name="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Password">
+                    @if ($errors->has('password'))
+                        <div id="error_password" class="invalid-feedback" style='display:block'>{{ $errors->first('password') }}</div>
+                    @endif
+                    <svg style="{{ $errors->has('password') ? ' right:36px;' : '' }}" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="toggle-password" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                 </div>
 
                 <div id="password2-field" class="field-wrapper input mb-2">
@@ -202,8 +223,11 @@
                         <label for="password2">PASSWORD CONFIRMATION</label>
                     </div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                    <input id="password2" name="password2" type="password" class="form-control" placeholder="Password">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="toggle-password2" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    <input id="password2" name="password2" type="password" class="form-control{{ $errors->has('password2') ? ' is-invalid' : '' }}" placeholder="Password">
+                    @if ($errors->has('password2'))
+                        <div id="error_password2" class="invalid-feedback" style='display:block'>{{ $errors->first('password2') }}</div>
+                    @endif
+                    <svg style="{{ $errors->has('password2') ? ' right:36px;' : '' }}" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="toggle-password2" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                 </div>
 
                 <div class="field-wrapper terms_condition">
@@ -229,6 +253,44 @@
 </div>
 <script>
     $(document).ready(function(){
+
+        $('#name').on('input', function(){
+            if($(this).hasClass('is-invalid')){
+                $(this).removeClass('is-invalid');
+                $('#error_name').hide();
+            }
+        });
+
+        $('#email').on('input', function(){
+            if($(this).hasClass('is-invalid')){
+                $(this).removeClass('is-invalid');
+                $('#error_email').hide();
+            }
+        });
+
+        $('#no_telp').on('input', function(){
+            if($(this).hasClass('is-invalid')){
+                $(this).removeClass('is-invalid');
+                $('#error_no_telp').hide();
+            }
+        });
+
+        $('#password').on('input', function(){
+            if($(this).hasClass('is-invalid')){
+                $(this).removeClass('is-invalid');
+                $('#error_password').hide();
+                $('#toggle-password').css('right', '13px');
+            }
+        });
+
+        $('#password2').on('input', function(){
+            if($(this).hasClass('is-invalid')){
+                $(this).removeClass('is-invalid');
+                $('#error_password2').hide();
+                $('#toggle-password2').css('right', '13px');
+            }
+        });
+
         $(".ph-number").inputmask({mask:"(+99) 999-9999-9999"});
 
         var togglePassword = document.getElementById("toggle-password");

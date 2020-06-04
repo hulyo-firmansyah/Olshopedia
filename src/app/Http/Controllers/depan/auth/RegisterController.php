@@ -100,6 +100,7 @@ class RegisterController extends Controller
 	
     public function register(Request $request, $domain_toko)
     {
+        // dd($request->all());
         $this->validator($request->all())->validate();
         $user = $this->create($request->all());
         return redirect(route('d.register-after', ['domain_toko' => $domain_toko]).'?v='.$user->id.'&i='.time().'&d='.str_random(6));
