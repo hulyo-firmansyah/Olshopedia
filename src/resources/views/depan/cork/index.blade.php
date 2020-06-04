@@ -25,7 +25,8 @@
     <link href="{{ asset('template_depan/cork/plugins/sweetalerts/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('template_depan/cork/plugins/sweetalerts/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('template_depan/cork/assets/css/components/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
-    <!-- <link href="{{ asset('template_depan/cork/assets/css/authentication/form-2.css') }}" rel="stylesheet" type="text/css" /> -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('template_depan/cork/assets/css/forms/theme-checkbox-radio.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('template_depan/cork/assets/css/forms/switches.css') }}">
 </head>
 
 <body class="alt-menu">
@@ -256,7 +257,8 @@
     <script src="{{ asset('template_depan/cork/plugins/select2/custom-select2.js') }}"></script>
     <script src="{{ asset('template_depan/cork/plugins/sweetalerts/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('template_depan/cork/plugins/sweetalerts/custom-sweetalert.js') }}"></script>
-    <!-- <script src="{{ asset('template_depan/cork/assets/js/authentication/form-2.js') }}"></script> -->
+    <script src="{{ asset('template_depan/cork/plugins/input-mask/jquery.inputmask.bundle.min.js') }}"></script>
+    <script src="{{ asset('template_depan/cork/plugins/input-mask/input-mask.js') }}"></script>
 
     <script src="{{ asset('template_depan/cork/assets/js/scrollspyNav.js') }}"></script>
 
