@@ -76,7 +76,7 @@ class RegisterController extends Controller
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'no_telp' => $data['no_telp'],
+            'no_telp' => preg_replace('/[^0-9]/', '', $data['no_telp']),
             'password' => bcrypt($data['password']),
             'email_token' => str_random(45),
         ]);
