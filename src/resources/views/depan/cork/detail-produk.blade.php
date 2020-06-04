@@ -170,6 +170,58 @@
 </div>
 <script>
     $(document).ready(function(){
+
+        $('#btnTambahCart').on('click', function(){
+            $.ajax({
+                type: 'post',
+                url: "{{ route('d.cart-tambah', ['domain_toko' => $toko->domain_toko]) }}",
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    ip: $(this).data('ip'),
+                    iv: $(this).data('iv'),
+                    jumlah: $('#jumlah').val()
+                },
+                success: function(data) {
+                    // console.log(data);
+                    const toast = swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        padding: '2em'
+                    });
+                    if(data.status){
+                        toast({
+                            type: 'success',
+                            title: ''+data.msg,
+                            padding: '2em',
+                        });
+                        $('#badgeCart').text(data.cart_count);
+                        $('#badgeCart').show();
+                    } else {
+                        toast({
+                            type: 'error',
+                            title: ''+data.msg,
+                            padding: '2em',
+                        });
+                    }
+                },
+                error: function(xhr, b, c) {
+                    const toast = swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        padding: '2em'
+                    });
+                    toast({
+                        type: 'error',
+                        title: ''+c,
+                        padding: '2em',
+                    });
+                }
+            });
+        });
         
         $('.card-body').on('click', '.product-image-thumb', function() {
             const image_element = $(this).find('img');

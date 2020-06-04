@@ -20,6 +20,11 @@
     <link rel="stylesheet" href="{{ asset('template_depan/cork/plugins/font-icons/fontawesome/css/fontawesome.css') }}">
     <link href="{{ asset('template_depan/cork/assets/css/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="{{ asset('template_depan/cork/plugins/select2/select2.min.css') }}">
+
+    <script src="{{ asset('template_depan/cork/plugins/sweetalerts/promise-polyfill.js') }}"></script>
+    <link href="{{ asset('template_depan/cork/plugins/sweetalerts/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('template_depan/cork/plugins/sweetalerts/sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('template_depan/cork/assets/css/components/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
 </head>
 
 <body class="alt-menu">
@@ -124,6 +129,11 @@
         </header>
     </div>
 
+    @php
+        $cart_count = count(\Cart::session(request()->getClientIp())->getContent());
+        $hidden = $cart_count > 0 ? '' : 'display:none;';
+    @endphp
+
     <div class="sub-header-container">
         <header class="header navbar navbar-expand-sm">
             <a href="javascript:void(0);" class="sidebarCollapse" data-placement="bottom">
@@ -149,11 +159,12 @@
             <ul class="navbar-nav flex-row ml-auto ">
                 <li class="nav-item more-dropdown">
                     <div class="custom-dropdown-icon">
-                        <button type='button' class='btn btn-outline-dark mt-1'>
+                        <a href="{{ route('d.cart-index', ['domain_toko' => $toko->domain_toko]) }}" class='btn btn-outline-dark mt-1'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                             </svg>
                             Cart
-                        </button>
+                            <span class="badge badge-danger counter" style='{{ $hidden }}' id="badgeCart">{{ $cart_count }}</span>
+                        </a>
                     </div>
                 </li>
             </ul>
@@ -208,7 +219,7 @@
     <script src="{{ asset('template_depan/cork/plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('template_depan/cork/assets/js/app.js') }}"></script>
     <script>
-        
+
     function uangFormat(number) {
         var sp = number.toString().split("").reverse();
         var yt = 0;
@@ -242,6 +253,8 @@
     <script src="{{ asset('template_depan/cork/assets/js/custom.js') }}"></script>
     <script src="{{ asset('template_depan/cork/plugins/select2/select2.min.js') }}"></script>
     <script src="{{ asset('template_depan/cork/plugins/select2/custom-select2.js') }}"></script>
+    <script src="{{ asset('template_depan/cork/plugins/sweetalerts/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('template_depan/cork/plugins/sweetalerts/custom-sweetalert.js') }}"></script>
 
     <script src="{{ asset('template_depan/cork/assets/js/scrollspyNav.js') }}"></script>
 

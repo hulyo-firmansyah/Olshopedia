@@ -18,6 +18,7 @@ class CartController extends Controller
 
     public function tampil(Request $request, $domain_toko){
         $cart = Cart::session($request->getClientIp())->getContent();
+        // dd($cart);
 		$toko = DB::table('t_store')
             ->where('domain_toko', $domain_toko)
             ->get()->first();
