@@ -49,7 +49,7 @@
                 <div class="form-container">
                     <div class="form-content">
 
-                        <h1 class="">Password Recovery</h1>
+                        <h1 class="">Change Password</h1>
                         <p class="signup-link recovery">Enter your email and instructions will sent to you!</p>
                         @if ($error = session('error_msg'))
                         <div role="alert" class="alert alert-danger alert-dismissible">
@@ -63,28 +63,30 @@
                         <form class="text-left">
                             <div class="form">
 
-                                <div id="email-field" class="field-wrapper input">
+                                <div id="password-field" class="field-wrapper input">
                                     <div class="d-flex justify-content-between">
-                                        <label for="email">EMAIL</label>
+                                        <label for="password">PASSWORD</label>
                                     </div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-at-sign"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg>
-                                    <input id="inputEmail" name="email" type="text" class="form-control" value="" placeholder="Email">
-                                    <small id="error_email" style='color:#f2353c;display:none;'>Masukkan alamat email anda!</small>
+                                    <svg style='top:46px;' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                    <input id="password" name="password" type="password" class="form-control" value="" placeholder="Password">
+                                    <small id="errorPass" style='color:#f2353c;display:none;'></small>
+                                    <svg style='top:46px;' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="toggle-password" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                 </div>
 
-                                <div id="email-field" class="field-wrapper input">
+                                <div id="re-password-field" class="field-wrapper input mb-2">
                                     <div class="d-flex justify-content-between">
-                                        <label for="email">EMAIL</label>
+                                        <label for="re-password">PASSWORD CONFIRMATION</label>
                                     </div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-at-sign"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg>
-                                    <input id="inputEmail" name="email" type="text" class="form-control" value="" placeholder="Email">
-                                    <small id="error_email" style='color:#f2353c;display:none;'>Masukkan alamat email anda!</small>
+                                    <svg style='top:46px;' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                    <input id="re-password" name="password_confirmation" type="password" class="form-control" value="" placeholder="Password Confirmation">
+                                    <small id="errorRe-Pass" style='color:#f2353c;display:none;'></small>
+                                    <svg style='top:46px;' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="toggle-password2" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                 </div>
 
                                 <div class="d-sm-flex justify-content-between">
 
                                     <div class="field-wrapper">
-                                        <button type="button" class="btn btn-primary" value="" id='btnResetPassword'>Ganti Password </button>
+                                        <button type="button" class="btn btn-primary" value="" id='btnRenewPassword'>Ganti Password</button>
                                     </div>
                                 </div>
 
@@ -117,213 +119,19 @@
         var cache_email = null;
 
         $(document).ready(function(){
-            $("#inputEmail").keypress(function(e){
-                if(e.keyCode == '13') {
-                    $("#btnResetPassword").trigger('click');
-                }
-            });
-
-            $('#inputEmail').on('input', function(){
-                if($(this).val() == cache_email){
-                    $('#btnResetPassword').text('Resend Email');
+            $('#toggle-password').on('click', function(){
+                if($('#password').attr('type') == 'password'){
+                    $('#password').attr('type', 'text');
                 } else {
-                    $('#btnResetPassword').text('Reset Your Password');
+                    $('#password').attr('type', 'password');
                 }
             });
 
-            //Form Send Reset Password Email
-            $("#btnResetPassword").on('click', function() {
-                var hasil;
-                var email = $('#inputEmail').val();
-                var error = 0
-                if (email == "") {
-                    $('#inputEmail').addClass('is-invalid');
-                    $('small#error_email').show();
-                    error++;
-                }
-                if (error == 0){
-                    $('#loader-div').css('display', 'flex');
-                    $.ajax({
-                        type: 'get',
-                        url: "{{ route('d.password-email', ['domain_toko' => $toko->domain_toko]) }}",
-                        data: {
-                            email: email
-                        },
-                        success: function(data) {
-                            hasil = data;
-                        },
-                        error: function(error, b, c) {
-                            const toast = swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 10000,
-                                padding: '2em'
-                            });
-                            toast({
-                                type: 'error',
-                                title: ''+c,
-                                padding: '2em',
-                            });
-                        }
-                    }).done(function() {
-                        $('#loader-div').hide();
-                        const toast = swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 10000,
-                            padding: '2em'
-                        });
-                        if (hasil.status.data) {
-                            toast({
-                                type: 'success',
-                                title: ''+hasil.status.pesan,
-                                padding: '2em',
-                            });
-                            $('#btnResetPassword').text('Resend Email');
-                            cache_email = hasil.email;
-                        } else {
-                            toast({
-                                type: 'error',
-                                title: ''+hasil.status.pesan,
-                                padding: '2em',
-                            });
-                        }
-                    });
-                }
-            });
-
-        });
-    </script>
-</body>
-</html>
-
-
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ $toko->nama_toko }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="{{ asset('template_depan/default/plugins/fontawesome-free/css/all.min.css') }}">
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="{{ asset('template_depan/default/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('template_depan/default/dist/css/adminlte.min.css') }}">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <style>
-    #loader {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.75);
-        z-index: 10000;
-        -ms-flex-align: center;
-        align-items: center;
-        -ms-flex-pack: center;
-        justify-content: center;
-    }
-    </style>
-</head>
-
-<body class="hold-transition login-page">
-    <div id="loader">
-        <div class="text-center">
-            <i class="fas fa-sync-alt fa-spin" style='font-size:5em;color:white;'></i>
-        </div>
-    </div>
-    <div class="login-box">
-        <div class="login-logo">
-            <a href="{{ route('d.home', ['domain_toko' => $toko->domain_toko]) }}">
-            @php
-                if(isset($toko->foto_id)){
-                    $foto = \DB::table('t_foto')
-                        ->where('data_of', \App\Http\Controllers\PusatController::dataOfByDomainToko($toko->domain_toko))
-                        ->where('id_foto', $toko->foto_id)
-                        ->get()->first();
-                    if(isset($foto->path)){
-                        @endphp
-                            <img src="{{ asset($foto->path) }}" alt="Toko Logo" width='140px' height='140px'><br>
-                        @php
-                        echo $toko->nama_toko;
-                    } else {
-                        echo $toko->nama_toko;
-                    }
-                } else {
-                    echo $toko->nama_toko;
-                }
-            @endphp
-            </a>
-        </div>
-        <div class="card">
-            <div class="card-body login-card-body">
-                <p class="login-box-msg">You are only one step a way from your new password, recover your password now.
-                </p>
-
-                <form action="#" method="post">
-                    <div class="input-group">
-                        <input type="password" class="form-control" placeholder="Password" id='newPassword' name='password'>
-                        <div class="input-group-append" style='cursor:pointer;' id='btnEye'>
-                            <div class="input-group-text">
-                                <span class="fas fa-eye"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <small id="errorPass" style='color:#f2353c;display:none;'></small>
-                    <div class="input-group mt-3">
-                        <input type="password" class="form-control" placeholder="Confirm Password" id='re-password' name='password_confirmation'>
-                        <div class="input-group-append" style='cursor:pointer;' id='btnEye2'>
-                            <div class="input-group-text">
-                                <span class="fas fa-eye"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <small id="errorRe-Pass" style='color:#f2353c;display:none;'></small>
-                    <div class="row mt-3">
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block" id='btnRenewPassword'>Change password</button>
-                        </div>
-                    </div>
-                </form>
-
-                <p class="mt-3 mb-1">
-                    <a href="{{ route('d.login', ['domain_toko' => $toko->domain_toko]) }}">Login</a>
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <script src="{{ asset('template_depan/default/plugins/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('template_depan/default/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('template_depan/default/dist/js/adminlte.min.js') }}"></script>
-                
-    <script>
-        $(document).ready(function () {
-
-            $('#btnEye').click(function(){
-                if($('#newPassword').attr('type') == 'password'){
-                    $('#newPassword').attr('type', 'text');
-                    $('#btnEye').find('span').attr('class', 'fas fa-eye-slash');
-                } else if($('#newPassword').attr('type') == 'text'){
-                    $('#newPassword').attr('type', 'password');
-                    $('#btnEye').find('span').attr('class', 'fas fa-eye');
-                }
-            });
-
-            $('#btnEye2').click(function(){
+            $('#toggle-password2').on('click', function(){
                 if($('#re-password').attr('type') == 'password'){
                     $('#re-password').attr('type', 'text');
-                    $('#btnEye2').find('span').attr('class', 'fas fa-eye-slash');
-                } else if($('#re-password').attr('type') == 'text'){
+                } else {
                     $('#re-password').attr('type', 'password');
-                    $('#btnEye2').find('span').attr('class', 'fas fa-eye');
                 }
             });
 
@@ -341,16 +149,15 @@
                 }
             });
 
-
             //Form Send Reset Password Email
             $("#btnRenewPassword").on('click', function (e) {
                 e.preventDefault();
                 var hasil;
-                var newPass = $('#newPassword').val();
+                var newPass = $('#password').val();
                 var retypePass = $('#re-password').val();
                 var error = 0;
                 if (newPass == '') {
-                    $('#newPassword').addClass('is-invalid');
+                    $('#password').addClass('is-invalid');
                     $('small#errorPass').text('Masukkan password baru!');
                     $('small#errorPass').show();
                     error++
@@ -382,34 +189,42 @@
                             hasil = data;
                         },
                         error: function (error, b, c) {
-                            $(document).Toasts('create', {
-                                class: 'bg-danger',
-                                title: 'Error',
-                                autohide: true,
-                                delay: 3000,
-                                body: ''+c
+                            const toast = swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 10000,
+                                padding: '2em'
+                            });
+                            toast({
+                                type: 'error',
+                                title: ''+c,
+                                padding: '2em',
                             });
                         }
                     }).done(function () {
                         $('#loader').hide();
+                        const toast = swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 10000,
+                            padding: '2em'
+                        });
                         if (hasil.status.data) {
-                            $(document).Toasts('create', {
-                                class: 'bg-success',
-                                title: 'Berhasil',
-                                autohide: true,
-                                delay: 3000,
-                                body: ''+hasil.status.pesan
+                            toast({
+                                type: 'success',
+                                title: ''+hasil.status.pesan,
+                                padding: '2em',
                             });
                             setTimeout(function() {
                                 $(location).attr('href', '{{ route("d.login", ["domain_toko" => $toko->domain_toko]) }}');
                             }, 3050);
                         } else {
-                            $(document).Toasts('create', {
-                                class: 'bg-danger',
-                                title: 'Gagal',
-                                autohide: true,
-                                delay: 3000,
-                                body: ''+hasil.status.pesan
+                            toast({
+                                type: 'error',
+                                title: ''+hasil.status.pesan,
+                                padding: '2em',
                             });
                         }
                     });
@@ -418,5 +233,4 @@
         });
     </script>
 </body>
-
 </html>
