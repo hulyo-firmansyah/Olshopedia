@@ -38,10 +38,30 @@
             border: none;
             background: transparent
         }
+        #loader-div {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 10000;
+            -ms-flex-align: center;
+            align-items: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+        }
     </style>
 </head>
 
 <body class="alt-menu">
+    <div id="loader-div">
+        <div class="text-center">
+            <div class="spinner-border align-self-center loader-lg" style='color:white;width:100px;height:100px'></div>
+        </div>
+    </div>
     <div id="load_screen">
         <div class="loader">
             <div class="loader-content">

@@ -203,7 +203,7 @@ class RegisterController extends Controller
                             return redirect(route('d.register', ['domain_toko' => $domain_toko]))->with('error', $e->getMessage());
                         }
                         return redirect(route('d.login', ['domain_toko' => $domain_toko]))->with('sukses', 
-                            'We sent you an activation code. Check your email and click on the link to verify, Didn\'t receive email <a href="javascript:void(0);" class="text-reset resendMail">resend mail</a>.'
+                            'We sent you an activation code. Check your email and click on the link to verify, Didn\'t receive email <a href="javascript:void(0);" class="resendMail">resend mail</a>.'
                         );
                     }
                 } else {

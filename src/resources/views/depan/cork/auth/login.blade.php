@@ -115,7 +115,7 @@
     font-size: 16px;
     letter-spacing: 2px;
 }
-.login-form p.signup-link a {
+.login-form p.signup-link a, .resendMail {
     color: #1b55e2;
     border-bottom: 1px solid;
 }
@@ -228,6 +228,60 @@
                 $('#toggle-password').css('right', '13px');
             }
         });
+        
+            // Resend Email
+            $('.resendMail').on('click', function () {
+                $('#loader-div').css('display', 'flex');
+                var hasil;
+                var token = $('#h_tokenEmail').val();
+                $.ajax({
+                    type: 'post',
+                    url: "{{ route('d.email-resendMail', ['domain_toko' => $toko->domain_toko]) }}",
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        token: token,
+                    },
+                    success: function (data) {
+                        hasil = data;
+                    },
+                    error: function (error, b, c) {
+                        const toast = swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 10000,
+                            padding: '2em'
+                        });
+                        toast({
+                            type: 'error',
+                            title: ''+c,
+                            padding: '2em',
+                        });
+                    }
+                }).done(function () {
+                    $('#loader-div').hide();
+                    const toast = swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 10000,
+                        padding: '2em'
+                    });
+                    if (hasil.status) {
+                        toast({
+                            type: 'success',
+                            title: 'Berhasil mengirim ulang email verifikasi!',
+                            padding: '2em',
+                        });
+                    } else {
+                        toast({
+                            type: 'error',
+                            title: ''+hasil.msg,
+                            padding: '2em',
+                        });
+                    }
+                }).fail(function () {});
+            });
 
         var togglePassword = document.getElementById("toggle-password");
         var formContent = document.getElementsByClassName('form-content')[0]; 
