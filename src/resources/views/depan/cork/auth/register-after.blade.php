@@ -1,133 +1,135 @@
-@extends('depan.default.index')
+@extends('depan.cork.index')
+@section('page')
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ route('d.home', ['domain_toko' => $toko->domain_toko]) }}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><span>Register</span></li>
+</ol>
+@endsection
 @section('isi')
 <!--uiop-->
-<div clas='content-header'>
-    <div class='container'>
-        <div class="row mb-5">
-        </div>
-    </div>
-</div>
-<div class="content">
-    <div class='container'>
-        <div class='row'>
-            <div class='col-md-12'>
-                <form role="form" action='{{ route("d.register-after", ["domain_toko" => $toko->domain_toko]) }}' method='post' id='registerAfterForm'>
-                    {{ csrf_field() }}
-                    <input name='i' type='text' value='{{ $requestData["i"] }}' style='display:none;'>
-                    <input name='d' type='text' value='{{ $requestData["d"] }}' style='display:none;'>
-                    <input name='v' type='text' value='{{ $requestData["v"] }}' style='display:none;'>
-                    <div class='card'>
-                        <div class='card-header'>
-                            <h3 class='card-title'>
-                                Lengkapi Alamat Pengiriman
-                            </h3>
-                        </div>
-                        <div class='card-body'>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Nama Lengkap</label>
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control" value='{{ $userData->name }}'
-                                                readonly>
-                                            <div class="input-group-append">
-                                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-                                            </div>
+<div class='container' style='margin-top:35px;'>
+    <div class='row'>
+        <div class='col-md-12'>
+            <form role="form" action='{{ route("d.register-after", ["domain_toko" => $toko->domain_toko]) }}' method='post' id='registerAfterForm'>
+                {{ csrf_field() }}
+                <input name='i' type='text' value='{{ $requestData["i"] }}' style='display:none;'>
+                <input name='d' type='text' value='{{ $requestData["d"] }}' style='display:none;'>
+                <input name='v' type='text' value='{{ $requestData["v"] }}' style='display:none;'>
+                <div class='card'>
+                    <div class='card-header'>
+                        <h3 class='card-title'>
+                            Lengkapi Alamat Pengiriman
+                        </h3>
+                    </div>
+                    <div class='card-body'>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nama Lengkap</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" value='{{ $userData->name }}'
+                                            readonly>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Email</label>
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control" value='{{ $userData->email }}'
-                                                readonly>
-                                            <div class="input-group-append">
-                                                <span class="input-group-text"><i class="fas fa-at"></i></span>
-                                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" value='{{ $userData->email }}'
+                                            readonly>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-at-sign register"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>No Telepon</label>
-                                        <input type="text" id='no_telp' class="form-control angkaSaja" name='no_telp' placeholder='No Telepon'
-                                            value='{{ $userData->no_telp }}'>
-                                        <small id="error_no_telp" style='display:none;color:red;'>Silahkan isi No Telepon!</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Kode Pos</label>
-                                        <input type="text" id='kode_pos' class="form-control angkaSaja" name='kode_pos' placeholder='Kode Pos'>
-                                        <small id="error_kode_pos" style='display:none;color:red;'>Silahkan isi Kode Pos!</small>
-                                    </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>No Telepon</label>
+                                    <input type="text" id='no_telp' class="form-control ph-number" name='no_telp' placeholder='No Telepon'
+                                        value='{{ $userData->no_telp }}'>
+                                    <small id="error_no_telp" style='display:none;color:red;'>Silahkan isi No Telepon!</small>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Provinsi</label>
-                                        <select name='provinsi' id='provinsi'>
-                                            <option value=''>-- Pilih Provinsi --</option>
-                                            @php
-                                            foreach(\App\Http\Controllers\PusatController::genArray($wilayah_indonesia)
-                                            as $w){
-                                            echo "<option value='".$w->provinsi."'>".$w->provinsi."</option>";
-                                            }
-                                            @endphp
-                                        </select>
-                                        <small id="error_provinsi" style='display:none;color:red;'>Silahkan Pilih Provinsi!</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Kabupaten/Kota</label>
-                                        <select name='kabupaten' id='kabupaten'>
-                                            <option value=''>-- Pilih Kabupaten/Kota --</option>
-                                            @php
-                                            foreach(\App\Http\Controllers\PusatController::genArray($wilayah_indonesia)
-                                            as $w){
-                                            foreach($w->kabupaten as $k){
-                                            echo "<option value='".$k->type." ".$k->kabupaten_nama."'>".$k->type."
-                                                ".$k->kabupaten_nama."</option>";
-                                            }
-                                            }
-                                            @endphp
-                                        </select>
-                                        <small id="error_kabupaten" style='display:none;color:red;'>Silahkan Pilih Kabupaten!</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Kecamatan</label>
-                                        <select name='kecamatan' id='kecamatan' width='100%'>
-                                            <option value=''>-- Pilih Kecamatan --</option>
-                                        </select>
-                                        <small id="error_kecamatan" style='display:none;color:red;'>Silahkan Pilih Kecamatan!</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Alamat Lengkap</label>
-                                        <textarea class="form-control" rows="3" placeholder="Alamat lengkap" name='alamat' id='alamat'></textarea>
-                                        <small id="error_alamat" style='display:none;color:red;'>Silahkan isi alamat!</small>
-                                    </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Kode Pos</label>
+                                    <input type="text" id='kode_pos' class="form-control angkaSaja" name='kode_pos' placeholder='Kode Pos'>
+                                    <small id="error_kode_pos" style='display:none;color:red;'>Silahkan isi Kode Pos!</small>
                                 </div>
                             </div>
                         </div>
-                        <div class='card-footer'>
-                            <button type="button" class="btn btn-primary" id='btnSimpan'>Simpan</button>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Provinsi</label>
+                                    <select name='provinsi' id='provinsi'>
+                                        <option value=''>-- Pilih Provinsi --</option>
+                                        @php
+                                        foreach(\App\Http\Controllers\PusatController::genArray($wilayah_indonesia)
+                                        as $w){
+                                        echo "<option value='".$w->provinsi."'>".$w->provinsi."</option>";
+                                        }
+                                        @endphp
+                                    </select>
+                                    <small id="error_provinsi" style='display:none;color:red;'>Silahkan Pilih Provinsi!</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Kabupaten/Kota</label>
+                                    <select name='kabupaten' id='kabupaten'>
+                                        <option value=''>-- Pilih Kabupaten/Kota --</option>
+                                        @php
+                                        foreach(\App\Http\Controllers\PusatController::genArray($wilayah_indonesia)
+                                        as $w){
+                                        foreach($w->kabupaten as $k){
+                                        echo "<option value='".$k->type." ".$k->kabupaten_nama."'>".$k->type."
+                                            ".$k->kabupaten_nama."</option>";
+                                        }
+                                        }
+                                        @endphp
+                                    </select>
+                                    <small id="error_kabupaten" style='display:none;color:red;'>Silahkan Pilih Kabupaten!</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Kecamatan</label>
+                                    <select name='kecamatan' id='kecamatan' width='100%'>
+                                        <option value=''>-- Pilih Kecamatan --</option>
+                                    </select>
+                                    <small id="error_kecamatan" style='display:none;color:red;'>Silahkan Pilih Kecamatan!</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Alamat Lengkap</label>
+                                    <textarea class="form-control" rows="3" placeholder="Alamat lengkap" name='alamat' id='alamat'></textarea>
+                                    <small id="error_alamat" style='display:none;color:red;'>Silahkan isi alamat!</small>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </form>
-            </div>
+                    <div class='card-footer'>
+                        <button type="button" class="btn btn-primary" id='btnSimpan'>Simpan</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -139,19 +141,18 @@ var cacheProvinsiAll = [];
 var errorValidasi = 0;
 
 $(document).ready(function() {
+    
     $('#provinsi').select2({
-        theme: 'bootstrap4',
         width: '100%'
     });
     $('#kabupaten').select2({
-        theme: 'bootstrap4',
         width: '100%'
     });
     $('#kecamatan').select2({
-        theme: 'bootstrap4',
         width: '100%'
     });
     
+    $(".ph-number").inputmask({mask:"(+99) 999-9999-9999"});
 
     $('#btnSimpan').on('click', function(){
         let data = $('#registerAfterForm').serializeArray();
@@ -184,14 +185,6 @@ $(document).ready(function() {
                     }
                     if(v.value.length > 9){
                         $('small#error_'+v.name).text('Kode Pos tidak boleh lebih dari 9 angka!');
-                        $('small#error_'+v.name).show();
-                        $('#'+v.name).addClass('is-invalid');
-                        errorValidasi++;
-                    }
-                } else if(v.name == 'no_telp'){
-                    var regex = /[^0-9]/gi;
-                    if(regex.test(v.value)){
-                        $('small#error_'+v.name).text('No Telepon hanya boleh angka!');
                         $('small#error_'+v.name).show();
                         $('#'+v.name).addClass('is-invalid');
                         errorValidasi++;

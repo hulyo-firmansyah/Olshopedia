@@ -9,6 +9,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('template_depan/cork/assets/img/favicon.ico') }}" />
     
     <script src="{{ asset('template_depan/cork/assets/js/libs/jquery-3.1.1.min.js') }}"></script>
+    <script src="{{ asset('template_depan/cork/plugins/input-mask/jquery.inputmask.bundle.min.js') }}"></script>
     
     <link href="{{ asset('template_depan/cork/assets/css/loader.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('template_depan/cork/assets/js/loader.js') }}"></script>
@@ -209,6 +210,15 @@
                             </div>
                         </a>
                     </li>
+                    <li class="menu">
+                        <a href="{{ route('d.cart-index', ['domain_toko' => $toko->domain_toko]) }}" aria-expanded="false" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                </svg>
+                                Cart
+                            </div>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -255,6 +265,10 @@
     $(document).ready(function() {
         App.init();
 
+        $('.angkaSaja').on('input', function(){
+            this.value = this.value.replace(/[^0-9]/, '');
+        });
+
         $('#btnCari').on('click', function(){
             $(location).attr('href', '{{ route("d.home", ["toko_slug" => $toko->domain_toko]) }}?q='+$('#queryCari').val()+'@if($r["sort"] !== "")&sort={{$r["sort"]}}@endif');
         });
@@ -271,7 +285,6 @@
     <script src="{{ asset('template_depan/cork/plugins/select2/custom-select2.js') }}"></script>
     <script src="{{ asset('template_depan/cork/plugins/sweetalerts/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('template_depan/cork/plugins/sweetalerts/custom-sweetalert.js') }}"></script>
-    <script src="{{ asset('template_depan/cork/plugins/input-mask/jquery.inputmask.bundle.min.js') }}"></script>
     <script src="{{ asset('template_depan/cork/plugins/input-mask/input-mask.js') }}"></script>
 
     <script src="{{ asset('template_depan/cork/assets/js/scrollspyNav.js') }}"></script>

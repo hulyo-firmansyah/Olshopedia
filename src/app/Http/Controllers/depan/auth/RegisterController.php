@@ -141,14 +141,17 @@ class RegisterController extends Controller
             $data_['v'] = strip_tags($request->v);
             $data_['d'] = strip_tags($request->d);
             if($data_['i'] != '' && $data_['v'] != '' && $data_['d'] != ''){
-                $data['no_telp'] = strip_tags($request->no_telp);
+                $data['no_telp'] = preg_replace('/[^0-9]/', '', strip_tags($request->no_telp));
                 $data['kode_pos'] = strip_tags($request->kode_pos);
                 $data['provinsi'] = strip_tags($request->provinsi);
                 $data['kabupaten'] = strip_tags($request->kabupaten);
                 $data['kecamatan'] = strip_tags($request->kecamatan);
                 $data['alamat'] = strip_tags($request->alamat);
                 if(preg_match('/[^0-9]/', $data['no_telp']) || preg_match('/[^0-9]/', $data['kode_pos'])){
-                    return redirect(route('d.register', ['domain_toko' => $domain_toko]));
+                    $userData_delete = DB::table('users')
+                        ->where('id', $data_['v'])
+                        ->delete();
+                    return redirect(route('d.register', ['domain_toko' => $domain_toko]))->with('error', 'Gagal mendaftar, kode pos atau nomor telepon formatnya salah!<br><br>Silahkan ulangi lagi!');
                 }
                 $userData = DB::table('users')
                     ->where('id', $data_['v'])

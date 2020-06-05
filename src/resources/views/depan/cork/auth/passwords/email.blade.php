@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <title>{{ $toko->nama_toko }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="{{ asset('template_depan/default/plugins/fontawesome-free/css/all.min.css') }}">
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="{{ asset('template_depan/default/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('template_depan/default/dist/css/adminlte.min.css') }}">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="{{ asset('template_depan/cork/assets/img/favicon.ico') }}"/>
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+    <link href="{{ asset('template_depan/cork/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('template_depan/cork/assets/css/plugins.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('template_depan/cork/assets/css/authentication/form-2.css') }}" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('template_depan/cork/assets/css/forms/theme-checkbox-radio.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('template_depan/cork/assets/css/forms/switches.css') }}">
+    <script src="{{ asset('template_depan/cork/plugins/sweetalerts/promise-polyfill.js') }}"></script>
+    <link href="{{ asset('template_depan/cork/plugins/sweetalerts/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('template_depan/cork/plugins/sweetalerts/sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('template_depan/cork/assets/css/components/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <style>
-    #loader {
+    #loader-div {
         display: none;
         position: fixed;
         top: 0;
@@ -30,79 +36,74 @@
     }
     </style>
 </head>
-
-<body class="hold-transition login-page">
-    <div id="loader">
+<body class="form no-image-content">
+    <div id="loader-div">
         <div class="text-center">
-            <i class="fas fa-sync-alt fa-spin" style='font-size:5em;color:white;'></i>
+            <div class="spinner-border align-self-center loader-lg" style='color:white;width:100px;height:100px'></div>
         </div>
     </div>
-    <div class="login-box">
-        <div class="login-logo">
-            <a href="{{ route('d.home', ['domain_toko' => $toko->domain_toko]) }}">
-            @php
-                if(isset($toko->foto_id)){
-                    $foto = \DB::table('t_foto')
-                        ->where('data_of', \App\Http\Controllers\PusatController::dataOfByDomainToko($toko->domain_toko))
-                        ->where('id_foto', $toko->foto_id)
-                        ->get()->first();
-                    if(isset($foto->path)){
-                        @endphp
-                            <img src="{{ asset($foto->path) }}" alt="Toko Logo" width='140px' height='140px'><br>
-                        @php
-                        echo $toko->nama_toko;
-                    } else {
-                        echo $toko->nama_toko;
-                    }
-                } else {
-                    echo $toko->nama_toko;
-                }
-            @endphp
-            </a>
-        </div>
-        <div class="card">
-            <div class="card-body login-card-body">
-                <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
+    
+    <div class="form-container outer">
+        <div class="form-form">
+            <div class="form-form-wrap">
+                <div class="form-container">
+                    <div class="form-content">
 
-                @if ($error = session('error_msg'))
-                <div role="alert" class="alert alert-danger alert-dismissible">
-                    <button aria-label="Close" data-dismiss="alert" class="close" type="button">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                    <h4>Some Message</h4>
-                    <p style='color:black;'>{{ $error }}</p>
-                </div>
-                @endif
-                <!-- <form action="recover-password.html" method="post"> -->
-                    <div class="input-group">
-                        <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email" autocomplete='off'>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
+                        <h1 class="">Password Recovery</h1>
+                        <p class="signup-link recovery">Enter your email and instructions will sent to you!</p>
+                        @if ($error = session('error_msg'))
+                        <div role="alert" class="alert alert-danger alert-dismissible">
+                            <button aria-label="Close" data-dismiss="alert" class="close" type="button">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <h4>Some Message</h4>
+                            <p style='color:black;'>{{ $error }}</p>
+                        </div>
+                        @endif
+                        <form class="text-left">
+                            <div class="form">
+
+                                <div id="email-field" class="field-wrapper input">
+                                    <div class="d-flex justify-content-between">
+                                        <label for="email">EMAIL</label>
+                                    </div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-at-sign"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg>
+                                    <input id="inputEmail" name="email" type="text" class="form-control" value="" placeholder="Email">
+                                    <small id="error_email" style='color:#f2353c;display:none;'>Masukkan alamat email anda!</small>
+                                </div>
+
+                                <div class="d-sm-flex justify-content-between">
+
+                                    <div class="field-wrapper">
+                                        <button type="button" class="btn btn-primary" value="" id='btnResetPassword'>Reset</button>
+                                    </div>
+                                </div>
+
+                                <p class="signup-link">
+                                    Belum punya akun?, <a href="{{ route('d.register', ['domain_toko' => $toko->domain_toko]) }}">Register</a><br>
+                                    atau <a href="{{ route('d.login', ['domain_toko' => $toko->domain_toko]) }}">Login</a> jika sudah punya akun.
+                                </p>
+
                             </div>
-                        </div>
-                    </div>
-                    <small id="error_email" style='color:#f2353c;display:none;'>Masukkan alamat email anda!</small>
-                    <div class="row mt-3">
-                        <div class="col-12">
-                            <button type="button" id="btnResetPassword" class="btn btn-primary btn-block">Reset Your Password</button>
-                        </div>
-                    </div>
-                <!-- </form> -->
+                        </form>
 
-                <p class="mt-3 mb-1">
-                    <a href="{{ route('d.login', ['domain_toko' => $toko->domain_toko]) }}">Login</a>
-                </p>
-                <p class="mb-0">
-                    <a href="{{ route('d.register', ['domain_toko' => $toko->domain_toko]) }}" class="text-center">Register a new membership</a>
-                </p>
+                    </div>                    
+                </div>
             </div>
         </div>
     </div>
 
-    <script src="{{ asset('template_depan/default/plugins/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('template_depan/default/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('template_depan/default/dist/js/adminlte.min.js') }}"></script>
+    
+    <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
+    <script src="{{ asset('template_depan/cork/assets/js/libs/jquery-3.1.1.min.js') }}"></script>
+    <script src="{{ asset('template_depan/cork/bootstrap/js/popper.min.js') }}"></script>
+    <script src="{{ asset('template_depan/cork/bootstrap/js/bootstrap.min.js') }}"></script>
+    
+    <!-- END GLOBAL MANDATORY SCRIPTS -->
+    <script src="{{ asset('template_depan/cork/assets/js/authentication/form-2.js') }}"></script>
+    <script src="{{ asset('template_depan/cork/plugins/sweetalerts/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('template_depan/cork/plugins/sweetalerts/custom-sweetalert.js') }}"></script>
+
     <script>
         var cache_email = null;
 
@@ -132,7 +133,7 @@
                     error++;
                 }
                 if (error == 0){
-                    $('#loader').css('display', 'flex');
+                    $('#loader-div').css('display', 'flex');
                     $.ajax({
                         type: 'get',
                         url: "{{ route('d.password-email', ['domain_toko' => $toko->domain_toko]) }}",
@@ -143,43 +144,48 @@
                             hasil = data;
                         },
                         error: function(error, b, c) {
-                            $(document).Toasts('create', {
-                                class: 'bg-danger',
-                                title: 'Error',
-                                autohide: true,
-                                delay: 3000,
-                                body: ''+c
+                            const toast = swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 10000,
+                                padding: '2em'
+                            });
+                            toast({
+                                type: 'error',
+                                title: ''+c,
+                                padding: '2em',
                             });
                         }
                     }).done(function() {
-                        $('#loader').hide();
+                        $('#loader-div').hide();
+                        const toast = swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 10000,
+                            padding: '2em'
+                        });
                         if (hasil.status.data) {
-                            $(document).Toasts('create', {
-                                class: 'bg-success',
-                                title: 'Berhasil',
-                                autohide: true,
-                                delay: 3000,
-                                body: ''+hasil.status.pesan
+                            toast({
+                                type: 'success',
+                                title: ''+hasil.status.pesan,
+                                padding: '2em',
                             });
                             $('#btnResetPassword').text('Resend Email');
                             cache_email = hasil.email;
                         } else {
-                            $(document).Toasts('create', {
-                                class: 'bg-danger',
-                                title: 'Gagal',
-                                autohide: true,
-                                delay: 3000,
-                                body: ''+hasil.status.pesan
+                            toast({
+                                type: 'error',
+                                title: ''+hasil.status.pesan,
+                                padding: '2em',
                             });
                         }
-                        $('#inputEmail').val('');
                     });
                 }
             });
 
         });
     </script>
-
 </body>
-
 </html>
