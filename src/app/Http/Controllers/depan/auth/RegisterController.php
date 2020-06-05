@@ -151,7 +151,7 @@ class RegisterController extends Controller
                     $userData_delete = DB::table('users')
                         ->where('id', $data_['v'])
                         ->delete();
-                    return redirect(route('d.register', ['domain_toko' => $domain_toko]))->with('error', 'Gagal mendaftar, kode pos atau nomor telepon formatnya salah!<br><br>Silahkan ulangi lagi!');
+                    return redirect(route('d.register', ['domain_toko' => $domain_toko]))->with('error', 'Gagal mendaftar, kode pos atau nomor telepon formatnya salah!. Silahkan ulangi lagi!');
                 }
                 $userData = DB::table('users')
                     ->where('id', $data_['v'])

@@ -191,7 +191,7 @@
                 <div id="email-field" class="field-wrapper input">
                     <label for="email">EMAIL</label>
                     <svg style='top:52px' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-at-sign register"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg>
-                    <input id="email" name="email" type="text" value="" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Email" value='{{ old("email") }}'>
+                    <input id="email" name="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Email" value='{{ old("email") }}'>
                     @if ($errors->has('email'))
                         <div id="error_email" class="invalid-feedback" style='display:block'>{{ $errors->first('email') }}</div>
                     @endif
@@ -200,7 +200,7 @@
                 <div id="no_telp-field" class="field-wrapper input">
                     <label for="no_telp">NOMOR TELEPON</label>
                     <svg style='top:52px;' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-phone"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                    <input id="no_telp" name="no_telp" type="text" value="" class="form-control ph-number{{ $errors->has('no_telp') ? ' is-invalid' : '' }}" placeholder="Nomor Telepon" value='{{ old("no_telp") }}'>
+                    <input id="no_telp" name="no_telp" type="text" class="form-control ph-number{{ $errors->has('no_telp') ? ' is-invalid' : '' }}" placeholder="Nomor Telepon" value='{{ old("no_telp") }}'>
                     @if ($errors->has('no_telp'))
                         <div id="error_no_telp" class="invalid-feedback" style='display:block'>{{ $errors->first('no_telp') }}</div>
                     @endif
