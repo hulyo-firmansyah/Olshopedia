@@ -158,6 +158,7 @@ class RegisterController extends Controller
                     ->select('no_telp')
                     ->get()->first();
                 if(isset($userData)){
+                    // dd('asd');
                     $dataNo = DB::table('users')
                         ->where('id', $data_['v'])
                         ->update([
@@ -174,6 +175,7 @@ class RegisterController extends Controller
                             'kategori' => 'Customer',
                             'data_of' => Fungsi::dataOfByDomainToko($domain_toko)
                         ]);
+                    // dd($insert);
                     if($insert){
                         $user = User::find($data_['v']);
                         // dd($user);

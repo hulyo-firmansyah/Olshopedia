@@ -115,6 +115,10 @@
             });
 
             $('#inputEmail').on('input', function(){
+                if($(this).hasClass('is-invalid')){
+                    $(this).removeClass('is-invalid');
+                    $('#error_email').hide();
+                }
                 if($(this).val() == cache_email){
                     $('#btnResetPassword').text('Resend Email');
                 } else {

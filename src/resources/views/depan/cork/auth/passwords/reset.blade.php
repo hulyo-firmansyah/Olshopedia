@@ -139,13 +139,15 @@
                 if($('#re-password').hasClass('is-invalid')){
                     $('#re-password').removeClass('is-invalid');
                     $('small#errorRe-Pass').hide();
+                    $('#toggle-password2').css('right', '13px');
                 }
             });
 
-            $('#newPassword').on('input', function(){
-                if($('#newPassword').hasClass('is-invalid')){
-                    $('#newPassword').removeClass('is-invalid');
+            $('#password').on('input', function(){
+                if($('#password').hasClass('is-invalid')){
+                    $('#password').removeClass('is-invalid');
                     $('small#errorPass').hide();
+                    $('#toggle-password').css('right', '13px');
                 }
             });
 
@@ -160,18 +162,21 @@
                     $('#password').addClass('is-invalid');
                     $('small#errorPass').text('Masukkan password baru!');
                     $('small#errorPass').show();
+                    $('#toggle-password').css('right', '32px');
                     error++
                 }
                 if (retypePass == '') {
                     $('#re-password').addClass('is-invalid');
                     $('small#errorRe-Pass').text('Masukkan password konfirmasi!');
                     $('small#errorRe-Pass').show();
+                    $('#toggle-password2').css('right', '32px');
                     error++
                 }
                 if (newPass != retypePass) {
                     $('#re-password').addClass('is-invalid');
                     $('small#errorRe-Pass').text('Password tidak sama!');
                     $('small#errorRe-Pass').show();
+                    $('#toggle-password2').css('right', '32px');
                     error++;
                 }
                 // return;
