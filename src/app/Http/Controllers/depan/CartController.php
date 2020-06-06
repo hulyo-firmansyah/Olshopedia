@@ -59,7 +59,8 @@ class CartController extends Controller
                         'price' => $produk->harga_jual_normal,
                         'quantity' => $jumlah,
                         'attributes' => [
-                            'koleksi' => $produk
+                            'id_produk' => $id_produk,
+                            'id_varian' => $id_varian
                         ]
                     ]);
                     return Fungsi::respon([
