@@ -26,247 +26,10 @@
     <link rel="stylesheet" href="{{ asset('template/global/fonts/material-design/material-design.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/global/fonts/brand-icons/brand-icons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/global/fonts/glyphicons/glyphicons.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/checkout_depan.css') }}">
+    <link rel="stylesheet" href="{{ asset('jquery-ui-1.12.1.custom/jquery-ui.css') }}">
+    <script src='{{ asset("jquery-ui-1.12.1.custom/jquery-ui.js") }}'></script>
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
-    <style>
-    .pearls {
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-        margin: 0 0 22px;
-    }
-
-    .pearl {
-        position: relative;
-        padding: 0;
-        margin: 0;
-        text-align: center;
-    }
-
-    .pearl:before,
-    .pearl:after {
-        position: absolute;
-        top: 18px;
-        z-index: 0;
-        width: 50%;
-        height: 4px;
-        content: "";
-        background-color: #f3f7f9;
-    }
-
-    .pearl:before {
-        left: 0;
-    }
-
-    .pearl:after {
-        right: 0;
-    }
-
-    .pearl:first-child:before,
-    .pearl:last-child:after {
-        display: none !important;
-    }
-
-    .pearl-number,
-    .pearl-icon {
-        position: relative;
-        z-index: 1;
-        display: inline-block;
-        width: 36px;
-        height: 36px;
-        line-height: 32px;
-        color: #fff;
-        text-align: center;
-        background: #ccd5db;
-        border: 2px solid #ccd5db;
-        border-radius: 50%;
-    }
-
-    .pearl-number {
-        font-size: 18px;
-    }
-
-    .pearl-icon {
-        font-size: 18px;
-    }
-
-    .pearl-title {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        display: block;
-        margin-top: 0.5em;
-        margin-bottom: 0;
-        font-size: 16px;
-        color: #526069;
-    }
-
-    .pearl.current:before,
-    .pearl.current:after,
-    .pearl.active:before,
-    .pearl.active:after {
-        background-color: #3e8ef7;
-    }
-
-    .pearl.current .pearl-number,
-    .pearl.current .pearl-icon,
-    .pearl.active .pearl-number,
-    .pearl.active .pearl-icon {
-        color: #3e8ef7;
-        background-color: #fff;
-        border-color: #3e8ef7;
-        -webkit-transform: scale(1.3);
-        transform: scale(1.3);
-    }
-
-    .pearl.disabled {
-        pointer-events: none;
-        cursor: auto;
-    }
-
-    .pearl.disabled:before,
-    .pearl.disabled:after {
-        background-color: #f3f7f9;
-    }
-
-    .pearl.disabled .pearl-number,
-    .pearl.disabled .pearl-icon {
-        color: #fff;
-        background-color: #ccd5db;
-        border-color: #ccd5db;
-    }
-
-    .pearl.error:before {
-        background-color: #3e8ef7;
-    }
-
-    .pearl.error:after {
-        background-color: #f3f7f9;
-    }
-
-    .pearl.error .pearl-number,
-    .pearl.error .pearl-icon {
-        color: #ff4c52;
-        background-color: #fff;
-        border-color: #ff4c52;
-    }
-
-    .pearl.done:before,
-    .pearl.done:after {
-        background-color: #3e8ef7;
-    }
-
-    .pearl.done .pearl-number,
-    .pearl.done .pearl-icon {
-        color: #fff;
-        background-color: #3e8ef7;
-        border-color: #3e8ef7;
-    }
-
-    .pearls-lg .pearl:before,
-    .pearls-lg .pearl:after {
-        top: 20px;
-    }
-
-    .pearls-lg .pearl-title {
-        font-size: 18px;
-    }
-
-    .pearls-lg .pearl-number,
-    .pearls-lg .pearl-icon {
-        width: 40px;
-        height: 40px;
-        line-height: 36px;
-    }
-
-    .pearls-lg .pearl-icon {
-        font-size: 20px;
-    }
-
-    .pearls-lg .pearl-number {
-        font-size: 20px;
-    }
-
-    .pearls-sm .pearl:before,
-    .pearls-sm .pearl:after {
-        top: 16px;
-    }
-
-    .pearls-sm .pearl-title {
-        font-size: 14px;
-    }
-
-    .pearls-sm .pearl-number,
-    .pearls-sm .pearl-icon {
-        width: 32px;
-        height: 32px;
-        line-height: 28px;
-    }
-
-    .pearls-sm .pearl-number {
-        font-size: 16px;
-    }
-
-    .pearls-sm .pearl-icon {
-        font-size: 14px;
-    }
-
-    .pearls-xs .pearl:before,
-    .pearls-xs .pearl:after {
-        top: 12px;
-        height: 2px;
-    }
-
-    .pearls-xs .pearl-title {
-        font-size: 12px;
-    }
-
-    .pearls-xs .pearl-number,
-    .pearls-xs .pearl-icon {
-        width: 24px;
-        height: 24px;
-        line-height: 20px;
-    }
-
-    .pearls-xs .pearl-number {
-        font-size: 12px;
-    }
-
-    .pearls-xs .pearl-icon {
-        font-size: 12px;
-    }
-
-    *,
-    input,
-    select,
-    textarea,
-    option,
-    button {
-        outline: none !important;
-    }
-
-    .form-control {
-        box-shadow: unset;
-    }
-
-    .img-order {
-        padding: 5px;
-        border: 1px solid #ddd;
-        border-radius: .25rem;
-        background-color: #fff;
-    }
-
-    .badge-order {
-        background-color: #3e8ef7;
-        padding: .25rem .45rem;
-        font-size: 12px;
-        line-height: 10px;
-        color: #fff;
-        border-radius: .25rem;
-        width: auto;
-        font-weight: 700;
-    }
-    </style>
 </head>
 
 <body style='background:#f1f4f5;'>
@@ -313,14 +76,14 @@
                                 <div class="row">
                                     <div class="form-group col-sm-12">
                                         <label>Nama Lengkap</label>
-                                        <input type="text" class="form-control" id="nama" name="nama" value="">
+                                        <input type="text" class="form-control" id="nama" name="nama">
                                         <small style='color:red;display:none;' id='error_nama'></small>
                                     </div>
                                 </div>
                                 <div class='row'>
                                     <div class="form-group col-sm-6">
                                         <label>Email</label>
-                                        <input type="email" class="form-control" name="email" value="" id='email'>
+                                        <input type="email" class="form-control" name="email" id='email'>
                                         <small style='color:red;display:none;' id='error_email'></small>
                                     </div>
                                     <div class="form-group col-sm-6">
@@ -345,21 +108,29 @@
                                 </div>
                                 <div class='row'>
                                     <div class="col-sm-9">
-                                        <label>Kota/Kecamatan</label>
+                                        <label>Kota/Kecamatan
+                                            <span class='ml-10' id='cDari' style='color:#FAA700;font-size:12px'>*mininal 3
+                                                karakter</span>
+                                            <div id='pesan_kecamatan' style='display:inline-block' class='ml-10'></div>
+                                        </label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="kecamatan" name="kecamatan">
+                                            <input id="kecamatan" class="ui-autocomplete-input form-control" type="text"
+                                                maxlength="100" name="kecamatan" acceskey="k" autocomplete="off"
+                                                role="textbox" aria-autocomplete="list" aria-haspopup="true">
                                             <div class="input-group-append">
-                                                <span class="input-group-text">
+                                                <span class="input-group-text" id='loaderKecamatan'>
                                                     <i class="fa fa-search" style="font-size: 1rem;"></i>
                                                 </span>
                                             </div>
                                         </div>
+                                        <div id='hasilKecamatan' onMouseOver='pilihKec("over")' onMouseOut='pilihKec("out")'
+                                            style='display:none'></div>
                                         <small style='color:red;display:none;' id='error_kecamatan'></small>
                                     </div>
                                     <div class="col-sm-3">
                                         <label>Kode Pos</label>
                                         <input type="text" class="form-control" name="kodepos"
-                                            id="kode_pos" value="">
+                                            id="kodepos">
                                         <small style='color:red;display:none;' id='error_kodepos'></small>
                                     </div>
                                 </div>
@@ -450,14 +221,14 @@
                                 <table class="table" style='margin-bottom:0px;'>
                                     <tbody>
                                         <tr>
-                                            <th class="subtotal pl-0" style='font-size:15px;'>Subtotal</th>
+                                            <th class="subtotal pl-0" style='font-size:15px;color:#37474f;'>Subtotal</th>
                                             <td class="subtotal pr-0 text-right">
                                                 <p class="m-0" id="tsubtotal">Rp100.000</p>
                                             </td>
                                         </tr>
 
                                         <tr>
-                                            <th class="shipping pl-0" style='font-size:15px;'>Biaya kirim</th>
+                                            <th class="shipping pl-0" style='font-size:15px;color:#37474f;'>Biaya kirim</th>
                                             <td class="shipping pr-0 text-right">
                                                 <p class="m-0" id="tshipping">-</p>
                                             </td>
@@ -465,27 +236,27 @@
 
                                         <tr>
                                             <th class="px-0" width="50%">
-                                                <a class="pointer" data-toggle="collapse" href="#collapseCoupon"
-                                                    data-target="#collapseCoupon" role="button" aria-expanded="false"
+                                                <a class="pointer" data-toggle="collapse" href="#kuponDiv"
+                                                    data-target="#kuponDiv" role="button" aria-expanded="false"
                                                     aria-controls="collapseCoupon">
                                                     <small>Punya kode kupon?</small>
                                                 </a>
                                             </th>
                                             <td class="text-right px-0" width="50%">
-                                                <div class="collapse" id="collapseCoupon">
-                                                    <input type="text" class="form-control" name="coupon" id="coupon">
+                                                <div class="collapse" id="kuponDiv">
+                                                    <input type="text" class="form-control" name="coupon" id="kupon" placeholder='Kode Kupon'>
                                                     <input type="hidden" name="coupon_code" id="coupon_code">
                                                     <input type="hidden" name="discount" id="discount">
                                                     <input type="hidden" name="persent" id="persent">
 
                                                 </div>
-                                                <p class="small" style="line-height: 1.25;margin: 10px 0 5px;"
+                                                <p class="small" style="line-height: 1.25;margin: 0px;"
                                                     id="cAlert"></p>
                                                 <span class="text-right" id="tdiscount"></span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="total pl-0" style='font-size:15px;'>Total</th>
+                                            <th class="total pl-0" style='font-size:15px;color:#37474f;'>Total</th>
                                             <td class="total pr-0 text-right">
                                                 <h4 class="m-0" id="ttotal">Rp100.000</h4>
                                             </td>
@@ -500,22 +271,108 @@
         </div>
     </div>
     <script>
+    var cacheKecamatan = {},
+        tampilPilih = false,
+        kecamatanOld = '',
+        pilihKecamatan = '';
+
+    function pilihKec(tipe = 'over') {
+        if(tipe == 'over'){
+            if (!tampilPilih) {
+                if (!$('#editKecamatan').length)
+                    $('#hasilKecamatan').append(
+                        '<div id="editKecamatan" style="color:#eb6709;display:inline-block;position:absolute;right:50px;"><div>Edit</div></div>'
+                    );
+                $('#hasilKecamatan').css({
+                    'border': '1px solid #eb6709',
+                    'padding': '10px',
+                    'cursor': 'pointer'
+                });
+                tampilPilih = true;
+            }
+        } else if(tipe == 'out'){
+            if (tampilPilih) {
+                if ($('#editKecamatan').length)
+                    $('#editKecamatan').remove();
+                $('#hasilKecamatan').css({
+                    'border': '1px solid #e4eaec',
+                    'padding': '10px',
+                    'cursor': 'default'
+                });
+                tampilPilih = false;
+            }
+        }
+    }
+
         $(document).ready(function(){
+
+            $('.angkaSaja').on('input', function(){
+                this.value = this.value.replace(/[^0-9]/i, '');
+            });
 
             $('#btnNext').on('click', function(){
                 let error = 0;
+                let nama = $('#nama').val();
                 let email = $('#email').val();
+                let no_telp = $('#no_telp').val();
+                let alamat = $('#alamat').val();
+                let kodepos = $('#kodepos').val();
+                let kecamatan = $('#kecamatan').val();
+                if(nama == ''){
+                    $('#nama').addClass('is-invalid');
+                    $('#error_nama').show();
+                    $('#error_nama').html('Nama Lengkap tidak boleh kosong!');
+                    error++;
+                }
                 if(email == ''){
                     $('#email').addClass('is-invalid');
                     $('#error_email').show();
                     $('#error_email').html('Email tidak boleh kosong!');
                     error++;
                 }
-                var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-                if (!regex.test(email)) {
+                let regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                if (!regex.test(email) && email != '') {
                     $('#email').addClass('is-invalid');
                     $('#error_email').show();
                     $('#error_email').html('Format email tidak benar!');
+                    error++;
+                }
+                if(no_telp == ''){
+                    $('#no_telp').addClass('is-invalid');
+                    $('#error_no_telp').show();
+                    $('#error_no_telp').html('No Telpon tidak boleh kosong!');
+                    error++;
+                }
+                regex = /[^0-9]/i;
+                if(regex.test(no_telp) && no_telp != ''){
+                    $('#no_telp').addClass('is-invalid');
+                    $('#error_no_telp').show();
+                    $('#error_no_telp').html('No Telpon harus angka saja!');
+                    error++;
+                }
+                if(alamat == ''){
+                    $('#alamat').addClass('is-invalid');
+                    $('#error_alamat').show();
+                    $('#error_alamat').html('Alamat tidak boleh kosong!');
+                    error++;
+                }
+                if(kodepos == ''){
+                    $('#kodepos').addClass('is-invalid');
+                    $('#error_kodepos').show();
+                    $('#error_kodepos').html('Kodepos tidak boleh kosong!');
+                    error++;
+                }
+                if(kodepos == ''){
+                    $('#kodepos').addClass('is-invalid');
+                    $('#error_kodepos').show();
+                    $('#error_kodepos').html('Kodepos tidak boleh kosong!');
+                    error++;
+                }
+                regex = /[0-9]{1,3}\|[0-9]{1,3}\|[0-9]{1,4}/g;
+                if(kecamatan == '' || !regex.test(kecamatan) || $('#hasilKecamatan').is(':hidden')){
+                    $('#kecamatan').addClass('is-invalid');
+                    $('#error_kecamatan').show();
+                    $('#error_kecamatan').html('Pilih Kota/Kecamatan terlebih dahulu!');
                     error++;
                 }
             });
@@ -524,6 +381,119 @@
                 if($(this).hasClass('is-invalid')){
                     $('#email').removeClass('is-invalid');
                     $('#error_email').hide();
+                }
+            });
+
+            $('#nama').on('input', function(){
+                if($(this).hasClass('is-invalid')){
+                    $('#nama').removeClass('is-invalid');
+                    $('#error_nama').hide();
+                }
+            });
+
+            $('#no_telp').on('input', function(){
+                if($(this).hasClass('is-invalid')){
+                    $('#no_telp').removeClass('is-invalid');
+                    $('#error_no_telp').hide();
+                }
+            });
+
+            $('#alamat').on('input', function(){
+                if($(this).hasClass('is-invalid')){
+                    $('#alamat').removeClass('is-invalid');
+                    $('#error_alamat').hide();
+                }
+            });
+
+            $('#kodepos').on('input', function(){
+                if($(this).hasClass('is-invalid')){
+                    $('#kodepos').removeClass('is-invalid');
+                    $('#error_kodepos').hide();
+                }
+            });
+            
+            $("input#kecamatan").autocomplete({
+                minLength: 3,
+                source: function(request, response) {
+                    var term = request.term;
+                    if (term in cacheKecamatan) {
+                        response(cacheKecamatan[term]);
+                        if(cacheKecamatan[term].length > 0){
+                            $("#pesan_kecamatan").html("");
+                            $("#loaderKecamatan").html('<i class="fa fa-search" style="font-size: 1rem;"></i>');
+                        } else {
+                            $("#pesan_kecamatan").html("<span class='badge badge-danger badge-md badge-round'>Tidak ditemukan!</span>");
+                            $("#loaderKecamatan").html('<i class="fa fa-search" style="font-size: 1rem;"></i>');
+                        }
+                        return;
+                    }
+
+                    $.ajax({
+                        url: "{{ route('b.ajax-cariKecamatan') }}",
+                        type: 'get',
+                        dataType: "json",
+                        data: request,
+                        success: function(data) {
+                            cacheKecamatan[term] = data;
+                            response(data);
+                            if(data.length > 0){
+                                $("#pesan_kecamatan").html("");
+                                $("#loaderKecamatan").html('<i class="fa fa-search" style="font-size: 1rem;"></i>');
+                            } else {
+                                $("#pesan_kecamatan").html("<span class='badge badge-danger badge-md badge-round'>Tidak ditemukan!</span>");
+                                $("#loaderKecamatan").html('<i class="fa fa-search" style="font-size: 1rem;"></i>');
+                            }
+                        },
+                        beforeSend: function(){
+                            $("#loaderKecamatan").html(
+                                '<div class="loaderDiv">'+
+                                    '<svg class="circular-loader"viewBox="25 25 50 50" >'+
+                                        '<circle class="loader-path" cx="50" cy="50" r="20" fill="none" stroke="#000000" stroke-width="2" />'+
+                                    '</svg>'+
+                            '</div>');
+                        },
+                    });
+                },
+                open: function(e, ui) {
+                    var acData = $(this).data('uiAutocomplete');
+                    acData.menu.element.find('div').each(function() {
+                        var me = $(this);
+                        var t = me.text();
+                        me.html('');
+                        me.html(t);
+                    });
+                },
+                select: function(event, ui) {
+                    let hasil = ui.item.label;
+                    $('#hasilKecamatan').html(hasil);
+                    $('#hasilKecamatan').show();
+                    $("#cDari").hide();
+                    $(this).parent().hide();
+                    pilihKecamatan = ui.item.value;
+                    kecamatanOld = ui.item.label;
+                }
+            });
+
+            $('#hasilKecamatan').click(function() {
+                if($('#kecamatan').hasClass('is-invalid')){
+                    $('#kecamatan').removeClass('is-invalid');
+                    $('#error_kecamatan').hide();
+                }
+                $(this).hide();
+                $('#hasilKecamatan').html('');
+                $('#kecamatan').parent().show();
+                $('input#kecamatan').val(kecamatanOld);
+                $("#cDari").show();
+                pilihKecamatan = "";
+            });
+
+            $("#kecamatan").on('input', function(){
+                if($('#kecamatan').hasClass('is-invalid')){
+                    $('#kecamatan').removeClass('is-invalid');
+                    $('#error_kecamatan').hide();
+                }
+                if($("#pesan_kecamatan").html() != ''){
+                    $("#pesan_kecamatan").html('');
                 }
             });
 
