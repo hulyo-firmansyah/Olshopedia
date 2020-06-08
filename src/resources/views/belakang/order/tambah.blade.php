@@ -1682,6 +1682,18 @@ $(document).ready(() => {
     $(".tro-toko").attr("style", "background-color:#0099B8;color:white;");
 
     
+    //load awal dari kirim
+    var data_dari_kirim = jQuery.parseJSON('{!! $kecamatan_cari !!}');
+    $('#hasilDariKirim').html('<span style="font-weight:470">Alamat Toko</span>: '+data_dari_kirim.label);
+    $('#hasilDariKirim').show();
+    $("#cDari").hide();
+    $('#idDariKirim').val(data_dari_kirim.value);
+    $('#idDariKirim').hide();
+    pilihDari = data_dari_kirim.value;
+    dariKirimOld = data_dari_kirim.label;
+    data_dari_kirim = undefined;
+
+
     $('#passwordC').password({
         animate: false,
         minimumLength: 0,
