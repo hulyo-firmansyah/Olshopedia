@@ -318,9 +318,9 @@
                                                 <small id='error-no_telpToko' class='hidden' style='color:red;'>Silahkan isi No Telepon terlebih dahulu!</small>
                                         </div>
                                         <div class="form-group">
-                                            <label for="alamatToko" style='font-weight:500'>Alamat Toko</label>
                                             <div class='row'>
                                                 <div class='col-md-4'>
+                                                    <label for="kecamatanCari" style='font-weight:500'>Alamat Toko</label>
                                                     <div class="input-search">
                                                         <a href='javascript:void(0)' class="input-search-btn" style='margin-top:8px;color:#76838f;cursor:default;' id='iconKecamatanCari'>
                                                             <i class="icon wb-search" aria-hidden="true"></i>
@@ -333,6 +333,7 @@
                                                     <small id='error-kecamatanCari' class='hidden' style='color:red;'>Tidak ditemukan!</small>
                                                 </div>
                                                 <div class='col-md-8'>
+                                                    <label for="alamatToko" style='font-weight:500'>Detail Alamat Toko</label>
                                                     <textarea class="form-control" id="alamatToko" name="alamatToko"
                                                         rows="3" placeholder="Alamat Lengkap">{{$store->alamat_toko}}</textarea>
                                                     <small id='error-alamatToko' class='hidden' style='color:red;'>Silahkan isi Alamat Lengkap terlebih dahulu!</small>
