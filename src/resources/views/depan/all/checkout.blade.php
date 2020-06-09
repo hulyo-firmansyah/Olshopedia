@@ -41,8 +41,7 @@
             <div class="col pt-3 px-lg-5">
                 <div class="px-lg-5">
                     <h4><a href="/" class="text-dark">{{ $toko->nama_toko }} - Guest Checkout</a></h4>
-                    <small> Jika Anda sudah memiliki akun silakan <a
-                            href="{{ route('d.login', ['domain_toko' => $toko->domain_toko]) }}">login</a></small>
+                    <small> Jika Anda sudah memiliki akun silakan <a href="{{ route('d.login', ['domain_toko' => $toko->domain_toko]) }}">login</a></small>
                 </div>
             </div>
         </div>
@@ -69,7 +68,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style='margin-bottom:25px;' id='kirimDiv'>
+                <div class="row" style='margin-bottom:25px;display:none;' id='kirimDiv'>
                     <div class="col-md-12">
                         <div style='background:white;border-radius:10px;'>
                             <div style='border-bottom:1px solid #e4eaec;padding:25px;'>
@@ -132,7 +131,7 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <label>Kode Pos</label>
-                                        <input type="text" class="form-control" name="kodepos"
+                                        <input type="text" class="form-control angkaSaja" name="kodepos"
                                             id="kodepos">
                                         <small style='color:red;display:none;' id='error_kodepos'></small>
                                     </div>
@@ -175,6 +174,36 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div style='margin-top:20px'>
+                            <div class="form-group col-sm-12">
+                                <button type="button" id='btnNext' class="btn btn-primary btn-lg btn-block">Pilih metode pembayaran</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style='margin-bottom:25px;' id='bayarDiv'>
+                    <div class="col-md-12">
+                        <div style='background:white;border-radius:10px;'>
+                            <div style='border-bottom:1px solid #e4eaec;padding:25px;'>
+                                <h3 style='font-size:1.5rem;margin-bottom:0px;'>Metode Pembayaran</h3>
+                            </div>
+                            <div style='padding:25px;'>
+                                <div class='row'>
+                                    <div class='col-sm-12'>
+                                        <b>Transfer Bank</b> (verifikasi manual)
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style='background:white;border-radius:10px;margin-top:20px'>
+                            <div style='border-bottom:1px solid #e4eaec;padding:25px;'>
+                                <h3 style='font-size:1.5rem;margin-bottom:0px;'>Kurir</h3>
+                            </div>
+                            <div style='padding:25px;'>
+
                             </div>
                         </div>
                         <div style='margin-top:20px'>
@@ -280,14 +309,12 @@
                                                 <p class="m-0" id="subtotal" data-harga='{{ $total }}'>{{ \App\Http\Controllers\PusatController::formatUang($total, true) }}</p>
                                             </td>
                                         </tr>
-
                                         <tr>
                                             <th class="shipping pl-0" style='font-size:15px;color:#37474f;'>Biaya kirim</th>
                                             <td class="shipping pr-0 text-right">
                                                 <p class="m-0" id="biaya_kirim" data-harga='0'>-</p>
                                             </td>
                                         </tr>
-
                                         <tr>
                                             <th class="px-0" width="50%">
                                                 <a data-toggle="collapse" href="#kuponDiv"
@@ -492,7 +519,6 @@
 
     $(document).ready(function(){
 
-        
         let list_produk = Array.prototype.slice.call($('#list-produk li'));
         var berat_total = 0;
         list_produk.forEach(function(html) {
