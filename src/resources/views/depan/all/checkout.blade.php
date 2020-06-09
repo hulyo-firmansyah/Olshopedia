@@ -53,25 +53,25 @@
                 <div class="d-none d-sm-block">
                     <div class="px-lg-5">
                         <div class="pearls row">
-                            <div class="pearl current col-4">
+                            <div class="pearl current col-4" id='pearl-kirim'>
                                 <div class="pearl-icon"><i class="icon wb-user" aria-hidden="true"></i></div>
                                 <span class="pearl-title">Pengiriman</span>
                             </div>
-                            <div class="pearl col-4">
+                            <div class="pearl col-4" id='pearl-bayar'>
                                 <div class="pearl-icon"><i class="icon wb-payment" aria-hidden="true"></i></div>
                                 <span class="pearl-title">Pembayaran</span>
                             </div>
-                            <div class="pearl col-4">
+                            <div class="pearl col-4" id='pearl-konfirmasi'>
                                 <div class="pearl-icon"><i class="icon wb-check" aria-hidden="true"></i></div>
                                 <span class="pearl-title">Konfirmasi</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row" style='margin-bottom:25px;display:none;' id='kirimDiv'>
+                <div class="row" style='margin-bottom:25px;' id='kirimDiv'>
                     <div class="col-md-12">
-                        <div style='background:white;border-radius:10px;'>
-                            <div style='border-bottom:1px solid #e4eaec;padding:25px;'>
+                        <div class='box-in-checkout' style=''>
+                            <div class='judul'>
                                 <h3 style='font-size:1.5rem;margin-bottom:0px;'>Alamat Pengiriman</h3>
                             </div>
                             <div style='padding:25px;'>
@@ -96,7 +96,7 @@
                                                     <i class="fa fa-phone" style="font-size: 1rem;"></i>
                                                 </span>
                                             </div>
-                                            <input type="text" class="form-control" id="no_telp" name="no_telp">
+                                            <input type="text" class="form-control angkaSaja" id="no_telp" name="no_telp">
                                         </div>
                                         <small style='color:red;display:none;' id='error_no_telp'></small>
                                     </div>
@@ -138,8 +138,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div style='background:white;border-radius:10px;margin-top:20px'>
-                            <div style='border-bottom:1px solid #e4eaec;padding:25px;'>
+                        <div class='box-in-checkout' style='margin-top:20px'>
+                            <div class='judul'>
                                 <h3 style='font-size:1.5rem;margin-bottom:0px;'>Kurir</h3>
                             </div>
                             <div style='padding:25px;'>
@@ -149,7 +149,7 @@
                                         <select id='kurir' width='100%'>
                                             <option value="" disabled selected>-- Pilih Kurir --</option>
                                         </select>
-                                        <small class="help-block with-errors"></small>
+                                        <small style='color:red;display:none;' id='error_kurir'></small>
                                     </div>
                                     <div class="form-group col-sm-4">
                                         <label class="text-capitalize">Berat</label>
@@ -183,32 +183,117 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style='margin-bottom:25px;' id='bayarDiv'>
+                <div class="row" style='margin-bottom:25px;display:none;' id='bayarDiv'>
                     <div class="col-md-12">
-                        <div style='background:white;border-radius:10px;'>
-                            <div style='border-bottom:1px solid #e4eaec;padding:25px;'>
+                        <div class='box-in-checkout' style=''>
+                            <div class='judul'>
                                 <h3 style='font-size:1.5rem;margin-bottom:0px;'>Metode Pembayaran</h3>
                             </div>
                             <div style='padding:25px;'>
                                 <div class='row'>
                                     <div class='col-sm-12'>
-                                        <b>Transfer Bank</b> (verifikasi manual)
-                                        
+                                        <b style='color:black;'>Transfer Bank</b> (verifikasi manual)
+                                        <div class="pilih-bank form-group" style='margin-top:10px'>
+                                            <label for="bank-bca" class="pilih-bank-item selected" title="Transfer Bank bca">
+                                                <img class="bank-logo" src="https://culturehero.id/assets/img/bank/bca.svg" alt="bca">
+                                                <input type="radio" class="item-bank d-none" name="bank" value='bca' id='bank-bca' checked>
+                                                <span class="text-dark tc-text-color">
+                                                    Transfer Bank <span class="text-uppercase">bca</span>
+                                                </span>
+                                            </label>
+                                            <label for="bank-bni" class="pilih-bank-item" title="Transfer Bank bni">
+                                                <img class="bank-logo" src="https://culturehero.id/assets/img/bank/bni.svg" alt="bni">
+                                                <input type="radio" class="item-bank d-none" name="bank" value='bni' id='bank-bni'>
+                                                <span class="text-dark tc-text-color">
+                                                    Transfer Bank <span class="text-uppercase">bni</span>
+                                                </span>
+                                            </label>
+                                            <label for="bank-bri" class="pilih-bank-item" title="Transfer Bank bri">
+                                                <img class="bank-logo" src="https://culturehero.id/assets/img/bank/bri.svg" alt="bri">
+                                                <input type="radio" class="item-bank d-none" name="bank" value='bri'id='bank-bri'>
+                                                <span class="text-dark tc-text-color">
+                                                    Transfer Bank <span class="text-uppercase">bri</span>
+                                                </span>
+                                            </label>
+                                            <label for="bank-bsm" class="pilih-bank-item" title="Transfer Bank BSM">
+                                                <img class="bank-logo" src="https://culturehero.id/assets/img/bank/bsm.svg" alt="BSM">
+                                                <input type="radio" class="item-bank d-none" name="bank" value='bsm' id='bank-bsm'>
+                                                <span class="text-dark tc-text-color">
+                                                    Transfer Bank <span class="text-uppercase">BSM</span>
+                                                </span>
+                                            </label>
+                                            <label for="bank-mandiri-online" class="pilih-bank-item" title="Transfer Bank mandiriOnline">
+                                                <img class="bank-logo" src="https://culturehero.id/assets/img/bank/mandirionline.svg" alt="mandiriOnline">
+                                                <input type="radio" class="item-bank d-none" name="bank" value="mandiri-online" id='bank-mandiri-online'>
+                                                <span class="text-dark tc-text-color">
+                                                    Transfer Bank <span class="text-uppercase">mandiriOnline</span>
+                                                </span>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div style='background:white;border-radius:10px;margin-top:20px'>
-                            <div style='border-bottom:1px solid #e4eaec;padding:25px;'>
+                        <div style='margin-top:20px'>
+                            <div class="form-group col-sm-12">
+                                <button type="button" id='btnNext2' class="btn btn-primary btn-lg btn-block">Selanjutnya</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style='margin-bottom:25px;display:none;' id='konfirmasiDiv'>
+                    <div class="col-md-12">
+                        <div class='box-in-checkout' style=''>
+                            <div class='judul'>
+                                <h3 style='font-size:1.5rem;margin-bottom:0px;'>Alamat Pengiriman</h3>
+                            </div>
+                            <div style='padding:25px;'>
+                                <div class='row'>
+                                    <div class='col-sm-12' id='save-kirim'>
+                                        -
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='box-in-checkout' style='margin-top:20px;'>
+                            <div class='judul'>
                                 <h3 style='font-size:1.5rem;margin-bottom:0px;'>Kurir</h3>
                             </div>
                             <div style='padding:25px;'>
-
+                                <div class='row'>
+                                    <div class='col-sm-12' id='save-kurir'>
+                                        -
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='box-in-checkout' style='margin-top:20px;'>
+                            <div class='judul'>
+                                <h3 style='font-size:1.5rem;margin-bottom:0px;'>Pembayaran</h3>
+                            </div>
+                            <div style='padding:25px;'>
+                                <div class='row'>
+                                    <div class='col-sm-12' id='save-bayar'>
+                                        -
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='box-in-checkout' style='margin-top:20px;'>
+                            <div class='judul'>
+                                <h3 style='font-size:1.5rem;margin-bottom:0px;'>Catatan</h3>
+                            </div>
+                            <div style='padding:25px;'>
+                                <div class='row'>
+                                    <div class='col-sm-12' id='save-note'>
+                                        <textarea rows='3' class='form-control' placeholder='Catatan'></textarea>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div style='margin-top:20px'>
                             <div class="form-group col-sm-12">
-                                <button type="button" id='btnNext' class="btn btn-primary btn-lg btn-block">Pilih metode pembayaran</button>
+                                <button type="button" id='btnNext2' class="btn btn-primary btn-lg btn-block">Proses Order</button>
                             </div>
                         </div>
                     </div>
@@ -216,8 +301,8 @@
             </div>
 
             <div class="col-sm-5 pt-lg-4 pr-lg-5">
-                <div style='background:white;border-radius:10px;margin-top:20px'>
-                    <div style='border-bottom:1px solid #e4eaec;padding:25px;'>
+                <div class='box-in-checkout' style='margin-top:20px'>
+                    <div class='judul'>
                         <h3 style='font-size:1.5rem;margin-bottom:0px;'>Detail Order</h3>
                     </div>
                     <div>
@@ -407,7 +492,7 @@
                             var kategori = (v.service != v.description) ? v
                                 .description + " (" + v.service + ")" : v
                                 .description;
-                            var nama = kategori;
+                            var nama = hasil.code.toUpperCase()+' - '+kategori;
                             $.each(v.cost, function(index, value) {
                                 if (hasil.name == "POS Indonesia (POS)") {
                                     var etd = ' [' + value.etd.split(" ")[0] + " Hari" + ']';
@@ -450,7 +535,7 @@
                                     var kategori = (v.service != v.description) ? v
                                         .description + " (" + v.service + ")" : v
                                         .description;
-                                    var nama = kategori;
+                                    var nama = hasil.code.toUpperCase()+' - '+kategori;
                                     $.each(v.cost, function(index, value) {
                                         if (hasil.name == "POS Indonesia (POS)") {
                                             var etd = ' [' + value.etd.split(" ")[0] + " Hari" + ']';
@@ -538,14 +623,26 @@
             this.value = this.value.replace(/[^0-9]/i, '');
         });
 
+        $('.pilih-bank-item').on('click', function(){
+            let list_bank = Array.prototype.slice.call($('.pilih-bank .pilih-bank-item'));
+            var _this = $(this);
+            list_bank.forEach(function(html) {
+                if($(html).hasClass('selected')){
+                    $(html).removeClass('selected');
+                }
+            });
+            _this.addClass('selected');
+        });
+
         $('#btnNext').on('click', function(){
             let error = 0;
             let nama = $('#nama').val();
             let email = $('#email').val();
             let no_telp = $('#no_telp').val();
-            let alamat = $('#alamat').val();
-            let kodepos = $('#kodepos').val();
+            let alamat = $('#alamat').val().replace(/(<([^>]+)>)/ig, "");
+            let kodepos = $('#kodepos').val().replace(/(<([^>]+)>)/ig, "");
             let kecamatan = $('#kecamatan').val();
+            let kurir = $('#kurir').val();
             if(nama == ''){
                 $('#nama').addClass('is-invalid');
                 $('#error_nama').show();
@@ -590,10 +687,10 @@
                 $('#error_kodepos').html('Kodepos tidak boleh kosong!');
                 error++;
             }
-            if(kodepos == ''){
-                $('#kodepos').addClass('is-invalid');
-                $('#error_kodepos').show();
-                $('#error_kodepos').html('Kodepos tidak boleh kosong!');
+            if(kurir == '' || typeof kurir === 'undefined' || kurir === null){
+                $('#kurir').addClass('is-invalid');
+                $('#error_kurir').show();
+                $('#error_kurir').html('Silahkan pilih kurir terlebih dahulu!');
                 error++;
             }
             regex = /[0-9]{1,3}\|[0-9]{1,3}\|[0-9]{1,4}/g;
@@ -602,6 +699,49 @@
                 $('#error_kecamatan').show();
                 $('#error_kecamatan').html('Pilih Kota/Kecamatan terlebih dahulu!');
                 error++;
+            }
+            if(error < 1){
+                $('#kirimDiv').hide();
+                $('#bayarDiv').show();
+                if($('#pearl-kirim').hasClass('current')){
+                    $('#pearl-kirim').removeClass('current');
+                }
+                if(!$('#pearl-kirim').hasClass('done')){
+                    $('#pearl-kirim').addClass('done');
+                }
+                if(!$('#pearl-bayar').hasClass('current')){
+                    $('#pearl-bayar').addClass('current');
+                }
+                if($('#pearl-bayar').hasClass('done')){
+                    $('#pearl-bayar').removeClass('done');
+                }
+                $('#save-kirim').html($('#hasilKecamatan').text()+' ('+kodepos+')<br>'+alamat);
+            }
+        });
+
+        $('#btnNext2').on('click', function(){
+            let bayar = $('#bayarDiv').find('input[type=radio]:checked');
+            $('#save-bayar').text(bayar.parent('label').children('span').text());
+            $('#kirimDiv').hide();
+            $('#bayarDiv').hide();
+            $('#konfirmasiDiv').show();
+            if($('#pearl-kirim').hasClass('current')){
+                $('#pearl-kirim').removeClass('current');
+            }
+            if(!$('#pearl-kirim').hasClass('done')){
+                $('#pearl-kirim').addClass('done');
+            }
+            if($('#pearl-bayar').hasClass('current')){
+                $('#pearl-bayar').removeClass('current');
+            }
+            if(!$('#pearl-bayar').hasClass('done')){
+                $('#pearl-bayar').addClass('done');
+            }
+            if(!$('#pearl-konfirmasi').hasClass('current')){
+                $('#pearl-konfirmasi').addClass('current');
+            }
+            if($('#pearl-konfirmasi').hasClass('done')){
+                $('#pearl-konfirmasi').removeClass('done');
             }
         });
 
@@ -703,6 +843,13 @@
             }
         });
 
+        $('#kurir').on('change', function(){
+            if($(this).hasClass('is-invalid')){
+                $(this).removeClass('is-invalid');
+                $('#error_kurir').hide();
+            }
+        });
+
         $('#hasilKecamatan').click(function() {
             if($('#kecamatan').hasClass('is-invalid')){
                 $('#kecamatan').removeClass('is-invalid');
@@ -743,6 +890,12 @@
             $('#biaya_kirim').attr('data-harga', harga);
             $('#biaya_kirim').text('Rp '+uangFormat(harga));
             hitungTotal();
+            let kurir = data.text.split('[');
+            if(kurir.length < 2){
+                $('#save-kurir').html(kurir);
+            } else {
+                $('#save-kurir').html(kurir[0]+'<br><small>Barang anda akan sampai dalam '+kurir[1].split(']')[0]+'</small>');
+            }
         });
 
     });
