@@ -14,7 +14,7 @@ use Excel;
 class ExpenseController extends Controller
 {
 	public function __construct(){
-		$this->middleware(['b.auth', 'xss_protect', 'b.ijin-menuExpense']);
+		$this->middleware(['b.auth', 'xss_protect', 'b.ijin-menuExpense', 'b.cekDataToko']);
 	}
 
     public function index(Request $request){

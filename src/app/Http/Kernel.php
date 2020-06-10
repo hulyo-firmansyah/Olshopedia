@@ -66,6 +66,7 @@ class Kernel extends HttpKernel
         'b.ijin-menuExpense' => \App\Http\Middleware\BelakangIjinMenuExpense::class,
         'b.ijin-melihatAnalisa' => \App\Http\Middleware\BelakangIjinMelihatAnalisa::class,
         'b.cekOwner' => \App\Http\Middleware\BelakangCekOwner::class,
+        'b.cekDataToko' => \App\Http\Middleware\BelakangCekDataToko::class,
         'd.auth' => \App\Http\Middleware\DepanAuth::class,
         'd.guest' => \App\Http\Middleware\DepanIfRedirectAuth::class,
         'xss_protect' => \App\Http\Middleware\XssProtect::class,

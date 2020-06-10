@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Storage;
 class CustomerController extends Controller
 {
 	public function __construct(){
-		$this->middleware('b.auth');
-		$this->middleware('xss_protect');
+		$this->middleware(['b.auth', 'xss_protect', 'b.cekDataToko']);
 	}
 
     private function getIjinUser(){

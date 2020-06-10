@@ -15,9 +15,7 @@ use \stdClass;
 class ProdukKategoriController extends Controller
 {
 	public function __construct(){
-		$this->middleware('b.auth');
-		$this->middleware('b.locale');
-		$this->middleware('xss_protect');
+		$this->middleware(['b.auth', 'b.locale', 'xss_protect', 'b.cekDataToko']);
 	}
     
     public function produkKategoriIndex(Request $request){

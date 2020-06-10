@@ -20,6 +20,10 @@ use Excel;
 
 class ExcelController extends Controller { 
 
+	public function __construct(){
+		$this->middleware(['b.auth', 'xss_protect', 'b.cekDataToko']);
+	}
+
     public function exportExpense(Request $request, $format = null) {
         list($data_user, $ijin) = $this->getIjinUser();
         if(($ijin->downloadExcel === 1 && $data_user->role == 'Admin') || $data_user->role == 'Owner'){

@@ -10,7 +10,7 @@ use App\Http\Controllers\PusatController as Fungsi;
 class TentangController extends Controller
 {
 	public function __construct(){
-		$this->middleware(['b.auth', 'b.locale']);
+		$this->middleware(['b.auth', 'b.locale', 'b.cekDataToko']);
     }
     
     public function versionHistory(Request $request){

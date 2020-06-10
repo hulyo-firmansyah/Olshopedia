@@ -22,7 +22,7 @@ use App\Helpers\AddonNotifWa;
 class OrderController extends Controller
 {
 	public function __construct(){
-		$this->middleware('b.auth')->except('cekOngkir');
+		$this->middleware(['b.auth', 'b.cekDataToko'])->except('cekOngkir');
 		$this->middleware('b.locale');
 		// $this->middleware('xss_protect');
 	}

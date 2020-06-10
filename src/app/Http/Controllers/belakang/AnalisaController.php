@@ -13,7 +13,7 @@ class AnalisaController extends Controller
 {
     
 	public function __construct(){
-		$this->middleware(['b.auth', 'b.locale', 'xss_protect', 'b.ijin-melihatAnalisa']);
+		$this->middleware(['b.auth', 'b.locale', 'xss_protect', 'b.ijin-melihatAnalisa', 'b.cekDataToko']);
     }
     
     public function bestProdukIndex(Request $request){

@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Storage;
 class SupplierController extends Controller
 {
 	public function __construct(){
-		$this->middleware('b.auth');
-		$this->middleware('xss_protect');
+		$this->middleware(['b.auth', 'xss_protect', 'b.cekDataToko']);
     }
     
     public function index(Request $request, Fungsi $fungsi)

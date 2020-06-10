@@ -12,7 +12,7 @@ class AjaxController extends Controller
 {
 	public function __construct(){
 		$this->middleware('xss_protect');
-		$this->middleware('b.auth')->except([
+		$this->middleware(['b.auth', 'b.cekDataToko'])->except([
 			'getWilayah',
 			'getWilayahDetail',
 			'cariKecamatan'

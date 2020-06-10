@@ -16,7 +16,7 @@ class AddonsController extends Controller
 {
 
 	public function __construct(){
-		$this->middleware(['b.auth', 'b.locale', 'xss_protect', 'b.cekOwner']);
+		$this->middleware(['b.auth', 'b.locale', 'xss_protect', 'b.cekOwner', 'b.cekDataToko']);
     }
 
     public function index(Request $request){
