@@ -15,7 +15,8 @@ use App\Http\Controllers\PusatController as Fungsi;
 class SettingController extends Controller
 {
 	public function __construct(){
-		$this->middleware(['b.auth', 'xss_protect', 'b.cekOwner', 'b.cekDataToko']);
+		$this->middleware(['b.auth', 'xss_protect', 'b.cekOwner']);
+		$this->middleware('b.cekDataToko')->except('proses');
     }
     
     public function index(Request $request, Fungsi $fungsi){
