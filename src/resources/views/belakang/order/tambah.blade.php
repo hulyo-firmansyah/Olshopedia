@@ -698,7 +698,12 @@ var simpan_produk = function(tipeKirim = "simpan") {
         data.kat_customer = JSON.stringify(kat_customer);
         data.idPemesan_customer = $("#idPemesan").val();
         data.idUntukKirim_customer = $("#idUntukKirim").val();
-        data.idDariKirim_kecamatan = $("#idDariKirim").val()+"|"+$('#hasilDariKirim').text();
+        let hasilDariKirim = $('#hasilDariKirim').text().split(':');
+        if(hasilDariKirim.length > 1){
+            data.idDariKirim_kecamatan = $("#idDariKirim").val()+"|"+$.trim(hasilDariKirim[1]);
+        } else {
+            data.idDariKirim_kecamatan = $("#idDariKirim").val()+"|"+hasilDariKirim[0];
+        }
         data.tanggalOrder = $("#tanggalOrder").val();
         data.catatan = $("#catatanOrder").val();
         data.catatanPrint = $('#icNote').iCheck('update')[0].checked.toString();
