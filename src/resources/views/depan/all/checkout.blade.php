@@ -72,7 +72,7 @@
                     <div class="col-md-12">
                         <div class='box-in-checkout' style=''>
                             <div class='judul'>
-                                <h3 style='font-size:1.5rem;margin-bottom:0px;'>Alamat Pengiriman</h3>
+                                <h3>Alamat Pengiriman</h3>
                             </div>
                             <div style='padding:25px;'>
                                 <div class="row">
@@ -140,7 +140,7 @@
                         </div>
                         <div class='box-in-checkout' style='margin-top:20px'>
                             <div class='judul'>
-                                <h3 style='font-size:1.5rem;margin-bottom:0px;'>Kurir</h3>
+                                <h3>Kurir</h3>
                             </div>
                             <div style='padding:25px;'>
                                 <div class='row'>
@@ -187,7 +187,7 @@
                     <div class="col-md-12">
                         <div class='box-in-checkout' style=''>
                             <div class='judul'>
-                                <h3 style='font-size:1.5rem;margin-bottom:0px;'>Metode Pembayaran</h3>
+                                <h3>Metode Pembayaran</h3>
                             </div>
                             <div style='padding:25px;'>
                                 <div class='row'>
@@ -195,35 +195,30 @@
                                         <b style='color:black;'>Transfer Bank</b> (verifikasi manual)
                                         <div class="pilih-bank form-group" style='margin-top:10px'>
                                             <label for="bank-bca" class="pilih-bank-item selected" title="Transfer Bank bca">
-                                                <img class="bank-logo" src="https://culturehero.id/assets/img/bank/bca.svg" alt="bca">
                                                 <input type="radio" class="item-bank d-none" name="bank" value='bca' id='bank-bca' checked>
                                                 <span class="text-dark tc-text-color">
                                                     Transfer Bank <span class="text-uppercase">bca</span>
                                                 </span>
                                             </label>
                                             <label for="bank-bni" class="pilih-bank-item" title="Transfer Bank bni">
-                                                <img class="bank-logo" src="https://culturehero.id/assets/img/bank/bni.svg" alt="bni">
                                                 <input type="radio" class="item-bank d-none" name="bank" value='bni' id='bank-bni'>
                                                 <span class="text-dark tc-text-color">
                                                     Transfer Bank <span class="text-uppercase">bni</span>
                                                 </span>
                                             </label>
                                             <label for="bank-bri" class="pilih-bank-item" title="Transfer Bank bri">
-                                                <img class="bank-logo" src="https://culturehero.id/assets/img/bank/bri.svg" alt="bri">
                                                 <input type="radio" class="item-bank d-none" name="bank" value='bri'id='bank-bri'>
                                                 <span class="text-dark tc-text-color">
                                                     Transfer Bank <span class="text-uppercase">bri</span>
                                                 </span>
                                             </label>
                                             <label for="bank-bsm" class="pilih-bank-item" title="Transfer Bank BSM">
-                                                <img class="bank-logo" src="https://culturehero.id/assets/img/bank/bsm.svg" alt="BSM">
                                                 <input type="radio" class="item-bank d-none" name="bank" value='bsm' id='bank-bsm'>
                                                 <span class="text-dark tc-text-color">
                                                     Transfer Bank <span class="text-uppercase">BSM</span>
                                                 </span>
                                             </label>
                                             <label for="bank-mandiri-online" class="pilih-bank-item" title="Transfer Bank mandiriOnline">
-                                                <img class="bank-logo" src="https://culturehero.id/assets/img/bank/mandirionline.svg" alt="mandiriOnline">
                                                 <input type="radio" class="item-bank d-none" name="bank" value="mandiri-online" id='bank-mandiri-online'>
                                                 <span class="text-dark tc-text-color">
                                                     Transfer Bank <span class="text-uppercase">mandiriOnline</span>
@@ -245,7 +240,8 @@
                     <div class="col-md-12">
                         <div class='box-in-checkout' style=''>
                             <div class='judul'>
-                                <h3 style='font-size:1.5rem;margin-bottom:0px;'>Alamat Pengiriman</h3>
+                                <h3>Alamat Pengiriman</h3>
+                                <button type='button' id='btnUbahKirim'><i class='fa fa-pencil'></i> Ubah</button>
                             </div>
                             <div style='padding:25px;'>
                                 <div class='row'>
@@ -257,7 +253,8 @@
                         </div>
                         <div class='box-in-checkout' style='margin-top:20px;'>
                             <div class='judul'>
-                                <h3 style='font-size:1.5rem;margin-bottom:0px;'>Kurir</h3>
+                                <h3>Kurir</h3>
+                                <button type='button' id='btnUbahKurir'><i class='fa fa-pencil'></i> Ubah</button>
                             </div>
                             <div style='padding:25px;'>
                                 <div class='row'>
@@ -269,7 +266,8 @@
                         </div>
                         <div class='box-in-checkout' style='margin-top:20px;'>
                             <div class='judul'>
-                                <h3 style='font-size:1.5rem;margin-bottom:0px;'>Pembayaran</h3>
+                                <h3>Pembayaran</h3>
+                                <button type='button' id='btnUbahBayar'><i class='fa fa-pencil'></i> Ubah</button>
                             </div>
                             <div style='padding:25px;'>
                                 <div class='row'>
@@ -281,7 +279,7 @@
                         </div>
                         <div class='box-in-checkout' style='margin-top:20px;'>
                             <div class='judul'>
-                                <h3 style='font-size:1.5rem;margin-bottom:0px;'>Catatan</h3>
+                                <h3>Catatan</h3>
                             </div>
                             <div style='padding:25px;'>
                                 <div class='row'>
@@ -303,7 +301,7 @@
             <div class="col-sm-5 pt-lg-4 pr-lg-5">
                 <div class='box-in-checkout' style='margin-top:20px'>
                     <div class='judul'>
-                        <h3 style='font-size:1.5rem;margin-bottom:0px;'>Detail Order</h3>
+                        <h3>Detail Order</h3>
                     </div>
                     <div>
                         <div id="cart" class="d-sm-block">
@@ -632,6 +630,78 @@
                 }
             });
             _this.addClass('selected');
+        });
+
+        $('#btnUbahKirim').on('click', function(){
+            $('#kirimDiv').show();
+            $('#bayarDiv').hide();
+            $('#konfirmasiDiv').hide();
+            if(!$('#pearl-kirim').hasClass('current')){
+                $('#pearl-kirim').addClass('current');
+            }
+            if($('#pearl-kirim').hasClass('done')){
+                $('#pearl-kirim').removeClass('done');
+            }
+            if($('#pearl-bayar').hasClass('current')){
+                $('#pearl-bayar').removeClass('current');
+            }
+            if($('#pearl-bayar').hasClass('done')){
+                $('#pearl-bayar').removeClass('done');
+            }
+            if($('#pearl-konfirmasi').hasClass('current')){
+                $('#pearl-konfirmasi').removeClass('current');
+            }
+            if($('#pearl-konfirmasi').hasClass('done')){
+                $('#pearl-konfirmasi').removeClass('done');
+            }
+        });
+
+        $('#btnUbahKurir').on('click', function(){
+            $('#kirimDiv').show();
+            $('#bayarDiv').hide();
+            $('#konfirmasiDiv').hide();
+            if(!$('#pearl-kirim').hasClass('current')){
+                $('#pearl-kirim').addClass('current');
+            }
+            if($('#pearl-kirim').hasClass('done')){
+                $('#pearl-kirim').removeClass('done');
+            }
+            if($('#pearl-bayar').hasClass('current')){
+                $('#pearl-bayar').removeClass('current');
+            }
+            if($('#pearl-bayar').hasClass('done')){
+                $('#pearl-bayar').removeClass('done');
+            }
+            if($('#pearl-konfirmasi').hasClass('current')){
+                $('#pearl-konfirmasi').removeClass('current');
+            }
+            if($('#pearl-konfirmasi').hasClass('done')){
+                $('#pearl-konfirmasi').removeClass('done');
+            }
+        });
+
+        $('#btnUbahBayar').on('click', function(){
+            $('#kirimDiv').hide();
+            $('#bayarDiv').show();
+            $('#konfirmasiDiv').hide();
+            if($('#pearl-kirim').hasClass('current')){
+                $('#pearl-kirim').removeClass('current');
+            }
+            if(!$('#pearl-kirim').hasClass('done')){
+                $('#pearl-kirim').addClass('done');
+            }
+            if(!$('#pearl-bayar').hasClass('current')){
+                $('#pearl-bayar').addClass('current');
+            }
+            if($('#pearl-bayar').hasClass('done')){
+                $('#pearl-bayar').removeClass('done');
+            }
+            if($('#pearl-konfirmasi').hasClass('current')){
+                $('#pearl-konfirmasi').removeClass('current');
+            }
+            if($('#pearl-konfirmasi').hasClass('done')){
+                $('#pearl-konfirmasi').removeClass('done');
+            }
         });
 
         $('#btnNext').on('click', function(){
