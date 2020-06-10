@@ -146,7 +146,7 @@
                                 <div class='row'>
                                     <div class="form-group col-sm-8">
                                         <label class="text-capitalize">Nama Kurir</label>
-                                        <select id='kurir' width='100%'>
+                                        <select id='kurir' width='100%' name='kurir'>
                                             <option value="" disabled selected>-- Pilih Kurir --</option>
                                         </select>
                                         <small style='color:red;display:none;' id='error_kurir'></small>
@@ -284,14 +284,14 @@
                             <div style='padding:25px;'>
                                 <div class='row'>
                                     <div class='col-sm-12' id='save-note'>
-                                        <textarea rows='3' class='form-control' placeholder='Catatan'></textarea>
+                                        <textarea rows='3' class='form-control' placeholder='Catatan' id='catatan' name='catatan'></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div style='margin-top:20px'>
                             <div class="form-group col-sm-12">
-                                <button type="button" id='btnNext2' class="btn btn-primary btn-lg btn-block">Proses Order</button>
+                                <button type="button" id='btnDone' class="btn btn-primary btn-lg btn-block">Proses Order</button>
                             </div>
                         </div>
                     </div>
@@ -619,6 +619,96 @@
 
         $('.angkaSaja').on('input', function(){
             this.value = this.value.replace(/[^0-9]/i, '');
+        });
+
+        $('#btnDone').on('click', function(){
+            let nama = $('#nama').val();
+            let email = $('#email').val();
+            let no_telp = $('#no_telp').val();
+            let alamat = $('#alamat').val();
+            let kodepos = $('#kodepos').val();
+            let kecamatan = $('#kecamatan').val();
+            let kurir = $('#kurir').val();
+            let berat = $('#berat').val();
+            let tarif = $('#tarif').val();
+            let bank = $('.pilih-bank').children('label.selected').children('input[type=radio]').val();
+            let error = 0;
+            if(nama == ''){
+                $('#nama').addClass('is-invalid');
+                $('#error_nama').show();
+                $('#error_nama').html('Nama Lengkap tidak boleh kosong!');
+                error++;
+            }
+            if(email == ''){
+                $('#email').addClass('is-invalid');
+                $('#error_email').show();
+                $('#error_email').html('Email tidak boleh kosong!');
+                error++;
+            }
+            let regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            if (!regex.test(email) && email != '') {
+                $('#email').addClass('is-invalid');
+                $('#error_email').show();
+                $('#error_email').html('Format email tidak benar!');
+                error++;
+            }
+            if(no_telp == ''){
+                $('#no_telp').addClass('is-invalid');
+                $('#error_no_telp').show();
+                $('#error_no_telp').html('No Telpon tidak boleh kosong!');
+                error++;
+            }
+            regex = /[^0-9]/i;
+            if(regex.test(no_telp) && no_telp != ''){
+                $('#no_telp').addClass('is-invalid');
+                $('#error_no_telp').show();
+                $('#error_no_telp').html('No Telpon harus angka saja!');
+                error++;
+            }
+            if(alamat == ''){
+                $('#alamat').addClass('is-invalid');
+                $('#error_alamat').show();
+                $('#error_alamat').html('Alamat tidak boleh kosong!');
+                error++;
+            }
+            if(kodepos == ''){
+                $('#kodepos').addClass('is-invalid');
+                $('#error_kodepos').show();
+                $('#error_kodepos').html('Kodepos tidak boleh kosong!');
+                error++;
+            }
+            if(kurir == '' || typeof kurir === 'undefined' || kurir === null){
+                $('#kurir').addClass('is-invalid');
+                $('#error_kurir').show();
+                $('#error_kurir').html('Silahkan pilih kurir terlebih dahulu!');
+                error++;
+            }
+            regex = /[0-9]{1,3}\|[0-9]{1,3}\|[0-9]{1,4}/g;
+            if(kecamatan == '' || !regex.test(kecamatan) || $('#hasilKecamatan').is(':hidden')){
+                $('#kecamatan').addClass('is-invalid');
+                $('#error_kecamatan').show();
+                $('#error_kecamatan').html('Pilih Kota/Kecamatan terlebih dahulu!');
+                error++;
+            }
+            if(error > 0){
+                var url = "{{route('d.proses', ['domain_toko' => $toko->domain_toko])}}";
+                var form = $("<form action='"+url+"' method='post'></form>");
+                form.append('@csrf');
+                $("#nama").clone().appendTo(form);
+                $("#email").clone().appendTo(form);
+                $("#no_telp").clone().appendTo(form);
+                $("#alamat").clone().appendTo(form);
+                $("#kodepos").clone().appendTo(form);
+                $("#kecamatan").clone().appendTo(form);
+                // $("#kurir").clone().appendTo(form);
+                form.append('<input type="text" name="kurir" value="'+kurir+'">');
+                $("#berat").clone().appendTo(form);
+                $("#tarif").clone().appendTo(form);
+                $("#catatan").clone().appendTo(form);
+                $('.pilih-bank').children('label.selected').children('input[type=radio]').clone().appendTo(form);
+                $('body').append(form);
+                form.submit();
+            }
         });
 
         $('.pilih-bank-item').on('click', function(){

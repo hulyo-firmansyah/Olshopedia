@@ -218,6 +218,7 @@
     Route::post('/{domain_toko}/cart-hapus', 'depan\CartController@hapus')->name('d.cart-hapus');
 
     Route::get('/{domain_toko}/guest_checkout', 'depan\CheckoutController@guest_checkout')->name('d.checkout');
+    Route::post('/{domain_toko}/proses', 'depan\CheckoutController@proses')->name('d.proses');
     
 // });
 // Route::domain('{subdomain}.localhost')->group(function () {
