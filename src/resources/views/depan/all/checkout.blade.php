@@ -194,36 +194,14 @@
                                     <div class='col-sm-12'>
                                         <b style='color:black;'>Transfer Bank</b> (verifikasi manual)
                                         <div class="pilih-bank form-group" style='margin-top:10px'>
-                                            <label for="bank-bca" class="pilih-bank-item selected" title="Transfer Bank bca">
-                                                <input type="radio" class="item-bank d-none" name="bank" value='bca' id='bank-bca' checked>
-                                                <span class="text-dark tc-text-color">
-                                                    Transfer Bank <span class="text-uppercase">bca</span>
-                                                </span>
-                                            </label>
-                                            <label for="bank-bni" class="pilih-bank-item" title="Transfer Bank bni">
-                                                <input type="radio" class="item-bank d-none" name="bank" value='bni' id='bank-bni'>
-                                                <span class="text-dark tc-text-color">
-                                                    Transfer Bank <span class="text-uppercase">bni</span>
-                                                </span>
-                                            </label>
-                                            <label for="bank-bri" class="pilih-bank-item" title="Transfer Bank bri">
-                                                <input type="radio" class="item-bank d-none" name="bank" value='bri'id='bank-bri'>
-                                                <span class="text-dark tc-text-color">
-                                                    Transfer Bank <span class="text-uppercase">bri</span>
-                                                </span>
-                                            </label>
-                                            <label for="bank-bsm" class="pilih-bank-item" title="Transfer Bank BSM">
-                                                <input type="radio" class="item-bank d-none" name="bank" value='bsm' id='bank-bsm'>
-                                                <span class="text-dark tc-text-color">
-                                                    Transfer Bank <span class="text-uppercase">BSM</span>
-                                                </span>
-                                            </label>
-                                            <label for="bank-mandiri-online" class="pilih-bank-item" title="Transfer Bank mandiriOnline">
-                                                <input type="radio" class="item-bank d-none" name="bank" value="mandiri-online" id='bank-mandiri-online'>
-                                                <span class="text-dark tc-text-color">
-                                                    Transfer Bank <span class="text-uppercase">mandiriOnline</span>
-                                                </span>
-                                            </label>
+                                            @foreach(\App\Http\Controllers\PusatController::genArray($bank) as $b)
+                                                <label for="bank-{{ strtolower($b->bank) }}" class="pilih-bank-item selected" title="Transfer Bank bca">
+                                                    <input type="radio" class="item-bank d-none" name="bank" value='{{ $b->id_bank }}|{{ $b->bank }}' id='bank-{{ strtolower($b->bank) }}' checked>
+                                                    <span class="text-dark tc-text-color">
+                                                        Transfer Bank {{ $b->bank }}
+                                                    </span>
+                                                </label>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
