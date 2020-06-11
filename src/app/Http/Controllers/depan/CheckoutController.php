@@ -37,7 +37,7 @@ class CheckoutController extends Controller
         $cart = Cart::session($request->getClientIp())->getContent();
         $bank = DB::table('t_bank')
             ->select('bank', 'id_bank')
-            ->where('data_of', Fungsi::dataOfCek())
+            ->where('data_of', Fungsi::dataOfByDomainToko($domain_toko))
             ->get();
         if(count($cart) < 1){
             return redirect()->route('d.home', ['domain_toko' => $toko->domain_toko]);
