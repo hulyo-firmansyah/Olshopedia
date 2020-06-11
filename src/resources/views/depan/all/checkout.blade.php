@@ -669,23 +669,42 @@
                 error++;
             }
             if(error > 0){
-                var url = "{{route('d.proses', ['domain_toko' => $toko->domain_toko])}}";
-                var form = $("<form action='"+url+"' method='post'></form>");
-                form.append('@csrf');
-                $("#nama").clone().appendTo(form);
-                $("#email").clone().appendTo(form);
-                $("#no_telp").clone().appendTo(form);
-                $("#alamat").clone().appendTo(form);
-                $("#kodepos").clone().appendTo(form);
-                $("#kecamatan").clone().appendTo(form);
-                // $("#kurir").clone().appendTo(form);
-                form.append('<input type="text" name="kurir" value="'+kurir+'">');
-                $("#berat").clone().appendTo(form);
-                $("#tarif").clone().appendTo(form);
-                $("#catatan").clone().appendTo(form);
-                $('.pilih-bank').children('label.selected').children('input[type=radio]').clone().appendTo(form);
-                $('body').append(form);
-                form.submit();
+                var notifCek = null;
+                $.ajax({
+                    url: "{{ route('d.proses', ['domain_toko' => $toko->domain_toko]) }}",
+                    type: 'post',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        nama: nama,
+                        email: email,
+                        no_telp: no_telp,
+                        alamat: alamat,
+                        kodepos: kodepos,
+                        kurir: kurir,
+                        kecamatan: kecamatan,
+                        berat: berat,
+                        tarif: tarif,
+                        bank: bank,
+                        catatan: $('#catatan').val(),
+                        tipe: 'proses_order',
+                    },
+                    beforeSend: function(){
+                        notifCek = alertify.message('Loading...', 0);
+                    },
+                    success: function(data) {
+                        notifCek.dismiss();
+                        if(data.status){
+                            alertify.success(data.pesan, 3, function(){
+                                $(location).attr('href', '{{ route("d.order", ["domain_toko" => $toko->domain_toko]) }}/'+data.order_id);
+                            });
+                        } else {
+                            alertify.error(data.pesan);
+                        }
+                    },
+                    error: function(a, b, c){
+                        alertify.error(c);
+                    }
+                });
             }
         });
 
