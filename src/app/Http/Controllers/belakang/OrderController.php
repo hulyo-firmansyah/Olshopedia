@@ -888,7 +888,7 @@ CUT;
 			'admin_id' => ($data->src == "app") ? Fungsi::dataOfCek() : null,
 			'order_source_id' => ($data->order_source == "") ? null : $data->order_source,
 			'kat_customer' => $data->kat_customer,
-			'tgl_dibuat' => date("Y-m-d"),
+			'tgl_dibuat' => date("Y-m-d H:i:s"),
 			'data_of' => Fungsi::dataOfCek()
 		]);
 		if($data->pembayaran->status == "cicil" || $data->pembayaran->status == "lunas"){
@@ -2895,7 +2895,7 @@ CUT;
 				'order_source_id' => ($data->order_source == "") ? null : $data->order_source,
 				'kat_customer' => $data->kat_customer,
 				'resi' => isset($data->resi) ? $data->resi : null,
-				'tgl_diedit' => date("Y-m-d")
+				'tgl_diedit' => date("Y-m-d H:i:s")
 			];
 	
 			if($data->pembayaran->status != $cekStatus_lama->status){
