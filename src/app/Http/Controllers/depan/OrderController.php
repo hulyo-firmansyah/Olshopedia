@@ -21,6 +21,10 @@ class OrderController extends Controller
     }
 
     public function orderIndex(Request $request, $domain_toko, $order_id = null){
-        echo "asd";
+		$toko = DB::table('t_store')
+			->where('domain_toko', $domain_toko)
+            ->get()->first();
+        
+        return Fungsi::respon('depan.'.$toko->template.'.order', compact("toko"), "html", $request);
     }
 }
