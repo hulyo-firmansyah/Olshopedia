@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\PusatController as Fungsi;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\GuestOrder;
-use Cart;
+use App\Cart;
 
 class CheckoutController extends Controller
 {
@@ -20,7 +20,7 @@ class CheckoutController extends Controller
     }
     
     public function guest_checkout(Request $request, $domain_toko){
-        $cart = Cart::session($request->getClientIp())->getContent();
+        $cart = Cart::getCart($request);
 		$toko = DB::table('t_store')
             ->where('domain_toko', $domain_toko)
             ->get()->first();
@@ -36,7 +36,6 @@ class CheckoutController extends Controller
         }
         $cekOngkir = json_encode($cekOngkir);
         $alamat_toko_offset = $data_store->alamat_toko_offset;
-        $cart = Cart::session($request->getClientIp())->getContent();
         $bank = DB::table('t_bank')
             ->select('bank', 'id_bank')
             ->where('data_of', Fungsi::dataOfByDomainToko($domain_toko))
@@ -155,7 +154,7 @@ class CheckoutController extends Controller
                 $data_of = Fungsi::dataOfByDomainToko($domain_toko);
         
         
-                $cart = Cart::session($request->getClientIp())->getContent();
+                $cart = Cart::getCart($request);
                 $nama = strip_tags($request->get('nama'));
                 $no_telp = strip_tags($request->get('no_telp'));
                 $kecamatan = strip_tags($request->get('kecamatan'));
@@ -166,17 +165,27 @@ class CheckoutController extends Controller
                 $kurir = strip_tags($request->get('kurir'));
                 $email = strip_tags($request->get('email'));
         
+                $cekEmail = DB::table('users')
+                    ->where('email', $email)
+                    ->get()->first();
+
+                if(isset($cekEmail)) {
+                    return Fungsi::respon([
+                        'status' => false,
+                        'pesan' => 'Email sudah digunakan!'
+                    ], [], 'json', $request);
+                }
         
                 $total['hargaProduk'] = 0;
                 $list_produk = [];
                 foreach(Fungsi::genArray($cart) as $c){
-                    $data_prod = $this->getProdukById($c->attributes->id_varian, $data_of);
+                    $data_prod = $this->getProdukById($c->data->id_varian, $data_of);
                     // dd($data_prod);
                     $list_produk[] = [
                         'rawData' => $data_prod,
-                        'jumlah' => $c->quantity
+                        'jumlah' => $c->jumlah
                     ];
-                    $total['hargaProduk'] += ($data_prod->harga_jual_normal * $c->quantity);
+                    $total['hargaProduk'] += ($data_prod->harga_jual_normal * $c->jumlah);
                     unset($data_prod);
                 }
                 $total['hargaOngkir'] = (int)explode('|', $kurir)[2];

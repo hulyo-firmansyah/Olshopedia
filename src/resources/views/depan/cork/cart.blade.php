@@ -32,25 +32,11 @@
                             @endphp
                             @foreach(\App\Http\Controllers\PusatController::genArray($cart) as $i_c => $c)
                                 @php
-                                    $data_prod = \DB::table('t_varian_produk')
-                                        ->join('t_produk', 't_produk.id_produk', 't_varian_produk.produk_id')
-                                        ->where('t_varian_produk.data_of', \App\Http\Controllers\PusatController::dataOfByDomainToko($toko->domain_toko))
-                                        ->where('t_varian_produk.id_varian', $c->attributes->id_varian)
-                                        ->where('t_varian_produk.produk_id', $c->attributes->id_produk)
-                                        ->select(
-                                            't_produk.nama_produk',
-                                            't_varian_produk.ukuran',
-                                            't_varian_produk.warna',
-                                            't_varian_produk.stok',
-                                            't_varian_produk.harga_jual_normal',
-                                            't_varian_produk.harga_jual_reseller',
-                                            't_varian_produk.diskon_jual'
-                                        )
-                                        ->get()->first();
+                                    $data_prod = $c->data;
                                     if(isset($data_prod)){
                                         $stok = explode('|', $data_prod->stok);
-                                        if($c->quantity < (int)$stok[0]){
-                                            $harga = $data_prod->harga_jual_normal * $c->quantity;
+                                        if($c->jumlah < (int)$stok[0]){
+                                            $harga = $data_prod->harga_jual_normal * $c->jumlah;
                                             $total += $harga;
                                             $nama_varian = null;
                                             if((isset($data_prod->ukuran) && $data_prod->ukuran !== '') && (isset($data_prod->warna) && $data_prod->warna !== '')){
@@ -60,12 +46,11 @@
                                             } else if((!isset($data_prod->ukuran) || $data_prod->ukuran === '') && (isset($data_prod->warna) && $data_prod->warna !== '')){
                                                 $nama_varian = ' ('.$data_prod->warna.')';
                                             }
-                                            //dd($data_prod);
                                             @endphp
                                             <tr>
                                                 <td>{{ (++$i) }}</td>
                                                 <td>{{ $data_prod->nama_produk.(isset($nama_varian) ? ' '.$nama_varian : '') }}</td>
-                                                <td>{{ $c->quantity }}</td>
+                                                <td>{{ $c->jumlah }}</td>
                                                 <td data-harga='{{ $data_prod->harga_jual_normal }}'>{{ \App\Http\Controllers\PusatController::formatUang($harga, true) }}</td>
                                                 <td><button type='button' class='btn btn-danger btn-sm btnHapusCart' data-id='{{ $c->id }}'>X</button></td>
                                             </tr>

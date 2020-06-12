@@ -289,27 +289,11 @@
                                         $i = 0;
                                         $total = 0;
                                         foreach(\App\Http\Controllers\PusatController::genArray($cart) as $i_c => $c){
-                                            $data_prod = \DB::table('t_varian_produk')
-                                                ->join('t_produk', 't_produk.id_produk', 't_varian_produk.produk_id')
-                                                ->where('t_varian_produk.data_of', \App\Http\Controllers\PusatController::dataOfByDomainToko($toko->domain_toko))
-                                                ->where('t_varian_produk.id_varian', $c->attributes->id_varian)
-                                                ->where('t_varian_produk.produk_id', $c->attributes->id_produk)
-                                                ->select(
-                                                    't_produk.nama_produk',
-                                                    't_produk.berat',
-                                                    't_varian_produk.ukuran',
-                                                    't_varian_produk.warna',
-                                                    't_varian_produk.stok',
-                                                    't_varian_produk.harga_jual_normal',
-                                                    't_varian_produk.harga_jual_reseller',
-                                                    't_varian_produk.foto_id',
-                                                    't_varian_produk.diskon_jual'
-                                                )
-                                                ->get()->first();
+                                            $data_prod = $c->data;
                                             if(isset($data_prod)){
                                                 $stok = explode('|', $data_prod->stok);
-                                                if($c->quantity < (int)$stok[0]){
-                                                    $harga = $data_prod->harga_jual_normal * $c->quantity;
+                                                if($c->jumlah < (int)$stok[0]){
+                                                    $harga = $data_prod->harga_jual_normal * $c->jumlah;
                                                     $total += $harga;
                                                     $nama_varian = null;
                                                     if((isset($data_prod->ukuran) && $data_prod->ukuran !== '') && (isset($data_prod->warna) && $data_prod->warna !== '')){
@@ -347,7 +331,7 @@
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="col-sm">
-                                                                        <span class="badge-order mt-2">x {{ $c->quantity }}</span>
+                                                                        <span class="badge-order mt-2">x {{ $c->jumlah }}</span>
                                                                     </div>
                                                                     <div class="col-sm text-right">
                                                                         <span class="product-price mt-2">{{ \App\Http\Controllers\PusatController::formatUang($harga, true) }}</span>
@@ -702,6 +686,7 @@
                         }
                     },
                     error: function(a, b, c){
+                        notifCek.dismiss();
                         alertify.error(c);
                     }
                 });

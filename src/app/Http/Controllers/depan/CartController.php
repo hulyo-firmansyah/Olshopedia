@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Controllers\PusatController as Fungsi;
-use Cart;
+use App\Cart;
 
 class CartController extends Controller
 {
@@ -17,8 +17,7 @@ class CartController extends Controller
 	}
 
     public function tampil(Request $request, $domain_toko){
-        $cart = Cart::session($request->getClientIp())->getContent();
-        // dd($cart);
+        $cart = Cart::getCart($request);
 		$toko = DB::table('t_store')
             ->where('domain_toko', $domain_toko)
             ->get()->first();
@@ -39,8 +38,18 @@ class CartController extends Controller
                 $jumlah = (int)strip_tags($request->jumlah);
                 $produk = DB::table('t_varian_produk')
                     ->join('t_produk', 't_produk.id_produk', '=', 't_varian_produk.produk_id')
-                    ->select('t_produk.nama_produk', 't_varian_produk.harga_jual_normal', 't_varian_produk.ukuran', 
-                        't_varian_produk.warna', 't_varian_produk.foto_id', 't_varian_produk.diskon_jual', 't_varian_produk.stok')
+                    ->select(
+                        't_produk.nama_produk',
+                        't_varian_produk.harga_jual_normal',
+                        't_varian_produk.ukuran', 
+                        't_varian_produk.warna', 
+                        't_varian_produk.foto_id', 
+                        't_varian_produk.diskon_jual', 
+                        't_varian_produk.stok', 
+                        't_produk.berat',
+                        't_produk.id_produk',
+                        't_varian_produk.id_varian'
+                    )
                     ->where('t_varian_produk.data_of', Fungsi::dataOfByDomainToko($domain_toko))
                     ->where('t_varian_produk.id_varian', $id_varian)
                     ->get()->first();
@@ -53,20 +62,16 @@ class CartController extends Controller
                     } else if((!isset($produk->ukuran) || $produk->ukuran === '') && (isset($produk->warna) && $produk->warna !== '')){
                         $nama_produk .= ' ('.$produk->warna.')';
                     }
-                    Cart::session($request->getClientIp())->add([
-                        'id' => 'p'.$id_produk.'v'.$id_varian,
-                        'name' => $nama_produk,
-                        'price' => $produk->harga_jual_normal,
-                        'quantity' => $jumlah,
-                        'attributes' => [
-                            'id_produk' => $id_produk,
-                            'id_varian' => $id_varian
-                        ]
-                    ]);
+                    Cart::addCart(
+                        $request,
+                        'p'.$id_produk.'v'.$id_varian,
+                        $jumlah,
+                        $produk
+                    );
                     return Fungsi::respon([
                         'status' => true,
                         'msg' => 'Produk berhasil ditambahkan ke cart!',
-                        'cart_count' => count(Cart::session($request->getClientIp())->getContent())
+                        'cart_count' => count(Cart::getCart($request))
                     ], [], 'json', $request);
                 } else {
                     return Fungsi::respon([
@@ -89,11 +94,11 @@ class CartController extends Controller
         if($request->ajax()){
             if($request->id !== ''){
                 $id = strip_tags($request->id);
-                Cart::session($request->getClientIp())->remove($id);
+                Cart::removeCart($request, $id);
                 return Fungsi::respon([
                     'status' => true,
                     'msg' => 'Produk berhasil dihapus dari cart!',
-                    'cart_count' => count(Cart::session($request->getClientIp())->getContent())
+                    'cart_count' => count(Cart::getCart($request))
                 ], [], 'json', $request);
             } else {
                 return Fungsi::respon([
