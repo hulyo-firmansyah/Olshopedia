@@ -301,7 +301,4 @@ class CheckoutController extends Controller
         }
     }
 
-    public function orderIndex(Request $request, $domain_toko, $order_id = null){
-        echo "asd";
-    }
 }
