@@ -679,7 +679,9 @@
                         notifCek.dismiss();
                         if(data.status){
                             alertify.success(data.pesan, 3, function(){
-                                $(location).attr('href', '{{ route("d.order", ["domain_toko" => $toko->domain_toko]) }}/'+data.order_id);
+                                alertify.message('Redirecting..', 2, function(){
+                                    $(location).attr('href', '{{ route("d.order", ["domain_toko" => $toko->domain_toko]) }}/'+data.order_id);
+                                });
                             });
                         } else {
                             alertify.error(data.pesan);

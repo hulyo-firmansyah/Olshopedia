@@ -287,6 +287,7 @@ class CheckoutController extends Controller
                         'pesan' => $e->getMessage()
                     ], [], 'json', $request);
                 }
+                Cart::kosongCart($request);
                 return Fungsi::respon([
                     'status' => true,
                     'pesan' => 'Berhasil mengirim invoice ke email anda!',

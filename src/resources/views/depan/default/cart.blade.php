@@ -42,14 +42,14 @@
                         @endphp
                         @foreach(\App\Http\Controllers\PusatController::genArray($cart) as $i_c => $c)
                             @php
-                                $harga = $c->price * $c->quantity;
+                                $harga = $c->data->harga_jual_normal * $c->jumlah;
                                 $total += $harga;
                             @endphp
                             <tr>
                                 <td>{{ (++$i) }}</td>
-                                <td>{{ $c->name }}</td>
-                                <td>{{ $c->quantity }}</td>
-                                <td data-harga='{{ $c->price }}'>{{ \App\Http\Controllers\PusatController::formatUang($harga, true) }}</td>
+                                <td>{{ $c->data->nama_produk }}</td>
+                                <td>{{ $c->jumlah }}</td>
+                                <td data-harga='{{ $c->data->harga_jual_normal }}'>{{ \App\Http\Controllers\PusatController::formatUang($harga, true) }}</td>
                                 <td><button type='button' class='btn btn-danger btn-sm btnHapusCart' data-id='{{ $c->id }}'>X</button></td>
                             </tr>
                         @endforeach
@@ -61,6 +61,11 @@
                         </tr>
                     </tfoot>
                 </table>
+            </div>
+        </div>
+        <div style='margin-top:10px;'>
+            <div class='text-right'>
+                <a href='{{ route("d.guest-checkout", ["domain_toko" => $toko->domain_toko]) }}' class='btn btn-success'>Checkout</a>
             </div>
         </div>
     </div>

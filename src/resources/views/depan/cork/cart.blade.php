@@ -72,7 +72,7 @@
         </div>
         <div class='col-md-12' style='margin-top:10px'>
             <div class='text-right'>
-                <a href='{{ route("d.checkout", ["domain_toko" => $toko->domain_toko]) }}' class='btn btn-success'>Checkout</a>
+                <a href='{{ route("d.guest-checkout", ["domain_toko" => $toko->domain_toko]) }}' class='btn btn-success'>Checkout</a>
             </div>
         </div>
     </div>

@@ -41,5 +41,7 @@ class Cart {
         }
     }
 
-
+    public static function kosongCart(Request $request){
+        $request->session()->forget('cart');
+    }
 }
