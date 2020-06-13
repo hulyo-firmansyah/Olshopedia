@@ -686,6 +686,7 @@
                     },
                     success: function(data) {
                         notifCek.dismiss();
+                        data_needs_saving = false;
                         if(data.status){
                             alertify.success(data.pesan, 3, function(){
                                 alertify.message('Redirecting..', 2, function(){
