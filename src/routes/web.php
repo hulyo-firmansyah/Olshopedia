@@ -220,7 +220,7 @@
     Route::get('/{domain_toko}/guest_checkout', 'depan\CheckoutController@guest_checkout')->name('d.guest-checkout');
     Route::post('/{domain_toko}/proses', 'depan\CheckoutController@proses')->name('d.proses');
 
-    Route::get('/{domain_toko}/order/{order_id?}', 'depan\OrderController@orderIndex')->name('d.order');
+    Route::get('/{domain_toko}/order/{order_slug?}', 'depan\OrderController@orderIndex')->name('d.order');
     
 // });
 // Route::domain('{subdomain}.localhost')->group(function () {

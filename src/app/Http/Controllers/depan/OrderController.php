@@ -20,11 +20,26 @@ class OrderController extends Controller
 		$this->middleware('cek_toko_domain');
     }
 
-    public function orderIndex(Request $request, $domain_toko, $order_id = null){
-		$toko = DB::table('t_store')
+    public function orderIndex(Request $request, $domain_toko, $order_slug = null){
+		if(is_null($order_slug)) abort(404);
+
+		$cekOrder = DB::table('t_order')
+			->where('data_of', Fungsi::dataOfByDomainToko($domain_toko))
+			->where('order_slug', $order_slug)
+			->get()->first();
+		
+		if(!isset($cekOrder)) abort(404);
+
+      	$toko = DB::table('t_store')
 			->where('domain_toko', $domain_toko)
-            ->get()->first();
+			->get()->first();
+		$r['sort'] = strip_tags($request->sort);
+		$r['cari'] = strip_tags($request->q);
+		if(isset($toko)){
+			return Fungsi::respon('depan.'.$toko->template.'.order', compact("toko", 'r'), "html", $request);
+		} else {
+			// ke landing page
+		}
         
-        return Fungsi::respon('depan.'.$toko->template.'.order', compact("toko"), "html", $request);
     }
 }
