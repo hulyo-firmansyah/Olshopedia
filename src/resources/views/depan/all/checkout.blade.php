@@ -396,7 +396,8 @@
         tampilPilih = false,
         kecamatanOld = '',
         cacheCekOngkir = {},
-        pilihKecamatan = '';
+        pilihKecamatan = '',
+        data_needs_saving = false;
 
     
     function uangFormat(number) {
@@ -564,6 +565,14 @@
 
     $(document).ready(function(){
 
+        window.onbeforeunload = function() {
+            if (data_needs_saving) {
+                return "Do you really want to leave our brilliant application?";
+            } else {
+                return;
+            }
+        };
+
         let list_produk = Array.prototype.slice.call($('#list-produk li'));
         var berat_total = 0;
         list_produk.forEach(function(html) {
@@ -704,6 +713,7 @@
                 }
             });
             _this.addClass('selected');
+            data_needs_saving = true;
         });
 
         $('#btnUbahKirim').on('click', function(){
@@ -728,6 +738,7 @@
             if($('#pearl-konfirmasi').hasClass('done')){
                 $('#pearl-konfirmasi').removeClass('done');
             }
+            data_needs_saving = true;
         });
 
         $('#btnUbahKurir').on('click', function(){
@@ -752,6 +763,7 @@
             if($('#pearl-konfirmasi').hasClass('done')){
                 $('#pearl-konfirmasi').removeClass('done');
             }
+            data_needs_saving = true;
         });
 
         $('#btnUbahBayar').on('click', function(){
@@ -776,6 +788,7 @@
             if($('#pearl-konfirmasi').hasClass('done')){
                 $('#pearl-konfirmasi').removeClass('done');
             }
+            data_needs_saving = true;
         });
 
         $('#btnNext').on('click', function(){
@@ -860,6 +873,7 @@
                     $('#pearl-bayar').removeClass('done');
                 }
                 $('#save-kirim').html($('#hasilKecamatan').text()+' ('+kodepos+')<br>'+alamat);
+                data_needs_saving = true;
             }
         });
 
@@ -887,6 +901,7 @@
             if($('#pearl-konfirmasi').hasClass('done')){
                 $('#pearl-konfirmasi').removeClass('done');
             }
+            data_needs_saving = true;
         });
 
         $('#email').on('input', function(){
@@ -894,6 +909,7 @@
                 $('#email').removeClass('is-invalid');
                 $('#error_email').hide();
             }
+            data_needs_saving = true;
         });
 
         $('#nama').on('input', function(){
@@ -901,6 +917,7 @@
                 $('#nama').removeClass('is-invalid');
                 $('#error_nama').hide();
             }
+            data_needs_saving = true;
         });
 
         $('#no_telp').on('input', function(){
@@ -908,6 +925,7 @@
                 $('#no_telp').removeClass('is-invalid');
                 $('#error_no_telp').hide();
             }
+            data_needs_saving = true;
         });
 
         $('#alamat').on('input', function(){
@@ -915,6 +933,7 @@
                 $('#alamat').removeClass('is-invalid');
                 $('#error_alamat').hide();
             }
+            data_needs_saving = true;
         });
 
         $('#kodepos').on('input', function(){
@@ -922,6 +941,7 @@
                 $('#kodepos').removeClass('is-invalid');
                 $('#error_kodepos').hide();
             }
+            data_needs_saving = true;
         });
         
         $("input#kecamatan").autocomplete({
@@ -984,6 +1004,7 @@
                 kecamatanOld = ui.item.label;
                 pilihKecamatan = ui.item.value;
                 cekOngkir();
+                data_needs_saving = true;
             }
         });
 
@@ -992,6 +1013,7 @@
                 $(this).removeClass('is-invalid');
                 $('#error_kurir').hide();
             }
+            data_needs_saving = true;
         });
 
         $('#hasilKecamatan').click(function() {
@@ -1010,6 +1032,7 @@
             $('#biaya_kirim').attr('data-harga', 0);
             $('#biaya_kirim').text('-');
             hitungTotal();
+            data_needs_saving = true;
         });
 
         $("#kecamatan").on('input', function(){
@@ -1025,6 +1048,7 @@
             $('#biaya_kirim').attr('data-harga', 0);
             $('#biaya_kirim').text('-');
             hitungTotal();
+            data_needs_saving = true;
         });
 
         $('#kurir').on('select2:select', function (e) {
@@ -1040,6 +1064,7 @@
             } else {
                 $('#save-kurir').html(kurir[0]+'<br><small>Barang anda akan sampai dalam '+kurir[1].split(']')[0]+'</small>');
             }
+            data_needs_saving = true;
         });
 
     });
