@@ -23,12 +23,21 @@ class OrderController extends Controller
     public function orderIndex(Request $request, $domain_toko, $order_slug = null){
 		if(is_null($order_slug)) abort(404);
 
-		$cekOrder = DB::table('t_order')
+		$order_data = DB::table('t_order')
 			->where('data_of', Fungsi::dataOfByDomainToko($domain_toko))
+			->where('src', 'storefront')
 			->where('order_slug', $order_slug)
 			->get()->first();
 		
-		if(!isset($cekOrder)) abort(404);
+		if(!isset($order_data)) abort(404);
+
+		$tujuan_kirim = DB::table('users')
+			->join('t_customer', 't_customer.user_id', '=', 'users.id')
+			->where('t_customer.data_of', Fungsi::dataOfByDomainToko($domain_toko))
+			->where('users.id', $order_data->tujuan_kirim_id)
+			->get()->first();
+
+		// dd($order_data);
 
       	$toko = DB::table('t_store')
 			->where('domain_toko', $domain_toko)
@@ -36,7 +45,7 @@ class OrderController extends Controller
 		$r['sort'] = strip_tags($request->sort);
 		$r['cari'] = strip_tags($request->q);
 		if(isset($toko)){
-			return Fungsi::respon('depan.'.$toko->template.'.order', compact("toko", 'r'), "html", $request);
+			return Fungsi::respon('depan.'.$toko->template.'.order', compact("toko", 'r', 'order_data', 'tujuan_kirim'), "html", $request);
 		} else {
 			// ke landing page
 		}

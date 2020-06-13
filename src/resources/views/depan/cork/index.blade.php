@@ -26,6 +26,7 @@
     <link href="{{ asset('template_depan/cork/plugins/sweetalerts/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('template_depan/cork/plugins/sweetalerts/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('template_depan/cork/assets/css/components/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('template_depan/cork/assets/css/apps/invoice.css') }}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="{{ asset('template_depan/cork/assets/css/forms/theme-checkbox-radio.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('template_depan/cork/assets/css/forms/switches.css') }}">
     <style>
@@ -306,6 +307,7 @@
     <script src="{{ asset('template_depan/cork/plugins/sweetalerts/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('template_depan/cork/plugins/sweetalerts/custom-sweetalert.js') }}"></script>
     <script src="{{ asset('template_depan/cork/plugins/input-mask/input-mask.js') }}"></script>
+    <script src="{{ asset('template_depan/cork/assets/js/apps/invoice.js') }}"></script>
 
     <script src="{{ asset('template_depan/cork/assets/js/scrollspyNav.js') }}"></script>
 

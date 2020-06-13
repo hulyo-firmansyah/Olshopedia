@@ -258,7 +258,7 @@ class CheckoutController extends Controller
                     'kat_customer' => $kat_customer->kat_customer,
                     'tgl_dibuat' => date("Y-m-d H:i:s"),
                     'order_slug' => $order_slug,
-                    'tgl_expired' => date("Y-m-d H:i:s", strtotime('tomorrow')),
+                    'tgl_expired' => date("Y-m-d H:i:s", strtotime('+24 Hours')),
                     'data_of' => $data_of
                 ]);
 
@@ -293,7 +293,7 @@ class CheckoutController extends Controller
                 return Fungsi::respon([
                     'status' => true,
                     'pesan' => 'Berhasil mengirim invoice ke email anda!',
-                    'order_id' => $order_id
+                    'order_id' => $order_slug
                 ], [], 'json', $request);
                 break;
 
