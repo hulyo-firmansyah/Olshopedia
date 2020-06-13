@@ -21,7 +21,7 @@ $produk = json_decode($order_data->produk);
 </style>
 <div class='container'>
     <div class="row layout-top-spacing justify-content-between">
-        <div class="card" style='width:100%;'>
+        <div class="card animated animatedFadeInUp fadeInUp" style='width:100%;'>
             <div class='card-header'>
                 <h5>
                     <strong>Detail pesanan</strong>
@@ -30,7 +30,7 @@ $produk = json_decode($order_data->produk);
             </div>
             <div class="card-body">
                 <div class='invoice'>
-                    <div class="content-section animated animatedFadeInUp fadeInUp" style='height:unset;'>
+                    <div class="content-section" style='height:unset;'>
 
                         <div class="row inv--detail-section">
 
@@ -176,7 +176,7 @@ $produk = json_decode($order_data->produk);
                 </div>
             </div>
         </div>
-        <div class='mt-5' style='background:white;border-radius:5px;border: 1px solid rgba(0,0,0,.125);width:100%'>
+        <div class='mt-5 animated animatedFadeInUp fadeInUp' style='background:white;border-radius:5px;border: 1px solid rgba(0,0,0,.125);width:100%'>
             <div class="text-center" style='font-size:16px;padding:20px;'>
                 <p style='margin-bottom:40px;'>Agar pesanan Anda dapat segera diproses, segera lakukan pembayaran sejumlah:</p>
                 <span class="total-bayar">Rp {{ \App\Http\Controllers\PusatController::formatUang($total->hargaProduk + $total->hargaOngkir) }}</span>
@@ -199,7 +199,7 @@ $produk = json_decode($order_data->produk);
                 </div>
                 <div style='border-bottom: 1px solid rgba(0,0,0,.125);margin-bottom:30px;margin-top:30px;'></div>
                 <p>Setelah melakukan transfer silakan konfirmasi dengan klik tombol dibawah ini:</p>
-                <a href="/catalog/orders_confirmation/1130258" class="btn btn-lg btn-primary my-2 mb-4"><i class="fa fa-check">done</i>Saya sudah bayar</a>
+                <a href="/catalog/orders_confirmation/1130258" class="btn btn-lg btn-primary my-2 mb-4">Saya sudah bayar</a>
                 <p>Jika anda ingin merubah metode pembayaran silahkan klik: <a data-toggle="modal" data-target="#modalChoosePayment" href="" class='text-warning'>Ganti metode pembayaran</a></p>
                 <div style='border-bottom: 1px solid rgba(0,0,0,.125);margin-bottom:30px;margin-top:30px;'></div>
                 <p class="small">
