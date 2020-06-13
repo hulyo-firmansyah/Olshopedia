@@ -226,6 +226,7 @@ class CheckoutController extends Controller
                     ->get()->first();
                 $urutObj = DB::table('t_order')->select("urut_order")->where('data_of', $data_of)->orderBy("urut_order", "desc")->get()->first();
                 $urut = is_null($urutObj) ? 1 : $urutObj->urut_order+1;
+                $order_slug = Fungsi::uuid_v4();
                 $order_id = DB::table('t_order')->insertGetId([
                     'urut_order' => $urut,
                     'pemesan_id' => $customer_user_id,
@@ -256,6 +257,7 @@ class CheckoutController extends Controller
                     'order_source_id' => null,
                     'kat_customer' => $kat_customer->kat_customer,
                     'tgl_dibuat' => date("Y-m-d H:i:s"),
+                    'order_slug' => $order_slug,
                     'tgl_expired' => date("Y-m-d H:i:s", strtotime('tomorrow')),
                     'data_of' => $data_of
                 ]);

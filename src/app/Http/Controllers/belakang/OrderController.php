@@ -864,12 +864,13 @@ CUT;
 	}
 	
 	public function saveOrder(Request $request){
-		// return "<pre>".print_r(json_decode($request->dataRaw, true), true)."</pre>";
+		// return "<pre>".print_r(var_dump(Fungsi::uuid_v4()), true)."</pre>";
 		$data = json_decode($request->dataRaw);
 		$catatan["print"] = $data->catatanPrint;
 		$catatan["data"] = $data->catatan;
 		$urutObj = DB::table('t_order')->select("urut_order")->where('data_of', Fungsi::dataOfCek())->orderBy("urut_order", "desc")->get()->first();
 		$urut = is_null($urutObj) ? 1 : $urutObj->urut_order+1;
+		$order_slug = Fungsi::uuid_v4();
 		$last_id = DB::table('t_order')->insertGetId([
 			'urut_order' => $urut,
 			'pemesan_id' => $data->idPemesan_customer,
@@ -889,6 +890,7 @@ CUT;
 			'order_source_id' => ($data->order_source == "") ? null : $data->order_source,
 			'kat_customer' => $data->kat_customer,
 			'tgl_dibuat' => date("Y-m-d H:i:s"),
+			'order_slug' => $order_slug,
 			'data_of' => Fungsi::dataOfCek()
 		]);
 		if($data->pembayaran->status == "cicil" || $data->pembayaran->status == "lunas"){
