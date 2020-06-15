@@ -16,9 +16,9 @@ class CreateTCustomerTable extends Migration
         Schema::create('t_customer', function (Blueprint $table) {
             $table->bigIncrements('id_customer');
             $table->unsignedBigInteger('user_id');
-            $table->string('provinsi', 40);
-            $table->string('kabupaten', 40);
-            $table->string('kecamatan', 40);
+            $table->string('provinsi', 100);
+            $table->string('kabupaten', 100);
+            $table->string('kecamatan', 100);
             $table->integer('kode_pos');
             $table->text('alamat');
             $table->enum('kategori', [

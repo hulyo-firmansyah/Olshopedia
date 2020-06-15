@@ -229,9 +229,9 @@ class CheckoutController extends Controller
                 $order_slug = Fungsi::uuid_v4();
                 $order_id = DB::table('t_order')->insertGetId([
                     'urut_order' => $urut,
-                    'pemesan_id' => $customer_user_id,
+                    'pemesan_id' => $customer_id,
                     'pemesan_kategori' => 'Customer',
-                    'tujuan_kirim_id' => $customer_user_id,
+                    'tujuan_kirim_id' => $customer_id,
                     'kecamatan_asal_kirim_id' => $kecamatan.'|'.$this->getAlamatById($kecamatan, 'kecamatan').', '.$this->getAlamatById($kecamatan, 'kabupaten').', '.$this->getAlamatById($kecamatan, 'provinsi'),
                     'tanggal_order' => date('d F Y'),
                     'pembayaran' => json_encode([
@@ -295,6 +295,10 @@ class CheckoutController extends Controller
                     'pesan' => 'Berhasil mengirim invoice ke email anda!',
                     'order_id' => $order_slug
                 ], [], 'json', $request);
+                break;
+
+            case 'ganti_metode_bayar':
+                
                 break;
 
             default:

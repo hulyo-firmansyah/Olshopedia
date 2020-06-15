@@ -194,9 +194,9 @@
                                     <div class='col-sm-12'>
                                         <b style='color:black;'>Transfer Bank</b> (verifikasi manual)
                                         <div class="pilih-bank form-group" style='margin-top:10px'>
-                                            @foreach(\App\Http\Controllers\PusatController::genArray($bank) as $b)
-                                                <label for="bank-{{ strtolower($b->bank) }}" class="pilih-bank-item selected" title="Transfer Bank bca">
-                                                    <input type="radio" class="item-bank d-none" name="bank" value='{{ $b->id_bank }}|{{ $b->bank }}' id='bank-{{ strtolower($b->bank) }}' checked>
+                                            @foreach(\App\Http\Controllers\PusatController::genArray($bank) as $b_ => $b)
+                                                <label for="bank-{{ strtolower($b->bank) }}" class="pilih-bank-item @if($b_ === 0) selected @endif" title="Transfer Bank bca">
+                                                    <input type="radio" class="item-bank d-none" name="bank" value='{{ $b->id_bank }}|{{ $b->bank }}' id='bank-{{ strtolower($b->bank) }}' @if($b_ === 0) checked @endif>
                                                     <span class="text-dark tc-text-color">
                                                         Transfer Bank {{ $b->bank }}
                                                     </span>

@@ -37,7 +37,12 @@ class OrderController extends Controller
 			->where('users.id', $order_data->tujuan_kirim_id)
 			->get()->first();
 
-		// dd($order_data);
+		// dd($tujuan_kirim);
+
+		$bank = DB::table('t_bank')
+            ->select('bank', 'id_bank')
+            ->where('data_of', Fungsi::dataOfByDomainToko($domain_toko))
+            ->get();
 
       	$toko = DB::table('t_store')
 			->where('domain_toko', $domain_toko)
@@ -45,7 +50,7 @@ class OrderController extends Controller
 		$r['sort'] = strip_tags($request->sort);
 		$r['cari'] = strip_tags($request->q);
 		if(isset($toko)){
-			return Fungsi::respon('depan.'.$toko->template.'.order', compact("toko", 'r', 'order_data', 'tujuan_kirim'), "html", $request);
+			return Fungsi::respon('depan.'.$toko->template.'.order', compact("toko", 'r', 'order_data', 'tujuan_kirim', 'bank'), "html", $request);
 		} else {
 			// ke landing page
 		}

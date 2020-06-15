@@ -18,6 +18,61 @@ $produk = json_decode($order_data->produk);
     padding:10px;
     border-radius:10px;
 }
+.pilih-bank {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  margin-bottom: 1.5rem !important;
+}
+.pilih-bank .pilih-bank-item.selected:not(.disabled),
+.pilih-bank .pilih-bank-item.selected {
+  background-color: #ebf4ff;
+  box-shadow: 0 0 0 2px #007bff;
+  -webkit-box-shadow: 0 0 0 2px #007bff;
+}
+.pilih-bank .pilih-bank-item:hover {
+  background-color: #f0f0f0;
+}
+.pilih-bank .pilih-bank-item {
+  -webkit-box-sizing: border-box;
+  -webkit-box-shadow: 0 0 0 2px #eee;
+  box-shadow: 0 0 0 2px #eee;
+  box-sizing: border-box;
+  width: 100% !important;
+  margin: 0 12px 12px 0;
+  padding: 14px 18px;
+  border-radius: 5px;
+  margin-right: 0 !important;
+  margin-bottom: .5rem !important;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  background-color: #fff;
+}
+.pilih-bank .pilih-bank-item img {
+  height: auto;
+  max-width: 60px;
+  min-width: 40px;
+}
+.pilih-bank .pilih-bank-item input {
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  position: absolute;
+}
+.pilih-bank-item .text-dark {
+  font-size: .975rem;
+  margin: .5rem 0 0 .5rem !important;
+}
 </style>
 <div class='container'>
     <div class="row layout-top-spacing justify-content-between">
@@ -108,11 +163,11 @@ $produk = json_decode($order_data->produk);
                                         <div class="col-sm-8 col-12">
                                             <p class="">
                                                 @php
-                                                    $bank = \DB::table('t_bank')
+                                                    $bankAdmin = \DB::table('t_bank')
                                                         ->where('data_of', \App\Http\Controllers\PusatController::dataOfByDomainToko($toko->domain_toko))
                                                         ->where('id_bank', explode('|', $pembayaran->via)[0])
                                                         ->get()->first();
-                                                    echo $bank->no_rek;
+                                                    echo $bankAdmin->no_rek;
                                                 @endphp
                                             </p>
                                         </div>
@@ -193,22 +248,112 @@ $produk = json_decode($order_data->produk);
                         <!-- <img class="mr-sm-3" src="/assets/img/bank/bsm.svg" alt="BSM" style="width: 100px;"> -->
                     </div>
                     <div class="col-sm-6 text-left">
-                        Transfer Bank {{ $bank->bank }} <p class="h4 lead mb-2"><strong>{{ $bank->no_rek }}</strong></p>
-                        Cabang  {{ $bank->cabang }},  An. {{ $bank->atas_nama }} 
+                        Transfer Bank {{ $bankAdmin->bank }} <p class="h4 lead mb-2"><strong>{{ $bankAdmin->no_rek }}</strong></p>
+                        Cabang  {{ $bankAdmin->cabang }},  An. {{ $bankAdmin->atas_nama }} 
                     </div>
                 </div>
                 <div style='border-bottom: 1px solid rgba(0,0,0,.125);margin-bottom:30px;margin-top:30px;'></div>
                 <p>Setelah melakukan transfer silakan konfirmasi dengan klik tombol dibawah ini:</p>
                 <a href="/catalog/orders_confirmation/1130258" class="btn btn-lg btn-primary my-2 mb-4">Saya sudah bayar</a>
-                <p>Jika anda ingin merubah metode pembayaran silahkan klik: <a data-toggle="modal" data-target="#modalChoosePayment" href="" class='text-warning'>Ganti metode pembayaran</a></p>
+                <p>Jika anda ingin merubah metode pembayaran silahkan klik: <a data-toggle="modal" data-target="#pilihMetodebayar" href="" class='text-warning'>Ganti metode pembayaran</a></p>
                 <div style='border-bottom: 1px solid rgba(0,0,0,.125);margin-bottom:30px;margin-top:30px;'></div>
                 <p class="small">
-                    <span class="tc-text-color">Jika Anda tidak menerima email invoice ini Anda dapat</span>
+                    <span class="tc-text-color">Jika Anda tidak menerima email invoice ini, Anda dapat</span>
                     <a class="text-warning" href="/catalog/send_email/1130258/resend">mengirim ulang invoice</a>
                 </p>
             </div>
         </div>
     </div>
 </div>
+<div class="modal fade" id="pilihMetodebayar" tabindex="-1" role="dialog" aria-labelledby="pilihMetodeBayarLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pilihMetodeBayarLabel">Pilih Metode Pembayaran</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">x</button>
+            </div>
+            <div class="modal-body">
+                <div class='row'>
+                    <div class='col-sm-12'>
+                        <b style='color:black;'>Transfer Bank</b> (verifikasi manual)
+                        <div class="pilih-bank form-group" style='margin-top:10px'>
+                            @foreach(\App\Http\Controllers\PusatController::genArray($bank) as $b_ => $b)
+                                <label for="bank-{{ strtolower($b->bank) }}" class="pilih-bank-item @if($b_ === 0) selected @endif" title="Transfer Bank bca">
+                                    <input type="radio" class="item-bank d-none" name="bank" value='{{ $b->id_bank }}|{{ $b->bank }}' id='bank-{{ strtolower($b->bank) }}' @if($b_ === 0) checked @endif>
+                                    <span class="text-dark tc-text-color">
+                                        Transfer Bank {{ $b->bank }}
+                                    </span>
+                                </label>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" id='btnPilihMetode'>Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        
+        $('.pilih-bank-item').on('click', function(){
+            let list_bank = Array.prototype.slice.call($('.pilih-bank .pilih-bank-item'));
+            var _this = $(this);
+            list_bank.forEach(function(html) {
+                if($(html).hasClass('selected')){
+                    $(html).removeClass('selected');
+                }
+            });
+            _this.addClass('selected');
+            data_needs_saving = true;
+        });
+
+        $('#btnPilihMetode').on('click', function(){
+            $.ajax({
+                url: "{{ route('d.proses', ['domain_toko' => $toko->domain_toko]) }}",
+                type: 'post',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    nama: nama,
+                    email: email,
+                    no_telp: no_telp,
+                    alamat: alamat,
+                    kodepos: kodepos,
+                    kurir: kurir,
+                    kecamatan: kecamatan,
+                    berat: berat,
+                    tarif: tarif,
+                    bank: bank,
+                    catatan: $('#catatan').val(),
+                    tipe: 'ganti_metode_bayar',
+                },
+                beforeSend: function(){
+                    notifCek = alertify.message('Loading...', 0);
+                },
+                success: function(data) {
+                    notifCek.dismiss();
+                    data_needs_saving = false;
+                    if(data.status){
+                        alertify.success(data.pesan, 3, function(){
+                            alertify.message('Redirecting..', 2, function(){
+                                $(location).attr('href', '{{ route("d.order", ["domain_toko" => $toko->domain_toko]) }}/'+data.order_id);
+                            });
+                        });
+                    } else {
+                        alertify.error(data.pesan);
+                    }
+                },
+                error: function(a, b, c){
+                    notifCek.dismiss();
+                    alertify.error(c);
+                }
+            });
+        });
+
+    });
+</script>
 <!--uiop-->
 @endsection
