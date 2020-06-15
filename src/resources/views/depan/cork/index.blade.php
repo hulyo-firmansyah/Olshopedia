@@ -248,7 +248,7 @@
             <div class="layout-px-spacing">
                 @yield('isi')
             </div>
-            <div class="footer-wrapper">
+            <div class="footer-wrapper" style='margin-top:15px'>
                 <div class="footer-section f-section-1">
                     <p class="">Copyright © 2020 <a target="_blank" href="https://designreset.com">DesignReset</a>, All
                         rights reserved.</p>

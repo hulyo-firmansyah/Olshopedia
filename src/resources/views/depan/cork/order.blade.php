@@ -255,11 +255,25 @@ $produk = json_decode($order_data->produk);
                 <div style='border-bottom: 1px solid rgba(0,0,0,.125);margin-bottom:30px;margin-top:30px;'></div>
                 <p>Setelah melakukan transfer silakan konfirmasi dengan klik tombol dibawah ini:</p>
                 <a href="/catalog/orders_confirmation/1130258" class="btn btn-lg btn-primary my-2 mb-4">Saya sudah bayar</a>
-                <p>Jika anda ingin merubah metode pembayaran silahkan klik: <a data-toggle="modal" data-target="#pilihMetodebayar" href="" class='text-warning'>Ganti metode pembayaran</a></p>
+                <p>Jika anda ingin merubah metode pembayaran silahkan klik: 
+                    <span id='bagianAdaTimer'>
+                        @if($timer === 0)
+                            <a data-toggle="modal" data-target="#pilihMetodebayar" href="" class='text-warning'>Ganti metode pembayaran></span></a>
+                        @else
+                            <span class='text-danger'>Tunggu countdown selesai, untuk bisa ganti metode pembayaran lagi <span class='timerDiv'></span></span>
+                        @endif
+                    </span>
+                </p>
                 <div style='border-bottom: 1px solid rgba(0,0,0,.125);margin-bottom:30px;margin-top:30px;'></div>
                 <p class="small">
                     <span class="tc-text-color">Jika Anda tidak menerima email invoice ini, Anda dapat</span>
-                    <a class="text-warning" href="/catalog/send_email/1130258/resend">mengirim ulang invoice</a>
+                    <span id='bagianAdaTimer2'>
+                        @if($timer === 0)
+                            <a class="text-warning" href="javascript:void(0)" id='sendInvoice'>mengirim ulang invoice</a>
+                        @else
+                            <span class='text-danger'>Tunggu countdown selesai, untuk bisa mengirim invoice lagi <span class='timerDiv'></span></span>
+                        @endif
+                    </span>
                 </p>
             </div>
         </div>
@@ -278,8 +292,8 @@ $produk = json_decode($order_data->produk);
                         <b style='color:black;'>Transfer Bank</b> (verifikasi manual)
                         <div class="pilih-bank form-group" style='margin-top:10px'>
                             @foreach(\App\Http\Controllers\PusatController::genArray($bank) as $b_ => $b)
-                                <label for="bank-{{ strtolower($b->bank) }}" class="pilih-bank-item @if($b_ === 0) selected @endif" title="Transfer Bank bca">
-                                    <input type="radio" class="item-bank d-none" name="bank" value='{{ $b->id_bank }}|{{ $b->bank }}' id='bank-{{ strtolower($b->bank) }}' @if($b_ === 0) checked @endif>
+                                <label for="bank-{{ strtolower($b->bank) }}" class="pilih-bank-item @if($b->id_bank.'|'.$b->bank === $bankAdmin->id_bank.'|'.$bankAdmin->bank) selected @endif" title="Transfer Bank bca">
+                                    <input type="radio" class="item-bank d-none" name="bank" value='{{ $b->id_bank }}|{{ $b->bank }}' id='bank-{{ strtolower($b->bank) }}' @if($b->id_bank.'|'.$b->bank === $bankAdmin->id_bank.'|'.$bankAdmin->bank) checked @endif>
                                     <span class="text-dark tc-text-color">
                                         Transfer Bank {{ $b->bank }}
                                     </span>
@@ -297,7 +311,106 @@ $produk = json_decode($order_data->produk);
     </div>
 </div>
 <script>
+    var timer_interval = null,
+        time_ = {!! $timer !!};
+
+        
+    function showTimer() {
+        if (time_ < 1) {
+            $('.timerDiv').hide();
+            $('#bagianAdaTimer').html('<a data-toggle="modal" data-target="#pilihMetodebayar" href="" class="text-warning">Ganti metode pembayaran</span></a>');
+            $('#bagianAdaTimer2').html('<a class="text-warning" href="javascript:void(0)" id="sendInvoice">mengirim ulang invoice</a>');
+            clearInterval(timer_interval);
+            return;
+        }
+        function pad(value) {
+                return (value < 10 ? '0' : '') + value;
+        }
+        $('.timerDiv').text('('+Math.floor(time_ / 60) + ':' + pad(time_ % 60)+')');
+        time_--;
+    }
+
     $(document).ready(function(){
+        
+        showTimer();
+        timer = setInterval(showTimer, 1000);
+
+        $('#bagianAdaTimer2').on('click', '#sendInvoice', function(e){
+            e.preventDefault();
+
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 0,
+                padding: '2em'
+            });
+            $.ajax({
+                url: "{{ route('d.proses', ['domain_toko' => $toko->domain_toko]) }}",
+                type: 'post',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    order_id: '{{ $order_slug }}',
+                    v: {{ $tujuan_kirim->user_id }},
+                    tipe: 'send_invoice',
+                },
+                beforeSend: function(){
+                    toast({
+                        type: '',
+                        title: 'Loading...',
+                        padding: '2em',
+                    });
+                },
+                success: function(data) {
+                    toast.close();
+                    if(data.status){
+                        const toast2 = swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            padding: '2em'
+                        });
+                        toast2({
+                            type: 'success',
+                            title: ''+data.pesan,
+                            padding: '2em',
+                        }).then(function(){
+                            $(location).attr('href', '{{ route("d.order", ["domain_toko" => $toko->domain_toko]) }}/{{ $order_slug }}');
+                        });
+                    } else {
+                        const toast2 = swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            padding: '2em'
+                        });
+                        toast2({
+                            type: 'error',
+                            title: ''+data.pesan,
+                            padding: '2em',
+                        });
+                    }
+                },
+                error: function(a, b, c){
+                    toast.close();
+                    const toast2 = swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        padding: '2em'
+                    });
+                    toast2({
+                        type: 'error',
+                        title: ''+c,
+                        padding: '2em',
+                    });
+                }
+            });
+        })
+
         
         $('.pilih-bank-item').on('click', function(){
             let list_bank = Array.prototype.slice.call($('.pilih-bank .pilih-bank-item'));
@@ -312,43 +425,78 @@ $produk = json_decode($order_data->produk);
         });
 
         $('#btnPilihMetode').on('click', function(){
+            let bank = $('.pilih-bank').children('label.selected').children('input[type=radio]').val();
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 0,
+                padding: '2em'
+            });
+            $('#pilihMetodebayar').modal('hide');
             $.ajax({
                 url: "{{ route('d.proses', ['domain_toko' => $toko->domain_toko]) }}",
                 type: 'post',
                 data: {
                     _token: "{{ csrf_token() }}",
-                    nama: nama,
-                    email: email,
-                    no_telp: no_telp,
-                    alamat: alamat,
-                    kodepos: kodepos,
-                    kurir: kurir,
-                    kecamatan: kecamatan,
-                    berat: berat,
-                    tarif: tarif,
                     bank: bank,
-                    catatan: $('#catatan').val(),
+                    order_id: '{{ $order_slug }}',
+                    v: {{ $tujuan_kirim->user_id }},
                     tipe: 'ganti_metode_bayar',
                 },
                 beforeSend: function(){
-                    notifCek = alertify.message('Loading...', 0);
+                    toast({
+                        type: '',
+                        title: 'Loading...',
+                        padding: '2em',
+                    });
                 },
                 success: function(data) {
-                    notifCek.dismiss();
-                    data_needs_saving = false;
+                    toast.close();
                     if(data.status){
-                        alertify.success(data.pesan, 3, function(){
-                            alertify.message('Redirecting..', 2, function(){
-                                $(location).attr('href', '{{ route("d.order", ["domain_toko" => $toko->domain_toko]) }}/'+data.order_id);
-                            });
+                        const toast2 = swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            padding: '2em'
+                        });
+                        toast2({
+                            type: 'success',
+                            title: ''+data.pesan,
+                            padding: '2em',
+                        }).then(function(){
+                            $(location).attr('href', '{{ route("d.order", ["domain_toko" => $toko->domain_toko]) }}/{{ $order_slug }}');
                         });
                     } else {
-                        alertify.error(data.pesan);
+                        const toast2 = swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            padding: '2em'
+                        });
+                        toast2({
+                            type: 'error',
+                            title: ''+data.pesan,
+                            padding: '2em',
+                        });
                     }
                 },
                 error: function(a, b, c){
-                    notifCek.dismiss();
-                    alertify.error(c);
+                    toast.close();
+                    const toast2 = swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        padding: '2em'
+                    });
+                    toast2({
+                        type: 'error',
+                        title: ''+c,
+                        padding: '2em',
+                    });
                 }
             });
         });

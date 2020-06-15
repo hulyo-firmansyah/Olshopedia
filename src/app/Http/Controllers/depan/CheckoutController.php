@@ -149,11 +149,16 @@ class CheckoutController extends Controller
         if(!$request->ajax() || !$request->filled('tipe')) abort(404);
 
         $tipe = strip_tags($request->get('tipe'));
+        $data_of = Fungsi::dataOfByDomainToko($domain_toko);
+        $emailFrom = DB::table('users')
+            ->where('id', $data_of)
+            ->get()->first()->email;
+        $nama_toko = DB::table('t_store')
+            ->where('data_of', $data_of)
+            ->select('nama_toko')
+            ->get()->first()->nama_toko;
         switch($tipe){
             case 'proses_order':
-                $data_of = Fungsi::dataOfByDomainToko($domain_toko);
-        
-        
                 $cart = Cart::getCart($request);
                 $nama = strip_tags($request->get('nama'));
                 $no_telp = strip_tags($request->get('no_telp'));
@@ -262,14 +267,6 @@ class CheckoutController extends Controller
                     'data_of' => $data_of
                 ]);
 
-                $emailFrom = DB::table('users')
-                    ->where('id', $data_of)
-                    ->get()->first()->email;
-                $nama_toko = DB::table('t_store')
-                    ->where('data_of', $data_of)
-                    ->select('nama_toko')
-                    ->get()->first()->nama_toko;
-
                 try {
 
                     // Log::info('mau mengirim email queue');
@@ -298,7 +295,104 @@ class CheckoutController extends Controller
                 break;
 
             case 'ganti_metode_bayar':
+                $bank = strip_tags($request->get('bank'));
+                $order_slug = strip_tags($request->get('order_id'));
+                $customer_id = strip_tags($request->get('v'));
+                if(Cache::has($order_slug.'-timer')){
+                    $timer = Cache::get($order_slug.'-timer') * 2;
+                    Cache::put($order_slug.'-timer', $timer);
+                } else {
+                    $timer = 30;
+                    Cache::add($order_slug.'-timer', $timer, now()->addHours(2));
+                }
+
+                $customer_data = DB::table('users')
+                    ->where('id', $customer_id)
+                    ->get()->first();
+
+                $order_data = DB::table('t_order')
+                    ->where('data_of', $data_of)
+                    ->where('order_slug', $order_slug)
+                    ->select('pembayaran')
+                    ->get()->first();
+                    
+                $bayar_update = json_decode($order_data->pembayaran);
+                $bayar_update->via = $bank;
+
+                $order_update = DB::table('t_order')
+                    ->where('data_of', $data_of)
+                    ->where('order_slug', $order_slug)
+                    ->update([
+                        'pembayaran' => json_encode($bayar_update)
+                    ]);
+
                 
+                try {
+
+                    // Log::info('mau mengirim email queue');
+                    Mail::to($customer_data->email)->send(new GuestOrder([
+                        'alamat' => $emailFrom,
+                        'nama' => $nama_toko
+                    ], 'sssgdfg'));
+                    // dispatch(new SendEmail([
+                    //     'tujuan' => $user->email,
+                    //     'email' => new EmailVerification($user, route('b.email-verified', ['token' => $user->email_token]))
+                    // ]));
+                    // Log::info('selesai mengirim email queue');
+        
+                } catch(\Exception $e){
+                    return Fungsi::respon([
+                        'status' => false,
+                        'pesan' => $e->getMessage(),
+                    ], [], 'json', $request);
+                }
+                return Fungsi::respon([
+                    'status' => true,
+                    'pesan' => 'Berhasil mengirim invoice ke email anda!',
+                    'timer' => $timer
+                ], [], 'json', $request);
+                break;
+
+            case 'send_invoice':
+                $order_slug = strip_tags($request->get('order_id'));
+                $customer_id = strip_tags($request->get('v'));
+
+                $customer_data = DB::table('users')
+                    ->where('id', $customer_id)
+                    ->get()->first();
+
+                if(Cache::has($order_slug.'-timer')){
+                    $timer = Cache::get($order_slug.'-timer') * 2;
+                    Cache::put($order_slug.'-timer', $timer);
+                } else {
+                    $timer = 30;
+                    Cache::add($order_slug.'-timer', $timer, now()->addHours(2));
+                }
+                
+                try {
+
+                    // Log::info('mau mengirim email queue');
+                    Mail::to($customer_data->email)->send(new GuestOrder([
+                        'alamat' => $emailFrom,
+                        'nama' => $nama_toko
+                    ], 'sssgdfg'));
+                    // dispatch(new SendEmail([
+                    //     'tujuan' => $user->email,
+                    //     'email' => new EmailVerification($user, route('b.email-verified', ['token' => $user->email_token]))
+                    // ]));
+                    // Log::info('selesai mengirim email queue');
+        
+                } catch(\Exception $e){
+                    return Fungsi::respon([
+                        'status' => false,
+                        'pesan' => $e->getMessage(),
+                    ], [], 'json', $request);
+                }
+                return Fungsi::respon([
+                    'status' => true,
+                    'pesan' => 'Berhasil mengirim invoice ke email anda!',
+                    'timer' => $timer
+                ], [], 'json', $request);
                 break;
 
             default:

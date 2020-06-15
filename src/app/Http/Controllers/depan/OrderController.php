@@ -37,7 +37,11 @@ class OrderController extends Controller
 			->where('users.id', $order_data->tujuan_kirim_id)
 			->get()->first();
 
-		// dd($tujuan_kirim);
+		if(Cache::has($order_slug.'-timer')){
+			$timer = Cache::get($order_slug.'-timer');
+		} else {
+			$timer = 0;
+		}
 
 		$bank = DB::table('t_bank')
             ->select('bank', 'id_bank')
@@ -50,7 +54,7 @@ class OrderController extends Controller
 		$r['sort'] = strip_tags($request->sort);
 		$r['cari'] = strip_tags($request->q);
 		if(isset($toko)){
-			return Fungsi::respon('depan.'.$toko->template.'.order', compact("toko", 'r', 'order_data', 'tujuan_kirim', 'bank'), "html", $request);
+			return Fungsi::respon('depan.'.$toko->template.'.order', compact("toko", 'r', 'order_data', 'tujuan_kirim', 'bank', 'order_slug', 'timer'), "html", $request);
 		} else {
 			// ke landing page
 		}

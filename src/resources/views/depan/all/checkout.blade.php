@@ -48,9 +48,9 @@
 
         <hr>
 
-        <div class="row flex-column-reverse flex-sm-row">
-            <div class="col-sm-7 pt-lg-4 px-lg-4">
-                <div class="d-none d-sm-block">
+        <div class="row flex-column-reverse flex-md-row">
+            <div class="col-md-7 pt-lg-4 px-lg-4">
+                <div class="d-none d-md-block">
                     <div class="px-lg-5">
                         <div class="pearls row">
                             <div class="pearl current col-4" id='pearl-kirim'>
@@ -276,7 +276,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-5 pt-lg-4 pr-lg-5">
+            <div class="col-md-5 pt-lg-4 pr-lg-5" style='margin-bottom:20px;'>
                 <div class='box-in-checkout' style='margin-top:20px'>
                     <div class='judul'>
                         <h3>Detail Order</h3>
