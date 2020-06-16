@@ -276,6 +276,26 @@ class PusatController
 			throw new Exception('Data user tersebut tidak ada!');
 		}
 	}
+
+	public static function kode_unik($id = null){
+		if(is_null($id)){
+			switch(rand(2, 3)){
+				case 2:
+					return substr(time(), -1, 1).mt_rand(10, 99);
+					break;
+
+				case 3:
+				default:
+					$mungkin = mt_rand(1, 100);
+					if($mungkin < 90) return mt_rand(10, 99).substr(time(), -1, 1);
+					else return mt_rand(1, 9).substr(time(), -2, 2);
+					break;
+			}
+		}
+
+		if($id > 999) return substr($id, -3, 3);
+		else return $id;
+	}
 	
 	public static function uuid_v4() {
 		$ran = str_random(13);

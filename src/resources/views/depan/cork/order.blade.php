@@ -234,8 +234,8 @@ $produk = json_decode($order_data->produk);
         <div class='mt-5 animated animatedFadeInUp fadeInUp' style='background:white;border-radius:5px;border: 1px solid rgba(0,0,0,.125);width:100%'>
             <div class="text-center" style='font-size:16px;padding:20px;'>
                 <p style='margin-bottom:40px;'>Agar pesanan Anda dapat segera diproses, segera lakukan pembayaran sejumlah:</p>
-                <span class="total-bayar">Rp {{ \App\Http\Controllers\PusatController::formatUang($total->hargaProduk + $total->hargaOngkir) }}</span>
-                <p class="text-danger mb-2" style='margin-top:40px;'>Note: + Rp47 untuk kode unik</p>
+                <span class="total-bayar">Rp {{ \App\Http\Controllers\PusatController::formatUang($total->hargaProduk + $total->hargaOngkir + $total->kode_unik) }}</span>
+                <p class="text-danger mb-2" style='margin-top:40px;'>Note: +Rp {{ $total->kode_unik }} untuk kode unik</p>
                 <p class="mb-4 tc-text-color" style="margin-bottom: 1.5rem;">
                     Mohon selesaikan pembayaran sesuai nominal diatas sebelum::
                     <br>

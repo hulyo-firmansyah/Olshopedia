@@ -267,6 +267,22 @@ class CheckoutController extends Controller
                     'data_of' => $data_of
                 ]);
 
+                $order_total = DB::table('t_order')
+                    ->where('data_of', $data_of)
+                    ->where('id_order', $order_id)
+                    ->select('total')
+                    ->get()->first();
+
+                $order_total_data = json_decode($order_total->total);
+                $order_total_data->kode_unik = Fungsi::kode_unik($order_id);
+
+                $update_kode_unik = DB::table('t_order')
+                    ->where('data_of', $data_of)
+                    ->where('id_order', $order_id)
+                    ->update([
+                        'total' => json_encode($order_total_data)
+                    ]);
+
                 try {
 
                     // Log::info('mau mengirim email queue');
