@@ -44,7 +44,7 @@ class CreateTOrderTable extends Migration
             $table->unsignedBigInteger('order_source_id')->nullable();
             $table->text('kat_customer');
             $table->boolean('print_label')->default(false);
-            $table->string('order_slug', 60);
+            $table->string('order_slug', 60)->unique();
             $table->dateTime('tgl_dibuat');
             $table->dateTime('tgl_diedit')->nullable();
             $table->dateTime('tgl_expired')->nullable();
