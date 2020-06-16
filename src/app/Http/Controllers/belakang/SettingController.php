@@ -170,7 +170,7 @@ class SettingController extends Controller
                             ->where('data_of', Fungsi::dataOfCek())
                             ->update([
                                 'nama_toko' => $request->namaToko,
-                                'template' => 'default',
+                                'template' => 'cork',
                                 'alamat_toko' => $alamatToko,
                                 'alamat_toko_offset' => $kecamatan,
                                 'domain_toko' => $domain,
