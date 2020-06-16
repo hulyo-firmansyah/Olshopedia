@@ -221,6 +221,7 @@
     Route::post('/{domain_toko}/proses', 'depan\CheckoutController@proses')->name('d.proses');
 
     Route::get('/{domain_toko}/order/{order_slug?}', 'depan\OrderController@orderIndex')->name('d.order');
+    ROute::get('/{domain_toko}/order-konfirmasi-bayar/{order_slug?}', 'depan\OrderController@konfirmasiBayarIndex')->name('d.konfirmasi-bayar');
     
 // });
 // Route::domain('{subdomain}.localhost')->group(function () {

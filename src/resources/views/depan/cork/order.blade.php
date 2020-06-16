@@ -2,7 +2,7 @@
 @section('page')
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('d.home', ['domain_toko' => $toko->domain_toko]) }}">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page"><span>Order</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span>Order #{{ $order_data->urut_order }}</span></li>
 </ol>
 @endsection
 @section('isi')
@@ -254,7 +254,7 @@ $produk = json_decode($order_data->produk);
                 </div>
                 <div style='border-bottom: 1px solid rgba(0,0,0,.125);margin-bottom:30px;margin-top:30px;'></div>
                 <p>Setelah melakukan transfer silakan konfirmasi dengan klik tombol dibawah ini:</p>
-                <a href="/catalog/orders_confirmation/1130258" class="btn btn-lg btn-primary my-2 mb-4">Saya sudah bayar</a>
+                <a href="{{ route('d.konfirmasi-bayar', ['domain_toko' => $toko->domain_toko, 'order_slug' => $order_slug]) }}" class="btn btn-lg btn-primary my-2 mb-4">Saya sudah bayar</a>
                 <p>Jika anda ingin merubah metode pembayaran silahkan klik: 
                     <span id='bagianAdaTimer'>
                         @if($timer === 0)
