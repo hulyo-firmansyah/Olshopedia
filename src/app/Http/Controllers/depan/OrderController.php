@@ -81,15 +81,41 @@ class OrderController extends Controller
 
 		if(isset($cek_konfirmasi)) abort(404);
 
+        $bank = DB::table('t_bank')
+            ->where('data_of', Fungsi::dataOfByDomainToko($domain_toko))
+            ->get();
+
       	$toko = DB::table('t_store')
 			->where('domain_toko', $domain_toko)
 			->get()->first();
 		$r['sort'] = strip_tags($request->sort);
 		$r['cari'] = strip_tags($request->q);
 		if(isset($toko)){
-			return Fungsi::respon('depan.'.$toko->template.'.konfirmasi-bayar', compact("toko", 'r', 'order_data', 'order_slug'), "html", $request);
+			return Fungsi::respon('depan.'.$toko->template.'.konfirmasi-bayar', compact("toko", 'r', 'order_data', 'order_slug', 'bank'), "html", $request);
 		} else {
 			// ke landing page
+		}
+	}
+	
+	public function proses(Request $request, $domain_toko){
+		return "<pre>".print_r($request->all(), true)."</pre>";
+		$support_gambar = ['jpeg', 'jpg', 'png', 'gif'];
+
+		$toko = DB::table('t_store')
+			->where('domain_toko', $domain_toko)
+			->get()->first();
+
+		if(!isset($toko)) abort(404);
+
+		$tipe = strip_tags($request->get('tipe'));
+		switch($tipe){
+			case 'konfirmasi_bayar':
+				$atas_nama = strip_tags($request->get('atas_nama'));
+				$nominal = strip_tags($request->get('nominal'));
+				$tgl_transfer = strip_tags($request->get('tgl_transfer'));
+				$catatan = strip_tags($request->get('catatan'));
+				$order_slug = strip_tags($request->get('order_pilih'));
+				break;	
 		}
 	}
 }
