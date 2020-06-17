@@ -15,7 +15,7 @@ class CreateTKonfirmasiBayarTable extends Migration
     {
         Schema::create('t_konfirmasi_bayar', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('order_slug');
+            $table->string('order_slug', 60)->unique();
             $table->text('atas_nama');
             $table->unsignedInteger('nominal');
             $table->text('bank_tujuan');

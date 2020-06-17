@@ -254,7 +254,7 @@ $produk = json_decode($order_data->produk);
                 </div>
                 <div style='border-bottom: 1px solid rgba(0,0,0,.125);margin-bottom:30px;margin-top:30px;'></div>
                 <p>Setelah melakukan transfer silakan konfirmasi dengan klik tombol dibawah ini:</p>
-                <a href="{{ route('d.konfirmasi-bayar', ['domain_toko' => $toko->domain_toko, 'order_slug' => $order_slug]) }}" class="btn btn-lg btn-primary my-2 mb-4">Saya sudah bayar</a>
+                <a href="{{ route('d.konfirmasi-bayar', ['domain_toko' => $toko->domain_toko, 'order_slug' => $order_slug]) }}" class="btn btn-lg btn-primary my-2 mb-4">konfirmasi pembayaran</a>
                 <p>Jika anda ingin merubah metode pembayaran silahkan klik: 
                     <span id='bagianAdaTimer'>
                         @if($timer === 0)

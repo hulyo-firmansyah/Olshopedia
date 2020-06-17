@@ -321,11 +321,15 @@ class PusatController
 		).'-'.$ran;
 	}
 
-	public static function dataOfByDomainToko($toko_slug){
+	public static function dataOfByDomainToko($toko_slug, $getUsername = false){
 		$toko = DB::table('t_store')
 			->where('domain_toko', $toko_slug)
 			->get()->first();
 		if(isset($toko)){
+			if($getUsername) {
+				$data_username = DB::table('users')->select('username')->where('id', $toko->data_of)->get()->first();
+				return $data_username->username;
+			}
 			return $toko->data_of;
 		} else {
 			return null;

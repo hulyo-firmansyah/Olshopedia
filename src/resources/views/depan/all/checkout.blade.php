@@ -655,13 +655,15 @@
                 error++;
             }
             regex = /[0-9]{1,3}\|[0-9]{1,3}\|[0-9]{1,4}/g;
-            if(kecamatan == '' || !regex.test(kecamatan) || $('#hasilKecamatan').is(':hidden')){
+            if((kecamatan == '' || !regex.test(kecamatan)) && $('#hasilKecamatan').text() == ''){
                 $('#kecamatan').addClass('is-invalid');
                 $('#error_kecamatan').show();
                 $('#error_kecamatan').html('Pilih Kota/Kecamatan terlebih dahulu!');
+                // console.log('ffff');
                 error++;
             }
-            if(error > 0){
+            // console.log(error);
+            if(error < 1){
                 var notifCek = null;
                 $.ajax({
                     url: "{{ route('d.proses', ['domain_toko' => $toko->domain_toko]) }}",
@@ -852,7 +854,7 @@
                 error++;
             }
             regex = /[0-9]{1,3}\|[0-9]{1,3}\|[0-9]{1,4}/g;
-            if(kecamatan == '' || !regex.test(kecamatan) || $('#hasilKecamatan').is(':hidden')){
+            if((kecamatan == '' || !regex.test(kecamatan)) && $('#hasilKecamatan').text() == ''){
                 $('#kecamatan').addClass('is-invalid');
                 $('#error_kecamatan').show();
                 $('#error_kecamatan').html('Pilih Kota/Kecamatan terlebih dahulu!');
