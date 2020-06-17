@@ -196,6 +196,7 @@
                 form.append('<input type="text" name="tipe" value="konfirmasi_bayar">');
                 $('#order_pilih').clone().appendTo(form);
                 $('#atas_nama').clone().appendTo(form);
+                $('#bank_tujuan').clone().appendTo(form);
                 $('#nominal').clone().appendTo(form);
                 $('#tgl_transfer').clone().appendTo(form);
                 $('#customFile').clone().appendTo(form);

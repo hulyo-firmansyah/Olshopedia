@@ -169,7 +169,9 @@ class OrderController extends Controller
 				$simpan['data_of'] = Fungsi::dataOfByDomainToko($domain_toko);
 
 				$konfirmasi_bayar = DB::table('t_konfirmasi_bayar')->insert($simpan);
-				echo "sukses";
+				if($konfirmasi_bayar) {
+					return redirect()->route('d.order', ['domain_toko' => $domain_toko, 'order_slug' => $order_slug]);
+				}
 				break;	
 		}
 	}
