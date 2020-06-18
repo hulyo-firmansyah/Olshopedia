@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('template_depan/cork/assets/css/forms/switches.css') }}">
     <link href="{{ asset('template_depan/cork/plugins/flatpickr/flatpickr.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('template_depan/cork/plugins/flatpickr/custom-flatpickr.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/pearls.css') }}">
     <style>
         .navbar .navbar-item .nav-item.user-profile-dropdown .dropdown-menu .dropdown-item button[type=submit] {
             display: block;
