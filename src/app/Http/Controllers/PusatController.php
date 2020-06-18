@@ -299,7 +299,7 @@ class PusatController
 	
 	public static function uuid_v4() {
 		$ran = str_random(13);
-		return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+		$hasil = sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
 	
 		// 32 bits for "time_low"
 		mt_rand(0, 0xffff), mt_rand(0, 0xffff),
@@ -319,6 +319,13 @@ class PusatController
 		// 48 bits for "node"
 		mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
 		).'-'.$ran;
+
+		$cek = DB::table('t_order')
+			->where('order_slug', $hasil)
+			->get()->first();
+
+		if(isset($cek)) return self::uuid_v4();
+		else return $hasil;
 	}
 
 	public static function dataOfByDomainToko($toko_slug, $getUsername = false){
