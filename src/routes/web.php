@@ -18,10 +18,10 @@
 // Route::domain('app.localhost/olshopedia')->group(function () {
     
     //login dan register
-    Route::get('/login', 'belakang\auth\LoginController@showLoginForm')->name('b.login');
+    Route::get('/login', 'belakang\auth\LoginController@showLoginForm')->name('b.login')->middleware('b.locale');
     Route::post('/login', 'belakang\auth\LoginController@login');
     Route::post('/logout', 'belakang\auth\LoginController@logout')->name('b.logout');
-    Route::get('/register', 'belakang\auth\RegisterController@showRegistrationForm')->name('b.register');
+    Route::get('/register', 'belakang\auth\RegisterController@showRegistrationForm')->name('b.register')->middleware('b.locale');
     Route::post('/register', 'belakang\auth\RegisterController@register');
     
     //Verification Email dan Forgot Password

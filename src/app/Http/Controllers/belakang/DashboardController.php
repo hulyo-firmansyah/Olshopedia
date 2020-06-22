@@ -12,7 +12,8 @@ use App\Http\Controllers\PusatController as Fungsi;
 class DashboardController extends Controller
 {
 	public function __construct(){
-		$this->middleware(['b.auth', 'b.locale', 'xss_protect']);
+		$this->middleware('b.auth')->except('locale');
+		$this->middleware(['b.locale', 'xss_protect']);
 	}
 
 

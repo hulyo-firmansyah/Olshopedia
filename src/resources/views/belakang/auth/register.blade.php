@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="{{ asset('template/global/vendor/switchery/switchery.css') }}">
     <link rel="stylesheet" href="{{ asset('template/global/vendor/intro-js/introjs.css') }}">
     <link rel="stylesheet" href="{{ asset('template/global/vendor/slidepanel/slidePanel.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/global/vendor/bootstrap-select/bootstrap-select.css') }}">
     <link rel="stylesheet" href="{{ asset('template/global/vendor/flag-icon-css/flag-icon.css') }}">
     <link rel="stylesheet" href="{{ asset('template/assets/examples/css/pages/register-v3.css') }}">
 
@@ -32,6 +33,12 @@
     <link rel="stylesheet" href="{{ asset('template/global/fonts/web-icons/web-icons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/global/fonts/brand-icons/brand-icons.min.css') }}">
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
+
+    <style>
+        .bootstrap-select .dropdown-menu a{
+            margin-left: 0px;
+        }
+    </style>
 
     <!--[if lt IE 9]>
     <script src="{{ asset('template/../global/vendor/html5shiv/html5shiv.min.js') }}"></script>
@@ -79,7 +86,7 @@
                         <div class="form-group form-material floating{{ $errors->has('name') ? ' has-error' : '' }}"
                             data-plugin="formMaterial">
                             <input type="text" class="form-control" name="name" value="{{ old('name') }}" />
-                            <label class="floating-label">Full Name</label>
+                            <label class="floating-label">@lang('register-form.nama-lengkap')</label>
                             @if ($errors->has('name'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('name') }}</strong>
@@ -109,7 +116,7 @@
                         <div class="form-group form-material floating{{ $errors->has('no_telp') ? ' has-error' : '' }}"
                             data-plugin="formMaterial">
                             <input type="number" class="form-control" name="no_telp" value="{{ old('no_telp') }}" />
-                            <label class="floating-label">No Telephone</label>
+                            <label class="floating-label">No. Telp</label>
                             @if ($errors->has('no_telp'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('no_telp') }}</strong>
@@ -128,12 +135,25 @@
                         </div>
                         <div class="form-group form-material floating" data-plugin="formMaterial">
                             <input type="password" class="form-control" name="password_confirmation" />
-                            <label class="floating-label">Re-enter Password</label>
+                            <label class="floating-label">@lang('register-form.konfirmasi-password')</label>
                         </div>
 
-                        <button type="submit" class="btn btn-primary btn-block btn-lg mt-40">Register</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-lg mt-40">@lang('register-form.btn-daftar')</button>
+                        @php
+                            $bahasa = (Session::has('locale')) ? Session::get('locale') : 'id';
+                        @endphp
+                        <div class='form-group mt-20'>
+                            <select id='bahasa'>
+                                <option value='en' @if($bahasa === 'en') selected @endif>
+                                    English
+                                </option>
+                                <option value='id' @if($bahasa === 'id') selected @endif>
+                                    Indonesia
+                                </option>
+                            </select>
+                        </div>
                     </form>
-                    <p>Have account already? Please go to <a href="{{ route('b.login') }}">Login</a></p>
+                    <p>@lang('register-form.note-login') <a href="{{ route('b.login') }}">@lang('register-form.link-login')</a></p>
                 </div>
             </div>
         </div>
@@ -147,6 +167,7 @@
     <script src="{{ asset('template/global/vendor/popper-js/umd/popper.min.js') }}"></script>
     <script src="{{ asset('template/global/vendor/bootstrap/bootstrap.js') }}"></script>
     <script src="{{ asset('template/global/vendor/animsition/animsition.js') }}"></script>
+    <script src="{{ asset('template/global/vendor/bootstrap-select/bootstrap-select.js') }}"></script>
     <script src="{{ asset('template/global/vendor/mousewheel/jquery.mousewheel.js') }}"></script>
     <script src="{{ asset('template/global/vendor/asscrollbar/jquery-asScrollbar.js') }}"></script>
     <script src="{{ asset('template/global/vendor/asscrollable/jquery-asScrollable.js') }}"></script>
@@ -184,6 +205,7 @@
     <script src="{{ asset('template/global/js/Plugin/asscrollable.js') }}"></script>
     <script src="{{ asset('template/global/js/Plugin/slidepanel.js') }}"></script>
     <script src="{{ asset('template/global/js/Plugin/switchery.js') }}"></script>
+    <script src="{{ asset('template/global/js/Plugin/bootstrap-select.js') }}"></script>
     <script src="{{ asset('template/global/js/Plugin/jquery-placeholder.js') }}"></script>
     <script src="{{ asset('template/global/js/Plugin/material.js') }}"></script>
 
@@ -205,6 +227,14 @@
                     shortPass: ''
                 });
 
+                $('#bahasa').selectpicker({
+                    style: 'btn-outline btn-default'
+                });
+
+            });
+
+            $('#bahasa').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                return $(location).attr('href', "{{ route('b.locale') }}?lang="+$(this).val()+"&next={{ urlencode(url()->current()) }}");
             });
         })(document, window, jQuery);
 

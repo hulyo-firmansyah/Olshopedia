@@ -26,6 +26,7 @@ dari_ajax_butuh_login
     <link rel="stylesheet" href="{{ asset('template/global/vendor/asscrollable/asScrollable.css') }}">
     <link rel="stylesheet" href="{{ asset('template/global/vendor/switchery/switchery.css') }}">
     <link rel="stylesheet" href="{{ asset('template/global/vendor/intro-js/introjs.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/global/vendor/bootstrap-select/bootstrap-select.css') }}">
     <link rel="stylesheet" href="{{ asset('template/global/vendor/slidepanel/slidePanel.css') }}">
     <link rel="stylesheet" href="{{ asset('template/global/vendor/flag-icon-css/flag-icon.css') }}">
     <link rel="stylesheet" href="{{ asset('template/assets/examples/css/pages/login-v3.css') }}">
@@ -48,6 +49,9 @@ dari_ajax_butuh_login
             width: 100%;
             background: rgba(0, 0, 0, 0.75);
             z-index: 10000;
+        }
+        .bootstrap-select .dropdown-menu a{
+            margin-left: 0px;
         }
     </style>
 
@@ -95,7 +99,7 @@ dari_ajax_butuh_login
                     @if ($success = session('success'))
                     <div role="alert" class="alert alert-success alert-dismissible"><button aria-label="Close"
                             data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>
-                        <h4>Success</h4>
+                        <h4>Sukses</h4>
                         <p>{!! $success !!}</p>
                     </div>
                     @endif
@@ -104,7 +108,7 @@ dari_ajax_butuh_login
                         <button aria-label="Close" data-dismiss="alert" class="close" type="button">
                             <span aria-hidden="true">×</span>
                         </button>
-                        <h4>Some Message</h4>
+                        <h4>Peringatan</h4>
                         <p>{{ $warning }}.</p>
                     </div>
                     @endif
@@ -125,7 +129,7 @@ dari_ajax_butuh_login
                         <div class="form-group form-material floating{{ $errors->has('email') ? ' has-error' : '' }}"
                             data-plugin="formMaterial">
                             <input type="text" class="form-control" name="email" value="{{ old('email') }}" />
-                            <label class="floating-label">Email or Phone or Username</label>
+                            <label class="floating-label">Email/Username/No Telp</label>
                             @if ($errors->has('email'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('email') }}</strong>
@@ -146,13 +150,26 @@ dari_ajax_butuh_login
                             <div class="checkbox-custom checkbox-inline checkbox-primary checkbox-lg float-left">
                                 <input type="checkbox" id="inputCheckbox" name="remember"
                                     {{ old('remember') ? 'checked' : '' }}>
-                                <label for="inputCheckbox">Remember me</label>
+                                <label for="inputCheckbox">@lang('login-form.remember-me')</label>
                             </div>
-                            <a class="float-right" href="{{ route('b.password-forgotPassword') }}">Forgot password?</a>
+                            <a class="float-right" href="{{ route('b.password-forgotPassword') }}">@lang('login-form.lupa-password')</a>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block btn-lg mt-40">Login</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-lg mt-40">@lang('login-form.btn-login')</button>
+                        @php
+                            $bahasa = (Session::has('locale')) ? Session::get('locale') : 'id';
+                        @endphp
+                        <div class='form-group mt-20'>
+                            <select id='bahasa'>
+                                <option value='en' @if($bahasa === 'en') selected @endif>
+                                    English 
+                                </option>
+                                <option value='id' @if($bahasa === 'id') selected @endif>
+                                    Indonesia
+                                </option>
+                            </select>
+                        </div>
                     </form>
-                    <p>Still no account? Please go to <a href="{{ route('b.register') }}">Register</a></p>
+                    <p>@lang('login-form.note-daftar') <a href="{{ route('b.register') }}">@lang('login-form.link-daftar')</a></p>
                 </div>
             </div>
         </div>
@@ -166,6 +183,7 @@ dari_ajax_butuh_login
     <script src="{{ asset('template/global/vendor/popper-js/umd/popper.min.js') }}"></script>
     <script src="{{ asset('template/global/vendor/bootstrap/bootstrap.js') }}"></script>
     <script src="{{ asset('template/global/vendor/animsition/animsition.js') }}"></script>
+    <script src="{{ asset('template/global/vendor/bootstrap-select/bootstrap-select.js') }}"></script>
     <script src="{{ asset('template/global/vendor/mousewheel/jquery.mousewheel.js') }}"></script>
     <script src="{{ asset('template/global/vendor/asscrollbar/jquery-asScrollbar.js') }}"></script>
     <script src="{{ asset('template/global/vendor/asscrollable/jquery-asScrollable.js') }}"></script>
@@ -203,6 +221,7 @@ dari_ajax_butuh_login
     <script src="{{ asset('template/global/js/Plugin/asscrollable.js') }}"></script>
     <script src="{{ asset('template/global/js/Plugin/slidepanel.js') }}"></script>
     <script src="{{ asset('template/global/js/Plugin/switchery.js') }}"></script>
+    <script src="{{ asset('template/global/js/Plugin/bootstrap-select.js') }}"></script>
     <script src="{{ asset('template/global/js/Plugin/jquery-placeholder.js') }}"></script>
     <script src="{{ asset('template/global/js/Plugin/material.js') }}"></script>
 
@@ -213,6 +232,15 @@ dari_ajax_butuh_login
             var Site = window.Site;
             $(document).ready(function () {
                 Site.run();
+
+                $('#bahasa').selectpicker({
+                    style: 'btn-outline btn-default'
+                });
+
+            });
+
+            $('#bahasa').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                return $(location).attr('href', "{{ route('b.locale') }}?lang="+$(this).val()+"&next={{ urlencode(url()->current()) }}");
             });
 
             // Resend Email
