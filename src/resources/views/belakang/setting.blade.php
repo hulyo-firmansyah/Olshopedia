@@ -233,12 +233,6 @@
             <div class="nav-tabs-horizontal nav-tabs-inverse nav-tabs-animate animation-slide-top" style='animation-delay:80ms'>
                 <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-toggle="tab" href="#umumSide" aria-controls="umumSide"
-                            role="tab" aria-expanded="true">
-                            <i class="icon wb-settings"></i>Umum
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
                         <a class="nav-link active" data-toggle="tab" href="#tokoSide" aria-controls="tokoSide"
                             role="tab" aria-expanded="true">
                             <i class="icon md-store"></i>Toko
@@ -284,6 +278,12 @@
                         <a class="nav-link" data-toggle="tab" href="#userSide" aria-controls="userSide" role="tab" id='userSideTombol'
                             aria-expanded="true">
                             <i class="icon fa-users"></i>User
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-toggle="tab" href="#lainnyaSide" aria-controls="lainnyaSide"
+                            role="tab" aria-expanded="true">
+                            <i class="icon wb-settings"></i>Lainnya
                         </a>
                     </li>
                 </ul>
@@ -356,11 +356,11 @@
                         </form>
                     </div>
 
-                    <!-- -- Pengaturan umum -- -->
-                    <div class="tab-pane animation-slide-top" id="umumSide" role="tabpanel">
+                    <!-- -- Pengaturan lainnya -- -->
+                    <div class="tab-pane animation-slide-top" id="lainnyaSide" role="tabpanel">
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <h4 class="example-title">Pengaturan Umum</h4>
+                                <h4 class="example-title">Pengaturan Lainnya</h4>
                             </div>
                         </div>
                         <hr>
