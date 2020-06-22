@@ -10,11 +10,81 @@
         <div class='panel'>
             <div class='panel-body'>
                 <div class='mb-40'>
+                    <h4>v0.9.4 &nbsp;&nbsp;(6 May 2020)</h4>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Changed</b>
+                        <ul>
+                            <li>Sekarang di pengaturan harus memasukkan alamat toko</li>
+                            <li>Sekarang saat pertama kali masuk ke dashboard harus memasukkan alamat toko</li>
+                            <li>Sekarang saat order sudah otomatis pengirim dari akan diisi dengan alamat toko</li>
+                        </ul>
+                    </div>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Fixed</b>
+                        <ul>
+                            <li>Fix bug upload logo toko salah extensi</li>
+                            <li>Fix bug datatable cannot reinitialize di menu setting</li>
+                            <li>Fix bug mail template tidak berubah</li>
+                            <li>Fix bug double middleware untuk authentikasi</li>
+                            <li>Fix bug exception error saat di lupa password</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class='mb-40'>
+                    <h4>v0.9.3 &nbsp;&nbsp;(27 Apr 2020)</h4>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Changed</b>
+                        <ul>
+                            <li>Sekarang email customer dibuat optional saat tambah dan edit customer</li>
+                        </ul>
+                    </div>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Fixed</b>
+                        <ul>
+                            <li>Fix bug data customer tidak ada di print order</li>
+                            <li>Fix bug template pesan edit tidak tertampilkan di addon wanotif</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class='mb-40'>
+                    <h4>v0.9.2 &nbsp;&nbsp;(24 Apr 2020)</h4>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Added</b>
+                        <ul>
+                            <li>Penambahan checklist all dan print all pada cari dan filter order</li>
+                        </ul>
+                    </div>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Changed</b>
+                        <ul>
+                            <li>Optimization performance pada cari, filter, semua order</li>
+                        </ul>
+                    </div>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Fixed</b>
+                        <ul>
+                            <li>Fix bug select box kurir tertindih data order pada filter order</li>
+                            <li>Fix bug tidak bisa memfilter admin di semua, filter, cari order</li>
+                            <li>fix bug error select all saat tidak ada order di semua, filter, cari order</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class='mb-40'>
+                    <h4>v0.9.1 &nbsp;&nbsp;(23 Apr 2020)</h4>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Fixed</b>
+                        <ul>
+                            <li>Fix Bug tidak bisa memfilter via pembayaran bank di order</li>
+                            <li>Fix Bug filter order tidak memfilter print label</li>
+                            <li>Fix bug digit terlalu banyak di add dan edit supplier</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class='mb-40'>
                     <h4>v0.9 &nbsp;&nbsp;(22 Apr 2020)</h4>
                     <div class='ml-30'>
                         <b style='font-size:15px'>Added</b>
                         <ul>
-                            <li>Penambahan menu pembelian produk</li>
                             <li>Penambahan menu data pembelian produk</li>
                         </ul>
                     </div>
@@ -23,6 +93,7 @@
                         <ul>
                             <li>Stok sekarang tetap harus menginputkan jumlah di tambah dan edit produk</li>
                             <li>Menu Supplier dipindah dari submenu setting ke menu utama</li>
+                            <li>Perubahan menu pembelian produk</li>
                         </ul>
                     </div>
                     <div class='ml-30'>
