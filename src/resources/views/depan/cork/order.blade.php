@@ -102,11 +102,11 @@ $produk = json_decode($order_data->produk);
                                 <p class="inv-email-address">{{ $tujuan_kirim->kecamatan }}, {{ $tujuan_kirim->kabupaten }}, {{ $tujuan_kirim->provinsi }} ({{ $tujuan_kirim->kode_pos }})</p>
                             </div>
                             <div class="col-sm-5 align-self-center  text-sm-right order-2">
-                                <p class="inv-list-number"><span class="inv-title">Invoice Number : </span> <span
+                                <p class="inv-list-number"><span class="inv-title">No. Invoice : </span> <span
                                         class="inv-number">#{{ $order_data->urut_order }}</span></p>
-                                <p class="inv-created-date"><span class="inv-title">Invoice Date : </span> <span
+                                <p class="inv-created-date"><span class="inv-title">Tanggal Invoice : </span> <span
                                         class="inv-date">{{ date('d F Y', strtotime($order_data->tgl_dibuat)).date(' (H:i:s)', strtotime($order_data->tgl_dibuat)) }}</span></p>
-                                <p class="inv-due-date"><span class="inv-title">Due Date : </span> <span class="inv-date">{{ date('d F Y', strtotime($order_data->tgl_expired)).date(' (H:i:s)', strtotime($order_data->tgl_expired)) }}</span></p>
+                                <p class="inv-due-date"><span class="inv-title">Tanggal Expired : </span> <span class="inv-date">{{ date('d F Y', strtotime($order_data->tgl_expired)).date(' (H:i:s)', strtotime($order_data->tgl_expired)) }}</span></p>
                             </div>
                         </div>
 
@@ -189,7 +189,12 @@ $produk = json_decode($order_data->produk);
                                             </p>
                                         </div>
                                         <div class="col-sm-8 col-7">
-                                            <p class="">Expedisi: </p>
+                                            <p class="">Expedisi (
+                                                @php
+                                                    $kurir = explode('|', json_decode($order_data->kurir)->data);
+                                                    echo strtoupper($kurir[0]).' '.$kurir[1];
+                                                @endphp
+                                            ) : </p>
                                         </div>
                                         <div class="col-sm-4 col-5">
                                             <p class="">
@@ -199,13 +204,15 @@ $produk = json_decode($order_data->produk);
                                                 @endphp
                                             </p>
                                         </div>
+                                        @if($total->kode_unik)
+                                            <div class="col-sm-8 col-7">
+                                                <p class="">Kode Transfer : </p>
+                                            </div>
+                                            <div class="col-sm-4 col-5">
+                                                <p class="">{{ 'Rp '.\App\Http\Controllers\PusatController::formatUang($total->kode_unik) }}</p>
+                                            </div>
+                                        @endif
                                         <!-- <div class="col-sm-8 col-7">
-                                            <p class="">Tax Amount: </p>
-                                        </div>
-                                        <div class="col-sm-4 col-5">
-                                            <p class="">$700</p>
-                                        </div>
-                                        <div class="col-sm-8 col-7">
                                             <p class=" discount-rate">Discount : <span class="discount-percentage">5%</span>
                                             </p>
                                         </div>
@@ -219,7 +226,12 @@ $produk = json_decode($order_data->produk);
                                             <h4 class="">
                                                 @php
                                                     $total = json_decode($order_data->total);
-                                                    echo 'Rp '.\App\Http\Controllers\PusatController::formatUang($total->hargaProduk + $total->hargaOngkir);
+                                                    $hasil = ($total->hargaProduk + $total->hargaOngkir);
+                                                    if(isset($total->kode_unik)){
+                                                        $hasil += $total->kode_unik;
+                                                    }
+                                                    echo 'Rp '.\App\Http\Controllers\PusatController::formatUang($hasil);
+                                                    unset($hasil);
                                                 @endphp
                                             </h4>
                                         </div>

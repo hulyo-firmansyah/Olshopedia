@@ -23,25 +23,49 @@ $produk = json_decode($order_data->produk);
                 <div class='row'>
                     <div class='col-md-12'>
                         <div class="pearls">
-                            <div class="pearl current col-3" id='pearl-kirim'>
+                            @php
+                                switch($order_data->state){
+                                    case 'bayar':
+                                        $state = 1;
+                                        break;
+
+                                    case 'proses':
+                                        $state = 2;
+                                        break;
+
+                                    case 'kirim':
+                                        $state = 3;
+                                        break;
+
+                                    case 'terima':
+                                        $state = 4;
+                                        break;
+
+                                    default:
+                                        $state = 1;
+                                        break;
+                                        
+                                }
+                            @endphp
+                            <div class="pearl @if($state === 1) current @else done @endif col-3" id='pearl-kirim'>
                                 <div class="pearl-icon">
                                     <svg style='margin-top:-4px;' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-help-circle"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                                 </div>
-                                <span class="pearl-title">Menunggu pembayaran di acc</span>
+                                <span class="pearl-title">Menunggu konfirmasi pembayaran</span>
                             </div>
-                            <div class="pearl current col-3" id='pearl-bayar'>
+                            <div class="pearl @if($state === 2) current @elseif($state > 2) done @endif col-3" id='pearl-bayar'>
                                 <div class="pearl-icon">
                                     <svg style='margin-top:-4px;' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-loader"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
                                 </div>
                                 <span class="pearl-title">Pesanan sedang diproses</span>
                             </div>
-                            <div class="pearl current col-3" id='pearl-bayar'>
+                            <div class="pearl @if($state === 3) current @elseif($state > 3) done @endif col-3" id='pearl-bayar'>
                                 <div class="pearl-icon">
                                     <svg style='margin-top:-4px;' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
                                 </div>
                                 <span class="pearl-title">Dalam Pengiriman</span>
                             </div>
-                            <div class="pearl current col-3" id='pearl-konfirmasi'>
+                            <div class="pearl @if($state === 4) current @elseif($state > 4) done @endif col-3" id='pearl-konfirmasi'>
                                 <div class="pearl-icon">
                                     <svg style='margin-top:-4px;' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                 </div>
@@ -60,7 +84,7 @@ $produk = json_decode($order_data->produk);
                         <div class="row inv--detail-section">
 
                             <div class="col-sm-7 align-self-center">
-                                <p class="inv-to">Invoice Untuk</p>
+                                <p class="inv-to">Penerima</p>
                             </div>
                             <div class="col-sm-5 align-self-center  text-sm-right order-sm-0 order-1">
                                 <p class="inv-detail-title">Dari : {{ $toko->nama_toko }}</p>
@@ -72,11 +96,11 @@ $produk = json_decode($order_data->produk);
                                 <p class="inv-email-address">{{ $tujuan_kirim->kecamatan }}, {{ $tujuan_kirim->kabupaten }}, {{ $tujuan_kirim->provinsi }} ({{ $tujuan_kirim->kode_pos }})</p>
                             </div>
                             <div class="col-sm-5 align-self-center  text-sm-right order-2">
-                                <p class="inv-list-number"><span class="inv-title">Invoice Number : </span> <span
+                                <p class="inv-list-number"><span class="inv-title">No. Invoice : </span> <span
                                         class="inv-number">#{{ $order_data->urut_order }}</span></p>
-                                <p class="inv-created-date"><span class="inv-title">Invoice Date : </span> <span
+                                <p class="inv-created-date"><span class="inv-title">Tanggal Invoice : </span> <span
                                         class="inv-date">{{ date('d F Y', strtotime($order_data->tgl_dibuat)).date(' (H:i:s)', strtotime($order_data->tgl_dibuat)) }}</span></p>
-                                <p class="inv-due-date"><span class="inv-title">Due Date : </span> <span class="inv-date">{{ date('d F Y', strtotime($order_data->tgl_expired)).date(' (H:i:s)', strtotime($order_data->tgl_expired)) }}</span></p>
+                                <p class="inv-due-date"><span class="inv-title">Tanggal Expired : </span> <span class="inv-date">{{ date('d F Y', strtotime($order_data->tgl_expired)).date(' (H:i:s)', strtotime($order_data->tgl_expired)) }}</span></p>
                             </div>
                         </div>
 
@@ -114,10 +138,10 @@ $produk = json_decode($order_data->produk);
                                 <div class="inv--payment-info" style='margin-bottom:unset;'>
                                     <div class="row">
                                         <div class="col-sm-12 col-12">
-                                            <h6 class=" inv-title">Payment Info:</h6>
+                                            <h6 class=" inv-title">Info Pembayaran:</h6>
                                         </div>
                                         <div class="col-sm-4 col-12">
-                                            <p class=" inv-subtitle">Bank Name: </p>
+                                            <p class=" inv-subtitle">Nama bank: </p>
                                         </div>
                                         <div class="col-sm-8 col-12">
                                             <p class="">
@@ -148,7 +172,7 @@ $produk = json_decode($order_data->produk);
                                 <div class="inv--total-amounts text-sm-right" style='margin-bottom:unset;'>
                                     <div class="row">
                                         <div class="col-sm-8 col-7">
-                                            <p class="">Sub Total: </p>
+                                            <p class="">Sub Total : </p>
                                         </div>
                                         <div class="col-sm-4 col-5">
                                             <p class="">
@@ -159,23 +183,29 @@ $produk = json_decode($order_data->produk);
                                             </p>
                                         </div>
                                         <div class="col-sm-8 col-7">
-                                            <p class="">Expedisi: </p>
+                                            <p class="">Expedisi (
+                                                @php
+                                                    $kurir = explode('|', json_decode($order_data->kurir)->data);
+                                                    echo strtoupper($kurir[0]).' '.$kurir[1];
+                                                @endphp
+                                            ) : </p>
                                         </div>
                                         <div class="col-sm-4 col-5">
                                             <p class="">
                                                 @php
-                                                    $total = json_decode($order_data->total);
                                                     echo 'Rp '.\App\Http\Controllers\PusatController::formatUang($total->hargaOngkir);
                                                 @endphp
                                             </p>
                                         </div>
+                                        @if($total->kode_unik)
+                                            <div class="col-sm-8 col-7">
+                                                <p class="">Kode Transfer : </p>
+                                            </div>
+                                            <div class="col-sm-4 col-5">
+                                                <p class="">{{ 'Rp '.\App\Http\Controllers\PusatController::formatUang($total->kode_unik) }}</p>
+                                            </div>
+                                        @endif
                                         <!-- <div class="col-sm-8 col-7">
-                                            <p class="">Tax Amount: </p>
-                                        </div>
-                                        <div class="col-sm-4 col-5">
-                                            <p class="">$700</p>
-                                        </div>
-                                        <div class="col-sm-8 col-7">
                                             <p class=" discount-rate">Discount : <span class="discount-percentage">5%</span>
                                             </p>
                                         </div>
@@ -189,7 +219,12 @@ $produk = json_decode($order_data->produk);
                                             <h4 class="">
                                                 @php
                                                     $total = json_decode($order_data->total);
-                                                    echo 'Rp '.\App\Http\Controllers\PusatController::formatUang($total->hargaProduk + $total->hargaOngkir);
+                                                    $hasil = ($total->hargaProduk + $total->hargaOngkir);
+                                                    if(isset($total->kode_unik)){
+                                                        $hasil += $total->kode_unik;
+                                                    }
+                                                    echo 'Rp '.\App\Http\Controllers\PusatController::formatUang($hasil);
+                                                    unset($hasil);
                                                 @endphp
                                             </h4>
                                         </div>
@@ -201,14 +236,12 @@ $produk = json_decode($order_data->produk);
                 </div>
             </div>
         </div>
-        <div class="card animated animatedFadeInUp fadeInUp" style='width:100%;'>
-            <div class="card-body">
-                @php
-                    
-                @endphp
-            </div>
-        </div>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+
+    });
+</script>
 <!--uiop-->
 @endsection

@@ -222,7 +222,7 @@
 
     Route::get('/{domain_toko}/order/{order_slug?}', 'depan\OrderController@orderIndex')->name('d.order');
     ROute::get('/{domain_toko}/order-konfirmasi-bayar/{order_slug?}', 'depan\OrderController@konfirmasiBayarIndex')->name('d.konfirmasi-bayar');
-    ROute::post('/{domain_toko}/order-konfirmasi-bayar/proses', 'depan\OrderController@proses')->name('d.konfirmasi-bayar-proses');
+    ROute::post('/{domain_toko}/order/proses', 'depan\OrderController@proses')->name('d.order-bayar-proses');
     
 // });
 // Route::domain('{subdomain}.localhost')->group(function () {
