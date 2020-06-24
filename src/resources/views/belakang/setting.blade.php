@@ -869,13 +869,8 @@
                 <form id="formOrderSource">
                     <div class="row">
                         <div class="col-lg-6 form-group">
-                            <label>Kategori</label>
-                            <select class="form-control" name="kategoriOs" id="kategoriOs">
-                                <option value="" disabled selected>-- Pilih Kategori --</option>
-                                <option value="Tokopedia">Tokopedia</option>
-                                <option value="Bukalapak">Bukalapak</option>
-                                <option value="WhatsApp">WhatsApp</option>
-                            </select>
+                            <label>Order Source</label>
+                            <input type='text' name='kategoriOs' id='kategoriOs' class='form-control' placeholder='Contoh: Whatsapp'>
                             <small id="error_kate" style='color:#f2353c;' class='hidden'>Silahkan pilih Kategori!</small>
                         </div>
                         <div class="col-lg-6 form-group">
@@ -916,12 +911,7 @@
                 <div class="row">
                     <div class="col-lg-6 form-group">
                         <label>Kategori</label>
-                        <select class="form-control" name="editKategoriOs" id="editKategoriOs">
-                            <option value="" disabled selected>- Pilih kategori</option>
-                            <option value="Tokopedia">Tokopedia</option>
-                            <option value="Bukalapak">Bukalapak</option>
-                            <option value="WhatsApp">WhatsApp</option>
-                        </select>
+                        <input type='text' name='editKategoriOs' id='editKategoriOs' class='form-control' placeholder='Contoh: Whatsapp'>
                         <small id="error_kate" style='color:#f2353c;' class='hidden'>Silahkan pilih Kategori!</small>
                     </div>
                     <div class="col-lg-6 form-group">
@@ -1742,12 +1732,6 @@ $(document).ready(function() {
         liveSearch: true,
         style: 'btn-outline btn-default'
     });
-    $('#kategoriOs').selectpicker({
-        style: 'btn-outline btn-default'
-    });
-    $('#editKategoriOs').selectpicker({
-        style: 'btn-outline btn-default'
-    });
     $('#bank').selectpicker({
         style: 'btn-outline btn-default'
     });
@@ -2374,7 +2358,7 @@ $(document).ready(function() {
     // Tambah Order Source
     $("button[name=btnTambahOrderSource]").click(function() {
         var kategoriOs = $('#kategoriOs').val();
-        if(kategoriOs != null){
+        if(kategoriOs != ''){
             var hasil = '';
             $.ajax({
                 type: 'post',
@@ -2405,28 +2389,28 @@ $(document).ready(function() {
                 $('#tambahOrderSource').modal('hide');
             })
         } else {
-            $('#kategoriOs').selectpicker('setStyle', 'animation-shake', 'add');
+            $('#kategoriOs').addClass('animation-shake');
             $('small#error_kate').attr('style', 'color:#f2353c;');
             $('small#error_kate').show();
         }
     })
 
-    $('#kategoriOs').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+    $('#kategoriOs').on('input', function (e) {
         if($('small#error_kate').is(":visible")){
-            $('#kategoriOs').selectpicker('setStyle', 'animation-shake', 'remove');
+            $('#kategoriOs').removeClass('animation-shake');
             $('small#error_kate').hide();
         }
     });
 
     $("#tambahOrderSource").on("hide.bs.modal", function(){
         if(!$('small#error_kate').is(":hidden")){
-            $('#kategoriOs').selectpicker('setStyle', 'animation-shake', 'remove');
+            $('#kategoriOs').removeClass('animation-shake');
             $('small#error_kate').hide();
         }
     });
 
     $("#tambahOrderSource").on("hidden.bs.modal", function(){
-        $('#kategoriOs').selectpicker('val', '');
+        $('#kategoriOs').val('');
         $('#ketOs').val('');
         if($('#statusOs').is(':checked')){
             $('#statusOs').trigger('click');
@@ -3178,7 +3162,7 @@ $(document).ready(function() {
     // Update Data Order Source
     $("button[name=btnEditOrderSource]").on('click', function() {
         var editKategoriOs = $('#editKategoriOs').val();
-        if (editKategoriOs != null) {
+        if (editKategoriOs != '') {
             var hasil = '';
             $.ajax({
                 type: 'post',
@@ -3209,7 +3193,7 @@ $(document).ready(function() {
                 $('#editOrderSource').modal('hide');
             })
         } else {
-            $('#editKategoriOs').selectpicker('setStyle', 'animation-shake', 'add');
+            $('#editKategoriOs').addClass('animation-shake');
             $('small#error_ekate').attr('style', 'color:#f2353c;');
             $('small#error_ekate').show();
         }
@@ -3218,20 +3202,20 @@ $(document).ready(function() {
     
     $('#editOrderSource').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
         if(!$('small#error_ekate').is(":hidden")){
-            $('#editKategoriOs').selectpicker('setStyle', 'animation-shake', 'remove');
+            $('#editKategoriOs').removeClass('animation-shake');
             $('small#error_ekate').hide();
         }
     });
 
     $("#editOrderSource").on("hide.bs.modal", function(){
         if(!$('small#error_ekate').is(":hidden")){
-            $('#editKategoriOs').selectpicker('setStyle', 'animation-shake', 'remove');
+            $('#editKategoriOs').removeClass('animation-shake');
             $('small#error_ekate').hide();
         }
     });
 
     $("#editOrderSource").on("hidden.bs.modal", function(){
-        $('#editKategoriOs').selectpicker('val', '');
+        $('#editKategoriOs').val('');
         $('#editKetOs').val('');
         if($('#editStatusOs').is(':checked')){
             $('#editStatusOs').trigger('click');
@@ -3258,7 +3242,7 @@ $(document).ready(function() {
                 hasil = data;
             }
         }).done(function() {
-            $('#editKategoriOs').selectpicker('val', hasil.kategori);
+            $('#editKategoriOs').val(hasil.kategori);
             $('#editKetOs').val(hasil.keterangan);
             if (hasil.status == 1) {
                 if (!$('#editStatusOs').is(':checked')) {
