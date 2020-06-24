@@ -1,168 +1,387 @@
-<!DOCTYPE html>
-<html>
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <style type="text/css">
-        @media screen {
-            @font-face {
-                font-family: 'Lato';
-                font-style: normal;
-                font-weight: 400;
-                src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
-            }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <style>
+        /* Base */
 
-            @font-face {
-                font-family: 'Lato';
-                font-style: normal;
-                font-weight: 700;
-                src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
-            }
-
-            @font-face {
-                font-family: 'Lato';
-                font-style: italic;
-                font-weight: 400;
-                src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v11/RYyZNoeFgb0l7W3Vu1aSWOvvDin1pK8aKteLpeZ5c0A.woff) format('woff');
-            }
-
-            @font-face {
-                font-family: 'Lato';
-                font-style: italic;
-                font-weight: 700;
-                src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://fonts.gstatic.com/s/lato/v11/HkF_qI1x_noxlxhrhMQYELO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
-            }
-        }
-
-        /* CLIENT-SPECIFIC STYLES */
         body,
-        table,
-        td,
-        a {
-            -webkit-text-size-adjust: 100%;
-            -ms-text-size-adjust: 100%;
-        }
-
-        table,
-        td {
-            mso-table-lspace: 0pt;
-            mso-table-rspace: 0pt;
-        }
-
-        img {
-            -ms-interpolation-mode: bicubic;
-        }
-
-        /* RESET STYLES */
-        img {
-            border: 0;
-            height: auto;
-            line-height: 100%;
-            outline: none;
-            text-decoration: none;
-        }
-
-        table {
-            border-collapse: collapse !important;
+        body *:not(html):not(style):not(br):not(tr):not(code) {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+                'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+            box-sizing: border-box;
         }
 
         body {
-            height: 100% !important;
-            margin: 0 !important;
-            padding: 0 !important;
+            background-color: #f8fafc;
+            color: #74787e;
+            height: 100%;
+            hyphens: auto;
+            line-height: 1.4;
+            margin: 0;
+            -moz-hyphens: auto;
+            -ms-word-break: break-all;
             width: 100% !important;
+            -webkit-hyphens: auto;
+            -webkit-text-size-adjust: none;
+            word-break: break-all;
+            word-break: break-word;
         }
 
-        /* iOS BLUE LINKS */
-        a[x-apple-data-detectors] {
-            color: inherit !important;
-            text-decoration: none !important;
-            font-size: inherit !important;
-            font-family: inherit !important;
-            font-weight: inherit !important;
-            line-height: inherit !important;
+        p,
+        ul,
+        ol,
+        blockquote {
+            line-height: 1.4;
+            text-align: left;
         }
 
-        /* MOBILE STYLES */
-        @media screen and (max-width:600px) {
-            h1 {
-                font-size: 32px !important;
-                line-height: 32px !important;
+        a {
+            color: #3869d4;
+        }
+
+        a img {
+            border: none;
+        }
+
+        /* Typography */
+
+        h1 {
+            color: #3d4852;
+            font-size: 19px;
+            font-weight: bold;
+            margin-top: 0;
+            text-align: left;
+        }
+
+        h2 {
+            color: #3d4852;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 0;
+            text-align: left;
+        }
+
+        h3 {
+            color: #3d4852;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 0;
+            text-align: left;
+        }
+
+        p {
+            color: #3d4852;
+            font-size: 16px;
+            line-height: 1.5em;
+            margin-top: 0;
+            text-align: left;
+        }
+
+        p.sub {
+            font-size: 12px;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        /* Layout */
+
+        .wrapper {
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            -premailer-cellpadding: 0;
+            -premailer-cellspacing: 0;
+            -premailer-width: 100%;
+        }
+
+        .content {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            -premailer-cellpadding: 0;
+            -premailer-cellspacing: 0;
+            -premailer-width: 100%;
+        }
+
+        /* Header */
+
+        .header {
+            padding: 25px 0;
+            text-align: center;
+        }
+
+        .header a {
+            color: #bbbfc3;
+            font-size: 19px;
+            font-weight: bold;
+            text-decoration: none;
+            text-shadow: 0 1px 0 white;
+        }
+
+        /* Body */
+
+        .body {
+            background-color: #ffffff;
+            border-bottom: 1px solid #edeff2;
+            border-top: 1px solid #edeff2;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            -premailer-cellpadding: 0;
+            -premailer-cellspacing: 0;
+            -premailer-width: 100%;
+        }
+
+        .inner-body {
+            background-color: #ffffff;
+            margin: 0 auto;
+            padding: 0;
+            width: 570px;
+            -premailer-cellpadding: 0;
+            -premailer-cellspacing: 0;
+            -premailer-width: 570px;
+        }
+
+        /* Subcopy */
+
+        .subcopy {
+            border-top: 1px solid #edeff2;
+            margin-top: 25px;
+            padding-top: 25px;
+        }
+
+        .subcopy p {
+            font-size: 12px;
+        }
+
+        /* Footer */
+
+        .footer {
+            margin: 0 auto;
+            padding: 0;
+            text-align: center;
+            width: 570px;
+            -premailer-cellpadding: 0;
+            -premailer-cellspacing: 0;
+            -premailer-width: 570px;
+        }
+
+        .footer p {
+            color: #aeaeae;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* Tables */
+
+        .table table {
+            margin: 30px auto;
+            width: 100%;
+            -premailer-cellpadding: 0;
+            -premailer-cellspacing: 0;
+            -premailer-width: 100%;
+        }
+
+        .table th {
+            border-bottom: 1px solid #edeff2;
+            padding-bottom: 8px;
+            margin: 0;
+        }
+
+        .table td {
+            color: #74787e;
+            font-size: 15px;
+            line-height: 18px;
+            padding: 10px 0;
+            margin: 0;
+        }
+
+        .content-cell {
+            padding: 35px;
+        }
+
+        /* Buttons */
+
+        .action {
+            margin: 30px auto;
+            padding: 0;
+            text-align: center;
+            width: 100%;
+            -premailer-cellpadding: 0;
+            -premailer-cellspacing: 0;
+            -premailer-width: 100%;
+        }
+
+        .button {
+            border-radius: 3px;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.16);
+            color: #fff;
+            display: inline-block;
+            text-decoration: none;
+            -webkit-text-size-adjust: none;
+        }
+
+        .button-blue,
+        .button-primary {
+            background-color: #3490dc;
+            border-top: 10px solid #3490dc;
+            border-right: 18px solid #3490dc;
+            border-bottom: 10px solid #3490dc;
+            border-left: 18px solid #3490dc;
+        }
+
+        .button-green,
+        .button-success {
+            background-color: #38c172;
+            border-top: 10px solid #38c172;
+            border-right: 18px solid #38c172;
+            border-bottom: 10px solid #38c172;
+            border-left: 18px solid #38c172;
+        }
+
+        .button-red,
+        .button-error {
+            background-color: #e3342f;
+            border-top: 10px solid #e3342f;
+            border-right: 18px solid #e3342f;
+            border-bottom: 10px solid #e3342f;
+            border-left: 18px solid #e3342f;
+        }
+
+        /* Panels */
+
+        .panel {
+            margin: 0 0 21px;
+        }
+
+        .panel-content {
+            background-color: #f1f5f8;
+            padding: 16px;
+        }
+
+        .panel-item {
+            padding: 0;
+        }
+
+        .panel-item p:last-of-type {
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        /* Promotions */
+
+        .promotion {
+            background-color: #ffffff;
+            border: 2px dashed #9ba2ab;
+            margin: 0;
+            margin-bottom: 25px;
+            margin-top: 25px;
+            padding: 24px;
+            width: 100%;
+            -premailer-cellpadding: 0;
+            -premailer-cellspacing: 0;
+            -premailer-width: 100%;
+        }
+
+        .promotion h1 {
+            text-align: center;
+        }
+
+        .promotion p {
+            font-size: 15px;
+            text-align: center;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .inner-body {
+                width: 100% !important;
+            }
+
+            .footer {
+                width: 100% !important;
             }
         }
 
-        /* ANDROID CENTER FIX */
-        div[style*="margin: 16px 0;"] {
-            margin: 0 !important;
+        @media only screen and (max-width: 500px) {
+            .button {
+                width: 100% !important;
+            }
         }
     </style>
-</head>
 
-<body style="background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;">
-    <!-- HIDDEN PREHEADER TEXT -->
-    <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;"> We're thrilled to have you here! Get ready to dive into your new account. </div>
-    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-        <!-- LOGO -->
+    <table class="wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
         <tr>
-            <td bgcolor="#FFA73B" align="center">
-                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+            <td align="center">
+                <table class="content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                     <tr>
-                        <td align="center" valign="top" style="padding: 40px 10px 40px 10px;"> </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td bgcolor="#FFA73B" align="center" style="padding: 0px 10px 0px 10px;">
-                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
-                    <tr>
-                        <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
-                            <h1 style="font-size: 48px; font-weight: 400; margin: 2;" align="center">Selamat datang!</h1> <img src="{{ asset('template/assets//images/logo-colored.png') }}" width="125" height="120" style="display: block; border: 0px;" alt='logo'/>
+                        <td class="header">
+                            <a href="https://app.olshopedia.com/">
+                                <img src="{{ asset('template/assets//images/logo-colored.png') }}" width='64px' height='64px'>
+                            </a>
                         </td>
                     </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
-                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+
+                    <!-- Email Body -->
                     <tr>
-                        <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                            <p style="margin: 0;">We're excited to have you get started. First, you need to confirm your account. Just press the button below.</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td bgcolor="#ffffff" align="left">
-                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <td class="body" width="100%" cellpadding="0" cellspacing="0">
+                            <table class="inner-body" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+                                <!-- Body content -->
                                 <tr>
-                                    <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
-                                        <table border="0" cellspacing="0" cellpadding="0">
+                                    <td class="content-cell">
+                                        <h1>@lang('mail-emailverif.header')</h1>
+                                        <p>@lang('mail-emailverif.header-note')</p>
+
+                                        <table class="action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                                             <tr>
-                                                <td align="center" style="border-radius: 3px;" bgcolor="#FFA73B"><a href="{{$link}}" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">Confirm Account</a></td>
+                                                <td align="center">
+                                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                                        <tr>
+                                                            <td align="center">
+                                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <a href="{{ $link }}" class="button button-primary" target="_blank">@lang('mail-emailverif.btn-konfirmasi')</a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
                                             </tr>
                                         </table>
+
+                                        <p>@lang('mail-emailverif.footer-note')</b> 
+                                        {{ $link }}
+
+                                        <br><br>@lang('mail-emailverif.salam')
+                                    </td>
+                                </tr>   
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table class="footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+                                <tr>
+                                    <td class="content-cell" align="center">
+                                        © 2020 Olshopedia. All rights reserved.
                                     </td>
                                 </tr>
                             </table>
                         </td>
-                    </tr> <!-- COPY -->
-                    <tr>
-                        <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                            <p style="margin: 0;">If that doesn't work, copy and paste the following link in your browser:</p>
-                        </td>
-                    </tr> <!-- COPY -->
-                    <tr>
-                        <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                            <p style="margin: 0;">{{$link}}</p>
-                        </td>
                     </tr>
+
                 </table>
             </td>
         </tr>
     </table>
 </body>
-
 </html>
