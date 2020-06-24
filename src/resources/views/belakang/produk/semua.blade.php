@@ -16,6 +16,86 @@
     cursor:pointer;
     text-decoration:none;
 }
+@media only screen and (max-width: 588px){
+    #btnAtur {
+        margin-top: 15px;
+        margin-left: 0px !important;
+        display:block !important;
+        width:100%;
+    }
+}
+@media only screen and (min-width: 768px) and (max-width: 957px){
+    #btnAtur {
+        margin-top: 15px;
+        margin-left: 0px !important;
+        display:block !important;
+        width:100%;
+    }
+    #divMultiEvent {
+        margin-top: 15px;
+        margin-left: 0px !important;
+        display:block !important;
+    }
+    #divMultiEvent > div {
+        width: 100%;
+    }
+}
+@media only screen and (min-width: 958px) and (max-width: 1385px){
+    #btnAtur {
+        margin-top: 15px;
+        margin-left: 0px !important;
+        display:block !important;
+        width:100%;
+    }
+}
+@media only screen and (min-width: 1600px) and (max-width: 1915px){
+    #btnAtur {
+        margin-top: 15px;
+        margin-left: 0px !important;
+        display:block !important;
+        width:100%;
+    }
+}
+@media only screen and (max-width: 541px) {
+    #divFilterSelect {
+        display:block !important;
+        float: unset !important;
+        margin-top:15px;
+    }
+    #divFilterSelect > div {
+        width:100%;
+    }
+}
+@media only screen and (min-width: 768px) and (max-width:1123px) {
+    #divFilterSelect {
+        display:block !important;
+        float: unset !important;
+        margin-top:15px;
+    }
+    #divFilterSelect > div {
+        width:100%;
+    }
+}
+@media only screen and (min-width: 1200px) and (max-width:1295px) {
+    #divFilterSelect {
+        display:block !important;
+        float: unset !important;
+        margin-top:15px;
+    }
+    #divFilterSelect > div {
+        width:100%;
+    }
+}
+@media only screen and (min-width: 1600px) and (max-width:1788px) {
+    #divFilterSelect {
+        display:block !important;
+        float: unset !important;
+        margin-top:15px;
+    }
+    #divFilterSelect > div {
+        width:100%;
+    }
+}
 </style>
 <div class="page-header page-header-bordered">
     <div class='row'>
@@ -54,14 +134,14 @@
     <div class='alert alert-danger alert-semen' role='alert' id='al-error'><i class='fa fa-minus-circle'></i> <b>ERROR : </b> {{ $msg_error }}</div>
     @endif
     <div class='row'>
-        <div class='col-xxl-4 col-xl-6'>
+        <div class='col-xxl-4 col-xl-6 col-md-6'>
             <div class='panel p-15 animation-slide-left selectBug' style='animation-delay:200ms'>
-                <div class='d-flex'>
-                    <div style='margin-top:8px'>
-                        <input type="checkbox" id='selectMultiEventAll' />
-                        <label for='selectMultiEventAll' class='ml-3'>Pilih Semua</label>
-                    </div>
-                    <select id='multiEvent' class='ml-25'>
+                <div style='margin-top:8px' class='d-inline-block'>
+                    <input type="checkbox" id='selectMultiEventAll' />
+                    <label for='selectMultiEventAll'>Pilih Semua</label>
+                </div>
+                <div id='divMultiEvent' class='d-inline-block ml-15'>
+                    <select id='multiEvent'>
                         <option value='' selected disabled>-- Pilih Pengaturan --</option>
                         <option value='ubah_kategori'>Ubah Kategori</option>
                         @if($tipe == "arsip")
@@ -73,36 +153,36 @@
                             <option value='hapus'>Hapus</option>
                         @endif
                     </select>
-                    <button type="button" class="btn btn-icon btn-primary ml-15" id='btnAtur'>Atur Langsung</button>
                 </div>
+                <button type="button" class="btn btn-icon btn-primary d-inline-block ml-15" id='btnAtur'>Atur Langsung</button>
             </div>
         </div>
         <div class='col-xxl-4 hidden-xl-down'>
         </div>
-        <div class='col-xxl-4 col-xl-6'>
+        <div class='col-xxl-4 col-xl-6 col-md-6'>
             <div class='panel p-15 animation-slide-right selectBug' style='animation-delay:200ms'>
-                <div class='d-flex'>
-                    <div class="form-style form-inline ml-15">
-                        <a class="btn btn-success" href="javascript:void(0);"
-                            onClick="pageLoad('{{ route('b.produk-tambah') }}')">Tambah Produk</a>
-                        @if((($ijin->uploadProdukExcel === 1 || $ijin->downloadExcel === 1) && $data_user->role == 'Admin') || $data_user->role == 'Owner')
-                            <div class="dropdown btn-group">
-                                <button type="button" class="btn btn-default dropdown-toggle" id="exampleColorDropdown1"
-                                    data-toggle="dropdown" aria-expanded="false">Menu</button>
-                                <div class="dropdown-menu" aria-labelledby="exampleColorDropdown1" role="menu">
-                                    @if(($ijin->uploadProdukExcel === 1 && $data_user->role == 'Admin') || $data_user->role == 'Owner')
-                                        <button class="dropdown-item" style='cursor:pointer' data-target="#modUpload" data-toggle="modal"type="button"><i class='wb-upload'></i> Upload Excel File</button>
-                                    @endif
-                                    @if(($ijin->downloadExcel === 1 && $data_user->role == 'Admin') || $data_user->role == 'Owner')
-                                        <a class="dropdown-item" href="{{ route('b.excel-export-produk', ['format' => 'xlsx']) }}?tipe={{ $tipe }}"><i class='wb-download'></i> Download Excel File (.xlsx)</a>
-                                        <a class="dropdown-item" href="{{ route('b.excel-export-produk', ['format' => 'xls']) }}?tipe={{ $tipe }}"><i class='wb-download'></i> Download Excel File (.xls)</a>
-                                        <a class="dropdown-item" href="{{ route('b.excel-export-produk', ['format' => 'csv']) }}?tipe={{ $tipe }}"><i class='wb-download'></i> Download Excel File (.csv)</a>
-                                    @endif
-                                </div>
+                <div class='d-inline-block' id='divFilterKiri'>
+                    <a class="btn btn-success" href="javascript:void(0);"
+                        onClick="pageLoad('{{ route('b.produk-tambah') }}')">Tambah Produk</a>
+                    @if((($ijin->uploadProdukExcel === 1 || $ijin->downloadExcel === 1) && $data_user->role == 'Admin') || $data_user->role == 'Owner')
+                        <div class="dropdown btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" id="exampleColorDropdown1"
+                                data-toggle="dropdown" aria-expanded="false">Menu</button>
+                            <div class="dropdown-menu" aria-labelledby="exampleColorDropdown1" role="menu">
+                                @if(($ijin->uploadProdukExcel === 1 && $data_user->role == 'Admin') || $data_user->role == 'Owner')
+                                    <button class="dropdown-item" style='cursor:pointer' data-target="#modUpload" data-toggle="modal"type="button"><i class='wb-upload'></i> Upload Excel File</button>
+                                @endif
+                                @if(($ijin->downloadExcel === 1 && $data_user->role == 'Admin') || $data_user->role == 'Owner')
+                                    <a class="dropdown-item" href="{{ route('b.excel-export-produk', ['format' => 'xlsx']) }}?tipe={{ $tipe }}"><i class='wb-download'></i> Download Excel File (.xlsx)</a>
+                                    <a class="dropdown-item" href="{{ route('b.excel-export-produk', ['format' => 'xls']) }}?tipe={{ $tipe }}"><i class='wb-download'></i> Download Excel File (.xls)</a>
+                                    <a class="dropdown-item" href="{{ route('b.excel-export-produk', ['format' => 'csv']) }}?tipe={{ $tipe }}"><i class='wb-download'></i> Download Excel File (.csv)</a>
+                                @endif
                             </div>
-                        @endif
-                    </div>
-                    <select id='filterSelect' class='ml-25'>
+                        </div>
+                    @endif
+                </div>
+                <div class='d-inline-block float-right' id='divFilterSelect'>
+                    <select id='filterSelect'>
                         <option value='semua' @if($tipe == 'semua') selected @endif>Semua Produk</option>
                         <option value='arsip' @if($tipe == 'arsip') selected @endif>Produk yang diarsipkan</option>
                     </select>
