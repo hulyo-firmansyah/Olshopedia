@@ -137,7 +137,7 @@ class RegisterController extends Controller
 
         return $this->registered($request, $user)
                     ?: redirect($this->redirectPath())
-                        ->with('success', 'We sent you an activation code. Check your email and click on the link to verify, Didn\'t receive email <a href="javascript:void(0);" class="text-reset resendMail">resend mail</a>.')
+                        ->with('success', __('register-form.sukses-kirim-kode').'<a href="javascript:void(0);" class="text-reset resendMail">'.__('register-form.sukses-link-resend').'</a>.')
                         ->with('user_token', $user->email_token);
     }
 }

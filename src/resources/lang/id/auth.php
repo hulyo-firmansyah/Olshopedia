@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'Data Tersebut tidak ada di database kami.',
-    'throttle' => 'Terlalu banyak mencoba login. Silahkan coba lagi dalam :seconds detik.',
+    'failed' => 'Identitas tersebut tidak cocok dengan data kami.',
+    'throttle' => 'Terlalu banyak usaha masuk. Silahkan coba lagi dalam :seconds detik.',
 
 ];

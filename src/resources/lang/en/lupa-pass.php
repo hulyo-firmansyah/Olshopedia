@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'email-judul' => 'Forgot Your Password?',
+    'email-note-judul' => 'Input your registered email to reset your password',
+    'email-error-judul' => 'Error',
+    'email-input-email-kosong' => 'Enter your e-mail address!',
+    'email-btn-reset' => 'Reset Your Password',
+    'email-btn-resend' => 'Resend Email',
+    'email-link-register-note' => 'Still no account? Please go to',
+    'email-link-register' => 'Register',
+    'email-link-login' => 'Back to login',
+    'email-gagal-kirim' => 'Failed sending email!',
+    'reset-judul' => 'Renew Password!',
+    'reset-note-judul' => 'Input your new password',
+    'reset-password1-placeholder' => 'New password',
+    'reset-password2-placeholder' => 'New password confirmation',
+    'reset-btn-reset' => 'Renew your password',
+    'reset-link-login-note' => 'Have account already? Please go to',
+    'reset-link-login' => 'Login',
+    'reset-input-password1-kosong' => 'Enter a new password!',
+    'reset-input-password2-tidak-sama' => 'Passwords are not equal!',
+    'reset-gagal-ubah-pass' => 'Failed to change password!',
+    'con-sukses-kirim' => 'Authentication email successfully sent, check your email!',
+    'con-error-email-salah' => 'The email is not registered yet!',
+    'con-error-token-salah' => 'The token is not valid!',
+    'con-sukses-pass' => 'Your password has been successfully changed!',
+];

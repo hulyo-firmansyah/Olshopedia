@@ -22,9 +22,9 @@ class AccountVerifiedController extends Controller
             ]);
 
         if ($user) {
-            return redirect(route('b.login'))->with('success', 'Your Email address has been succesfully verified.');
+            return redirect(route('b.login'))->with('success', __('verif-akun.sukses-verif'));
         } else {
-            return redirect(route('b.login'))->with('error', 'Your Token Email Verification is invalid!');
+            return redirect(route('b.login'))->with('error', __('verif-akun.error-token'));
         }
     }
 
@@ -53,7 +53,7 @@ class AccountVerifiedController extends Controller
         } else {
             return Fungsi::respon([
                 'status' => false,
-                'msg' => 'Data User dengan email tersebut tidak ada!'
+                'msg' => __('verif-akun.error-data-user-kosong')
             ], [], 'json', $request);
         }
 

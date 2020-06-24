@@ -102,7 +102,7 @@ class LoginController extends Controller
                     return back()->with('error', $e->getMessage());
                 }
             }
-            return back()->with('warning', 'You need to confirm your account. We have sent you an activation code, please check your email.');
+            return back()->with('warning', __('login-form.warning-belum-verif'));
         }
         $role_tipe = DB::table('t_user_meta')
                 ->where('user_id', $user->id)
@@ -110,7 +110,7 @@ class LoginController extends Controller
                 ->get()->first();
         if($role_tipe->role != 'Admin' && $role_tipe->role != 'Owner'){
             auth()->logout();
-            return back()->with('warning', 'Hanya bisa diakses oleh admin atau owner');
+            return back()->with('warning', __('login-form.warning-hanya-admin'));
         }
         event(new BelakangLogging(Fungsi::dataOfCek(), 'login', $user));
         return redirect()->intended($this->redirectPath());

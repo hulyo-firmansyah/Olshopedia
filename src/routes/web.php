@@ -17,20 +17,24 @@
 
 // Route::domain('app.localhost/olshopedia')->group(function () {
     
-    //login dan register
-    Route::get('/login', 'belakang\auth\LoginController@showLoginForm')->name('b.login')->middleware('b.locale');
-    Route::post('/login', 'belakang\auth\LoginController@login');
-    Route::post('/logout', 'belakang\auth\LoginController@logout')->name('b.logout');
-    Route::get('/register', 'belakang\auth\RegisterController@showRegistrationForm')->name('b.register')->middleware('b.locale');
-    Route::post('/register', 'belakang\auth\RegisterController@register');
-    
-    //Verification Email dan Forgot Password
-    Route::get('/verified/{token}','belakang\auth\AccountVerifiedController@verified')->name('b.email-verified');
-    Route::get('/resendMail', 'belakang\auth\AccountVerifiedController@resendMail')->name('b.email-resendMail');
-    Route::get('/passMailSend', 'belakang\auth\ForgotPasswordController@passMailSend')->name('b.password-email');
-    Route::get('/resetPass/{mail}-{token}', 'belakang\auth\ForgotPasswordController@showFormResetPass')->name('b.password-resetPass');
-    Route::get('/renewPassword','belakang\auth\ForgotPasswordController@renewPassword')->name('b.password-renewPassword');
-    Route::get('/forgotPassword', 'belakang\auth\ForgotPasswordController@showLinkRequestForm')->name('b.password-forgotPassword');
+    Route::middleware('b.locale')->group(function(){
+
+        //login dan register
+        Route::get('/login', 'belakang\auth\LoginController@showLoginForm')->name('b.login');
+        Route::post('/login', 'belakang\auth\LoginController@login');
+        Route::post('/logout', 'belakang\auth\LoginController@logout')->name('b.logout');
+        Route::get('/register', 'belakang\auth\RegisterController@showRegistrationForm')->name('b.register');
+        Route::post('/register', 'belakang\auth\RegisterController@register');
+        
+        //Verification Email dan Forgot Password
+        Route::get('/verified/{token}','belakang\auth\AccountVerifiedController@verified')->name('b.email-verified');
+        Route::get('/resendMail', 'belakang\auth\AccountVerifiedController@resendMail')->name('b.email-resendMail');
+        Route::get('/passMailSend', 'belakang\auth\ForgotPasswordController@passMailSend')->name('b.password-email');
+        Route::get('/resetPass/{mail}-{token}', 'belakang\auth\ForgotPasswordController@showFormResetPass')->name('b.password-resetPass');
+        Route::get('/renewPassword','belakang\auth\ForgotPasswordController@renewPassword')->name('b.password-renewPassword');
+        Route::get('/forgotPassword', 'belakang\auth\ForgotPasswordController@showLinkRequestForm')->name('b.password-forgotPassword');
+
+    });
     
 
     Route::get('/version_history', 'belakang\TentangController@versionHistory')->name('b.tentang-versionHistory');

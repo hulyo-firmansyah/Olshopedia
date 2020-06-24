@@ -79,29 +79,28 @@
     <!-- Page -->
     <div class="page vertical-align text-center" data-animsition-in="fade-in" data-animsition-out="fade-out">
         <div class="page-content vertical-align-middle animation-slide-top animation-duration-1">
-            <h2>Renew Password!</h2>
-            <p>Input your new password</p>
+            <h2>@lang('lupa-pass.reset-judul')</h2>
+            <p>@lang('lupa-pass.reset-note-judul')</p>
             <form id="formResetEmail">
                 <div class="form-group">
                     <div class="input-search">
                         <button type="button" class="input-search-btn" style='cursor:pointer;' id='btnEye' tabindex='-1'><i class="icon md-eye" aria-hidden="true"></i></button>
-                        <input type="password" class="form-control" id="newPassword" placeholder="New Password">
+                        <input type="password" class="form-control" id="newPassword" placeholder="@lang('lupa-pass.reset-password1-placeholder')">
                         <small id="errorPass" style='color:#f2353c;display:none;'></small>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-search">
                         <button type="button" class="input-search-btn" style='cursor:pointer;' id='btnEye2' tabindex='-1'><i class="icon md-eye" aria-hidden="true"></i></button>
-                        <input type="password" class="form-control" id="re-password" placeholder="Re-Password">
+                        <input type="password" class="form-control" id="re-password" placeholder="@lang('lupa-pass.reset-password2-placeholder')">
                         <small id="errorRe-Pass" style='color:#f2353c;display:none;'></small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="button" id="btnRenewPassword" class="btn btn-primary btn-block btn-round">Renew Your
-                        Password</button>
+                    <button type="button" id="btnRenewPassword" class="btn btn-primary btn-block btn-round">@lang('lupa-pass.reset-btn-reset')</button>
                 </div>
             </form>
-            <p>Have account already? Please go to <a href="{{ route('b.login') }}">Sign In</a></p>
+            <p>@lang('lupa-pass.reset-link-login-note') <a href="{{ route('b.login') }}">@lang('lupa-pass.reset-link-login')</a></p>
 
             <footer class="page-copyright">
                 <p>Olshopedia</p>
@@ -201,14 +200,14 @@
                 if (newPass == '') {
                     $('#newPassword').addClass('is-invalid animation-shake');
                     $('small#errorPass').attr('style', 'color:#f2353c');
-                    $('small#errorPass').text('Masukkan password baru!');
+                    $('small#errorPass').text('@lang("lupa-pass.reset-input-password1-kosong")');
                     $('small#errorPass').show();
                     error++
                 }
                 if (newPass != retypePass) {
                     $('#re-password').addClass('is-invalid animation-shake');
                     $('small#errorRe-Pass').attr('style', 'color:#f2353c');
-                    $('small#errorRe-Pass').text('Password tidak sama!');
+                    $('small#errorRe-Pass').text('@lang("lupa-pass.reset-input-password2-tidak-sama")');
                     $('small#errorRe-Pass').show();
                     error++;
                 }
@@ -238,7 +237,7 @@
                                 $(location).attr('href', '{{ route("b.login") }}');
                             });
                         } else {
-                            swal("Gagal", "Gagal mengubah password", "error");
+                            swal("Gagal", "@lang('lupa-pass.reset-gagal-ubah-pass')", "error");
                         }
                     });
                 }

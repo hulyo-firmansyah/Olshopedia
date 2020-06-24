@@ -35,7 +35,7 @@ class ForgotPasswordController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('guest');
+        $this->middleware('guest');
     }
 
     public function showLinkRequestForm(Request $request)
@@ -88,7 +88,7 @@ class ForgotPasswordController extends Controller
             return Fungsi::respon([
                 'status' => [
                     'data' => true,
-                    'pesan' => "Email autentikasi berhasil dikirim, periksa email anda!"
+                    'pesan' => __('lupa-pass.con-sukses-kirim')
                 ],
                 'email' => $user->email
             ], [], 'json', $request);
@@ -96,7 +96,7 @@ class ForgotPasswordController extends Controller
             return Fungsi::respon([
                 'status' => [
                     'data' => false,
-                    'pesan' => "Email yang anda masukkan belum terdaftar!"
+                    'pesan' => __('lupa-pass.con-error-email-salah')
                 ],
                 'email' => null
             ], [], 'json', $request);
@@ -120,14 +120,14 @@ class ForgotPasswordController extends Controller
                 return redirect()
                     ->route('b.password-forgotPassword')
                     ->with([
-                        'error_msg' => 'Token anda salah!'
+                        'error_msg' => __('lupa-pass.con-error-token-salah')
                     ]);
             }
         } else {
             return redirect()
                 ->route('b.password-forgotPassword')
                 ->with([
-                    'error_msg' => 'Email tersebut belum terdaftar!'
+                    'error_msg' => __('lupa-pass.con-error-email-salah')
                 ]);
         }
     }
@@ -149,7 +149,7 @@ class ForgotPasswordController extends Controller
             return Fungsi::respon([
                 'status' => [
                     'data' => true,
-                    'pesan' => "Password anda berhasil diubah"
+                    'pesan' => __('lupa-pass.con-sukses-pass')
                 ],
             ], [], 'json', $request);
         }

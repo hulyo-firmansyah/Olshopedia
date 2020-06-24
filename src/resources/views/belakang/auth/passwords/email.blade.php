@@ -77,28 +77,28 @@
     <!-- Page -->
     <div class="page vertical-align text-center" data-animsition-in="fade-in" data-animsition-out="fade-out">
         <div class="page-content vertical-align-middle animation-slide-top animation-duration-1">
-            <h2>Forgot Your Password ?</h2>
-            <p>Input your registered email to reset your password</p>
+            <h2>@lang('lupa-pass.email-judul')</h2>
+            <p>@lang('lupa-pass.email-note-judul')</p>
                     @if ($error = session('error_msg'))
                     <div role="alert" class="alert alert-danger alert-dismissible">
                         <button aria-label="Close" data-dismiss="alert" class="close" type="button">
                             <span aria-hidden="true">×</span>
                         </button>
-                        <h4>Some Message</h4>
+                        <h4>@lang('lupa-pass.email-error-judul')</h4>
                         <p style='color:black;'>{{ $error }}</p>
                     </div>
                     @endif
             <!-- <form id="formSendResetMail" autocomplete='off'> -->
                 <div class="form-group">
                     <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Your Email" autocomplete='off'>
-                    <small id="error_email" style='color:#f2353c;display:none;'>Masukkan alamat email anda!</small>
+                    <small id="error_email" style='color:#f2353c;display:none;'>@lang('lupa-pass.email-input-email-kosong')</small>
                 </div>
                 <div class="form-group">
-                    <button type="button" id="btnResetPassword" class="btn btn-primary btn-block">Reset Your Password</button>
+                    <button type="button" id="btnResetPassword" class="btn btn-primary btn-block">@lang('lupa-pass.email-btn-reset')</button>
                 </div>
             <!-- </form> -->
-            <p>Still no account? Please go to <a href="{{ route('b.register') }}">Register</a></p>
-            <p>Have account already? Please go to <a href="{{ route('b.login') }}">Login</a></p>
+            <p>@lang('lupa-pass.email-link-register-note') <a href="{{ route('b.register') }}">@lang('lupa-pass.email-link-register')</a></p>
+            <p><a href="{{ route('b.login') }}">@lang('lupa-pass.email-link-login')</a></p>
 
             <footer class="page-copyright">
                 <p>Olshopedia</p>
@@ -162,9 +162,9 @@
 
             $('#inputEmail').on('input', function(){
                 if($(this).val() == cache_email){
-                    $('#btnResetPassword').text('Resend Email');
+                    $('#btnResetPassword').text("@lang('lupa-pass.email-btn-resend')");
                 } else {
-                    $('#btnResetPassword').text('Reset Your Password');
+                    $('#btnResetPassword').text("@lang('lupa-pass.email-btn-reset')");
                 }
             })
 
@@ -202,7 +202,7 @@
                         } else if (!hasil.status.data) {
                             swal("Gagal!", hasil.status.pesan, "warning");
                         } else {
-                            swal("Gagal", "Gagal mengirim email", "error");
+                            swal("Gagal", "@lang('lupa-pass.email-gagal-kirim')", "error");
                         }
                         $('#inputEmail').val('');
                     });
