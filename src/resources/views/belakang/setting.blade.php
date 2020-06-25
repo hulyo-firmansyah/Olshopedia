@@ -910,7 +910,7 @@
                 <input class='hidden' id='dataID-os' value="">
                 <div class="row">
                     <div class="col-lg-6 form-group">
-                        <label>Kategori</label>
+                        <label>Order Source</label>
                         <input type='text' name='editKategoriOs' id='editKategoriOs' class='form-control' placeholder='Contoh: Whatsapp'>
                         <small id="error_kate" style='color:#f2353c;' class='hidden'>Silahkan pilih Kategori!</small>
                     </div>
@@ -928,7 +928,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-warning" name='btnEditOrderSource'>Update</button>
+                <button type="submit" class="btn btn-warning" name='btnEditOrderSource'>Edit</button>
                 <button class="btn btn-default" data-dismiss="modal">Batal</button>
             </div>
         </div>
