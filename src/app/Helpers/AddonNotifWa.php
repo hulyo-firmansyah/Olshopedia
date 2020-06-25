@@ -21,11 +21,7 @@ class AddonNotifWa {
                     ->where('data_of', $data_of)
                     ->get()->first();
                 if(isset($data)){
-                    if(is_null($data->notif_wa)){
-                        return null;
-                    } else {
-                        return unserialize(decrypt($data->notif_wa));
-                    }
+                    return $data->notif_wa ? unserialize($data->notif_wa) : null;
                 } else {
                     return null;
                 }
@@ -35,14 +31,11 @@ class AddonNotifWa {
     }
 
     public function getData($key){
-        if(is_null($this->addonData)){
-            return null;
-        }
-        return $this->addonData[$key];
+        return !$this->isDataNull() ? $this->addonData[$key] : null;
     }
 
     public function isDataNull(){
-        return is_null($this->addonData) ? true : false;
+        return is_null($this->addonData);
     }
 
     private function render(array $data, string $pesan){
@@ -54,7 +47,7 @@ class AddonNotifWa {
 
     public function kirim($no_tujuan, $pesan, $data = null){
 
-        if(is_null($this->addonData)){
+        if($this->isDataNull()){
             return [
                 'status' => false,
                 'data' => 'Data kosong!'

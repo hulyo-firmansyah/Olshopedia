@@ -1198,11 +1198,7 @@ CUT;
 								->where('data_of', Fungsi::dataOfCek())
 								->get()->first();
 							if(isset($data)){
-								if(is_null($data->notif_resi_email)){
-									return null;
-								} else {
-									return unserialize(decrypt($data->notif_resi_email));
-								}
+								return $data->notif_resi_email ? unserialize($data->notif_resi_email) : null;
 							} else {
 								return null;
 							}
@@ -1213,50 +1209,58 @@ CUT;
 							->where('id_order', $request->id_order)
 							->select('users.no_telp', 'users.name', 't_order.kurir', 'users.email')
 							->get()->first();
-						$nama_toko = DB::table('t_store')
-							->where('data_of', Fungsi::dataOfCek())
-							->select('nama_toko')
-							->get()->first()->nama_toko;
-						$kurir = json_decode($userData->kurir);
-						if($kurir->tipe == 'expedisi'){
-							$data_kurir = strtoupper(explode('|', $kurir->data)[0]);
-						} else if($kurir->tipe == 'toko'){
-							$data_kurir = 'Ambil di toko';
-						} else if($kurir->tipe == 'kurir'){
-							$data_kurir = ucwords(strtolower($kurir->data->nama));
+
+						if(filter_var($userData->email, FILTER_VALIDATE_EMAIL)) {
+
+							$nama_toko = DB::table('t_store')
+								->where('data_of', Fungsi::dataOfCek())
+								->select('nama_toko')
+								->get()->first()->nama_toko;
+							$kurir = json_decode($userData->kurir);
+							if($kurir->tipe == 'expedisi'){
+								$data_kurir = strtoupper(explode('|', $kurir->data)[0]);
+							} else if($kurir->tipe == 'toko'){
+								$data_kurir = 'Ambil di toko';
+							} else if($kurir->tipe == 'kurir'){
+								$data_kurir = ucwords(strtolower($kurir->data->nama));
+							}
+							$emailFrom = DB::table('users')
+								->where('id', Fungsi::dataOfCek())
+								->get()->first()->email;
+	
+							$pesan_email = str_replace('%nama_customer%', $userData->name, $addonData['pesan']);
+							$pesan_email = str_replace('%resi%', $resi, $pesan_email);
+							$pesan_email = str_replace('%nama_toko%', $nama_toko, $pesan_email);
+							$pesan_email = str_replace('%id_order%', '#'.$request->id_order, $pesan_email);
+							$pesan_email = str_replace('%kurir%', $data_kurir, $pesan_email);
+							
+							try {
+	
+								$backup = Mail::getSwiftMailer();
+								
+								$transport = new Swift_SmtpTransport($addonData['smtp']['hostname'], $addonData['smtp']['port'], (!is_null($addonData['smtp']['security']) ? $addonData['smtp']['security'] : null));
+								$transport->setUsername($addonData['smtp']['username']);
+								$transport->setPassword(trim(decrypt($addonData['smtp']['password'])));
+								
+								$gmail = new Swift_Mailer($transport);
+								
+								Mail::setSwiftMailer($gmail);
+	
+								Mail::to($userData->email)->send(new NotifResiEmailAddon([
+									'alamat' => $emailFrom,
+									'nama' => $nama_toko
+								], 'plain', $pesan_email));
+								
+								Mail::setSwiftMailer($backup);
+	
+							} catch(\Exception $e){
+								$cekError['notif_resi_email'] = $e->getMessage();
+							}
+
+						} else {
+							$cekError['notif_resi_email'] = 'Format email customer salah!';
 						}
-						$emailFrom = DB::table('users')
-							->where('id', Fungsi::dataOfCek())
-							->get()->first()->email;
 
-						$pesan_email = str_replace('%nama_customer%', $userData->name, $addonData['pesan']);
-						$pesan_email = str_replace('%resi%', $resi, $pesan_email);
-						$pesan_email = str_replace('%nama_toko%', $nama_toko, $pesan_email);
-						$pesan_email = str_replace('%id_order%', '#'.$request->id_order, $pesan_email);
-						$pesan_email = str_replace('%kurir%', $data_kurir, $pesan_email);
-						
-						try {
-
-							$backup = Mail::getSwiftMailer();
-							
-							$transport = new Swift_SmtpTransport($addonData['smtp']['hostname'], $addonData['smtp']['port'], (!is_null($addonData['smtp']['security']) ? $addonData['smtp']['security'] : null));
-							$transport->setUsername($addonData['smtp']['username']);
-							$transport->setPassword(trim(decrypt($addonData['smtp']['password'])));
-							
-							$gmail = new Swift_Mailer($transport);
-							
-							Mail::setSwiftMailer($gmail);
-
-							Mail::to($userData->email)->send(new NotifResiEmailAddon([
-								'alamat' => $emailFrom,
-								'nama' => $nama_toko
-							], 'plain', $pesan_email));
-							
-							Mail::setSwiftMailer($backup);
-
-						} catch(\Exception $e){
-							$cekError['notif_resi_email'] = $e->getMessage();
-						}
 
 					}
 

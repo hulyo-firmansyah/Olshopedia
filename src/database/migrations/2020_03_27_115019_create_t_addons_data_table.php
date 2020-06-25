@@ -15,8 +15,8 @@ class CreateTAddonsDataTable extends Migration
     {
         Schema::create('t_addons_data', function (Blueprint $table) {
             $table->bigIncrements('id_addons_data');
-            $table->text('notif_resi_email')->nullable();
-            $table->text('notif_wa')->nullable();
+            $table->longText('notif_resi_email')->nullable();
+            $table->longText('notif_wa')->nullable();
             $table->unsignedBigInteger('data_of');
         });
     }

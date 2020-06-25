@@ -25,6 +25,7 @@ class AddonsController extends Controller
                 ->where('data_of', Fungsi::dataOfCek())
                 ->get()->first();
         });
+        // dd($cekAddon);
         if($request->ajax()){
             return Fungsi::respon('belakang.addons.index', compact('cekAddon'), "ajax", $request);
         }
@@ -32,7 +33,6 @@ class AddonsController extends Controller
     }
 
     public function simpanNotifResiEmail(Request $request){
-        // return "<pre>".print_r($request->all(), true)."</pre>";
         $cekAddon = Cache::remember('data_addons_'.Fungsi::dataOfCek(), 30000, function(){
             return DB::table('t_addons')
                 ->where('data_of', Fungsi::dataOfCek())
@@ -48,11 +48,7 @@ class AddonsController extends Controller
                         ->where('data_of', Fungsi::dataOfCek())
                         ->get()->first();
                     if(isset($data)){
-                        if(is_null($data->notif_resi_email)){
-                            return null;
-                        } else {
-                            return unserialize(decrypt($data->notif_resi_email));
-                        }
+                        return $data->notif_resi_email ? unserialize($data->notif_resi_email) : null;
                     } else {
                         return null;
                     }
@@ -68,7 +64,7 @@ class AddonsController extends Controller
                         ->where('data_of', Fungsi::dataOfCek())
                         ->get()->first();
                     if(isset($data)){
-                        return unserialize(decrypt($data->notif_resi_email));
+                        return $data->notif_resi_email ? unserialize($data->notif_resi_email) : null;
                     } else {
                         return null;
                     }
@@ -104,12 +100,12 @@ class AddonsController extends Controller
                 DB::table('t_addons_data')
                     ->where('data_of', Fungsi::dataOfCek())
                     ->update([
-                        'notif_resi_email' => encrypt(serialize($data))
+                        'notif_resi_email' => serialize($data)
                     ]);
             } else {
                 DB::table('t_addons_data')
                     ->insert([
-                        'notif_resi_email' => encrypt(serialize($data)),
+                        'notif_resi_email' => serialize($data),
                         'data_of' => Fungsi::dataOfCek()
                     ]);
             }
@@ -123,12 +119,12 @@ class AddonsController extends Controller
                 DB::table('t_addons_data')
                     ->where('data_of', Fungsi::dataOfCek())
                     ->update([
-                        'notif_resi_email' => encrypt(serialize($data))
+                        'notif_resi_email' => serialize($data)
                     ]);
             } else {
                 DB::table('t_addons_data')
                     ->insert([
-                        'notif_resi_email' => encrypt(serialize($data)),
+                        'notif_resi_email' => serialize($data),
                         'data_of' => Fungsi::dataOfCek()
                     ]);
             }
@@ -151,16 +147,11 @@ class AddonsController extends Controller
                 ->where('data_of', Fungsi::dataOfCek())
                 ->get()->first();
             if(isset($data)){
-                if(is_null($data->notif_resi_email)){
-                    return null;
-                } else {
-                    return unserialize(decrypt($data->notif_resi_email));
-                }
+                return $data->notif_resi_email ? unserialize($data->notif_resi_email) : null;
             } else {
                 return null;
             }
         });
-        // dd($addonData);
         if($request->ajax()){
             return Fungsi::respon('belakang.addons.notif-resi-email', compact('cekAddon', 'addonData'), "ajax", $request);
         }
@@ -179,11 +170,7 @@ class AddonsController extends Controller
                     ->where('data_of', Fungsi::dataOfCek())
                     ->get()->first();
                 if(isset($data)){
-                    if(is_null($data->notif_resi_email)){
-                        return null;
-                    } else {
-                        return unserialize(decrypt($data->notif_resi_email));
-                    }
+                    return $data->notif_resi_email ? unserialize($data->notif_resi_email) : null;
                 } else {
                     return null;
                 }
@@ -252,11 +239,7 @@ class AddonsController extends Controller
                 ->where('data_of', Fungsi::dataOfCek())
                 ->get()->first();
             if(isset($data)){
-                if(is_null($data->notif_wa)){
-                    return null;
-                } else {
-                    return unserialize(decrypt($data->notif_wa));
-                }
+                return $data->notif_wa ? unserialize($data->notif_wa) : null;
             } else {
                 return null;
             }
@@ -321,12 +304,12 @@ class AddonsController extends Controller
             DB::table('t_addons_data')
                 ->where('data_of', Fungsi::dataOfCek())
                 ->update([
-                    'notif_wa' => encrypt(serialize($data))
+                    'notif_wa' => serialize($data)
                 ]);
         } else {
             DB::table('t_addons_data')
                 ->insert([
-                    'notif_wa' => encrypt(serialize($data)),
+                    'notif_wa' => serialize($data),
                     'data_of' => Fungsi::dataOfCek()
                 ]);
         }

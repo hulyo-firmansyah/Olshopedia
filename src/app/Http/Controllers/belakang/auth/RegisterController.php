@@ -106,6 +106,7 @@ class RegisterController extends Controller
         ]);
         DB::table("t_addons")->insert([
             "notif_resi_email" => false,
+            "notif_wa" => false,
             "data_of" => $user->id
         ]);
     }
