@@ -453,7 +453,26 @@ class SettingController extends Controller
                         }
                         break;
                     case 'hapus_data_cache':
-                        Cache::flush();
+                        $data_of = Fungsi::dataOfCek();
+                        Cache::forget('data_addons_'.$data_of);
+                        Cache::forget('data_addons_data_notif_wa_'.$data_of);
+                        Cache::forget('data_addons_data_notif_resi_email_'.$data_of);
+                        Cache::forget('data_produk_ajax_'.$data_of);
+                        Cache::forget('data_order_lengkap_'.$data_of);
+                        Cache::forget('data_customer_analisa_'.$data_of);
+                        Cache::forget('data_customer_lengkap_'.$data_of);
+                        Cache::forget('data_laporan_'.$data_of);
+                        Cache::forget('data_user_pengaturan_'.$data_of);
+                        Cache::forget('data_import_produk_'.$data_of);
+                        Cache::forget('data_kategori_produk_lengkap_'.$data_of);
+                        Cache::forget('data_expense_lengkap_'.$data_of);
+                        Cache::forget('data_transaksi_lengkap_'.$data_of);
+                        Cache::forget('data_print_pengaturan_'.$data_of);
+                        Cache::forget('data_produk_lengkap_0_'.$data_of);
+                        Cache::forget('data_produk_lengkap_1_'.$data_of);
+                        Cache::forget('data_beli_produk_lengkap_'.$data_of);
+                        Cache::forget('data_beli_produk_setiap_'.$data_of);
+                        Cache::forget('data_supplier_pengaturan_'.$data_of);
                         return Fungsi::respon(['status' => true], [], 'json', $request);
                         break;
 
