@@ -50,7 +50,7 @@
                                             <b>Aktifkan Addons</b>
                                         </div>
                                         <div class='col-xl-9 col-lg-7 col-md-6'>
-                                            <input type='checkbox' name='aktifData' id='aktifData' class='js-switch' @if($cekAddon->notif_wa === 1) checked @endif>
+                                            <input type='checkbox' name='aktifData' id='aktifData' class='js-switch' @if($cekAddon->notif_wa == 1) checked @endif>
                                         </div>
                                     </div>
                                     <div class='row mt-25 pb-25'>

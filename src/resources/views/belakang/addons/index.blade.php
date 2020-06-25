@@ -63,7 +63,7 @@
                                     <a href="javascript:void(0)" onClick='pageLoad("{{ route("b.addons-notifResiEmail") }}")' class="btn btn-default btn-outline float-right"><i class="fa fa-gear"></i> Setting</a>
                                 </div>
                             </div>
-                            @if($cekAddon->notif_resi_email === 1)
+                            @if($cekAddon->notif_resi_email == 1)
                             <hr>
                             <div class="d-flex mt-10 pt-10">
                                 <input type='text' id='emailTujuanTest-notifResiEmail' class='form-control mr-10' placeholder='Email Tujuan'>
@@ -89,7 +89,7 @@
                                 <div class="col-md-6">
                                     <small>Status</small>
                                     <p class="mt-0">
-                                        @if($cekAddon->notif_wa === 1)
+                                        @if($cekAddon->notif_wa == 1)
                                             <strong class='green-600'>Aktif</strong>
                                         @else 
                                             <strong class='red-600'>Tidak Aktif</strong>
