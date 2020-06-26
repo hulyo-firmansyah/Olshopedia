@@ -5,6 +5,13 @@
 .dropify-wrapper {
     width: 180px
 }
+.box-foto {
+    box-shadow: 0px 0px 5px 0px #11c26d;
+    padding: 5px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    display:block;
+}
 </style>
 <div class="page-header page-header-bordered">
     <div class='row'>
@@ -591,7 +598,9 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style='border-top:1px solid #e4eaec;'>
+                <button type='button' class='btn btn-success mt-15'>Tambahkan</button>
+                <button type='button' class='btn btn-default mt-15'>Batal</button>
             </div>
         </div>
     </div>
@@ -1062,8 +1071,9 @@ $(document).ready(function() {
         }
     @endforeach
 @else
+    var dropify_1 = [];
     for(var i=1; i<=7; i++){
-        $('#foto_1-'+i).dropify({
+        dropify_1[i] = $('#foto_1-'+i).dropify({
             // defaultFile: "{{ asset('template/assets/images/default.jpg') }}",
             height: 166,
             errorsPosition: 'outside',
@@ -1080,6 +1090,19 @@ $(document).ready(function() {
                 'minHeight': 'The image height is too small ({value}px min).',
                 'maxHeight': 'The image height is too big ({value}px max).',
                 'imageFormat': 'The iowed ({value} only).'
+            }
+        });
+        dropify_1[i].on('dropify.afterClear', function(event, element){
+            let box = $('#idVarian-1').children('td:first');
+            box.children('.box-foto[data-id=box-foto-'+i+']').remove();
+        });
+        dropify_1[i].on('change', function(){
+            let filename = $(this).val().split('\\')[2];
+            let box = $('#idVarian-1').children('td:first');
+            if(box.children('.box-foto[data-id=box-foto-'+i+']').length < 1){
+                box.prepend("<span class='box-foto' data-id='box-foto-"+i+"'>"+filename+"</span>");
+            } else {
+                box.children('.box-foto[data-id=box-foto-'+i+']').text(filename);
             }
         });
     }
