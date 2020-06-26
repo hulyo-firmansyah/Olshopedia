@@ -253,12 +253,13 @@ class AddonsController extends Controller
 
     public function kirimTestNotifWa(Request $request){
         if($request->ajax()){
-            $cekAddon = Cache::remember('data_addons_'.Fungsi::dataOfCek(), 30000, function(){
+            $data_of = Fungsi::dataOfCek();
+            $cekAddon = Cache::remember('data_addons_'.$data_of, 30000, function(){
                 return DB::table('t_addons')
-                    ->where('data_of', Fungsi::dataOfCek())
+                    ->where('data_of', $data_of)
                     ->get()->first();
             });
-            $objNotifWa = new AddonNotifWa(Fungsi::dataOfCek());
+            $objNotifWa = new AddonNotifWa($data_of);
 
             if($cekAddon->notif_wa === 1 && !$objNotifWa->isDataNull()){
                 $no = strip_tags($request->no);
@@ -266,13 +267,30 @@ class AddonsController extends Controller
                 $response = $objNotifWa->kirim(Fungsi::cekPlus($no), "Testing..\n\nBerhasil terkirim pada ".date('Y-m-d H:i:s'));
 
                 if($response['status'] === true){
-                    return Fungsi::respon(['status' => true, 'msg' => 'Berhasil mengirim Test Notifikasi Whatsapp!'], [], 'json', $request);
+                    if(Cache::has('notif-wa-test-'.$data_of.'-timer')){
+                        $timer = Cache::get('notif-wa-test-'.$data_of.'-timer') * 2;
+                        Cache::put('notif-wa-test-'.$data_of.'-timer', $timer);
+                    } else {
+                        $timer = 60;
+                        Cache::add('notif-wa-test-'.$data_of.'-timer', $timer, now()->addHours(1));
+                    }
+                    return Fungsi::respon([
+                        'status' => true, 
+                        'msg' => 'Berhasil mengirim Test Notifikasi Whatsapp!',
+                        'timer' => $timer
+                    ], [], 'json', $request);
                 } else {
-                    return Fungsi::respon(['status' => false, 'msg' => $response['data']], [], 'json', $request);
+                    return Fungsi::respon([
+                        'status' => false,
+                        'msg' => $response['data']
+                    ], [], 'json', $request);
                 }
 	
             } else {
-                return Fungsi::respon(['status' => false, 'msg' => 'Notifikasi Whatsapp tidak diaktifkan!'], [], 'json', $request);
+                return Fungsi::respon([
+                    'status' => false, 
+                    'msg' => 'Notifikasi Whatsapp tidak diaktifkan!'
+                ], [], 'json', $request);
             }
         } else {
             abort(404);

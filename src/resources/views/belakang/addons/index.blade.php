@@ -250,7 +250,14 @@ $(document).ready(function(){
                     }).done(function() {
                         $('#loader').hide();
                         if (hasil.status) {
-                            swal("Berhasil!", '' + hasil.msg, "success");
+                            swal("Berhasil!", '' + hasil.msg, "success").then(function(){
+                                $('#kirimTest-notifWa').removeClass('btn-primary');
+                                $('#kirimTest-notifWa').addClass('btn-default');
+                                $('#kirimTest-notifWa').prop('disabled', true);
+                                $('#kirimTest-notifWa').html('<i class="icon wb-time" aria-hidden="true"></i> ');
+                                $('#waTujuanTest-notifWa').val('');
+                                $('#waTujuanTest-notifWa').prop('disabled', true);
+                            });
                         } else {
                             swal("Gagal!", "" + hasil.msg, "error");
                         }
