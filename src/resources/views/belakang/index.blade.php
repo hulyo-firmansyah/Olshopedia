@@ -508,7 +508,7 @@
             e.preventDefault();
 
             //fix bug pada addon timer
-            if(typeof timer_interval !== 'undefined' || typeof timer_interval !== 'false'){
+            if(typeof timer_interval !== 'undefined' && typeof timer_interval !== 'false'){
                 clearInterval(timer_interval);
             }
 
