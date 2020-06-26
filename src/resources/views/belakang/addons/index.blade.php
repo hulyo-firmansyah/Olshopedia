@@ -148,13 +148,80 @@
     </div>
 </div>
 <script>
+var timer_interval = false,
+    time_wa = {!! $timer_wa !!},
+    time_email = {!! $timer_email !!},
+    time_wa_running = {!! $timer_wa > 0 ? 'true' : 'false' !!},
+    time_email_running = {!! $timer_email > 0 ? 'true' : 'false' !!};
 
 function cekEmail(emailAddress) {
     var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
     return pattern.test(emailAddress);
 }
 
+function showTimer() {
+    // console.log('(Email: '+time_email+' '+time_email_running+')', '(WA: '+time_wa+' '+time_wa_running+')', !timer_interval);
+    if(time_wa < 1 && time_email < 1 && time_email_running && time_wa_running) {
+        clearInterval(timer_interval);
+        timer_interval = false;
+        return;
+    }
+    if (time_email < 1 && time_email_running) {
+        $('#kirimTest-notifResiEmail').removeClass('btn-default');
+        $('#kirimTest-notifResiEmail').addClass('btn-primary');
+        $('#kirimTest-notifResiEmail').prop('disabled', false);
+        $('#kirimTest-notifResiEmail').html("<i class='fa fa-send'></i> Kirim Test");
+        $('#emailTujuanTest-notifResiEmail').val('');
+        $('#emailTujuanTest-notifResiEmail').prop('disabled', false);
+        time_email_running = false;
+    }
+    if (time_wa < 1 && time_wa_running) {
+        $('#kirimTest-notifWa').removeClass('btn-default');
+        $('#kirimTest-notifWa').addClass('btn-primary');
+        $('#kirimTest-notifWa').prop('disabled', false);
+        $('#kirimTest-notifWa').html("<i class='fa fa-send'></i> Kirim Test");
+        $('#waTujuanTest-notifWa').val('');
+        $('#waTujuanTest-notifWa').prop('disabled', false);
+        time_wa_running = false;
+    }
+    function pad(value) {
+        return (value < 10 ? '0' : '') + value;
+    }
+    if(time_wa > 0){
+        $('#kirimTest-notifWa').html('<i class="icon wb-time" aria-hidden="true"></i> '+Math.floor(time_wa / 60) + ':' + pad(time_wa % 60));
+        time_wa--;
+    }
+    if(time_email > 0){
+        $('#kirimTest-notifResiEmail').html('<i class="icon wb-time" aria-hidden="true"></i> '+Math.floor(time_email / 60) + ':' + pad(time_email % 60));
+        time_email--;
+    }
+}
+
+
 $(document).ready(function(){
+
+    @if($timer_wa > 0)
+        $('#kirimTest-notifWa').removeClass('btn-primary');
+        $('#kirimTest-notifWa').addClass('btn-default');
+        $('#kirimTest-notifWa').prop('disabled', true);
+        $('#waTujuanTest-notifWa').val('');
+        $('#waTujuanTest-notifWa').prop('disabled', true);
+    @endif
+
+    @if($timer_email > 0)
+        $('#kirimTest-notifResiEmail').removeClass('btn-primary');
+        $('#kirimTest-notifResiEmail').addClass('btn-default');
+        $('#kirimTest-notifResiEmail').prop('disabled', true);
+        $('#emailTujuanTest-notifResiEmail').val('');
+        $('#emailTujuanTest-notifResiEmail').prop('disabled', true);
+    @endif
+
+    @if($timer_email > 0 || $timer_wa > 0)
+        showTimer();
+        if(!timer_interval) {
+            timer_interval = setInterval(showTimer, 1000);
+        }
+    @endif
 
     
     @if($msg_sukses = Session::get('msg_success'))
@@ -196,7 +263,19 @@ $(document).ready(function(){
                     }).done(function() {
                         $('#loader').hide();
                         if (hasil.status) {
-                            swal("Berhasil!", '' + hasil.msg, "success");
+                            swal("Berhasil!", '' + hasil.msg, "success").then(function(){
+                                $('#kirimTest-notifResiEmail').removeClass('btn-primary');
+                                $('#kirimTest-notifResiEmail').addClass('btn-default');
+                                $('#kirimTest-notifResiEmail').prop('disabled', true);
+                                $('#emailTujuanTest-notifResiEmail').val('');
+                                $('#emailTujuanTest-notifResiEmail').prop('disabled', true);
+                                time_email_running = true;
+                                time_email = hasil.timer;
+                                showTimer();
+                                if(!timer_interval) {
+                                    timer_interval = setInterval(showTimer, 1000);
+                                }
+                            });
                         } else {
                             swal("Gagal!", "" + hasil.msg, "error");
                         }
@@ -254,9 +333,14 @@ $(document).ready(function(){
                                 $('#kirimTest-notifWa').removeClass('btn-primary');
                                 $('#kirimTest-notifWa').addClass('btn-default');
                                 $('#kirimTest-notifWa').prop('disabled', true);
-                                $('#kirimTest-notifWa').html('<i class="icon wb-time" aria-hidden="true"></i> ');
                                 $('#waTujuanTest-notifWa').val('');
                                 $('#waTujuanTest-notifWa').prop('disabled', true);
+                                time_wa_running = true;
+                                time_wa = hasil.timer;
+                                showTimer();
+                                if(!timer_interval) {
+                                    timer_interval = setInterval(showTimer, 1000);
+                                }
                             });
                         } else {
                             swal("Gagal!", "" + hasil.msg, "error");

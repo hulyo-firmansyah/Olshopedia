@@ -20,16 +20,19 @@ class AddonsController extends Controller
     }
 
     public function index(Request $request){
-        $cekAddon = Cache::remember('data_addons_'.Fungsi::dataOfCek(), 30000, function(){
+        $data_of = Fungsi::dataOfCek();
+        $cekAddon = Cache::remember('data_addons_'.$data_of, 30000, function() use($data_of){
             return DB::table('t_addons')
-                ->where('data_of', Fungsi::dataOfCek())
+                ->where('data_of', $data_of)
                 ->get()->first();
         });
-        // dd($cekAddon);
+        $timer_email = Cache::has('notif-email-test-'.$data_of.'-timer') ? Cache::get('notif-email-test-'.$data_of.'-timer') : 0;
+        $timer_wa = Cache::has('notif-wa-test-'.$data_of.'-timer') ? Cache::get('notif-wa-test-'.$data_of.'-timer') : 0;
+        // dd($timer_wa, $timer_email);
         if($request->ajax()){
-            return Fungsi::respon('belakang.addons.index', compact('cekAddon'), "ajax", $request);
+            return Fungsi::respon('belakang.addons.index', compact('cekAddon', 'timer_wa', 'timer_email'), "ajax", $request);
         }
-        return Fungsi::respon('belakang.addons.index', compact('cekAddon'), "html", $request);
+        return Fungsi::respon('belakang.addons.index', compact('cekAddon', 'timer_wa', 'timer_email'), "html", $request);
     }
 
     public function simpanNotifResiEmail(Request $request){
@@ -160,14 +163,15 @@ class AddonsController extends Controller
 
     public function kirimTestNotifResiEmail(Request $request){
         if($request->ajax()){
-            $cekAddon = Cache::remember('data_addons_'.Fungsi::dataOfCek(), 30000, function(){
+            $data_of = Fungsi::dataOfCek();
+            $cekAddon = Cache::remember('data_addons_'.$data_of, 30000, function() use($data_of){
                 return DB::table('t_addons')
-                    ->where('data_of', Fungsi::dataOfCek())
+                    ->where('data_of', $data_of)
                     ->get()->first();
             });
-            $addonData = Cache::remember('data_addons_data_notif_resi_email_'.Fungsi::dataOfCek(), 30000, function(){
+            $addonData = Cache::remember('data_addons_data_notif_resi_email_'.$data_of, 30000, function() use($data_of){
                 $data = DB::table('t_addons_data')
-                    ->where('data_of', Fungsi::dataOfCek())
+                    ->where('data_of', $data_of)
                     ->get()->first();
                 if(isset($data)){
                     return $data->notif_resi_email ? unserialize($data->notif_resi_email) : null;
@@ -179,10 +183,10 @@ class AddonsController extends Controller
             if($cekAddon->notif_resi_email === 1){
                 $email = strip_tags($request->email);
                 $nama_toko = DB::table('t_store')
-                    ->where('data_of', Fungsi::dataOfCek())
+                    ->where('data_of', $data_of)
                     ->get()->first()->nama_toko;
                 $emailFrom = DB::table('users')
-                    ->where('id', Fungsi::dataOfCek())
+                    ->where('id', $data_of)
                     ->get()->first()->email;
                 
                 try {
@@ -210,7 +214,19 @@ class AddonsController extends Controller
                     // Restore your original mailer
                     Mail::setSwiftMailer($backup);
 
-                    return Fungsi::respon(['status' => true, 'msg' => 'Berhasil mengirim Email Test!'], [], 'json', $request);
+                    if(Cache::has('notif-email-test-'.$data_of.'-timer')){
+                        $timer = Cache::get('notif-email-test-'.$data_of.'-timer') * 2;
+                        Cache::put('notif-email-test-'.$data_of.'-timer', $timer, $timer);
+                    } else {
+                        $timer = 240;
+                        Cache::add('notif-email-test-'.$data_of.'-timer', $timer, $timer);
+                    }
+
+                    return Fungsi::respon([
+                        'status' => true, 
+                        'msg' => 'Berhasil mengirim Email Test!',
+                        'timer' => $timer
+                    ], [], 'json', $request);
                     // dispatch(new SendEmail([
                     //     'tujuan' => $user->email,
                     //     'email' => new EmailVerification($user, route('b.email-verified', ['token' => $token_gen]))
@@ -254,7 +270,7 @@ class AddonsController extends Controller
     public function kirimTestNotifWa(Request $request){
         if($request->ajax()){
             $data_of = Fungsi::dataOfCek();
-            $cekAddon = Cache::remember('data_addons_'.$data_of, 30000, function(){
+            $cekAddon = Cache::remember('data_addons_'.$data_of, 30000, function() use($data_of){
                 return DB::table('t_addons')
                     ->where('data_of', $data_of)
                     ->get()->first();
@@ -262,6 +278,7 @@ class AddonsController extends Controller
             $objNotifWa = new AddonNotifWa($data_of);
 
             if($cekAddon->notif_wa === 1 && !$objNotifWa->isDataNull()){
+
                 $no = strip_tags($request->no);
                 
                 $response = $objNotifWa->kirim(Fungsi::cekPlus($no), "Testing..\n\nBerhasil terkirim pada ".date('Y-m-d H:i:s'));
@@ -269,10 +286,10 @@ class AddonsController extends Controller
                 if($response['status'] === true){
                     if(Cache::has('notif-wa-test-'.$data_of.'-timer')){
                         $timer = Cache::get('notif-wa-test-'.$data_of.'-timer') * 2;
-                        Cache::put('notif-wa-test-'.$data_of.'-timer', $timer);
+                        Cache::put('notif-wa-test-'.$data_of.'-timer', $timer, $timer);
                     } else {
                         $timer = 60;
-                        Cache::add('notif-wa-test-'.$data_of.'-timer', $timer, now()->addHours(1));
+                        Cache::add('notif-wa-test-'.$data_of.'-timer', $timer, $timer);
                     }
                     return Fungsi::respon([
                         'status' => true, 

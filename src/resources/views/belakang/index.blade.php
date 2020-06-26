@@ -444,7 +444,6 @@
     
 
     function pageLoad(urlTujuan, elm = null) {
-        // return;
         var hasil;
         $.ajax({
             type: 'get',
@@ -507,6 +506,11 @@
 
         $('.menuLoad').on('click', (e) => {
             e.preventDefault();
+
+            //fix bug pada addon timer
+            if(typeof timer_interval !== 'undefined' || typeof timer_interval !== 'false'){
+                clearInterval(timer_interval);
+            }
 
             var urlTujuan = $(e.currentTarget).attr('href');
             var elm = $(e.currentTarget);

@@ -181,6 +181,7 @@
         Route::get('/notif-wa', 'belakang\AddonsController@notifWaIndex')->name("b.addons-notifWa");
         Route::get('/notif-wa-proses', 'belakang\AddonsController@simpanNotifWa')->name("b.addons-notifWa_proses");
         Route::post('/notif-wa-test', 'belakang\AddonsController@kirimTestNotifWa')->name("b.addons-notifWa_test");
+        Route::post('/addon-timer', 'belakang\AddonsController@addonTimer')->name("b.addons-timer");
     });
 
 
