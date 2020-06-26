@@ -192,6 +192,19 @@ class AddonsController extends Controller
             });
             
             if($cekAddon->notif_resi_email === 1){
+                
+                if(Cache::has('notif-email-test-'.$data_of.'-timer')){
+                    $timer = Cache::get('notif-email-test-'.$data_of.'-timer');
+                    $timer_email_cek = $timer['time'] - (time() - $timer['start']);
+                    if($timer_email_cek > 0) {
+                        return Fungsi::respon([
+                            'status' => -1,
+                            'msg' => 'Tunggu hingga cooldown selesai, untuk mengirim pesan test lagi!',
+                            'timer' => $timer_email_cek
+                        ], [], 'json', $request);
+                    }
+                }
+
                 $email = strip_tags($request->email);
                 $nama_toko = DB::table('t_store')
                     ->where('data_of', $data_of)
@@ -226,7 +239,7 @@ class AddonsController extends Controller
                     Mail::setSwiftMailer($backup);
 
                     if(Cache::has('notif-email-test-'.$data_of.'-timer')){
-                        $timer['time'] = Cache::get('notif-email-test-'.$data_of.'-timer') * 2;
+                        $timer['time'] = Cache::get('notif-email-test-'.$data_of.'-timer')['time'] * 2;
                         $timer['start'] = time();
                         Cache::put('notif-email-test-'.$data_of.'-timer', $timer, $timer['time']);
                     } else {
@@ -236,7 +249,7 @@ class AddonsController extends Controller
                     }
 
                     return Fungsi::respon([
-                        'status' => true, 
+                        'status' => 1, 
                         'msg' => 'Berhasil mengirim Email Test!',
                         'timer' => $timer['time']
                     ], [], 'json', $request);
@@ -246,11 +259,11 @@ class AddonsController extends Controller
                     // ]));
 
                 } catch(\Exception $e){
-                    return Fungsi::respon(['status' => false, 'msg' => $e->getMessage()], [], 'json', $request);
+                    return Fungsi::respon(['status' => 0, 'msg' => $e->getMessage()], [], 'json', $request);
                 }
 
             } else {
-                return Fungsi::respon(['status' => false, 'msg' => 'Notifikasi Resi via Email tidak diaktifkan!'], [], 'json', $request);
+                return Fungsi::respon(['status' => 0, 'msg' => 'Notifikasi Resi via Email tidak diaktifkan!'], [], 'json', $request);
             }
         } else {
             abort(404);
@@ -291,6 +304,18 @@ class AddonsController extends Controller
             $objNotifWa = new AddonNotifWa($data_of);
 
             if($cekAddon->notif_wa === 1 && !$objNotifWa->isDataNull()){
+                
+                if(Cache::has('notif-wa-test-'.$data_of.'-timer')){
+                    $timer = Cache::get('notif-wa-test-'.$data_of.'-timer');
+                    $timer_wa_cek = $timer['time'] - (time() - $timer['start']);
+                    if($timer_wa_cek > 0) {
+                        return Fungsi::respon([
+                            'status' => -1,
+                            'msg' => 'Tunggu hingga cooldown selesai, untuk mengirim pesan test lagi!',
+                            'timer' => $timer_wa_cek
+                        ], [], 'json', $request);
+                    }
+                }
 
                 $no = strip_tags($request->no);
                 
@@ -298,7 +323,7 @@ class AddonsController extends Controller
 
                 if($response['status'] === true){
                     if(Cache::has('notif-wa-test-'.$data_of.'-timer')){
-                        $timer['time'] = Cache::get('notif-wa-test-'.$data_of.'-timer') * 2;
+                        $timer['time'] = Cache::get('notif-wa-test-'.$data_of.'-timer')['time'] * 2;
                         $timer['start'] = time();
                         Cache::put('notif-wa-test-'.$data_of.'-timer', $timer, $timer['time']);
                     } else {
@@ -307,20 +332,20 @@ class AddonsController extends Controller
                         Cache::add('notif-wa-test-'.$data_of.'-timer', $timer, $timer['time']);
                     }
                     return Fungsi::respon([
-                        'status' => true, 
+                        'status' => 1, 
                         'msg' => 'Berhasil mengirim Test Notifikasi Whatsapp!',
                         'timer' => $timer['time']
                     ], [], 'json', $request);
                 } else {
                     return Fungsi::respon([
-                        'status' => false,
+                        'status' => 0,
                         'msg' => $response['data']
                     ], [], 'json', $request);
                 }
 	
             } else {
                 return Fungsi::respon([
-                    'status' => false, 
+                    'status' => 0, 
                     'msg' => 'Notifikasi Whatsapp tidak diaktifkan!'
                 ], [], 'json', $request);
             }

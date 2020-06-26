@@ -262,8 +262,22 @@ $(document).ready(function(){
                         }
                     }).done(function() {
                         $('#loader').hide();
-                        if (hasil.status) {
+                        if (hasil.status === 1) {
                             swal("Berhasil!", '' + hasil.msg, "success").then(function(){
+                                $('#kirimTest-notifResiEmail').removeClass('btn-primary');
+                                $('#kirimTest-notifResiEmail').addClass('btn-default');
+                                $('#kirimTest-notifResiEmail').prop('disabled', true);
+                                $('#emailTujuanTest-notifResiEmail').val('');
+                                $('#emailTujuanTest-notifResiEmail').prop('disabled', true);
+                                time_email_running = true;
+                                time_email = hasil.timer;
+                                showTimer();
+                                if(!timer_interval) {
+                                    timer_interval = setInterval(showTimer, 1000);
+                                }
+                            });
+                        } else if(hasil.status === -1){
+                            swal("Peringatan!", '' + hasil.msg, "warning").then(function(){
                                 $('#kirimTest-notifResiEmail').removeClass('btn-primary');
                                 $('#kirimTest-notifResiEmail').addClass('btn-default');
                                 $('#kirimTest-notifResiEmail').prop('disabled', true);
@@ -328,8 +342,22 @@ $(document).ready(function(){
                         }
                     }).done(function() {
                         $('#loader').hide();
-                        if (hasil.status) {
+                        if (hasil.status === 1) {
                             swal("Berhasil!", '' + hasil.msg, "success").then(function(){
+                                $('#kirimTest-notifWa').removeClass('btn-primary');
+                                $('#kirimTest-notifWa').addClass('btn-default');
+                                $('#kirimTest-notifWa').prop('disabled', true);
+                                $('#waTujuanTest-notifWa').val('');
+                                $('#waTujuanTest-notifWa').prop('disabled', true);
+                                time_wa_running = true;
+                                time_wa = hasil.timer;
+                                showTimer();
+                                if(!timer_interval) {
+                                    timer_interval = setInterval(showTimer, 1000);
+                                }
+                            });
+                        } else if(hasil.status === -1){
+                            swal("Peringatan!", '' + hasil.msg, "warning").then(function(){
                                 $('#kirimTest-notifWa').removeClass('btn-primary');
                                 $('#kirimTest-notifWa').addClass('btn-default');
                                 $('#kirimTest-notifWa').prop('disabled', true);
