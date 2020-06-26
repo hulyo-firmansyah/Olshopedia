@@ -26,9 +26,20 @@ class AddonsController extends Controller
                 ->where('data_of', $data_of)
                 ->get()->first();
         });
-        $timer_email = Cache::has('notif-email-test-'.$data_of.'-timer') ? Cache::get('notif-email-test-'.$data_of.'-timer') : 0;
-        $timer_wa = Cache::has('notif-wa-test-'.$data_of.'-timer') ? Cache::get('notif-wa-test-'.$data_of.'-timer') : 0;
-        // dd($timer_wa, $timer_email);
+        if(Cache::has('notif-email-test-'.$data_of.'-timer')){
+            $timer = Cache::get('notif-email-test-'.$data_of.'-timer');
+            $timer_email = $timer['time'] - (time() - $timer['start']);
+            $timer_email = $timer_email < 0 ? 0 : $timer_email;
+        } else {
+            $timer_email = 0;
+        }
+        if(Cache::has('notif-wa-test-'.$data_of.'-timer')){
+            $timer = Cache::get('notif-wa-test-'.$data_of.'-timer');
+            $timer_wa = $timer['time'] - (time() - $timer['start']);
+            $timer_wa = $timer_wa < 0 ? 0 : $timer_wa;
+        } else {
+            $timer_wa = 0;
+        }
         if($request->ajax()){
             return Fungsi::respon('belakang.addons.index', compact('cekAddon', 'timer_wa', 'timer_email'), "ajax", $request);
         }
@@ -215,17 +226,19 @@ class AddonsController extends Controller
                     Mail::setSwiftMailer($backup);
 
                     if(Cache::has('notif-email-test-'.$data_of.'-timer')){
-                        $timer = Cache::get('notif-email-test-'.$data_of.'-timer') * 2;
-                        Cache::put('notif-email-test-'.$data_of.'-timer', $timer, $timer);
+                        $timer['time'] = Cache::get('notif-email-test-'.$data_of.'-timer') * 2;
+                        $timer['start'] = time();
+                        Cache::put('notif-email-test-'.$data_of.'-timer', $timer, $timer['time']);
                     } else {
-                        $timer = 240;
-                        Cache::add('notif-email-test-'.$data_of.'-timer', $timer, $timer);
+                        $timer['time'] = 240;
+                        $timer['start'] = time();
+                        Cache::add('notif-email-test-'.$data_of.'-timer', $timer, $timer['time']);
                     }
 
                     return Fungsi::respon([
                         'status' => true, 
                         'msg' => 'Berhasil mengirim Email Test!',
-                        'timer' => $timer
+                        'timer' => $timer['time']
                     ], [], 'json', $request);
                     // dispatch(new SendEmail([
                     //     'tujuan' => $user->email,
@@ -285,16 +298,18 @@ class AddonsController extends Controller
 
                 if($response['status'] === true){
                     if(Cache::has('notif-wa-test-'.$data_of.'-timer')){
-                        $timer = Cache::get('notif-wa-test-'.$data_of.'-timer') * 2;
-                        Cache::put('notif-wa-test-'.$data_of.'-timer', $timer, $timer);
+                        $timer['time'] = Cache::get('notif-wa-test-'.$data_of.'-timer') * 2;
+                        $timer['start'] = time();
+                        Cache::put('notif-wa-test-'.$data_of.'-timer', $timer, $timer['time']);
                     } else {
-                        $timer = 60;
-                        Cache::add('notif-wa-test-'.$data_of.'-timer', $timer, $timer);
+                        $timer['time'] = 60;
+                        $timer['start'] = time();
+                        Cache::add('notif-wa-test-'.$data_of.'-timer', $timer, $timer['time']);
                     }
                     return Fungsi::respon([
                         'status' => true, 
                         'msg' => 'Berhasil mengirim Test Notifikasi Whatsapp!',
-                        'timer' => $timer
+                        'timer' => $timer['time']
                     ], [], 'json', $request);
                 } else {
                     return Fungsi::respon([
