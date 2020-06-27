@@ -5,7 +5,7 @@
 .dropify-wrapper {
     width: 180px
 }
-.btn.btn-success.btn-block.btn-outline[data-toggle=modal] {
+.btn.btn-block.btn-outline[data-toggle=modal] {
     margin-top: 10px;
 }
 </style>
@@ -1023,6 +1023,15 @@ $(document).ready(function() {
             }
         });
         i_ = undefined;
+        if(jumlah_img > 0){
+            cari_button.html("<i class='fa fa-pencil'></i> Edit Foto");
+            cari_button.removeClass('btn-success');
+            cari_button.addClass('btn-warning');
+        } else {
+            cari_button.html("<i class='fa fa-plus'></i> Tambahkan Foto");
+            cari_button.removeClass('btn-warning');
+            cari_button.addClass('btn-success');
+        }
     });
 
     $('.rentangCekError').on('input', function(){
