@@ -447,7 +447,7 @@ TTT
 			}
 			return Fungsi::respon(<<<EOT
 <!-- modal tambah foto {$i} -->
-<div class="modal fade" id="modTambahFoto-{$i}" aria-hidden="true" aria-labelledby="exampleModalTitle"
+<div class="modal fade dropCheck" id="modTambahFoto-{$i}" aria-hidden="true" aria-labelledby="exampleModalTitle"
     role="dialog" tabindex="-1">
     <div class="modal-dialog modal-simple modal-lg">
         <div class="modal-content">

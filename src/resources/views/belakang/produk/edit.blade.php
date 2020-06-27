@@ -5,6 +5,9 @@
 .dropify-wrapper {
     width: 190px
 }
+.btn.btn-success.btn-block.btn-outline[data-toggle=modal] {
+    margin-top: 10px;
+}
 </style>
 <div class="page-header page-header-bordered">
     <div class='row'>
@@ -500,7 +503,7 @@
     }
 @endphp
     <!-- modal tambah foto {{ $opr }} -->
-    <div class="modal fade" id="modTambahFoto-{{ $opr }}" aria-hidden="true" aria-labelledby="exampleModalTitle"
+    <div class="modal fade dropCheck" id="modTambahFoto-{{ $opr }}" aria-hidden="true" aria-labelledby="exampleModalTitle"
         role="dialog" tabindex="-1">
         <div class="modal-dialog modal-simple modal-lg">
             <div class="modal-content">
@@ -910,6 +913,63 @@ function mouseOutDiskon(){
 $(document).ready(function() {
     
     alertify.set('notifier','position', 'top-right');
+
+    $('div').on('hide.bs.modal', '.dropCheck', function(){
+        let id_modal = $(this).attr('id');
+        let cari_button = $('#table_varian').children('tbody').find('button[data-target=#'+id_modal+']');
+        let td_isi = cari_button.parent('td');
+        let array_img = $(this).find('.dropify-render');
+        if(td_isi.children('#list-foto-preview').length < 1){
+            td_isi.prepend('<div id="list-foto-preview"></div>');
+        }
+        td_isi.children('#list-foto-preview').html(
+            '<div id="carousel-list-foto-'+id_modal+'" class="carousel slide" data-ride="carousel">'+
+                '<div class="carousel-inner">'+
+                '</div>'+
+                '<a class="carousel-control-prev" href="#carousel-list-foto-'+id_modal+'" role="button" data-slide="prev">'+
+                    '<span class="carousel-control-prev-icon" aria-hidden="true"></span>'+
+                    '<span class="sr-only">Previous</span>'+
+                '</a>'+
+                '<a class="carousel-control-next" href="#carousel-list-foto-'+id_modal+'" role="button" data-slide="next">'+
+                    '<span class="carousel-control-next-icon" aria-hidden="true"></span>'+
+                    '<span class="sr-only">Next</span>'+
+                '</a>'+
+            '</div>'
+        );
+        
+        let list = Array.prototype.slice.call(array_img);
+        let jumlah_img = 0;
+        list.forEach(function(html) {
+            if($(html).children('img').length > 0){
+                jumlah_img++;
+            }
+        });
+        var i_ = 0;
+        list.forEach(function(html) {
+            if($(html).children('img').length > 0){
+                let img_src = $(html).children('img').attr('src');
+                if(jumlah_img < 2){
+                    td_isi.children('#list-foto-preview').html('<img class="d-block" style="width:190px;" src="'+img_src+'">');
+                } else {
+                    if(i_ === 1){
+                        td_isi.children('#list-foto-preview').find('.carousel-inner').append(
+                            '<div class="carousel-item active">'+
+                                '<img class="d-block" style="width:190px;" src="'+img_src+'">'+
+                            '</div>'
+                        );
+                    } else {
+                        td_isi.children('#list-foto-preview').find('.carousel-inner').append(
+                            '<div class="carousel-item">'+
+                                '<img class="d-block" style="width:190px;" src="'+img_src+'" alt="First slide">'+
+                            '</div>'
+                        );
+                    }
+                    i_++;
+                }
+            }
+        });
+        i_ = undefined;
+    });
 
     $('.rentangCekError').on('input', function(){
         errorValidasi = 0;
