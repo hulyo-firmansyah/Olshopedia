@@ -10,6 +10,30 @@
         <div class='panel'>
             <div class='panel-body'>
                 <div class='mb-40'>
+                    <h4>v0.9.5 &nbsp;&nbsp;(27 June 2020)</h4>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Added</b>
+                        <ul>
+                            <li>Di bagian pendaftaran dan login sudah support multi bahasa</li>
+                            <li>Pada bagian addon ditambahakn timer jeda pada test kirim pesan</li>
+                        </ul>
+                    </div>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Changed</b>
+                        <ul>
+                            <li>Di edit produk dan tambah produk sudah tidak membingungkan lagi</li>
+                            <li>Pemindahan tab menu pada setting</li>
+                        </ul>
+                    </div>
+                    <div class='ml-30'>
+                        <b style='font-size:15px'>Fixed</b>
+                        <ul>
+                            <li>Fix bug kecamatan alamat toko error saat mau tambah order</li>
+                            <li>Fix issue data produk yang tidak responsive</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class='mb-40'>
                     <h4>v0.9.4 &nbsp;&nbsp;(6 May 2020)</h4>
                     <div class='ml-30'>
                         <b style='font-size:15px'>Changed</b>
