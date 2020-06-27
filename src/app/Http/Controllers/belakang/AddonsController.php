@@ -243,7 +243,7 @@ class AddonsController extends Controller
                         $timer['start'] = time();
                         Cache::put('notif-email-test-'.$data_of.'-timer', $timer, $timer['time']);
                     } else {
-                        $timer['time'] = 240;
+                        $timer['time'] = 300;
                         $timer['start'] = time();
                         Cache::add('notif-email-test-'.$data_of.'-timer', $timer, $timer['time']);
                     }
@@ -327,7 +327,7 @@ class AddonsController extends Controller
                         $timer['start'] = time();
                         Cache::put('notif-wa-test-'.$data_of.'-timer', $timer, $timer['time']);
                     } else {
-                        $timer['time'] = 60;
+                        $timer['time'] = 120;
                         $timer['start'] = time();
                         Cache::add('notif-wa-test-'.$data_of.'-timer', $timer, $timer['time']);
                     }
