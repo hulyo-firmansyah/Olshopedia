@@ -5,6 +5,9 @@
 .dropify-wrapper {
     width: 180px
 }
+.btn.btn-block.btn-outline[data-toggle=modal] {
+    margin-top: 10px;
+}
 </style>
 <div class="page-header page-header-bordered">
     <div class='row'>
@@ -509,7 +512,7 @@
 @if($msg_error = Session::get('msg_error'))
     @foreach(old("produk") as $opr => $oprv)
         <!-- modal tambah foto {{ $opr }} -->
-        <div class="modal fade" id="modTambahFoto-{{ $opr }}" aria-hidden="true" aria-labelledby="exampleModalTitle"
+        <div class="modal fade dropCheck" id="modTambahFoto-{{ $opr }}" aria-hidden="true" aria-labelledby="exampleModalTitle"
             role="dialog" tabindex="-1">
             <div class="modal-dialog modal-simple modal-lg">
                 <div class="modal-content">
@@ -527,20 +530,20 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabFoto_{{ $opr }}-utama" role="tabpanel">
                                 <center>
-                                    <input type="file" id="foto_{{ $opr }}-1" accept='.jpeg,.jpg,.png,.gif' name='produk[{{ $opr }}][foto][1]'>
+                                    <input type="file" class='drop-foto' id="foto_{{ $opr }}-1" accept='.jpeg,.jpg,.png,.gif' name='produk[{{ $opr }}][foto][1]'>
                                 </center>
                             </div>
                             <div class="tab-pane" id="tabFoto_{{ $opr }}-lain" role="tabpanel">
                                 <center>
                                     <div class='d-inline-flex'>
-                                        <input type="file" id="foto_{{ $opr }}-2" accept='.jpeg,.jpg,.png,.gif' name='produk[{{ $opr }}][foto][2]'>
-                                        <input type="file" id="foto_{{ $opr }}-3" accept='.jpeg,.jpg,.png,.gif' name='produk[{{ $opr }}][foto][3]'>
-                                        <input type="file" id="foto_{{ $opr }}-4" accept='.jpeg,.jpg,.png,.gif' name='produk[{{ $opr }}][foto][4]'>
+                                        <input type="file" class='drop-foto' id="foto_{{ $opr }}-2" accept='.jpeg,.jpg,.png,.gif' name='produk[{{ $opr }}][foto][2]'>
+                                        <input type="file" class='drop-foto' id="foto_{{ $opr }}-3" accept='.jpeg,.jpg,.png,.gif' name='produk[{{ $opr }}][foto][3]'>
+                                        <input type="file" class='drop-foto' id="foto_{{ $opr }}-4" accept='.jpeg,.jpg,.png,.gif' name='produk[{{ $opr }}][foto][4]'>
                                     </div>
                                     <div class='d-inline-flex mt-15'>
-                                        <input type="file" id="foto_{{ $opr }}-5" accept='.jpeg,.jpg,.png,.gif' name='produk[{{ $opr }}][foto][5]'>
-                                        <input type="file" id="foto_{{ $opr }}-6" accept='.jpeg,.jpg,.png,.gif' name='produk[{{ $opr }}][foto][6]'>
-                                        <input type="file" id="foto_{{ $opr }}-7" accept='.jpeg,.jpg,.png,.gif' name='produk[{{ $opr }}][foto][7]'>
+                                        <input type="file" class='drop-foto' id="foto_{{ $opr }}-5" accept='.jpeg,.jpg,.png,.gif' name='produk[{{ $opr }}][foto][5]'>
+                                        <input type="file" class='drop-foto' id="foto_{{ $opr }}-6" accept='.jpeg,.jpg,.png,.gif' name='produk[{{ $opr }}][foto][6]'>
+                                        <input type="file" class='drop-foto' id="foto_{{ $opr }}-7" accept='.jpeg,.jpg,.png,.gif' name='produk[{{ $opr }}][foto][7]'>
                                     </div>
                                 </center>
                             </div>
@@ -554,7 +557,7 @@
     @endforeach
 @else
 <!-- modal tambah foto 1 -->
-<div class="modal fade" id="modTambahFoto-1" aria-hidden="true" aria-labelledby="exampleModalTitle"
+<div class="modal fade dropCheck" id="modTambahFoto-1" aria-hidden="true" aria-labelledby="exampleModalTitle"
     role="dialog" tabindex="-1">
     <div class="modal-dialog modal-simple modal-lg">
         <div class="modal-content">
@@ -572,20 +575,20 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="tabFoto_1-utama" role="tabpanel">
                         <center>
-                            <input type="file" id="foto_1-1" accept='.jpeg,.jpg,.png,.gif' name='produk[1][foto][1]'>
+                            <input type="file" class='drop-foto' id="foto_1-1" accept='.jpeg,.jpg,.png,.gif' name='produk[1][foto][1]'>
                         </center>
                     </div>
                     <div class="tab-pane" id="tabFoto_1-lain" role="tabpanel">
                         <center>
                             <div class='d-inline-flex'>
-                                <input type="file" id="foto_1-2" accept='.jpeg,.jpg,.png,.gif' name='produk[1][foto][2]'>
-                                <input type="file" id="foto_1-3" accept='.jpeg,.jpg,.png,.gif' name='produk[1][foto][3]'>
-                                <input type="file" id="foto_1-4" accept='.jpeg,.jpg,.png,.gif' name='produk[1][foto][4]'>
+                                <input type="file" class='drop-foto' id="foto_1-2" accept='.jpeg,.jpg,.png,.gif' name='produk[1][foto][2]'>
+                                <input type="file" class='drop-foto' id="foto_1-3" accept='.jpeg,.jpg,.png,.gif' name='produk[1][foto][3]'>
+                                <input type="file" class='drop-foto' id="foto_1-4" accept='.jpeg,.jpg,.png,.gif' name='produk[1][foto][4]'>
                             </div>
                             <div class='d-inline-flex mt-15'>
-                                <input type="file" id="foto_1-5" accept='.jpeg,.jpg,.png,.gif' name='produk[1][foto][5]'>
-                                <input type="file" id="foto_1-6" accept='.jpeg,.jpg,.png,.gif' name='produk[1][foto][6]'>
-                                <input type="file" id="foto_1-7" accept='.jpeg,.jpg,.png,.gif' name='produk[1][foto][7]'>
+                                <input type="file" class='drop-foto' id="foto_1-5" accept='.jpeg,.jpg,.png,.gif' name='produk[1][foto][5]'>
+                                <input type="file" class='drop-foto' id="foto_1-6" accept='.jpeg,.jpg,.png,.gif' name='produk[1][foto][6]'>
+                                <input type="file" class='drop-foto' id="foto_1-7" accept='.jpeg,.jpg,.png,.gif' name='produk[1][foto][7]'>
                             </div>
                         </center>
                     </div>
@@ -964,6 +967,73 @@ function mouseOutDiskon(){
     }
 })(jQuery);
 $(document).ready(function() {
+
+    $('div').on('hide.bs.modal', '.dropCheck', function(){
+        let id_modal = $(this).attr('id');
+        let cari_button = $('#table_varian').children('tbody').find('button[data-target=#'+id_modal+']');
+        let td_isi = cari_button.parent('td');
+        let array_img = $(this).find('.dropify-render');
+        if(td_isi.children('#list-foto-preview').length < 1){
+            td_isi.prepend('<div id="list-foto-preview"></div>');
+        }
+        td_isi.children('#list-foto-preview').html(
+            '<div id="carousel-list-foto-'+id_modal+'" class="carousel slide" data-ride="carousel">'+
+                '<div class="carousel-inner">'+
+                '</div>'+
+                '<a class="carousel-control-prev" href="#carousel-list-foto-'+id_modal+'" role="button" data-slide="prev">'+
+                    '<span class="carousel-control-prev-icon" aria-hidden="true"></span>'+
+                    '<span class="sr-only">Previous</span>'+
+                '</a>'+
+                '<a class="carousel-control-next" href="#carousel-list-foto-'+id_modal+'" role="button" data-slide="next">'+
+                    '<span class="carousel-control-next-icon" aria-hidden="true"></span>'+
+                    '<span class="sr-only">Next</span>'+
+                '</a>'+
+            '</div>'
+        );
+        
+        let list = Array.prototype.slice.call(array_img);
+        let jumlah_img = 0;
+        list.forEach(function(html) {
+            if($(html).children('img').length > 0){
+                jumlah_img++;
+            }
+        });
+        var i_ = 0;
+        list.forEach(function(html) {
+            if($(html).children('img').length > 0){
+                let img_src = $(html).children('img').attr('src');
+                if(jumlah_img < 2){
+                    td_isi.children('#list-foto-preview').html('<img class="d-block" style="width:190px;" src="'+img_src+'">');
+                } else {
+                    if(i_ === 1){
+                        td_isi.children('#list-foto-preview').find('.carousel-inner').append(
+                            '<div class="carousel-item active">'+
+                                '<img class="d-block" style="width:190px;" src="'+img_src+'">'+
+                            '</div>'
+                        );
+                    } else {
+                        td_isi.children('#list-foto-preview').find('.carousel-inner').append(
+                            '<div class="carousel-item">'+
+                                '<img class="d-block" style="width:190px;" src="'+img_src+'" alt="First slide">'+
+                            '</div>'
+                        );
+                    }
+                    i_++;
+                }
+            }
+        });
+        i_ = undefined;
+        if(jumlah_img > 0){
+            cari_button.html("<i class='fa fa-pencil'></i> Edit Foto");
+            cari_button.removeClass('btn-success');
+            cari_button.addClass('btn-warning');
+        } else {
+            cari_button.html("<i class='fa fa-plus'></i> Tambahkan Foto");
+            cari_button.removeClass('btn-warning');
+            cari_button.addClass('btn-success');
+        }
+    });
+
     $('.rentangCekError').on('input', function(){
         errorValidasi = 0;
         if($('#error_grosir').is(':visible')){
@@ -1082,6 +1152,7 @@ $(document).ready(function() {
                 'imageFormat': 'The iowed ({value} only).'
             }
         });
+
     }
 @endif
 @if($msg_error = Session::get('msg_error'))
