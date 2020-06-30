@@ -1,0 +1,10 @@
+.header {
+    position: fixed;
+    height:56px;
+    transform: translateY(0px);
+    left:0px;
+    top:0px;
+    background:grey;
+    z-index:5;
+    width:100%;
+}

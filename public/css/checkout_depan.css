@@ -1,0 +1,630 @@
+
+    .pearls {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        margin: 0 0 22px;
+    }
+
+    .pearl {
+        position: relative;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+
+    .pearl:before,
+    .pearl:after {
+        position: absolute;
+        top: 18px;
+        z-index: 0;
+        width: 50%;
+        height: 4px;
+        content: "";
+        background-color: #f3f7f9;
+    }
+
+    .pearl:before {
+        left: 0;
+    }
+
+    .pearl:after {
+        right: 0;
+    }
+
+    .pearl:first-child:before,
+    .pearl:last-child:after {
+        display: none !important;
+    }
+
+    .pearl-number,
+    .pearl-icon {
+        position: relative;
+        z-index: 1;
+        display: inline-block;
+        width: 36px;
+        height: 36px;
+        line-height: 32px;
+        color: #fff;
+        text-align: center;
+        background: #ccd5db;
+        border: 2px solid #ccd5db;
+        border-radius: 50%;
+    }
+
+    .pearl-number {
+        font-size: 18px;
+    }
+
+    .pearl-icon {
+        font-size: 18px;
+    }
+
+    .pearl-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+        margin-top: 0.5em;
+        margin-bottom: 0;
+        font-size: 16px;
+        color: #526069;
+    }
+
+    .pearl.current:before,
+    .pearl.current:after,
+    .pearl.active:before,
+    .pearl.active:after {
+        background-color: #3e8ef7;
+    }
+
+    .pearl.current .pearl-number,
+    .pearl.current .pearl-icon,
+    .pearl.active .pearl-number,
+    .pearl.active .pearl-icon {
+        color: #3e8ef7;
+        background-color: #fff;
+        border-color: #3e8ef7;
+        -webkit-transform: scale(1.3);
+        transform: scale(1.3);
+    }
+
+    .pearl.disabled {
+        pointer-events: none;
+        cursor: auto;
+    }
+
+    .pearl.disabled:before,
+    .pearl.disabled:after {
+        background-color: #f3f7f9;
+    }
+
+    .pearl.disabled .pearl-number,
+    .pearl.disabled .pearl-icon {
+        color: #fff;
+        background-color: #ccd5db;
+        border-color: #ccd5db;
+    }
+
+    .pearl.error:before {
+        background-color: #3e8ef7;
+    }
+
+    .pearl.error:after {
+        background-color: #f3f7f9;
+    }
+
+    .pearl.error .pearl-number,
+    .pearl.error .pearl-icon {
+        color: #ff4c52;
+        background-color: #fff;
+        border-color: #ff4c52;
+    }
+
+    .pearl.done:before,
+    .pearl.done:after {
+        background-color: #3e8ef7;
+    }
+
+    .pearl.done .pearl-number,
+    .pearl.done .pearl-icon {
+        color: #fff;
+        background-color: #3e8ef7;
+        border-color: #3e8ef7;
+    }
+
+    .pearls-lg .pearl:before,
+    .pearls-lg .pearl:after {
+        top: 20px;
+    }
+
+    .pearls-lg .pearl-title {
+        font-size: 18px;
+    }
+
+    .pearls-lg .pearl-number,
+    .pearls-lg .pearl-icon {
+        width: 40px;
+        height: 40px;
+        line-height: 36px;
+    }
+
+    .pearls-lg .pearl-icon {
+        font-size: 20px;
+    }
+
+    .pearls-lg .pearl-number {
+        font-size: 20px;
+    }
+
+    .pearls-sm .pearl:before,
+    .pearls-sm .pearl:after {
+        top: 16px;
+    }
+
+    .pearls-sm .pearl-title {
+        font-size: 14px;
+    }
+
+    .pearls-sm .pearl-number,
+    .pearls-sm .pearl-icon {
+        width: 32px;
+        height: 32px;
+        line-height: 28px;
+    }
+
+    .pearls-sm .pearl-number {
+        font-size: 16px;
+    }
+
+    .pearls-sm .pearl-icon {
+        font-size: 14px;
+    }
+
+    .pearls-xs .pearl:before,
+    .pearls-xs .pearl:after {
+        top: 12px;
+        height: 2px;
+    }
+
+    .pearls-xs .pearl-title {
+        font-size: 12px;
+    }
+
+    .pearls-xs .pearl-number,
+    .pearls-xs .pearl-icon {
+        width: 24px;
+        height: 24px;
+        line-height: 20px;
+    }
+
+    .pearls-xs .pearl-number {
+        font-size: 12px;
+    }
+
+    .pearls-xs .pearl-icon {
+        font-size: 12px;
+    }
+
+    *,
+    input,
+    select,
+    textarea,
+    option,
+    button {
+        outline: none !important;
+    }
+
+    .form-control {
+        box-shadow: unset;
+    }
+
+    .img-order {
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: .25rem;
+        background-color: #fff;
+    }
+
+    .badge-order {
+        background-color: #3e8ef7;
+        padding: .25rem .45rem;
+        font-size: 12px;
+        line-height: 10px;
+        color: #fff;
+        border-radius: .25rem;
+        width: auto;
+        font-weight: 700;
+    }
+    #kuponDiv {
+        -webkit-transition: all 0.5s cubic-bezier(0.65,-0.25,0.25, 1.95);
+        -moz-transition: all 0.5s cubic-bezier(0.65,-0.25,0.25, 1.95);
+        -ms-transition: all 0.5s cubic-bezier(0.65,-0.25,0.25, 1.95);
+        -o-transition: all 0.5s cubic-bezier(0.65,-0.25,0.25, 1.95);
+        transition: all 0.5s cubic-bezier(0.65,-0.25,0.25, 1.95);
+    }
+    #kupon::placeholder {
+        font-size:14px;
+    }
+
+.loaderDiv {
+  width: 20px;
+  height: 20px;
+  position:relative;  
+}
+    
+.circular-loader {
+    -webkit-animation: rotate 2s linear infinite;
+            animation: rotate 2s linear infinite;
+    height: 100%;
+    -webkit-transform-origin: center center;
+        -ms-transform-origin: center center;
+            transform-origin: center center;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: auto;
+  }
+  
+  .loader-path {
+    stroke-dasharray: 150,200;
+    stroke-dashoffset: -10;
+    -webkit-animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+            animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+    stroke-linecap: round;
+  }
+  
+  @-webkit-keyframes rotate {
+    100% {
+      -webkit-transform: rotate(360deg);
+              transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes rotate {
+    100% {
+      -webkit-transform: rotate(360deg);
+              transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes dash {
+    0% {
+      stroke-dasharray: 1,200;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 89,200;
+      stroke-dashoffset: -35;
+    }
+    100% {
+      stroke-dasharray: 89,200;
+      stroke-dashoffset: -124;
+    }
+  }
+  @keyframes dash {
+    0% {
+      stroke-dasharray: 1,200;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 89,200;
+      stroke-dashoffset: -35;
+    }
+    100% {
+      stroke-dasharray: 89,200;
+      stroke-dashoffset: -124;
+    }
+  }
+  @-webkit-keyframes color {
+    0% {
+      stroke: #000000;
+    }
+    40% {
+      stroke: #000000;
+    }
+    66% {
+      stroke: #000000;
+    }
+    80%, 90% {
+      stroke: #000000;
+    }
+  }
+  @keyframes color {
+    0% {
+      stroke: #000000;
+    }
+    40% {
+      stroke: #000000;
+    }
+    66% {
+      stroke: #000000;
+    }
+    80%, 90% {
+      stroke: #000000;
+    }
+  }
+  
+  
+.ui-helper-hidden {
+  display: none;
+}
+
+.ui-helper-hidden-accessible {
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+.ui-helper-reset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  line-height: 1.3;
+  text-decoration: none;
+  font-size: 100%;
+  list-style: none;
+}
+
+.ui-helper-clearfix:before,
+.ui-helper-clearfix:after {
+  content: "";
+  display: table;
+}
+
+.ui-helper-clearfix:after {
+  clear: both;
+}
+
+.ui-helper-clearfix {
+  zoom: 1;
+}
+
+.ui-helper-zfix {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  opacity: 0;
+  filter: Alpha(Opacity=0);
+}
+
+
+/* Interaction Cues
+----------------------------------*/
+.ui-state-disabled {
+  cursor: default !important;
+}
+
+
+/* Icons
+----------------------------------*/
+
+/* states and images */
+.ui-icon {
+  display: block;
+  text-indent: -99999px;
+  overflow: hidden;
+  background-repeat: no-repeat;
+}
+
+
+/* Misc visuals
+----------------------------------*/
+
+/* Overlays */
+.ui-widget-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* IE/Win - Fix animation bug - #4615 */
+.ui-accordion {
+  width: 100%;
+}
+
+.ui-accordion .ui-accordion-header {
+  cursor: pointer;
+  position: relative;
+  margin-top: 1px;
+  zoom: 1;
+}
+
+.ui-accordion .ui-accordion-li-fix {
+  display: inline;
+}
+
+.ui-accordion .ui-accordion-header-active {
+  border-bottom: 0 !important;
+}
+
+.ui-accordion .ui-accordion-header a {
+  display: block;
+  font-size: 1em;
+  padding: .5em .5em .5em .7em;
+}
+
+.ui-accordion-icons .ui-accordion-header a {
+  padding-left: 2.2em;
+}
+
+.ui-accordion .ui-accordion-header .ui-icon {
+  position: absolute;
+  left: .5em;
+  top: 50%;
+  margin-top: -8px;
+}
+
+.ui-accordion .ui-accordion-content {
+  padding: 1em 2.2em;
+  border-top: 0;
+  margin-top: -2px;
+  position: relative;
+  top: 1px;
+  margin-bottom: 2px;
+  overflow: auto;
+  display: none;
+  zoom: 1;
+}
+
+.ui-accordion .ui-accordion-content-active {
+  display: block;
+}
+
+.ui-autocomplete {
+  position: absolute;
+  cursor: default;
+  width: 100px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 350px;
+}
+
+/* workarounds */
+* html .ui-autocomplete {
+  width: 1px;
+}
+
+/* without this, the menu expands to 100% in IE6 */
+
+/*
+* jQuery UI Menu 1.8.23
+*
+* Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+* Dual licensed under the MIT or GPL Version 2 licenses.
+* http://jquery.org/license
+*
+* http://docs.jquery.com/UI/Menu#theming
+*/
+.ui-menu {
+  list-style: none;
+  padding: 2px;
+  margin: 0;
+  display: block;
+  float: left;
+  border-radius: 5px;
+}
+
+.ui-menu .ui-menu {
+  margin-top: -3px;
+}
+
+.ui-menu .ui-menu-item {
+  margin: 0;
+  padding: 1px;
+  zoom: 1;
+  float: left;
+  clear: left;
+  width: 100%;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.ui-menu .ui-menu-item div {
+  text-decoration: none;
+  display: block;
+  padding: .2em .4em;
+  line-height: 1.5;
+  zoom: 1;
+}
+
+.ui-menu-item .ui-menu-item-wrapper.ui-state-active {
+  background: #e3e3e3 !important;
+  border: 1px solid #e3e3e3;
+  color: black;
+}
+
+.ui-menu .ui-menu-item div.ui-state-hover,
+.ui-menu .ui-menu-item div.ui-state-active {
+  font-weight: normal;
+  margin: -1px;
+}
+
+#hasilKecamatan {
+  border: 1px solid #e4eaec;
+  padding: 10px;
+  border-radius: .215rem;
+}
+.pilih-bank {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  margin-bottom: 1.5rem !important;
+}
+.pilih-bank .pilih-bank-item.selected:not(.disabled),
+.pilih-bank .pilih-bank-item.selected {
+  background-color: #ebf4ff;
+  box-shadow: 0 0 0 2px #007bff;
+  -webkit-box-shadow: 0 0 0 2px #007bff;
+}
+.pilih-bank .pilih-bank-item:hover {
+  background-color: #f0f0f0;
+}
+.pilih-bank .pilih-bank-item {
+  -webkit-box-sizing: border-box;
+  -webkit-box-shadow: 0 0 0 2px #eee;
+  box-shadow: 0 0 0 2px #eee;
+  box-sizing: border-box;
+  width: 100% !important;
+  margin: 0 12px 12px 0;
+  padding: 14px 18px;
+  border-radius: 5px;
+  margin-right: 0 !important;
+  margin-bottom: .5rem !important;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  background-color: #fff;
+}
+.pilih-bank .pilih-bank-item img {
+  height: auto;
+  max-width: 60px;
+  min-width: 40px;
+}
+.pilih-bank .pilih-bank-item input {
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  position: absolute;
+}
+.pilih-bank-item .text-dark {
+  font-size: .975rem;
+  margin: .5rem 0 0 .5rem !important;
+}
+
+.box-in-checkout {
+  background:white;
+  border-radius:10px;
+}
+.box-in-checkout .judul {
+  border-bottom:1px solid #e4eaec;
+  padding:25px;
+}
+.box-in-checkout .judul button[type=button] {
+  display:inline-block;
+  float:right;
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  color:#007bff;
+}
+
+.box-in-checkout .judul h3 {
+  font-size:1.5rem;
+  margin-bottom:0px;
+  display:inline-block;
+}

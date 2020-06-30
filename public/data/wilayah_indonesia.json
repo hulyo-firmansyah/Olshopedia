@@ -1,0 +1,2642 @@
+[{
+  "provinsi_id": "1",
+  "provinsi": "Bali",
+  "kabupaten": [{
+    "kabupaten_id": "17",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Badung",
+    "kode_pos": "80351"
+  }, {
+    "kabupaten_id": "32",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bangli",
+    "kode_pos": "80619"
+  }, {
+    "kabupaten_id": "94",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Buleleng",
+    "kode_pos": "81111"
+  }, {
+    "kabupaten_id": "114",
+    "type": "Kota",
+    "kabupaten_nama": "Denpasar",
+    "kode_pos": "80227"
+  }, {
+    "kabupaten_id": "128",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Gianyar",
+    "kode_pos": "80519"
+  }, {
+    "kabupaten_id": "161",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Jembrana",
+    "kode_pos": "82251"
+  }, {
+    "kabupaten_id": "170",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Karangasem",
+    "kode_pos": "80819"
+  }, {
+    "kabupaten_id": "197",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Klungkung",
+    "kode_pos": "80719"
+  }, {
+    "kabupaten_id": "447",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tabanan",
+    "kode_pos": "82119"
+  }]
+}, {
+  "provinsi_id": "2",
+  "provinsi": "Bangka Belitung",
+  "kabupaten": [{
+    "kabupaten_id": "27",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bangka",
+    "kode_pos": "33212"
+  }, {
+    "kabupaten_id": "28",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bangka Barat",
+    "kode_pos": "33315"
+  }, {
+    "kabupaten_id": "29",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bangka Selatan",
+    "kode_pos": "33719"
+  }, {
+    "kabupaten_id": "30",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bangka Tengah",
+    "kode_pos": "33613"
+  }, {
+    "kabupaten_id": "56",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Belitung",
+    "kode_pos": "33419"
+  }, {
+    "kabupaten_id": "57",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Belitung Timur",
+    "kode_pos": "33519"
+  }, {
+    "kabupaten_id": "334",
+    "type": "Kota",
+    "kabupaten_nama": "Pangkal Pinang",
+    "kode_pos": "33115"
+  }]
+}, {
+  "provinsi_id": "3",
+  "provinsi": "Banten",
+  "kabupaten": [{
+    "kabupaten_id": "106",
+    "type": "Kota",
+    "kabupaten_nama": "Cilegon",
+    "kode_pos": "42417"
+  }, {
+    "kabupaten_id": "232",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lebak",
+    "kode_pos": "42319"
+  }, {
+    "kabupaten_id": "331",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pandeglang",
+    "kode_pos": "42212"
+  }, {
+    "kabupaten_id": "402",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Serang",
+    "kode_pos": "42182"
+  }, {
+    "kabupaten_id": "403",
+    "type": "Kota",
+    "kabupaten_nama": "Serang",
+    "kode_pos": "42111"
+  }, {
+    "kabupaten_id": "455",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tangerang",
+    "kode_pos": "15914"
+  }, {
+    "kabupaten_id": "456",
+    "type": "Kota",
+    "kabupaten_nama": "Tangerang",
+    "kode_pos": "15111"
+  }, {
+    "kabupaten_id": "457",
+    "type": "Kota",
+    "kabupaten_nama": "Tangerang Selatan",
+    "kode_pos": "15332"
+  }]
+}, {
+  "provinsi_id": "4",
+  "provinsi": "Bengkulu",
+  "kabupaten": [{
+    "kabupaten_id": "62",
+    "type": "Kota",
+    "kabupaten_nama": "Bengkulu",
+    "kode_pos": "38229"
+  }, {
+    "kabupaten_id": "63",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bengkulu Selatan",
+    "kode_pos": "38519"
+  }, {
+    "kabupaten_id": "64",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bengkulu Tengah",
+    "kode_pos": "38319"
+  }, {
+    "kabupaten_id": "65",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bengkulu Utara",
+    "kode_pos": "38619"
+  }, {
+    "kabupaten_id": "175",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kaur",
+    "kode_pos": "38911"
+  }, {
+    "kabupaten_id": "183",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kepahiang",
+    "kode_pos": "39319"
+  }, {
+    "kabupaten_id": "233",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lebong",
+    "kode_pos": "39264"
+  }, {
+    "kabupaten_id": "294",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Muko Muko",
+    "kode_pos": "38715"
+  }, {
+    "kabupaten_id": "379",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Rejang Lebong",
+    "kode_pos": "39112"
+  }, {
+    "kabupaten_id": "397",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Seluma",
+    "kode_pos": "38811"
+  }]
+}, {
+  "provinsi_id": "5",
+  "provinsi": "DI Yogyakarta",
+  "kabupaten": [{
+    "kabupaten_id": "39",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bantul",
+    "kode_pos": "55715"
+  }, {
+    "kabupaten_id": "135",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Gunung Kidul",
+    "kode_pos": "55812"
+  }, {
+    "kabupaten_id": "210",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kulon Progo",
+    "kode_pos": "55611"
+  }, {
+    "kabupaten_id": "419",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sleman",
+    "kode_pos": "55513"
+  }, {
+    "kabupaten_id": "501",
+    "type": "Kota",
+    "kabupaten_nama": "Yogyakarta",
+    "kode_pos": "55111"
+  }]
+}, {
+  "provinsi_id": "6",
+  "provinsi": "DKI Jakarta",
+  "kabupaten": [{
+    "kabupaten_id": "151",
+    "type": "Kota",
+    "kabupaten_nama": "Jakarta Barat",
+    "kode_pos": "11220"
+  }, {
+    "kabupaten_id": "152",
+    "type": "Kota",
+    "kabupaten_nama": "Jakarta Pusat",
+    "kode_pos": "10540"
+  }, {
+    "kabupaten_id": "153",
+    "type": "Kota",
+    "kabupaten_nama": "Jakarta Selatan",
+    "kode_pos": "12230"
+  }, {
+    "kabupaten_id": "154",
+    "type": "Kota",
+    "kabupaten_nama": "Jakarta Timur",
+    "kode_pos": "13330"
+  }, {
+    "kabupaten_id": "155",
+    "type": "Kota",
+    "kabupaten_nama": "Jakarta Utara",
+    "kode_pos": "14140"
+  }, {
+    "kabupaten_id": "189",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kepulauan Seribu",
+    "kode_pos": "14550"
+  }]
+}, {
+  "provinsi_id": "7",
+  "provinsi": "Gorontalo",
+  "kabupaten": [{
+    "kabupaten_id": "77",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Boalemo",
+    "kode_pos": "96319"
+  }, {
+    "kabupaten_id": "88",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bone Bolango",
+    "kode_pos": "96511"
+  }, {
+    "kabupaten_id": "129",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Gorontalo",
+    "kode_pos": "96218"
+  }, {
+    "kabupaten_id": "130",
+    "type": "Kota",
+    "kabupaten_nama": "Gorontalo",
+    "kode_pos": "96115"
+  }, {
+    "kabupaten_id": "131",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Gorontalo Utara",
+    "kode_pos": "96611"
+  }, {
+    "kabupaten_id": "361",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pohuwato",
+    "kode_pos": "96419"
+  }]
+}, {
+  "provinsi_id": "8",
+  "provinsi": "Jambi",
+  "kabupaten": [{
+    "kabupaten_id": "50",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Batang Hari",
+    "kode_pos": "36613"
+  }, {
+    "kabupaten_id": "97",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bungo",
+    "kode_pos": "37216"
+  }, {
+    "kabupaten_id": "156",
+    "type": "Kota",
+    "kabupaten_nama": "Jambi",
+    "kode_pos": "36111"
+  }, {
+    "kabupaten_id": "194",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kerinci",
+    "kode_pos": "37167"
+  }, {
+    "kabupaten_id": "280",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Merangin",
+    "kode_pos": "37319"
+  }, {
+    "kabupaten_id": "293",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Muaro Jambi",
+    "kode_pos": "36311"
+  }, {
+    "kabupaten_id": "393",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sarolangun",
+    "kode_pos": "37419"
+  }, {
+    "kabupaten_id": "442",
+    "type": "Kota",
+    "kabupaten_nama": "Sungaipenuh",
+    "kode_pos": "37113"
+  }, {
+    "kabupaten_id": "460",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tanjung Jabung Barat",
+    "kode_pos": "36513"
+  }, {
+    "kabupaten_id": "461",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tanjung Jabung Timur",
+    "kode_pos": "36719"
+  }, {
+    "kabupaten_id": "471",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tebo",
+    "kode_pos": "37519"
+  }]
+}, {
+  "provinsi_id": "9",
+  "provinsi": "Jawa Barat",
+  "kabupaten": [{
+    "kabupaten_id": "22",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bandung",
+    "kode_pos": "40311"
+  }, {
+    "kabupaten_id": "23",
+    "type": "Kota",
+    "kabupaten_nama": "Bandung",
+    "kode_pos": "40111"
+  }, {
+    "kabupaten_id": "24",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bandung Barat",
+    "kode_pos": "40721"
+  }, {
+    "kabupaten_id": "34",
+    "type": "Kota",
+    "kabupaten_nama": "Banjar",
+    "kode_pos": "46311"
+  }, {
+    "kabupaten_id": "54",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bekasi",
+    "kode_pos": "17837"
+  }, {
+    "kabupaten_id": "55",
+    "type": "Kota",
+    "kabupaten_nama": "Bekasi",
+    "kode_pos": "17121"
+  }, {
+    "kabupaten_id": "78",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bogor",
+    "kode_pos": "16911"
+  }, {
+    "kabupaten_id": "79",
+    "type": "Kota",
+    "kabupaten_nama": "Bogor",
+    "kode_pos": "16119"
+  }, {
+    "kabupaten_id": "103",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Ciamis",
+    "kode_pos": "46211"
+  }, {
+    "kabupaten_id": "104",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Cianjur",
+    "kode_pos": "43217"
+  }, {
+    "kabupaten_id": "107",
+    "type": "Kota",
+    "kabupaten_nama": "Cimahi",
+    "kode_pos": "40512"
+  }, {
+    "kabupaten_id": "108",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Cirebon",
+    "kode_pos": "45611"
+  }, {
+    "kabupaten_id": "109",
+    "type": "Kota",
+    "kabupaten_nama": "Cirebon",
+    "kode_pos": "45116"
+  }, {
+    "kabupaten_id": "115",
+    "type": "Kota",
+    "kabupaten_nama": "Depok",
+    "kode_pos": "16416"
+  }, {
+    "kabupaten_id": "126",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Garut",
+    "kode_pos": "44126"
+  }, {
+    "kabupaten_id": "149",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Indramayu",
+    "kode_pos": "45214"
+  }, {
+    "kabupaten_id": "171",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Karawang",
+    "kode_pos": "41311"
+  }, {
+    "kabupaten_id": "211",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kuningan",
+    "kode_pos": "45511"
+  }, {
+    "kabupaten_id": "252",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Majalengka",
+    "kode_pos": "45412"
+  }, {
+    "kabupaten_id": "332",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pangandaran",
+    "kode_pos": "46511"
+  }, {
+    "kabupaten_id": "376",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Purwakarta",
+    "kode_pos": "41119"
+  }, {
+    "kabupaten_id": "428",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Subang",
+    "kode_pos": "41215"
+  }, {
+    "kabupaten_id": "430",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sukabumi",
+    "kode_pos": "43311"
+  }, {
+    "kabupaten_id": "431",
+    "type": "Kota",
+    "kabupaten_nama": "Sukabumi",
+    "kode_pos": "43114"
+  }, {
+    "kabupaten_id": "440",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sumedang",
+    "kode_pos": "45326"
+  }, {
+    "kabupaten_id": "468",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tasikmalaya",
+    "kode_pos": "46411"
+  }, {
+    "kabupaten_id": "469",
+    "type": "Kota",
+    "kabupaten_nama": "Tasikmalaya",
+    "kode_pos": "46116"
+  }]
+}, {
+  "provinsi_id": "10",
+  "provinsi": "Jawa Tengah",
+  "kabupaten": [{
+    "kabupaten_id": "37",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Banjarnegara",
+    "kode_pos": "53419"
+  }, {
+    "kabupaten_id": "41",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Banyumas",
+    "kode_pos": "53114"
+  }, {
+    "kabupaten_id": "49",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Batang",
+    "kode_pos": "51211"
+  }, {
+    "kabupaten_id": "76",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Blora",
+    "kode_pos": "58219"
+  }, {
+    "kabupaten_id": "91",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Boyolali",
+    "kode_pos": "57312"
+  }, {
+    "kabupaten_id": "92",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Brebes",
+    "kode_pos": "52212"
+  }, {
+    "kabupaten_id": "105",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Cilacap",
+    "kode_pos": "53211"
+  }, {
+    "kabupaten_id": "113",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Demak",
+    "kode_pos": "59519"
+  }, {
+    "kabupaten_id": "134",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Grobogan",
+    "kode_pos": "58111"
+  }, {
+    "kabupaten_id": "163",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Jepara",
+    "kode_pos": "59419"
+  }, {
+    "kabupaten_id": "169",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Karanganyar",
+    "kode_pos": "57718"
+  }, {
+    "kabupaten_id": "177",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kebumen",
+    "kode_pos": "54319"
+  }, {
+    "kabupaten_id": "181",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kendal",
+    "kode_pos": "51314"
+  }, {
+    "kabupaten_id": "196",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Klaten",
+    "kode_pos": "57411"
+  }, {
+    "kabupaten_id": "209",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kudus",
+    "kode_pos": "59311"
+  }, {
+    "kabupaten_id": "249",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Magelang",
+    "kode_pos": "56519"
+  }, {
+    "kabupaten_id": "250",
+    "type": "Kota",
+    "kabupaten_nama": "Magelang",
+    "kode_pos": "56133"
+  }, {
+    "kabupaten_id": "344",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pati",
+    "kode_pos": "59114"
+  }, {
+    "kabupaten_id": "348",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pekalongan",
+    "kode_pos": "51161"
+  }, {
+    "kabupaten_id": "349",
+    "type": "Kota",
+    "kabupaten_nama": "Pekalongan",
+    "kode_pos": "51122"
+  }, {
+    "kabupaten_id": "352",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pemalang",
+    "kode_pos": "52319"
+  }, {
+    "kabupaten_id": "375",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Purbalingga",
+    "kode_pos": "53312"
+  }, {
+    "kabupaten_id": "377",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Purworejo",
+    "kode_pos": "54111"
+  }, {
+    "kabupaten_id": "380",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Rembang",
+    "kode_pos": "59219"
+  }, {
+    "kabupaten_id": "386",
+    "type": "Kota",
+    "kabupaten_nama": "Salatiga",
+    "kode_pos": "50711"
+  }, {
+    "kabupaten_id": "398",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Semarang",
+    "kode_pos": "50511"
+  }, {
+    "kabupaten_id": "399",
+    "type": "Kota",
+    "kabupaten_nama": "Semarang",
+    "kode_pos": "50135"
+  }, {
+    "kabupaten_id": "427",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sragen",
+    "kode_pos": "57211"
+  }, {
+    "kabupaten_id": "433",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sukoharjo",
+    "kode_pos": "57514"
+  }, {
+    "kabupaten_id": "445",
+    "type": "Kota",
+    "kabupaten_nama": "Surakarta (Solo)",
+    "kode_pos": "57113"
+  }, {
+    "kabupaten_id": "472",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tegal",
+    "kode_pos": "52419"
+  }, {
+    "kabupaten_id": "473",
+    "type": "Kota",
+    "kabupaten_nama": "Tegal",
+    "kode_pos": "52114"
+  }, {
+    "kabupaten_id": "476",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Temanggung",
+    "kode_pos": "56212"
+  }, {
+    "kabupaten_id": "497",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Wonogiri",
+    "kode_pos": "57619"
+  }, {
+    "kabupaten_id": "498",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Wonosobo",
+    "kode_pos": "56311"
+  }]
+}, {
+  "provinsi_id": "11",
+  "provinsi": "Jawa Timur",
+  "kabupaten": [{
+    "kabupaten_id": "31",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bangkalan",
+    "kode_pos": "69118"
+  }, {
+    "kabupaten_id": "42",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Banyuwangi",
+    "kode_pos": "68416"
+  }, {
+    "kabupaten_id": "51",
+    "type": "Kota",
+    "kabupaten_nama": "Batu",
+    "kode_pos": "65311"
+  }, {
+    "kabupaten_id": "74",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Blitar",
+    "kode_pos": "66171"
+  }, {
+    "kabupaten_id": "75",
+    "type": "Kota",
+    "kabupaten_nama": "Blitar",
+    "kode_pos": "66124"
+  }, {
+    "kabupaten_id": "80",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bojonegoro",
+    "kode_pos": "62119"
+  }, {
+    "kabupaten_id": "86",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bondowoso",
+    "kode_pos": "68219"
+  }, {
+    "kabupaten_id": "133",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Gresik",
+    "kode_pos": "61115"
+  }, {
+    "kabupaten_id": "160",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Jember",
+    "kode_pos": "68113"
+  }, {
+    "kabupaten_id": "164",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Jombang",
+    "kode_pos": "61415"
+  }, {
+    "kabupaten_id": "178",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kediri",
+    "kode_pos": "64184"
+  }, {
+    "kabupaten_id": "179",
+    "type": "Kota",
+    "kabupaten_nama": "Kediri",
+    "kode_pos": "64125"
+  }, {
+    "kabupaten_id": "222",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lamongan",
+    "kode_pos": "64125"
+  }, {
+    "kabupaten_id": "243",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lumajang",
+    "kode_pos": "67319"
+  }, {
+    "kabupaten_id": "247",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Madiun",
+    "kode_pos": "63153"
+  }, {
+    "kabupaten_id": "248",
+    "type": "Kota",
+    "kabupaten_nama": "Madiun",
+    "kode_pos": "63122"
+  }, {
+    "kabupaten_id": "251",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Magetan",
+    "kode_pos": "63314"
+  }, {
+    "kabupaten_id": "255",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Malang",
+    "kode_pos": "65163"
+  }, {
+    "kabupaten_id": "256",
+    "type": "Kota",
+    "kabupaten_nama": "Malang",
+    "kode_pos": "65112"
+  }, {
+    "kabupaten_id": "289",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Mojokerto",
+    "kode_pos": "61382"
+  }, {
+    "kabupaten_id": "290",
+    "type": "Kota",
+    "kabupaten_nama": "Mojokerto",
+    "kode_pos": "61316"
+  }, {
+    "kabupaten_id": "305",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Nganjuk",
+    "kode_pos": "64414"
+  }, {
+    "kabupaten_id": "306",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Ngawi",
+    "kode_pos": "63219"
+  }, {
+    "kabupaten_id": "317",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pacitan",
+    "kode_pos": "63512"
+  }, {
+    "kabupaten_id": "330",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pamekasan",
+    "kode_pos": "69319"
+  }, {
+    "kabupaten_id": "342",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pasuruan",
+    "kode_pos": "67153"
+  }, {
+    "kabupaten_id": "343",
+    "type": "Kota",
+    "kabupaten_nama": "Pasuruan",
+    "kode_pos": "67118"
+  }, {
+    "kabupaten_id": "363",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Ponorogo",
+    "kode_pos": "63411"
+  }, {
+    "kabupaten_id": "369",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Probolinggo",
+    "kode_pos": "67282"
+  }, {
+    "kabupaten_id": "370",
+    "type": "Kota",
+    "kabupaten_nama": "Probolinggo",
+    "kode_pos": "67215"
+  }, {
+    "kabupaten_id": "390",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sampang",
+    "kode_pos": "69219"
+  }, {
+    "kabupaten_id": "409",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sidoarjo",
+    "kode_pos": "61219"
+  }, {
+    "kabupaten_id": "418",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Situbondo",
+    "kode_pos": "68316"
+  }, {
+    "kabupaten_id": "441",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sumenep",
+    "kode_pos": "69413"
+  }, {
+    "kabupaten_id": "444",
+    "type": "Kota",
+    "kabupaten_nama": "Surabaya",
+    "kode_pos": "60119"
+  }, {
+    "kabupaten_id": "487",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Trenggalek",
+    "kode_pos": "66312"
+  }, {
+    "kabupaten_id": "489",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tuban",
+    "kode_pos": "62319"
+  }, {
+    "kabupaten_id": "492",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tulungagung",
+    "kode_pos": "66212"
+  }]
+}, {
+  "provinsi_id": "12",
+  "provinsi": "Kalimantan Barat",
+  "kabupaten": [{
+    "kabupaten_id": "61",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bengkayang",
+    "kode_pos": "79213"
+  }, {
+    "kabupaten_id": "168",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kapuas Hulu",
+    "kode_pos": "78719"
+  }, {
+    "kabupaten_id": "176",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kayong Utara",
+    "kode_pos": "78852"
+  }, {
+    "kabupaten_id": "195",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Ketapang",
+    "kode_pos": "78874"
+  }, {
+    "kabupaten_id": "208",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kubu Raya",
+    "kode_pos": "78311"
+  }, {
+    "kabupaten_id": "228",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Landak",
+    "kode_pos": "78319"
+  }, {
+    "kabupaten_id": "279",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Melawi",
+    "kode_pos": "78619"
+  }, {
+    "kabupaten_id": "364",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pontianak",
+    "kode_pos": "78971"
+  }, {
+    "kabupaten_id": "365",
+    "type": "Kota",
+    "kabupaten_nama": "Pontianak",
+    "kode_pos": "78112"
+  }, {
+    "kabupaten_id": "388",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sambas",
+    "kode_pos": "79453"
+  }, {
+    "kabupaten_id": "391",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sanggau",
+    "kode_pos": "78557"
+  }, {
+    "kabupaten_id": "395",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sekadau",
+    "kode_pos": "79583"
+  }, {
+    "kabupaten_id": "415",
+    "type": "Kota",
+    "kabupaten_nama": "Singkawang",
+    "kode_pos": "79117"
+  }, {
+    "kabupaten_id": "417",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sintang",
+    "kode_pos": "78619"
+  }]
+}, {
+  "provinsi_id": "13",
+  "provinsi": "Kalimantan Selatan",
+  "kabupaten": [{
+    "kabupaten_id": "18",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Balangan",
+    "kode_pos": "71611"
+  }, {
+    "kabupaten_id": "33",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Banjar",
+    "kode_pos": "70619"
+  }, {
+    "kabupaten_id": "35",
+    "type": "Kota",
+    "kabupaten_nama": "Banjarbaru",
+    "kode_pos": "70712"
+  }, {
+    "kabupaten_id": "36",
+    "type": "Kota",
+    "kabupaten_nama": "Banjarmasin",
+    "kode_pos": "70117"
+  }, {
+    "kabupaten_id": "43",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Barito Kuala",
+    "kode_pos": "70511"
+  }, {
+    "kabupaten_id": "143",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Hulu Sungai Selatan",
+    "kode_pos": "71212"
+  }, {
+    "kabupaten_id": "144",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Hulu Sungai Tengah",
+    "kode_pos": "71313"
+  }, {
+    "kabupaten_id": "145",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Hulu Sungai Utara",
+    "kode_pos": "71419"
+  }, {
+    "kabupaten_id": "203",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kotabaru",
+    "kode_pos": "72119"
+  }, {
+    "kabupaten_id": "446",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tabalong",
+    "kode_pos": "71513"
+  }, {
+    "kabupaten_id": "452",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tanah Bumbu",
+    "kode_pos": "72211"
+  }, {
+    "kabupaten_id": "454",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tanah Laut",
+    "kode_pos": "70811"
+  }, {
+    "kabupaten_id": "466",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tapin",
+    "kode_pos": "71119"
+  }]
+}, {
+  "provinsi_id": "14",
+  "provinsi": "Kalimantan Tengah",
+  "kabupaten": [{
+    "kabupaten_id": "44",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Barito Selatan",
+    "kode_pos": "73711"
+  }, {
+    "kabupaten_id": "45",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Barito Timur",
+    "kode_pos": "73671"
+  }, {
+    "kabupaten_id": "46",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Barito Utara",
+    "kode_pos": "73881"
+  }, {
+    "kabupaten_id": "136",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Gunung Mas",
+    "kode_pos": "74511"
+  }, {
+    "kabupaten_id": "167",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kapuas",
+    "kode_pos": "73583"
+  }, {
+    "kabupaten_id": "174",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Katingan",
+    "kode_pos": "74411"
+  }, {
+    "kabupaten_id": "205",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kotawaringin Barat",
+    "kode_pos": "74119"
+  }, {
+    "kabupaten_id": "206",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kotawaringin Timur",
+    "kode_pos": "74364"
+  }, {
+    "kabupaten_id": "221",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lamandau",
+    "kode_pos": "74611"
+  }, {
+    "kabupaten_id": "296",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Murung Raya",
+    "kode_pos": "73911"
+  }, {
+    "kabupaten_id": "326",
+    "type": "Kota",
+    "kabupaten_nama": "Palangka Raya",
+    "kode_pos": "73112"
+  }, {
+    "kabupaten_id": "371",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pulang Pisau",
+    "kode_pos": "74811"
+  }, {
+    "kabupaten_id": "405",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Seruyan",
+    "kode_pos": "74211"
+  }, {
+    "kabupaten_id": "432",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sukamara",
+    "kode_pos": "74712"
+  }]
+}, {
+  "provinsi_id": "15",
+  "provinsi": "Kalimantan Timur",
+  "kabupaten": [{
+    "kabupaten_id": "19",
+    "type": "Kota",
+    "kabupaten_nama": "Balikpapan",
+    "kode_pos": "76111"
+  }, {
+    "kabupaten_id": "66",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Berau",
+    "kode_pos": "77311"
+  }, {
+    "kabupaten_id": "89",
+    "type": "Kota",
+    "kabupaten_nama": "Bontang",
+    "kode_pos": "75313"
+  }, {
+    "kabupaten_id": "214",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kutai Barat",
+    "kode_pos": "75711"
+  }, {
+    "kabupaten_id": "215",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kutai Kartanegara",
+    "kode_pos": "75511"
+  }, {
+    "kabupaten_id": "216",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kutai Timur",
+    "kode_pos": "75611"
+  }, {
+    "kabupaten_id": "341",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Paser",
+    "kode_pos": "76211"
+  }, {
+    "kabupaten_id": "354",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Penajam Paser Utara",
+    "kode_pos": "76311"
+  }, {
+    "kabupaten_id": "387",
+    "type": "Kota",
+    "kabupaten_nama": "Samarinda",
+    "kode_pos": "75133"
+  }]
+}, {
+  "provinsi_id": "16",
+  "provinsi": "Kalimantan Utara",
+  "kabupaten": [{
+    "kabupaten_id": "96",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bulungan (Bulongan)",
+    "kode_pos": "77211"
+  }, {
+    "kabupaten_id": "257",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Malinau",
+    "kode_pos": "77511"
+  }, {
+    "kabupaten_id": "311",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Nunukan",
+    "kode_pos": "77421"
+  }, {
+    "kabupaten_id": "450",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tana Tidung",
+    "kode_pos": "77611"
+  }, {
+    "kabupaten_id": "467",
+    "type": "Kota",
+    "kabupaten_nama": "Tarakan",
+    "kode_pos": "77114"
+  }]
+}, {
+  "provinsi_id": "17",
+  "provinsi": "Kepulauan Riau",
+  "kabupaten": [{
+    "kabupaten_id": "48",
+    "type": "Kota",
+    "kabupaten_nama": "Batam",
+    "kode_pos": "29413"
+  }, {
+    "kabupaten_id": "71",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bintan",
+    "kode_pos": "29135"
+  }, {
+    "kabupaten_id": "172",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Karimun",
+    "kode_pos": "29611"
+  }, {
+    "kabupaten_id": "184",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kepulauan Anambas",
+    "kode_pos": "29991"
+  }, {
+    "kabupaten_id": "237",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lingga",
+    "kode_pos": "29811"
+  }, {
+    "kabupaten_id": "302",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Natuna",
+    "kode_pos": "29711"
+  }, {
+    "kabupaten_id": "462",
+    "type": "Kota",
+    "kabupaten_nama": "Tanjung Pinang",
+    "kode_pos": "29111"
+  }]
+}, {
+  "provinsi_id": "18",
+  "provinsi": "Lampung",
+  "kabupaten": [{
+    "kabupaten_id": "21",
+    "type": "Kota",
+    "kabupaten_nama": "Bandar Lampung",
+    "kode_pos": "35139"
+  }, {
+    "kabupaten_id": "223",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lampung Barat",
+    "kode_pos": "34814"
+  }, {
+    "kabupaten_id": "224",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lampung Selatan",
+    "kode_pos": "35511"
+  }, {
+    "kabupaten_id": "225",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lampung Tengah",
+    "kode_pos": "34212"
+  }, {
+    "kabupaten_id": "226",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lampung Timur",
+    "kode_pos": "34319"
+  }, {
+    "kabupaten_id": "227",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lampung Utara",
+    "kode_pos": "34516"
+  }, {
+    "kabupaten_id": "282",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Mesuji",
+    "kode_pos": "34911"
+  }, {
+    "kabupaten_id": "283",
+    "type": "Kota",
+    "kabupaten_nama": "Metro",
+    "kode_pos": "34111"
+  }, {
+    "kabupaten_id": "355",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pesawaran",
+    "kode_pos": "35312"
+  }, {
+    "kabupaten_id": "356",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pesisir Barat",
+    "kode_pos": "35974"
+  }, {
+    "kabupaten_id": "368",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pringsewu",
+    "kode_pos": "35719"
+  }, {
+    "kabupaten_id": "458",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tanggamus",
+    "kode_pos": "35619"
+  }, {
+    "kabupaten_id": "490",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tulang Bawang",
+    "kode_pos": "34613"
+  }, {
+    "kabupaten_id": "491",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tulang Bawang Barat",
+    "kode_pos": "34419"
+  }, {
+    "kabupaten_id": "496",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Way Kanan",
+    "kode_pos": "34711"
+  }]
+}, {
+  "provinsi_id": "19",
+  "provinsi": "Maluku",
+  "kabupaten": [{
+    "kabupaten_id": "14",
+    "type": "Kota",
+    "kabupaten_nama": "Ambon",
+    "kode_pos": "97222"
+  }, {
+    "kabupaten_id": "99",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Buru",
+    "kode_pos": "97371"
+  }, {
+    "kabupaten_id": "100",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Buru Selatan",
+    "kode_pos": "97351"
+  }, {
+    "kabupaten_id": "185",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kepulauan Aru",
+    "kode_pos": "97681"
+  }, {
+    "kabupaten_id": "258",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Maluku Barat Daya",
+    "kode_pos": "97451"
+  }, {
+    "kabupaten_id": "259",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Maluku Tengah",
+    "kode_pos": "97513"
+  }, {
+    "kabupaten_id": "260",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Maluku Tenggara",
+    "kode_pos": "97651"
+  }, {
+    "kabupaten_id": "261",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Maluku Tenggara Barat",
+    "kode_pos": "97465"
+  }, {
+    "kabupaten_id": "400",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Seram Bagian Barat",
+    "kode_pos": "97561"
+  }, {
+    "kabupaten_id": "401",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Seram Bagian Timur",
+    "kode_pos": "97581"
+  }, {
+    "kabupaten_id": "488",
+    "type": "Kota",
+    "kabupaten_nama": "Tual",
+    "kode_pos": "97612"
+  }]
+}, {
+  "provinsi_id": "20",
+  "provinsi": "Maluku Utara",
+  "kabupaten": [{
+    "kabupaten_id": "138",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Halmahera Barat",
+    "kode_pos": "97757"
+  }, {
+    "kabupaten_id": "139",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Halmahera Selatan",
+    "kode_pos": "97911"
+  }, {
+    "kabupaten_id": "140",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Halmahera Tengah",
+    "kode_pos": "97853"
+  }, {
+    "kabupaten_id": "141",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Halmahera Timur",
+    "kode_pos": "97862"
+  }, {
+    "kabupaten_id": "142",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Halmahera Utara",
+    "kode_pos": "97762"
+  }, {
+    "kabupaten_id": "191",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kepulauan Sula",
+    "kode_pos": "97995"
+  }, {
+    "kabupaten_id": "372",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pulau Morotai",
+    "kode_pos": "97771"
+  }, {
+    "kabupaten_id": "477",
+    "type": "Kota",
+    "kabupaten_nama": "Ternate",
+    "kode_pos": "97714"
+  }, {
+    "kabupaten_id": "478",
+    "type": "Kota",
+    "kabupaten_nama": "Tidore Kepulauan",
+    "kode_pos": "97815"
+  }]
+}, {
+  "provinsi_id": "21",
+  "provinsi": "Nanggroe Aceh Darussalam (NAD)",
+  "kabupaten": [{
+    "kabupaten_id": "1",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Aceh Barat",
+    "kode_pos": "23681"
+  }, {
+    "kabupaten_id": "2",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Aceh Barat Daya",
+    "kode_pos": "23764"
+  }, {
+    "kabupaten_id": "3",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Aceh Besar",
+    "kode_pos": "23951"
+  }, {
+    "kabupaten_id": "4",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Aceh Jaya",
+    "kode_pos": "23654"
+  }, {
+    "kabupaten_id": "5",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Aceh Selatan",
+    "kode_pos": "23719"
+  }, {
+    "kabupaten_id": "6",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Aceh Singkil",
+    "kode_pos": "24785"
+  }, {
+    "kabupaten_id": "7",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Aceh Tamiang",
+    "kode_pos": "24476"
+  }, {
+    "kabupaten_id": "8",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Aceh Tengah",
+    "kode_pos": "24511"
+  }, {
+    "kabupaten_id": "9",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Aceh Tenggara",
+    "kode_pos": "24611"
+  }, {
+    "kabupaten_id": "10",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Aceh Timur",
+    "kode_pos": "24454"
+  }, {
+    "kabupaten_id": "11",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Aceh Utara",
+    "kode_pos": "24382"
+  }, {
+    "kabupaten_id": "20",
+    "type": "Kota",
+    "kabupaten_nama": "Banda Aceh",
+    "kode_pos": "23238"
+  }, {
+    "kabupaten_id": "59",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bener Meriah",
+    "kode_pos": "24581"
+  }, {
+    "kabupaten_id": "72",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bireuen",
+    "kode_pos": "24219"
+  }, {
+    "kabupaten_id": "127",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Gayo Lues",
+    "kode_pos": "24653"
+  }, {
+    "kabupaten_id": "230",
+    "type": "Kota",
+    "kabupaten_nama": "Langsa",
+    "kode_pos": "24412"
+  }, {
+    "kabupaten_id": "235",
+    "type": "Kota",
+    "kabupaten_nama": "Lhokseumawe",
+    "kode_pos": "24352"
+  }, {
+    "kabupaten_id": "300",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Nagan Raya",
+    "kode_pos": "23674"
+  }, {
+    "kabupaten_id": "358",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pidie",
+    "kode_pos": "24116"
+  }, {
+    "kabupaten_id": "359",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pidie Jaya",
+    "kode_pos": "24186"
+  }, {
+    "kabupaten_id": "384",
+    "type": "Kota",
+    "kabupaten_nama": "Sabang",
+    "kode_pos": "23512"
+  }, {
+    "kabupaten_id": "414",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Simeulue",
+    "kode_pos": "23891"
+  }, {
+    "kabupaten_id": "429",
+    "type": "Kota",
+    "kabupaten_nama": "Subulussalam",
+    "kode_pos": "24882"
+  }]
+}, {
+  "provinsi_id": "22",
+  "provinsi": "Nusa Tenggara Barat (NTB)",
+  "kabupaten": [{
+    "kabupaten_id": "68",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bima",
+    "kode_pos": "84171"
+  }, {
+    "kabupaten_id": "69",
+    "type": "Kota",
+    "kabupaten_nama": "Bima",
+    "kode_pos": "84139"
+  }, {
+    "kabupaten_id": "118",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Dompu",
+    "kode_pos": "84217"
+  }, {
+    "kabupaten_id": "238",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lombok Barat",
+    "kode_pos": "83311"
+  }, {
+    "kabupaten_id": "239",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lombok Tengah",
+    "kode_pos": "83511"
+  }, {
+    "kabupaten_id": "240",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lombok Timur",
+    "kode_pos": "83612"
+  }, {
+    "kabupaten_id": "241",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lombok Utara",
+    "kode_pos": "83711"
+  }, {
+    "kabupaten_id": "276",
+    "type": "Kota",
+    "kabupaten_nama": "Mataram",
+    "kode_pos": "83131"
+  }, {
+    "kabupaten_id": "438",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sumbawa",
+    "kode_pos": "84315"
+  }, {
+    "kabupaten_id": "439",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sumbawa Barat",
+    "kode_pos": "84419"
+  }]
+}, {
+  "provinsi_id": "23",
+  "provinsi": "Nusa Tenggara Timur (NTT)",
+  "kabupaten": [{
+    "kabupaten_id": "13",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Alor",
+    "kode_pos": "85811"
+  }, {
+    "kabupaten_id": "58",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Belu",
+    "kode_pos": "85711"
+  }, {
+    "kabupaten_id": "122",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Ende",
+    "kode_pos": "86351"
+  }, {
+    "kabupaten_id": "125",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Flores Timur",
+    "kode_pos": "86213"
+  }, {
+    "kabupaten_id": "212",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kupang",
+    "kode_pos": "85362"
+  }, {
+    "kabupaten_id": "213",
+    "type": "Kota",
+    "kabupaten_nama": "Kupang",
+    "kode_pos": "85119"
+  }, {
+    "kabupaten_id": "234",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lembata",
+    "kode_pos": "86611"
+  }, {
+    "kabupaten_id": "269",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Manggarai",
+    "kode_pos": "86551"
+  }, {
+    "kabupaten_id": "270",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Manggarai Barat",
+    "kode_pos": "86711"
+  }, {
+    "kabupaten_id": "271",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Manggarai Timur",
+    "kode_pos": "86811"
+  }, {
+    "kabupaten_id": "301",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Nagekeo",
+    "kode_pos": "86911"
+  }, {
+    "kabupaten_id": "304",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Ngada",
+    "kode_pos": "86413"
+  }, {
+    "kabupaten_id": "383",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Rote Ndao",
+    "kode_pos": "85982"
+  }, {
+    "kabupaten_id": "385",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sabu Raijua",
+    "kode_pos": "85391"
+  }, {
+    "kabupaten_id": "412",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sikka",
+    "kode_pos": "86121"
+  }, {
+    "kabupaten_id": "434",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sumba Barat",
+    "kode_pos": "87219"
+  }, {
+    "kabupaten_id": "435",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sumba Barat Daya",
+    "kode_pos": "87453"
+  }, {
+    "kabupaten_id": "436",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sumba Tengah",
+    "kode_pos": "87358"
+  }, {
+    "kabupaten_id": "437",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sumba Timur",
+    "kode_pos": "87112"
+  }, {
+    "kabupaten_id": "479",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Timor Tengah Selatan",
+    "kode_pos": "85562"
+  }, {
+    "kabupaten_id": "480",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Timor Tengah Utara",
+    "kode_pos": "85612"
+  }]
+}, {
+  "provinsi_id": "24",
+  "provinsi": "Papua",
+  "kabupaten": [{
+    "kabupaten_id": "16",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Asmat",
+    "kode_pos": "99777"
+  }, {
+    "kabupaten_id": "67",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Biak Numfor",
+    "kode_pos": "98119"
+  }, {
+    "kabupaten_id": "90",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Boven Digoel",
+    "kode_pos": "99662"
+  }, {
+    "kabupaten_id": "111",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Deiyai (Deliyai)",
+    "kode_pos": "98784"
+  }, {
+    "kabupaten_id": "117",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Dogiyai",
+    "kode_pos": "98866"
+  }, {
+    "kabupaten_id": "150",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Intan Jaya",
+    "kode_pos": "98771"
+  }, {
+    "kabupaten_id": "157",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Jayapura",
+    "kode_pos": "99352"
+  }, {
+    "kabupaten_id": "158",
+    "type": "Kota",
+    "kabupaten_nama": "Jayapura",
+    "kode_pos": "99114"
+  }, {
+    "kabupaten_id": "159",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Jayawijaya",
+    "kode_pos": "99511"
+  }, {
+    "kabupaten_id": "180",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Keerom",
+    "kode_pos": "99461"
+  }, {
+    "kabupaten_id": "193",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kepulauan Yapen (Yapen Waropen)",
+    "kode_pos": "98211"
+  }, {
+    "kabupaten_id": "231",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lanny Jaya",
+    "kode_pos": "99531"
+  }, {
+    "kabupaten_id": "263",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Mamberamo Raya",
+    "kode_pos": "99381"
+  }, {
+    "kabupaten_id": "264",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Mamberamo Tengah",
+    "kode_pos": "99553"
+  }, {
+    "kabupaten_id": "274",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Mappi",
+    "kode_pos": "99853"
+  }, {
+    "kabupaten_id": "281",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Merauke",
+    "kode_pos": "99613"
+  }, {
+    "kabupaten_id": "284",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Mimika",
+    "kode_pos": "99962"
+  }, {
+    "kabupaten_id": "299",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Nabire",
+    "kode_pos": "98816"
+  }, {
+    "kabupaten_id": "303",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Nduga",
+    "kode_pos": "99541"
+  }, {
+    "kabupaten_id": "335",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Paniai",
+    "kode_pos": "98765"
+  }, {
+    "kabupaten_id": "347",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pegunungan Bintang",
+    "kode_pos": "99573"
+  }, {
+    "kabupaten_id": "373",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Puncak",
+    "kode_pos": "98981"
+  }, {
+    "kabupaten_id": "374",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Puncak Jaya",
+    "kode_pos": "98979"
+  }, {
+    "kabupaten_id": "392",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sarmi",
+    "kode_pos": "99373"
+  }, {
+    "kabupaten_id": "443",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Supiori",
+    "kode_pos": "98164"
+  }, {
+    "kabupaten_id": "484",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tolikara",
+    "kode_pos": "99411"
+  }, {
+    "kabupaten_id": "495",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Waropen",
+    "kode_pos": "98269"
+  }, {
+    "kabupaten_id": "499",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Yahukimo",
+    "kode_pos": "99041"
+  }, {
+    "kabupaten_id": "500",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Yalimo",
+    "kode_pos": "99481"
+  }]
+}, {
+  "provinsi_id": "25",
+  "provinsi": "Papua Barat",
+  "kabupaten": [{
+    "kabupaten_id": "124",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Fakfak",
+    "kode_pos": "98651"
+  }, {
+    "kabupaten_id": "165",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kaimana",
+    "kode_pos": "98671"
+  }, {
+    "kabupaten_id": "272",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Manokwari",
+    "kode_pos": "98311"
+  }, {
+    "kabupaten_id": "273",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Manokwari Selatan",
+    "kode_pos": "98355"
+  }, {
+    "kabupaten_id": "277",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Maybrat",
+    "kode_pos": "98051"
+  }, {
+    "kabupaten_id": "346",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pegunungan Arfak",
+    "kode_pos": "98354"
+  }, {
+    "kabupaten_id": "378",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Raja Ampat",
+    "kode_pos": "98489"
+  }, {
+    "kabupaten_id": "424",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sorong",
+    "kode_pos": "98431"
+  }, {
+    "kabupaten_id": "425",
+    "type": "Kota",
+    "kabupaten_nama": "Sorong",
+    "kode_pos": "98411"
+  }, {
+    "kabupaten_id": "426",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sorong Selatan",
+    "kode_pos": "98454"
+  }, {
+    "kabupaten_id": "449",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tambrauw",
+    "kode_pos": "98475"
+  }, {
+    "kabupaten_id": "474",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Teluk Bintuni",
+    "kode_pos": "98551"
+  }, {
+    "kabupaten_id": "475",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Teluk Wondama",
+    "kode_pos": "98591"
+  }]
+}, {
+  "provinsi_id": "26",
+  "provinsi": "Riau",
+  "kabupaten": [{
+    "kabupaten_id": "60",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bengkalis",
+    "kode_pos": "28719"
+  }, {
+    "kabupaten_id": "120",
+    "type": "Kota",
+    "kabupaten_nama": "Dumai",
+    "kode_pos": "28811"
+  }, {
+    "kabupaten_id": "147",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Indragiri Hilir",
+    "kode_pos": "29212"
+  }, {
+    "kabupaten_id": "148",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Indragiri Hulu",
+    "kode_pos": "29319"
+  }, {
+    "kabupaten_id": "166",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kampar",
+    "kode_pos": "28411"
+  }, {
+    "kabupaten_id": "187",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kepulauan Meranti",
+    "kode_pos": "28791"
+  }, {
+    "kabupaten_id": "207",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kuantan Singingi",
+    "kode_pos": "29519"
+  }, {
+    "kabupaten_id": "350",
+    "type": "Kota",
+    "kabupaten_nama": "Pekanbaru",
+    "kode_pos": "28112"
+  }, {
+    "kabupaten_id": "351",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pelalawan",
+    "kode_pos": "28311"
+  }, {
+    "kabupaten_id": "381",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Rokan Hilir",
+    "kode_pos": "28992"
+  }, {
+    "kabupaten_id": "382",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Rokan Hulu",
+    "kode_pos": "28511"
+  }, {
+    "kabupaten_id": "406",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Siak",
+    "kode_pos": "28623"
+  }]
+}, {
+  "provinsi_id": "27",
+  "provinsi": "Sulawesi Barat",
+  "kabupaten": [{
+    "kabupaten_id": "253",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Majene",
+    "kode_pos": "91411"
+  }, {
+    "kabupaten_id": "262",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Mamasa",
+    "kode_pos": "91362"
+  }, {
+    "kabupaten_id": "265",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Mamuju",
+    "kode_pos": "91519"
+  }, {
+    "kabupaten_id": "266",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Mamuju Utara",
+    "kode_pos": "91571"
+  }, {
+    "kabupaten_id": "362",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Polewali Mandar",
+    "kode_pos": "91311"
+  }]
+}, {
+  "provinsi_id": "28",
+  "provinsi": "Sulawesi Selatan",
+  "kabupaten": [{
+    "kabupaten_id": "38",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bantaeng",
+    "kode_pos": "92411"
+  }, {
+    "kabupaten_id": "47",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Barru",
+    "kode_pos": "90719"
+  }, {
+    "kabupaten_id": "87",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bone",
+    "kode_pos": "92713"
+  }, {
+    "kabupaten_id": "95",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bulukumba",
+    "kode_pos": "92511"
+  }, {
+    "kabupaten_id": "123",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Enrekang",
+    "kode_pos": "91719"
+  }, {
+    "kabupaten_id": "132",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Gowa",
+    "kode_pos": "92111"
+  }, {
+    "kabupaten_id": "162",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Jeneponto",
+    "kode_pos": "92319"
+  }, {
+    "kabupaten_id": "244",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Luwu",
+    "kode_pos": "91994"
+  }, {
+    "kabupaten_id": "245",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Luwu Timur",
+    "kode_pos": "92981"
+  }, {
+    "kabupaten_id": "246",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Luwu Utara",
+    "kode_pos": "92911"
+  }, {
+    "kabupaten_id": "254",
+    "type": "Kota",
+    "kabupaten_nama": "Makassar",
+    "kode_pos": "90111"
+  }, {
+    "kabupaten_id": "275",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Maros",
+    "kode_pos": "90511"
+  }, {
+    "kabupaten_id": "328",
+    "type": "Kota",
+    "kabupaten_nama": "Palopo",
+    "kode_pos": "91911"
+  }, {
+    "kabupaten_id": "333",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pangkajene Kepulauan",
+    "kode_pos": "90611"
+  }, {
+    "kabupaten_id": "336",
+    "type": "Kota",
+    "kabupaten_nama": "Parepare",
+    "kode_pos": "91123"
+  }, {
+    "kabupaten_id": "360",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pinrang",
+    "kode_pos": "91251"
+  }, {
+    "kabupaten_id": "396",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Selayar (Kepulauan Selayar)",
+    "kode_pos": "92812"
+  }, {
+    "kabupaten_id": "408",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sidenreng Rappang\/Rapang",
+    "kode_pos": "91613"
+  }, {
+    "kabupaten_id": "416",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sinjai",
+    "kode_pos": "92615"
+  }, {
+    "kabupaten_id": "423",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Soppeng",
+    "kode_pos": "90812"
+  }, {
+    "kabupaten_id": "448",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Takalar",
+    "kode_pos": "92212"
+  }, {
+    "kabupaten_id": "451",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tana Toraja",
+    "kode_pos": "91819"
+  }, {
+    "kabupaten_id": "486",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Toraja Utara",
+    "kode_pos": "91831"
+  }, {
+    "kabupaten_id": "493",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Wajo",
+    "kode_pos": "90911"
+  }]
+}, {
+  "provinsi_id": "29",
+  "provinsi": "Sulawesi Tengah",
+  "kabupaten": [{
+    "kabupaten_id": "25",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Banggai",
+    "kode_pos": "94711"
+  }, {
+    "kabupaten_id": "26",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Banggai Kepulauan",
+    "kode_pos": "94881"
+  }, {
+    "kabupaten_id": "98",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Buol",
+    "kode_pos": "94564"
+  }, {
+    "kabupaten_id": "119",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Donggala",
+    "kode_pos": "94341"
+  }, {
+    "kabupaten_id": "291",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Morowali",
+    "kode_pos": "94911"
+  }, {
+    "kabupaten_id": "329",
+    "type": "Kota",
+    "kabupaten_nama": "Palu",
+    "kode_pos": "94111"
+  }, {
+    "kabupaten_id": "338",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Parigi Moutong",
+    "kode_pos": "94411"
+  }, {
+    "kabupaten_id": "366",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Poso",
+    "kode_pos": "94615"
+  }, {
+    "kabupaten_id": "410",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sigi",
+    "kode_pos": "94364"
+  }, {
+    "kabupaten_id": "482",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tojo Una-Una",
+    "kode_pos": "94683"
+  }, {
+    "kabupaten_id": "483",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Toli-Toli",
+    "kode_pos": "94542"
+  }]
+}, {
+  "provinsi_id": "30",
+  "provinsi": "Sulawesi Tenggara",
+  "kabupaten": [{
+    "kabupaten_id": "53",
+    "type": "Kota",
+    "kabupaten_nama": "Bau-Bau",
+    "kode_pos": "93719"
+  }, {
+    "kabupaten_id": "85",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bombana",
+    "kode_pos": "93771"
+  }, {
+    "kabupaten_id": "101",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Buton",
+    "kode_pos": "93754"
+  }, {
+    "kabupaten_id": "102",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Buton Utara",
+    "kode_pos": "93745"
+  }, {
+    "kabupaten_id": "182",
+    "type": "Kota",
+    "kabupaten_nama": "Kendari",
+    "kode_pos": "93126"
+  }, {
+    "kabupaten_id": "198",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kolaka",
+    "kode_pos": "93511"
+  }, {
+    "kabupaten_id": "199",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kolaka Utara",
+    "kode_pos": "93911"
+  }, {
+    "kabupaten_id": "200",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Konawe",
+    "kode_pos": "93411"
+  }, {
+    "kabupaten_id": "201",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Konawe Selatan",
+    "kode_pos": "93811"
+  }, {
+    "kabupaten_id": "202",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Konawe Utara",
+    "kode_pos": "93311"
+  }, {
+    "kabupaten_id": "295",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Muna",
+    "kode_pos": "93611"
+  }, {
+    "kabupaten_id": "494",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Wakatobi",
+    "kode_pos": "93791"
+  }]
+}, {
+  "provinsi_id": "31",
+  "provinsi": "Sulawesi Utara",
+  "kabupaten": [{
+    "kabupaten_id": "73",
+    "type": "Kota",
+    "kabupaten_nama": "Bitung",
+    "kode_pos": "95512"
+  }, {
+    "kabupaten_id": "81",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bolaang Mongondow (Bolmong)",
+    "kode_pos": "95755"
+  }, {
+    "kabupaten_id": "82",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bolaang Mongondow Selatan",
+    "kode_pos": "95774"
+  }, {
+    "kabupaten_id": "83",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bolaang Mongondow Timur",
+    "kode_pos": "95783"
+  }, {
+    "kabupaten_id": "84",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Bolaang Mongondow Utara",
+    "kode_pos": "95765"
+  }, {
+    "kabupaten_id": "188",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kepulauan Sangihe",
+    "kode_pos": "95819"
+  }, {
+    "kabupaten_id": "190",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kepulauan Siau Tagulandang Biaro (Sitaro)",
+    "kode_pos": "95862"
+  }, {
+    "kabupaten_id": "192",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kepulauan Talaud",
+    "kode_pos": "95885"
+  }, {
+    "kabupaten_id": "204",
+    "type": "Kota",
+    "kabupaten_nama": "Kotamobagu",
+    "kode_pos": "95711"
+  }, {
+    "kabupaten_id": "267",
+    "type": "Kota",
+    "kabupaten_nama": "Manado",
+    "kode_pos": "95247"
+  }, {
+    "kabupaten_id": "285",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Minahasa",
+    "kode_pos": "95614"
+  }, {
+    "kabupaten_id": "286",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Minahasa Selatan",
+    "kode_pos": "95914"
+  }, {
+    "kabupaten_id": "287",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Minahasa Tenggara",
+    "kode_pos": "95995"
+  }, {
+    "kabupaten_id": "288",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Minahasa Utara",
+    "kode_pos": "95316"
+  }, {
+    "kabupaten_id": "485",
+    "type": "Kota",
+    "kabupaten_nama": "Tomohon",
+    "kode_pos": "95416"
+  }]
+}, {
+  "provinsi_id": "32",
+  "provinsi": "Sumatera Barat",
+  "kabupaten": [{
+    "kabupaten_id": "12",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Agam",
+    "kode_pos": "26411"
+  }, {
+    "kabupaten_id": "93",
+    "type": "Kota",
+    "kabupaten_nama": "Bukittinggi",
+    "kode_pos": "26115"
+  }, {
+    "kabupaten_id": "116",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Dharmasraya",
+    "kode_pos": "27612"
+  }, {
+    "kabupaten_id": "186",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Kepulauan Mentawai",
+    "kode_pos": "25771"
+  }, {
+    "kabupaten_id": "236",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lima Puluh Koto\/Kota",
+    "kode_pos": "26671"
+  }, {
+    "kabupaten_id": "318",
+    "type": "Kota",
+    "kabupaten_nama": "Padang",
+    "kode_pos": "25112"
+  }, {
+    "kabupaten_id": "321",
+    "type": "Kota",
+    "kabupaten_nama": "Padang Panjang",
+    "kode_pos": "27122"
+  }, {
+    "kabupaten_id": "322",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Padang Pariaman",
+    "kode_pos": "25583"
+  }, {
+    "kabupaten_id": "337",
+    "type": "Kota",
+    "kabupaten_nama": "Pariaman",
+    "kode_pos": "25511"
+  }, {
+    "kabupaten_id": "339",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pasaman",
+    "kode_pos": "26318"
+  }, {
+    "kabupaten_id": "340",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pasaman Barat",
+    "kode_pos": "26511"
+  }, {
+    "kabupaten_id": "345",
+    "type": "Kota",
+    "kabupaten_nama": "Payakumbuh",
+    "kode_pos": "26213"
+  }, {
+    "kabupaten_id": "357",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pesisir Selatan",
+    "kode_pos": "25611"
+  }, {
+    "kabupaten_id": "394",
+    "type": "Kota",
+    "kabupaten_nama": "Sawah Lunto",
+    "kode_pos": "27416"
+  }, {
+    "kabupaten_id": "411",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Sijunjung (Sawah Lunto Sijunjung)",
+    "kode_pos": "27511"
+  }, {
+    "kabupaten_id": "420",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Solok",
+    "kode_pos": "27365"
+  }, {
+    "kabupaten_id": "421",
+    "type": "Kota",
+    "kabupaten_nama": "Solok",
+    "kode_pos": "27315"
+  }, {
+    "kabupaten_id": "422",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Solok Selatan",
+    "kode_pos": "27779"
+  }, {
+    "kabupaten_id": "453",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tanah Datar",
+    "kode_pos": "27211"
+  }]
+}, {
+  "provinsi_id": "33",
+  "provinsi": "Sumatera Selatan",
+  "kabupaten": [{
+    "kabupaten_id": "40",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Banyuasin",
+    "kode_pos": "30911"
+  }, {
+    "kabupaten_id": "121",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Empat Lawang",
+    "kode_pos": "31811"
+  }, {
+    "kabupaten_id": "220",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Lahat",
+    "kode_pos": "31419"
+  }, {
+    "kabupaten_id": "242",
+    "type": "Kota",
+    "kabupaten_nama": "Lubuk Linggau",
+    "kode_pos": "31614"
+  }, {
+    "kabupaten_id": "292",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Muara Enim",
+    "kode_pos": "31315"
+  }, {
+    "kabupaten_id": "297",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Musi Banyuasin",
+    "kode_pos": "30719"
+  }, {
+    "kabupaten_id": "298",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Musi Rawas",
+    "kode_pos": "31661"
+  }, {
+    "kabupaten_id": "312",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Ogan Ilir",
+    "kode_pos": "30811"
+  }, {
+    "kabupaten_id": "313",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Ogan Komering Ilir",
+    "kode_pos": "30618"
+  }, {
+    "kabupaten_id": "314",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Ogan Komering Ulu",
+    "kode_pos": "32112"
+  }, {
+    "kabupaten_id": "315",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Ogan Komering Ulu Selatan",
+    "kode_pos": "32211"
+  }, {
+    "kabupaten_id": "316",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Ogan Komering Ulu Timur",
+    "kode_pos": "32312"
+  }, {
+    "kabupaten_id": "324",
+    "type": "Kota",
+    "kabupaten_nama": "Pagar Alam",
+    "kode_pos": "31512"
+  }, {
+    "kabupaten_id": "327",
+    "type": "Kota",
+    "kabupaten_nama": "Palembang",
+    "kode_pos": "30111"
+  }, {
+    "kabupaten_id": "367",
+    "type": "Kota",
+    "kabupaten_nama": "Prabumulih",
+    "kode_pos": "31121"
+  }]
+}, {
+  "provinsi_id": "34",
+  "provinsi": "Sumatera Utara",
+  "kabupaten": [{
+    "kabupaten_id": "15",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Asahan",
+    "kode_pos": "21214"
+  }, {
+    "kabupaten_id": "52",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Batu Bara",
+    "kode_pos": "21655"
+  }, {
+    "kabupaten_id": "70",
+    "type": "Kota",
+    "kabupaten_nama": "Binjai",
+    "kode_pos": "20712"
+  }, {
+    "kabupaten_id": "110",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Dairi",
+    "kode_pos": "22211"
+  }, {
+    "kabupaten_id": "112",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Deli Serdang",
+    "kode_pos": "20511"
+  }, {
+    "kabupaten_id": "137",
+    "type": "Kota",
+    "kabupaten_nama": "Gunungsitoli",
+    "kode_pos": "22813"
+  }, {
+    "kabupaten_id": "146",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Humbang Hasundutan",
+    "kode_pos": "22457"
+  }, {
+    "kabupaten_id": "173",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Karo",
+    "kode_pos": "22119"
+  }, {
+    "kabupaten_id": "217",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Labuhan Batu",
+    "kode_pos": "21412"
+  }, {
+    "kabupaten_id": "218",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Labuhan Batu Selatan",
+    "kode_pos": "21511"
+  }, {
+    "kabupaten_id": "219",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Labuhan Batu Utara",
+    "kode_pos": "21711"
+  }, {
+    "kabupaten_id": "229",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Langkat",
+    "kode_pos": "20811"
+  }, {
+    "kabupaten_id": "268",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Mandailing Natal",
+    "kode_pos": "22916"
+  }, {
+    "kabupaten_id": "278",
+    "type": "Kota",
+    "kabupaten_nama": "Medan",
+    "kode_pos": "20228"
+  }, {
+    "kabupaten_id": "307",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Nias",
+    "kode_pos": "22876"
+  }, {
+    "kabupaten_id": "308",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Nias Barat",
+    "kode_pos": "22895"
+  }, {
+    "kabupaten_id": "309",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Nias Selatan",
+    "kode_pos": "22865"
+  }, {
+    "kabupaten_id": "310",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Nias Utara",
+    "kode_pos": "22856"
+  }, {
+    "kabupaten_id": "319",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Padang Lawas",
+    "kode_pos": "22763"
+  }, {
+    "kabupaten_id": "320",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Padang Lawas Utara",
+    "kode_pos": "22753"
+  }, {
+    "kabupaten_id": "323",
+    "type": "Kota",
+    "kabupaten_nama": "Padang Sidempuan",
+    "kode_pos": "22727"
+  }, {
+    "kabupaten_id": "325",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Pakpak Bharat",
+    "kode_pos": "22272"
+  }, {
+    "kabupaten_id": "353",
+    "type": "Kota",
+    "kabupaten_nama": "Pematang Siantar",
+    "kode_pos": "21126"
+  }, {
+    "kabupaten_id": "389",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Samosir",
+    "kode_pos": "22392"
+  }, {
+    "kabupaten_id": "404",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Serdang Bedagai",
+    "kode_pos": "20915"
+  }, {
+    "kabupaten_id": "407",
+    "type": "Kota",
+    "kabupaten_nama": "Sibolga",
+    "kode_pos": "22522"
+  }, {
+    "kabupaten_id": "413",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Simalungun",
+    "kode_pos": "21162"
+  }, {
+    "kabupaten_id": "459",
+    "type": "Kota",
+    "kabupaten_nama": "Tanjung Balai",
+    "kode_pos": "21321"
+  }, {
+    "kabupaten_id": "463",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tapanuli Selatan",
+    "kode_pos": "22742"
+  }, {
+    "kabupaten_id": "464",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tapanuli Tengah",
+    "kode_pos": "22611"
+  }, {
+    "kabupaten_id": "465",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Tapanuli Utara",
+    "kode_pos": "22414"
+  }, {
+    "kabupaten_id": "470",
+    "type": "Kota",
+    "kabupaten_nama": "Tebing Tinggi",
+    "kode_pos": "20632"
+  }, {
+    "kabupaten_id": "481",
+    "type": "Kabupaten",
+    "kabupaten_nama": "Toba Samosir",
+    "kode_pos": "22316"
+  }]
+}]
