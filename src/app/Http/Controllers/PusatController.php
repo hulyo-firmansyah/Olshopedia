@@ -69,7 +69,7 @@ class PusatController
 			$accEn = explode(", ", $request->header()["accept-encoding"][0]);
 			if(in_array("gzip", $accEn)){
 				if($tipe == "html"){
-					return response(gzencode(view($view, $var)->render(), 6))
+					return response(gzencode(view($view, $var), 6))
 						->header('Content-type', 'text/html; charset=UTF-8')
 						->header('Content-Encoding', 'gzip');
 				} else if($tipe == "json"){
