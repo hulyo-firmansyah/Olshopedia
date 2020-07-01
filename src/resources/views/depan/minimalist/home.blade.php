@@ -9,11 +9,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('template_depan/minimalist/modules/fontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template_depan/minimalist/css/style.css') }}">
-    <title>Hello, world!</title>
+    <title>{{ $toko->nama_toko }}</title>
   </head>
   <body>
     <nav class="nav d-flex justify-content-center fixed-top bd-highlight">
-        <a href="#" class="nav-brand">Logo</a>
+        <a href="#" class="nav-brand">{{ $toko->nama_toko }}</a>
         <ul>
             <li><a href="#" id="orderBtn"><i class="fas fa-sort-amount-down"></i></a></li>
             <li><a href="#" id="searchBtn"><i class="fas fa-search"></i></a></li>
@@ -25,11 +25,11 @@
         <div class="content">
             <section class="image">
                 <!-- Yoko Kara Miru Ka -->
-                <img src="img/bg.jpg" alt="">
+                <img src="{{ asset('template_depan/minimalist/img/bg.jpg') }}" alt="">
             </section>
             <section class="main">
                 <div class="brand text-center">
-                    Toko Kocak
+                    {{ $toko->nama_toko }}
                 </div>
                 <div class="button-section">
                     <div class="button">
@@ -55,54 +55,58 @@
             <hr>
             <section class="product">
                 <div class="row justify-content-center">
-                    <div class="col-6 col-sm-6 col-md-3 col-lg-3 item mb-3">
-                        <a href="#" class="card-link">
-                            <div class="card item-card card-block">
-                                <img src="img/patung.jpg" alt="Photo of sunset">
-                                <h5 class="card-title mt-3 mb-3">ProVyuh</h5>
-                                <p class="card-text text-muted">Rp. 5000</p>
-                                <div class="text-center border-top">
-                                    <small class="text-muted">Lihat Produk</small>
-                                </div>
+                    @if(count($produk) > 0)
+                        @foreach(\App\Http\Controllers\PusatController::genArray($produk) as $p)
+                            <div class="col-6 col-sm-6 col-md-3 col-lg-3 item mb-3">
+                                @php
+                                    $cekFoto = false;
+                                    $genVarian = \App\Http\Controllers\PusatController::genArray($p->varian);
+                                    foreach($genVarian as $v){
+                                        if(isset($v->foto->utama)){
+                                            $foto = $v->foto->utama;
+                                            $cekFoto = true;
+                                            $genVarian->send('stop');
+                                        }
+                                    }
+                                    if(!$cekFoto){
+                                        $foto = asset('photo.png');
+                                    }
+                                @endphp
+                                <a href="{{ $p->produk_url }}" class="card-link">
+                                    <div class="card item-card card-block">
+                                        <img src="{{ $foto }}" alt="Photo of sunset">
+                                        <h5 class="card-title mt-3 mb-3">{{ $p->nama_produk }}</h5>
+                                        @php
+                                            if($p->termurah !== $p->termahal){
+                                                @endphp
+                                                <p class="card-text text-muted">{{ \App\Http\Controllers\PusatController::formatUang($p->termurah, true).' - '.\App\Http\Controllers\PusatController::formatUang($p->termahal, true) }}
+                                                </p>
+                                                @php
+                                            } else {
+                                                @endphp
+                                                <p class="card-text text-muted">{{ \App\Http\Controllers\PusatController::formatUang($p->termurah, true) }}</p>
+                                                @php
+                                            }
+                                        @endphp
+                                        <p>{{ $p->ket ?? '' }}</p>
+                                        <div class="text-center border-top">
+                                            <small class="text-muted">Lihat Produk</small>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
-                        </a>
-                    </div>
-                    <div class="col-6 col-sm-6 col-md-3 col-lg-3 item mb-3">
-                        <a href="#" class="card-link">
-                            <div class="card item-card card-block">
-                                <img src="img/patung.jpg" alt="Photo of sunset">
-                                <h5 class="card-title mt-3 mb-3">ProVyuh</h5>
-                                <p class="card-text text-muted">Rp. 5000</p>
-                                <div class="text-center border-top">
-                                    <small class="text-muted">Lihat Produk</small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 col-sm-6 col-md-3 col-lg-3 item mb-3">
-                        <a href="#" class="card-link">
-                            <div class="card item-card card-block">
-                                <img src="img/patung.jpg" alt="Photo of sunset">
-                                <h5 class="card-title mt-3 mb-3">ProVyuh</h5>
-                                <p class="card-text text-muted">Rp. 5000</p>
-                                <div class="text-center border-top">
-                                    <small class="text-muted">Lihat Produk</small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 col-sm-6 col-md-3 col-lg-3 item mb-3">
-                        <a href="#" class="card-link">
-                            <div class="card item-card card-block">
-                                <img src="img/patung.jpg" alt="Photo of sunset">
-                                <h5 class="card-title mt-3 mb-3">ProVyuh</h5>
-                                <p class="card-text text-muted">Rp. 5000</p>
-                                <div class="text-center border-top">
-                                    <small class="text-muted">Lihat Produk</small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                        @endforeach
+                    @else
+                        @if($r['cari'] !== '')
+                        <div class="col-xxl-12">
+                            <p>Produk tidak ditemukan!</p>
+                        </div>
+                        @else
+                        <div class="col-xxl-12">
+                            <p>Tidak ada produk di Toko ini!</p>
+                        </div>
+                        @endif
+                    @endif
                 </div>
             </section>
         </div>
